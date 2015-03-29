@@ -19,11 +19,11 @@ abstract class Common extends \Core\Controller\Controller {
     protected $team;
 
     public function __construct() {
-        $login = $this->checkLogin();
-
-        if ($login == FALSE && MODULE != 'Login') {
-            $this->jump($this->url('Team-Login-index'));
-        }
+//        $login = $this->checkLogin();
+//
+//        if ($login == FALSE && MODULE != 'Login') {
+//            $this->jump($this->url('Team-Login-index'));
+//        }
     }
 
     /**
