@@ -1,0 +1,1 @@
+<textarea name="<?= $field['field_name'] ?>" class="form-textarea" <?= $field['field_required'] == '1' ? 'required' : '' ?> placeholder="<?= $field['display_name'] ?>" ><?= $field['value'] ?></textarea>
