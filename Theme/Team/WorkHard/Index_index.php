@@ -1,25 +1,31 @@
 <header class="am-topbar admin-header am-header-fixed">
     <div class="am-topbar-brand">
-        <strong>Amaze UI</strong> <small>后台管理模板</small>
+        <strong>PESCMS</strong> <small>任务系统</small>
     </div>
-
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
-            <li class="am-dropdown" data-am-dropdown>
+            <li>
                 <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                    <span class="am-icon-envelope-o am-icon-sm"></span><span class="msg-tips"></span>
                 </a>
-                <ul class="am-dropdown-content">
-                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
-                </ul>
             </li>
-            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+            <?php foreach ($menu as $topkey => $topValu) : ?>
+                <li class="am-dropdown" data-am-dropdown>
+                    <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                        <span class="<?= $topValu['menu_icon']; ?> am-icon-md"></span>
+                    </a>
+                    <?php if (!empty($topValu['menu_child'])): ?>
+                        <ul class="am-dropdown-content" style="margin:0">
+                            <?php foreach ($topValu['menu_child'] as $key => $value) : ?>
+                                <li><a href="<?= $label->url($value['menu_url']); ?>"><span class="<?= $value['menu_icon']; ?>"></span> <?= $value['menu_name']; ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><img src="http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" alt="" class="am-comment-avatar" width="48" height="48"/></a></li>
         </ul>
     </div>
 </header>
@@ -38,3 +44,15 @@
     <hr>
     <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
 </footer>
+<style>
+    .msg-tips{
+        display: block;
+        width: 10px;
+        height: 10px;
+        background-color: #f65645;
+        border-radius: 5px;
+        left: 25px;
+        top: 15px;
+        position: absolute;
+    }
+</style>

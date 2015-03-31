@@ -20,11 +20,12 @@ class Menu extends \Core\Model\Model {
      * 生成后台菜单
      */
     public static function menu() {
-        $result = self::db('menu AS m')->field("m.*, IF(parent.top_id IS NULL, m.menu_id, parent.top_id) AS top_id, IF(parent.top_listsort IS NULL, '0', parent.top_listsort) AS top_listsort, IF(parent.top_name IS NULL, m.menu_name, top_name) AS top_name")->join("(SELECT `menu_id` AS top_id, `menu_name` AS top_name, `menu_pid` AS top_pid, `menu_listsort` AS top_listsort FROM `" . self::$prefix . "menu` where menu_pid = 0) AS parent ON parent.top_id = m.menu_pid")->order('top_listsort desc, m.menu_listsort desc, m.menu_id asc')->select();
+        $result = self::db('menu AS m')->field("m.*, IF(parent.top_id IS NULL, m.menu_id, parent.top_id) AS top_id, IF(parent.top_listsort IS NULL, '0', parent.top_listsort) AS top_listsort, IF(parent.top_name IS NULL, m.menu_name, top_name) AS top_name, menu_icon")->join("(SELECT `menu_id` AS top_id, `menu_name` AS top_name, `menu_pid` AS top_pid, `menu_listsort` AS top_listsort FROM `" . self::$prefix . "menu` where menu_pid = 0) AS parent ON parent.top_id = m.menu_pid")->order('top_listsort desc, m.menu_listsort desc, m.menu_id asc')->select();
         foreach ($result as $key => $value) {
             if ($value['menu_pid'] == 0) {
                 $menu[$value['top_name']]['menu_id'] = $value['top_id'];
                 $menu[$value['top_name']]['menu_name'] = $value['top_name'];
+                $menu[$value['top_name']]['menu_icon'] = $value['menu_icon'];
                 $menu[$value['top_name']]['menu_listsort'] = $value['menu_listsort'];
             }
         }

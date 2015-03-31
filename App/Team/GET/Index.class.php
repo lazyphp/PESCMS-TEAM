@@ -14,7 +14,7 @@ namespace App\Team\GET;
 class Index extends \App\Team\Common {
 
     public function index() {
-//        $this->assign('menu', \Model\Menu::menu());
+        $this->assign('menu', \Model\Menu::menu());
         $this->layout();
     }
 
