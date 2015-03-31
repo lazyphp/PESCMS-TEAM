@@ -4,7 +4,8 @@
     var checkEditorName = ['<?= implode("', '", $checkEditorName) ?>'];
     $(function () {
         var um<?= $field['field_name']; ?> = UM.getEditor('<?= $field['field_name']; ?>', {
-            textarea: '<?= $field['field_name']; ?>'
+            textarea: '<?= $field['field_name']; ?>',
+            imageUrl: "/index.php/?g=<?= GROUP ?>&m=Upload&a=img"
         });
     })
 

@@ -71,7 +71,7 @@ class Model extends \Core\Model\Model {
         if ($data['status'] == false) {
             return $data;
         }
-        $data['mes']['lang_key'] = strtoupper($data['mes']['model_name']) . "_LIST";
+        
         $addResult = self::db('model')->insert($data['mes']);
         $data['mes']['model_id'] = $addResult;
         if ($addResult == FALSE) {
@@ -108,20 +108,24 @@ class Model extends \Core\Model\Model {
             if (!$model = self::findModel($data['noset']['model_id'])) {
                 return self::error($GLOBALS['_LANG']['MODEL']['NOT_EXIST_MODEL']);
             }
-            $data['lang_key'] = $model['lang_key'];
         } else {
             if (!$data['model_name'] = ucfirst(strtolower(self::isP('model_name')))) {
                 return self::error($GLOBALS['_LANG']['MODEL']['ENTER_MODEL_NAME']);
             }
         }
+
+        if (!($data['lang_key'] = self::isP('display_name'))) {
+            return self::error('请填写模型显示名称');
+        }
+
         if (!($data['is_search'] = self::isP('is_search')) && !is_numeric($data['is_search'])) {
             return self::error($GLOBALS['_LANG']['MODEL']['SELECT_MODEL_SEARCH']);
         }
-        
+
         if (!($data['model_attr'] = self::isP('model_attr')) && !is_numeric($data['model_attr'])) {
             return self::error($GLOBALS['_LANG']['MODEL']['SELECT_MODEL_ATTR']);
         }
-        
+
         if (!($data['status'] = self::isP('status')) && !is_numeric($data['status'])) {
             return self::error($GLOBALS['_LANG']['MODEL']['SELECT_MODEL_STATUS']);
         }

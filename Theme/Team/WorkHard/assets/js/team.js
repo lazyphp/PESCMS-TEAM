@@ -1,6 +1,3 @@
-$("#iframe_default").load(function () {
-    $(this).height($(this).contents().height());
-})
 $(function () {
     $(".am-dropdown-content li a").on("click", function () {
         $("#iframe_default").attr("src", $(this).attr("href"))

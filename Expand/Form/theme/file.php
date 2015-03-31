@@ -26,7 +26,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Admin&m=Upload&a=file',
+            server: '/index.php?g=Team&m=Upload&a=file',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
@@ -65,7 +65,7 @@
         uploader.on('uploadSuccess', function (file, response) {
             if (response.status == '200') {
                 var rand = Math.round(Math.random() * 10000 * Math.random());
-                $("#<?= $field['field_name'] ?>List").before('<dt class="form-text" id="' + rand + '<?= $field['field_name'] ?>">Upload File \'' + file.name + '\' : <input type="text" class="form-text-input input-leng3" name="<?= $field['field_name'] ?>[]" value="' + response.info + '" /><a href="javascript:;" onclick="removeUploadFile(\'' + rand + '<?= $field['field_name'] ?>\')" class="blue-button" style="margin-left:5px;" >' + lang['COMMON']['DELETE'] + '</a></dt>')
+                $("#<?= $field['field_name'] ?>List").before('<dt class="form-text" id="' + rand + '<?= $field['field_name'] ?>">Upload File \'' + file.name + '\' : <input type="text" class="form-text-input input-leng3" name="<?= $field['field_name'] ?>[]" value="' + response.info + '" /><a href="javascript:;" onclick="removeUploadFile(\'' + rand + '<?= $field['field_name'] ?>\')" class="blue-button" style="margin-left:5px;" >删除</a></dt>')
 
                 var $li = $('#' + file.id),
                         $success = $li.find('div.success');
@@ -98,7 +98,7 @@
             if (!$error.length) {
                 $error = $('<div class="error"></div>').appendTo($li);
             }
-            $list.html($error.text(lang['COMMON']['UPLOAD_FAIL']));
+            $list.html($error.text('上传失败'));
         });
 
         // 完成上传完了，成功或者失败，先删除进度条。

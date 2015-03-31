@@ -14,7 +14,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <li id="example-pics">
-                        <p><img src="/Theme/Admin/PESCMS/img/image.png"></p>
+                        <p><img src="/Theme/Team/WorkHard/assets/i/image.png"></p>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -62,7 +62,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Admin&m=Upload&a=img',
+            server: '/index.php?g=Team&m=Upload&a=img',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
@@ -87,7 +87,7 @@
             var $li = $(
                     '<li id="' + guid + 'pics">' +
                     '<p><img></p>' +
-                    '<div class="file-panel" style="height: 0px;"><span class="cancel" data="' + guid + '">' + lang['COMMON']['DELETE'] + '</span></div>' +
+                    '<div class="file-panel" style="height: 0px;"><span class="cancel" data="' + guid + '">删除</span></div>' +
                     '</li>'
                     ),
                     $img = $li.find('img');
@@ -96,7 +96,7 @@
             // 创建缩略图
             uploader.makeThumb(file, function (error, src) {
                 if (error) {
-                    $img.replaceWith('<span>' + lang['COMMON']['NO_PREVIEW'] + '</span>');
+                    $img.replaceWith('<span>无法预览</span>');
                     return;
                 }
 
@@ -122,7 +122,7 @@
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader.on('uploadSuccess', function (file, response) {
             if (response.status == '200') {
-                $('#info').html(file.name + lang['UPLOAD']['UPLOAD_SUCCESS']);
+                $('#info').html(file.name + '上传成功');
                 $("#info").after('<input type="hidden" id="' + guid + 'input" name="<?= $field['field_name'] ?>[]" value="' + response.info + '" />');
 
             } else {
@@ -140,7 +140,7 @@
             if (!$error.length) {
                 $error = $('<div class="error"></div>').appendTo($li);
             }
-            $list.html($error.text(lang['COMMON']['UPLOAD_FAIL']));
+            $list.html($error.text('上传失败'));
         });
 
         // 完成上传完了，成功或者失败，先删除进度条。
@@ -165,11 +165,11 @@
             if (!jQuery("#<?= $field['field_name'] ?>List").find("li").length) {
                 var $li = $(
                         '<li id="example-pics" style="background: none">' +
-                        '<p><img src="/Theme/Admin/PESCMS/img/image.png"></p>' +
+                        '<p><img src="/Theme/Team/WorkHard/assets/i/image.png"></p>' +
                         '</li>'
                         )
                 jQuery("#<?= $field['field_name'] ?>List").append($li);
-                jQuery("#info").html(lang['UPLOAD']['SELETC_YOUR_UPLOAD_PIC']);
+                jQuery("#info").html('选择您要上传的图片');
 
             }
 

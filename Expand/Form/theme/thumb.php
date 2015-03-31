@@ -38,7 +38,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Admin&m=Upload&a=img',
+            server: '/index.php?g=Team&m=Upload&a=img',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
@@ -70,7 +70,7 @@
             // 创建缩略图
             uploader.makeThumb(file, function (error, src) {
                 if (error) {
-                    $img.replaceWith('<span>' + lang['COMMON']['NO_PREVIEW'] + '</span>');
+                    $img.replaceWith('<span>无法预览</span>');
                     return;
                 }
 
@@ -107,7 +107,7 @@
                     $success = $('<div class="success"></div>').appendTo($li);
                 }
 
-                $success.text(lang['UPLOAD']['UPLOAD_SUCCESS']);
+                $success.text('上传成功');
 
             } else {
                 var $li = $('#' + file.id),
@@ -130,7 +130,7 @@
             if (!$error.length) {
                 $error = $('<div class="error"></div>').appendTo($li);
             }
-            $list.html($error.text(lang['COMMON']['UPLOAD_FAIL']));
+            $list.html($error.text('上传失败'));
         });
 
         // 完成上传完了，成功或者失败，先删除进度条。

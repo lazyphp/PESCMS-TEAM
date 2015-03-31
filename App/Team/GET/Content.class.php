@@ -37,7 +37,7 @@ class Content extends \App\Team\Common {
         $show = $page->show();
         $this->assign('page', $show);
         $this->assign('list', $list);
-        $this->assign('title', $GLOBALS['_LANG']['MENU_LIST'][$this->model['lang_key']]);
+        $this->assign('title', $this->model['lang_key']);
 
         $this->layout(is_file(THEME . '/' . GROUP . "/{$this->theme['value']}/" . MODULE . "_index.php") ? MODULE . "_index" : 'Content_index');
     }
@@ -60,7 +60,7 @@ class Content extends \App\Team\Common {
             $this->assign($content);
             $this->assign('method', 'PUT');
             $this->assign('id', $id);
-            $this->assign('title', "{$GLOBALS['_LANG']['CONTENT']['EDIT']} - {$GLOBALS['_LANG']['MENU_LIST'][$this->model['lang_key']]}");
+            $this->assign('title', "{$GLOBALS['_LANG']['CONTENT']['EDIT']} - {$this->model['lang_key']}");
 
             foreach ($field as $key => $value) {
                 $field[$key] = $value;

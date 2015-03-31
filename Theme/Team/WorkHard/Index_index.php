@@ -56,3 +56,9 @@
         position: absolute;
     }
 </style>
+<script>
+    $("#iframe_default").load(function () {
+        var pageHeight = $(this).contents().find("body").height();
+        $(this).height(pageHeight);
+    })
+</script>

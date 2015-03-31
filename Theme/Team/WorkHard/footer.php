@@ -6,11 +6,6 @@
         <script src="/Theme/Team/WorkHard/assets/js/amazeui.legacy.js"></script>
         <![endif]-->
 
-        <!--[if (gte IE 9)|!(IE)]><!-->
-        <script src="/Theme/Team/WorkHard/assets/js/jquery.min.js"></script>
-        <script src="/Theme/Team/WorkHard/assets/js/amazeui.min.js"></script>
-        <!--<![endif]-->
-        <script src="/Theme/Team/WorkHard/assets/js/app.js"></script>
-        <script src="/Theme/Team/WorkHard/assets/js/team.js"></script>
+
     </body>
 </html>

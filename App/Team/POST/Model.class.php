@@ -40,12 +40,6 @@ class Model extends \App\Team\Common {
         }
 
         /**
-         * 设置当前语言的模型菜单
-         */
-        $displayName = $this->isP('display_name', $GLOBALS['_LANG']['MODEL']['ENTER_DISPLAY_NAME']);
-        $setMenuResult = \Model\Menu::setMenuLang($addModelresult['mes']['lang_key'], $displayName);
-
-        /**
          * 插入初始化的字段
          */
         $setFieldResult = \Model\Model::setInitField($addModelresult['mes']['model_id']);

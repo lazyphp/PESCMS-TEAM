@@ -275,6 +275,9 @@ ul {
 .table-id {
   width: 50px;
 }
+.table-sort{
+    width: 70px;
+}
 
 @media only screen and (max-width: 640px) {
   .table-select {

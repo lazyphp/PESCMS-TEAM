@@ -14,6 +14,16 @@
         <meta name="apple-mobile-web-app-title" content="Amaze UI" />
         <link rel="stylesheet" href="/Theme/Team/WorkHard/assets/css/amazeui.min.css"/>
         <link rel="stylesheet" href="/Theme/Team/WorkHard/assets/css/admin.css">
+        <link rel="stylesheet" type="text/css" href="/Theme/Team/WorkHard/assets/css/webuploader.css" />
+        <link rel="stylesheet" type="text/css" href="/Theme/Team/WorkHard/assets/css/jquery.datetimepicker.css" />
+        <!--[if (gte IE 9)|!(IE)]><!-->
+        <script src="/Theme/Team/WorkHard/assets/js/jquery.min.js"></script>
+        <script src="/Theme/Team/WorkHard/assets/js/amazeui.min.js"></script>
+        <!--<![endif]-->
+        <script src="/Theme/Team/WorkHard/assets/js/app.js"></script>
+        <script src="/Theme/Team/WorkHard/assets/js/team.js"></script>
+        <script src="/Theme/Team/WorkHard/assets/js/webuploader.js"></script>
+        <script src="/Theme/Team/WorkHard/assets/js/jquery.datetimepicker.js"></script>
     </head>
     <body <?= MODULE == 'Index' && ACTION == 'index' ? 'class="am-with-fixed-header"' : '' ?>>
         <!--[if lte IE 9]>

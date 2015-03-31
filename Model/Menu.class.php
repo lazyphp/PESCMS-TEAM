@@ -41,7 +41,7 @@ class Menu extends \Core\Model\Model {
      * 根据菜单获取标题
      */
     public static function getTitleWithMenu() {
-        $result = self::db('menu')->field('menu_name')->where('menu_url = :menu_url')->find(array('menu_url' => 'Admin-' . MODULE . "-" . ACTION));
+        $result = self::db('menu')->field('menu_name')->where('menu_url = :menu_url')->find(array('menu_url' => 'Team-' . MODULE . "-" . ACTION));
         return $result['menu_name'];
     }
 
@@ -125,6 +125,8 @@ class Menu extends \Core\Model\Model {
             return self::error($GLOBALS['_LANG']['MENU']['ENTER_MENU_NAME']);
         }
 
+        $data['menu_icon'] = empty($_POST['menu_icon']) ? 'am-icon-file' : self::p('menu_icon');
+
         $data['menu_listsort'] = (int) self::p('menu_listsort');
         return self::success($data);
     }
@@ -137,7 +139,7 @@ class Menu extends \Core\Model\Model {
      * @return type 返回插入结果
      */
     public static function insertModelMenu($name, $pid, $url) {
-        return self::db('menu')->insert(array('menu_name' => $name, 'menu_pid' => $pid, 'menu_url' => $url));
+        return self::db('menu')->insert(array('menu_name' => $name, 'menu_pid' => $pid, 'menu_icon' => 'am-icon-file', 'menu_url' => $url));
     }
 
     /**
@@ -160,11 +162,11 @@ class Menu extends \Core\Model\Model {
         fwrite($fp, $str);
         fclose($fp);
     }
-    
+
     /**
      * 删除菜单
      */
-    public static function deleteMenu($menuName){
+    public static function deleteMenu($menuName) {
         return self::db('menu')->where('menu_name = :menu_name')->delete(array('menu_name' => strtoupper($menuName)));
     }
 
