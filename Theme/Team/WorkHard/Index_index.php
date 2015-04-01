@@ -6,6 +6,11 @@
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li class="am-hide-sm-only">
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="<?= $label->url('Team'); ?>" title="新建任务">
+                    <span class="am-icon-plus am-icon-sm"></span>
+                </a>
+            </li>
             <li>
                 <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <span class="am-icon-envelope-o am-icon-sm"></span><span class="msg-tips"></span>
@@ -13,9 +18,14 @@
             </li>
             <?php foreach ($menu as $topkey => $topValu) : ?>
                 <li class="am-dropdown" data-am-dropdown>
-                    <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                        <span class="<?= $topValu['menu_icon']; ?> am-icon-md"></span>
-                    </a>
+                    <?php if ($topValu['menu_id'] == '41'): ?>
+                        <a href="javascript:;" id="admin-fullscreen"><img src="http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" alt="" class="am-comment-avatar" width="48" height="48"/></a>
+                    <?php else: ?>
+                        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                            <span class="<?= $topValu['menu_icon']; ?> am-icon-md"></span>
+                        </a>
+                    <?php endif; ?>
+
                     <?php if (!empty($topValu['menu_child'])): ?>
                         <ul class="am-dropdown-content" style="margin:0">
                             <?php foreach ($topValu['menu_child'] as $key => $value) : ?>
@@ -25,7 +35,7 @@
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
-            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><img src="http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" alt="" class="am-comment-avatar" width="48" height="48"/></a></li>
+            <!--<li class="am-hide-sm-only"></li>-->
         </ul>
     </div>
 </header>

@@ -36,8 +36,8 @@
                         <div class="am-u-sm-8 am-u-md-4">
                             <select name="user_department_id" id="user-group-id">
                                 <option value="-1">请选择</option>
-                                <?php foreach ($groupList as $key => $value) : ?>
-                                    <option value="<?= $value['user_group_id']; ?>" <?= $user_group_id == $value['user_group_id'] ? 'selected="selected"' : '' ?>><?= $value['user_group_name']; ?></option>
+                                <?php foreach ($department as $key => $value) : ?>
+                                    <option value="<?= $value['department_id']; ?>" <?= $user_department_id == $value['department_id'] ? 'selected="selected"' : '' ?>><?= $value['department_name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

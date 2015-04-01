@@ -27,12 +27,14 @@
 
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                            部门负责任
+                            部门负责人
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
                             <div id="department-user">
                                 <?php foreach (explode(',', $department_header) as $key => $value) : ?>
-                                <a href="javascript:;" data="<?= $value ?>" class="remove-department-user" ><i class="am-icon-user"></i><span> <?= $findUser[$value]; ?></span></a>
+                                    <?php if (!empty($value)): ?>
+                                        <a href="javascript:;" data="<?= $value ?>" class="remove-department-user" ><i class="am-icon-user"></i><span> <?= $findUser[$value]; ?></span></a>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" class="am-input-sm" name="header" value="<?= $department_header ?>" >
@@ -72,7 +74,7 @@
 
         <div class="am-margin">
             <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
-            <a href="<?= $label->url('Team-User-index'); ?>" class="am-btn am-btn-primary am-btn-xs">放弃保存</a>
+            <a href="<?= $label->url('Team-department-index'); ?>" class="am-btn am-btn-primary am-btn-xs">放弃保存</a>
         </div>
     </form>
 </div>

@@ -44,7 +44,7 @@
                             <td><?= $value["user_account"]; ?></td>
                             <td><?= $value["user_mail"]; ?></td>
                             <td><?= $value["user_name"]; ?></td>
-                            <td><?= $label->findGroup($value["user_department_id"]); ?></td>
+                            <td><?= $findDepartment[$value["user_department_id"]]; ?></td>
                             <td><?= $label->findGroup($value["user_group_id"]); ?></td>
                             <td>
                                 <div class="am-btn-toolbar">

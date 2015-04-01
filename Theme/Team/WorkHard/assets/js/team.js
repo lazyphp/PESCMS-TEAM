@@ -4,7 +4,9 @@ $(function () {
      */
     $(".am-dropdown-content li a").on("click", function () {
         $("#iframe_default").attr("src", $(this).attr("href"))
-        return false;
+        if ($(this).find("span").attr("class") != 'am-icon-sign-out') {
+            return false;
+        }
     })
 
     /**

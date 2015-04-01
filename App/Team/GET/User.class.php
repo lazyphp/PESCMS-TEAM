@@ -20,6 +20,10 @@ class User extends \App\Team\Common {
         $page->handle();
         $list = $this->db('user')->order("user_id desc")->limit("{$page->firstRow}, {$page->listRows}")->select();
         $show = $page->show();
+        foreach(\Model\Content::listContent('department') as $key => $value){
+            $findDepartment[$value['department_id']] = $value['department_name'];
+        }
+        $this->assign('findDepartment', $findDepartment);
         $this->assign('page', $show);
         $this->assign('list', $list);
         $this->assign('title', \Model\Menu::getTitleWithMenu());
@@ -43,6 +47,7 @@ class User extends \App\Team\Common {
             $this->routeMethod('PUT');
         }
         $this->assign('groupList', \Model\User::userGroupList());
+        $this->assign('department', \Model\Content::listContent('department'));
         $this->assign('user_id', $userId);
         $this->assign('url', $this->url('Team-User-action'));
         $this->layout();

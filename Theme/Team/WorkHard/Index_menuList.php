@@ -25,11 +25,12 @@
 
     <div class="am-g">
         <div class="am-u-sm-12">
-            <form class="am-form">
+            <form class="am-form" action="<?= $label->url('Team-Menu-listsort'); ?>" method="POST">
+                <input type="hidden" name="method" value="PUT" />
                 <table class="am-table am-table-striped am-table-hover table-main">
                     <thead>
                         <tr>
-                            <th class="table-check"><input type="checkbox" /></th>
+                            <th class="table-sort">排序</th>
                             <th class="table-id">ID</th>
                             <th class="table-title">名称</th>
                             <th class="table-type">链接参数</th>
@@ -39,7 +40,9 @@
                     <tbody>
                         <?php foreach ($menu as $topkey => $topValu) : ?>
                             <tr>
-                                <td><input type="checkbox" /></td>
+                                <td>
+                                    <input type="text" name="id[<?= $topValu['menu_id']; ?>]" value="<?= $topValu['menu_listsort']; ?>" >
+                                </td>
                                 <td><?= $topValu['menu_id']; ?></td>
                                 <td><a href="#"><?= $topValu['menu_name']; ?></a></td>
                                 <td></td>
@@ -55,7 +58,9 @@
                             <?php if (!empty($topValu['menu_child'])): ?>
                                 <?php foreach ($topValu['menu_child'] as $key => $value) : ?>
                                     <tr>
-                                        <td><input type="checkbox" /></td>
+                                        <td>
+                                            <input type="text" name="id[<?= $value['menu_id']; ?>]" value="<?= $value['menu_listsort']; ?>" >
+                                        </td>
                                         <td><?= $value['menu_id']; ?></td>
                                         <td><a href="#" class="am-padding-left-lg"><?= $value['menu_name']; ?></a></td>
                                         <td><?= $value['menu_url']; ?></td>
@@ -74,6 +79,9 @@
 
                     </tbody>
                 </table>
+                <div class="am-margin">
+                    <button type="submit" class="am-btn am-btn-primary am-btn-xs">排序</button>
+                </div>
             </form>
         </div>
 
