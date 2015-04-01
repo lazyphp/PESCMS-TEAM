@@ -65,7 +65,7 @@ class Model extends \App\Team\Common {
     public function fieldList() {
         $modelId = $this->isG('id', $GLOBALS['_LANG']['MODEL']['SELECT_MODEL_ID']);
         $model = \Model\Model::findModel($modelId);
-        $this->assign('title', "{$GLOBALS['_LANG']['MODEL']['FIELD_MANAGE']} - {$GLOBALS['_LANG']['MENU_LIST'][$model['lang_key']]}");
+        $this->assign('title', "{$GLOBALS['_LANG']['MODEL']['FIELD_MANAGE']} - {$model['lang_key']}");
         $this->assign('list', \Model\Field::fieldList($modelId));
         $this->assign('modelId', $modelId);
         $this->layout();

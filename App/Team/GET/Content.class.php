@@ -22,7 +22,7 @@ class Content extends \App\Team\Common {
 
         $this->assign('fieldPrefix', $this->fieldPrefix);
 
-        $this->theme = \Model\Option::findOption('backstagetheme');
+        $this->theme = \Model\Option::findOption('theme');
     }
 
     /**

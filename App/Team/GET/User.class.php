@@ -22,7 +22,7 @@ class User extends \App\Team\Common {
         $show = $page->show();
         $this->assign('page', $show);
         $this->assign('list', $list);
-        $this->assign('title', $GLOBALS['_LANG']['MENU_LIST'][\Model\Menu::getTitleWithMenu()]);
+        $this->assign('title', \Model\Menu::getTitleWithMenu());
         $this->layout();
     }
 

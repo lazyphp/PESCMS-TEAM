@@ -6,8 +6,7 @@
     </div>
     <form class="am-form" action="<?= $url; ?>" method="post">
         <input type="hidden" name="method" value="<?= $method ?>" />
-        <input type="hidden" name="field_id" value="<?= $field_id ?>" />
-        <input type="hidden" name="model_id" value="<?= $modelId ?>" />
+        <input type="hidden" name="id" value="<?= $id ?>" />
         <div class="am-tabs am-margin">
             <ul class="am-tabs-nav am-nav am-nav-tabs">
                 <li class="am-active"><a href="#tab1">基本信息</a></li>
