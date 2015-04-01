@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-01 16:06:30
+-- Generation Time: 2015-04-01 17:34:09
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -120,19 +120,19 @@ INSERT INTO `pes_field` (`field_id`, `model_id`, `field_name`, `display_name`, `
 (11, 8, 'status', '状态', 'radio', '{"\\u7981\\u7528":"0","\\u542f\\u7528":"1"}', '1', 1, '', 100, 1),
 (12, 8, 'listsort', '排序', 'text', '', '', 0, '', 98, 1),
 (14, 8, 'title', '项目名称', 'text', '', '', 1, '', 1, 1),
-(15, 9, 'status', '状态', 'radio', '{"\\u7981\\u7528":"0","\\u542f\\u7528":"1"}', '1', 1, '', 97, 1),
+(15, 9, 'status', '状态', 'radio', '{"\\u7981\\u7528":"0","\\u542f\\u7528":"1"}', '1', 0, '', 97, 1),
 (16, 9, 'listsort', '排序', 'text', '', '', 0, '', 98, 1),
 (17, 9, 'createtime', '发布时间', 'date', '', '', 0, '', 99, 1),
 (18, 9, 'accept_id', '属性部门', 'text', '', '', 1, '', 2, 1),
 (19, 9, 'title', '任务标题', 'text', '', '', 1, '', 1, 1),
 (20, 9, 'department_id', '接收部门ID', 'text', '', '', 1, '', 3, 1),
-(21, 9, 'user_id', '接收用户ID', 'text', '', '', 1, '', 5, 1),
+(21, 9, 'user_id', '接收用户ID', 'text', '', '', 0, '', 5, 1),
 (22, 9, 'create_id', '任务发起者', 'text', '', '', 1, '', 4, 1),
 (24, 9, 'content', '任务说明', 'editor', '', '', 1, '', 6, 1),
-(25, 9, 'file', '任务附件', 'file', '', '', 1, '', 7, 1),
-(26, 9, 'completetime', '完成时间', 'text', '', '', 1, '', 102, 1),
-(27, 9, 'estimatetime', '预计时间', 'text', '', '', 1, '', 100, 1),
-(28, 9, 'actiontime', '执行时间', 'text', '', '', 1, '', 101, 1),
+(25, 9, 'file', '任务附件', 'file', '', '', 0, '', 7, 1),
+(26, 9, 'completetime', '完成时间', 'text', '', '', 0, '', 102, 1),
+(27, 9, 'estimatetime', '预计时间', 'text', '', '', 0, '', 100, 1),
+(28, 9, 'actiontime', '执行时间', 'text', '', '', 0, '', 101, 1),
 (30, 10, 'listsort', '排序', 'text', '', '', 0, '', 98, 1),
 (31, 10, 'createtime', '发布时间', 'date', '', '', 0, '', 99, 1),
 (32, 10, 'name', '部门名称', 'text', '', '', 1, '', 1, 1),
@@ -382,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
 
 INSERT INTO `pes_user` (`user_id`, `user_account`, `user_password`, `user_mail`, `user_name`, `user_group_id`, `user_status`, `user_createtime`, `user_last_login`, `user_department_id`) VALUES
 (1, 'admin', '75e1d83ba0f896dd29337a2539facb84', 'dev@pescms.com', '管理员', 1, 1, 1388391307, 1388391307, '1'),
-(2, 'zhangsan', 'sadsafasf', 'dev@pescms.com', '张三', 2, 1, 1388391307, 1388391307, '2'),
+(2, 'zhangsan', 'sadsafasf', 'dev@pescms.com', '张三', 2, 1, 1388391307, 1388391307, '1'),
 (3, 'lisi', 'f4d91866c0fc28072ac207063197805', 'dev@pescms.com', '李四', 2, 1, 1388391307, 1388391307, '2'),
 (4, 'wangwu', '21312f866c0fc28072ac207063197805', 'dev@pescms.com', '王五', 2, 1, 1388391307, 1388391307, '3'),
 (5, 'zhaoliu', 'f4s072asdfdsf7805', 'dev@pescms.com', '赵六', 2, 1, 1388391307, 1388391307, '3');
