@@ -90,10 +90,10 @@
                         <div class="am-u-sm-8 am-u-md-10">
                             <div class="am-btn-group" data-am-button>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $field_status == '1' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="field_status" value="1" <?= $field_status == '1' ? 'checked="checked"' : '' ?>> 前台
+                                    <input type="radio" name="field_status" value="1" <?= $field_status == '1' ? 'checked="checked"' : '' ?>> 启用
                                 </label>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $field_status == '0' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="field_status" value="2" <?= $field_status == '0' ? 'checked="checked"' : '' ?>> 后台
+                                    <input type="radio" name="field_status" value="2" <?= $field_status == '0' ? 'checked="checked"' : '' ?>> 禁用
                                 </label>
                             </div>
                         </div>
