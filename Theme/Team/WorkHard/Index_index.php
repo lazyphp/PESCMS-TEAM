@@ -7,7 +7,7 @@
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
             <li class="am-hide-sm-only">
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="<?= $label->url('Team'); ?>" title="新建任务">
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="<?= $label->url('Team-Task-action'); ?>" title="新建任务">
                     <span class="am-icon-plus am-icon-sm"></span>
                 </a>
             </li>

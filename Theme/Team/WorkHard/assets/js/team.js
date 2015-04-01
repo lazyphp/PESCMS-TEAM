@@ -75,4 +75,20 @@ $(function () {
 
     }
 
+    /**
+     * 任务选择指派部门
+     */
+    $("#task-department-id").on("change", function () {
+        var local = $("#task-department-id option:selected").attr("data");
+        if (local == '1') {
+            $(this).parent().removeClass().addClass("am-u-sm-8 am-u-md-2");
+            $("#task-user-layer").removeClass("am-hide-lg");
+        } else {
+            $(this).parent().removeClass().addClass("am-u-sm-8 am-u-md-4");
+            $("#task-user-layer").addClass("am-hide-lg");
+            $("#task-user-id").val("");
+        }
+        $("#task-accept-id").val(local);
+    })
+
 })
