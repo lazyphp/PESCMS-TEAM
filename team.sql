@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-01 17:34:09
+-- Generation Time: 2015-04-02 23:57:51
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `pes_department` (
 
 INSERT INTO `pes_department` (`department_id`, `department_listsort`, `department_lang`, `department_url`, `department_createtime`, `department_name`, `department_header`) VALUES
 (1, 0, 0, '/department/view/id/1.html', 0, 'IT部', '1'),
-(2, 0, 0, '', 0, '人事部', ''),
-(3, 0, 0, '', 0, '销售部', '');
+(2, 0, 0, '/Department/view/id/2.html', 0, '人事部', '3'),
+(3, 0, 0, '/Department/view/id/3.html', 0, '销售部', '4');
 
 -- --------------------------------------------------------
 
@@ -257,9 +257,10 @@ CREATE TABLE IF NOT EXISTS `pes_node` (
 CREATE TABLE IF NOT EXISTS `pes_notice` (
 `notice_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `notice_type` tinyint(1) NOT NULL COMMENT '通知类型',
+  `task_id` int(11) NOT NULL COMMENT '任务ID',
+  `notice_type` tinyint(1) NOT NULL COMMENT '通知类型 1:收到新任务 2.指派审核任务 3.待审核任务 4.待修改的任务 5.部门待审核指派任务 6.完成的任务',
   `read` tinyint(1) NOT NULL COMMENT '是否已读：0 未读 1 已读'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
 
 -- --------------------------------------------------------
 
@@ -333,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_lang` tinyint(4) NOT NULL,
   `task_url` varchar(255) NOT NULL,
   `task_createtime` int(11) NOT NULL,
-  `task_accept_id` varchar(255) NOT NULL,
+  `task_accept_id` tinyint(1) NOT NULL COMMENT '0: 非本部门任务，需要对应部门负责人审核任务 1:本部门任务，直接指派内部人员',
   `task_title` varchar(255) NOT NULL,
   `task_department_id` varchar(255) NOT NULL,
   `task_user_id` varchar(255) NOT NULL,
