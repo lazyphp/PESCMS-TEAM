@@ -49,7 +49,9 @@
                             <select id="add-departmengt-user">
                                 <option value="0">请添加</option>
                                 <?php foreach ($user as $key => $value) : ?>
-                                    <option value="<?= $value['user_id']; ?>"><?= $value['user_name']; ?></option>
+                                    <?php if ($value['user_department_id'] == $id): ?>
+                                        <option value="<?= $value['user_id']; ?>"><?= $value['user_name']; ?></option>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
                         </div>

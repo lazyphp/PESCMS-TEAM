@@ -60,7 +60,7 @@ class Content extends \Core\Model\Model {
             return self::error($GLOBALS['_LANG']['CONTENT']['SET_URL_FAIL']);
         }
 
-        return self::success();
+        return self::success($addResult);
     }
 
     /**
