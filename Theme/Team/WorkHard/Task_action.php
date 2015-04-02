@@ -58,9 +58,12 @@
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
                             任务审核人
                         </div>
-                        <div class="am-u-sm-8 am-u-md-4">
-                            <a href="javascript:;" data="" class="remove-department-user" ><i class="am-icon-user"></i><span> 自己</span></a>
+                        <div class="am-u-sm-8 am-u-md-4" id="check-user">
+                            <a href="javascript:;" type="no" data="<?= $_SESSION['team']['user_id']; ?>" class="remove-check-user" ><i class="am-icon-user"></i><span> <?= $_SESSION['team']['user_name']; ?>(本人)</span></a>
                         </div>
+                        <!--任务审核人-->
+                        <input type="hidden" name="check_user_id" value="<?= $_SESSION['team']['user_id']; ?>" />
+                        <!--任务审核人-->
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>
                     <div class="am-g am-margin-top">
@@ -68,7 +71,7 @@
                             <i class="am-icon-plus-square"></i>
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <select id="add-departmengt-user">
+                            <select id="add-check-user">
                                 <option value="0">请添加</option>
                                 <?php foreach ($user as $key => $value) : ?>
                                     <option value="<?= $value['user_id']; ?>"><?= $value['user_name']; ?></option>

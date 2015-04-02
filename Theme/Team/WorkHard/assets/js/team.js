@@ -91,4 +91,53 @@ $(function () {
         $("#task-accept-id").val(local);
     })
 
+    /**
+     * 添加任务审核人
+     */
+    $("#add-check-user").on("change", function () {
+        var user_id = $(this).val();
+        var user_name = $("#add-check-user option:selected").text();
+        var added = false;
+        if (user_id == '0') {
+            return false;
+        }
+        //遍历是否已经添加用户了
+        $(".remove-check-user").each(function (index) {
+            if ($(this).attr("data") == user_id) {
+                added = true;
+            }
+        })
+
+
+        if (added == true) {
+            return false;
+        } else {
+            $("#check-user").append(' <a href="javascript:;" data="' + user_id + '" class="remove-check-user" ><i class="am-icon-user"></i><span> ' + user_name + '</span></a>');
+        }
+
+        setCheckUser();
+    })
+
+    /**
+     * 移除任务审核人
+     */
+    $("#check-user").on("click", ".remove-check-user", function () {
+        if ($(this).attr("type") != 'no') {
+            $(this).remove();
+        }
+        setCheckUser();
+    })
+
+    /**
+     * 设置任务审核人
+     */
+    function setCheckUser() {
+        var task_check_user = new Array;
+        $(".remove-check-user").each(function (index) {
+            task_check_user[index] = $(this).attr("data");
+        })
+
+        $("input[name=check_user_id]").val(task_check_user.join(","));
+    }
+
 })
