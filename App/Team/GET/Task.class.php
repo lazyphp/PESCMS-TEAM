@@ -32,4 +32,17 @@ class Task extends Content {
         parent::action();
     }
 
+    public function my() {
+        $page = new \Expand\Team\Page;
+        $total = count(\Model\Content::listContent('task', array('task_user_id' => $_SESSION['team']['user_id']), 'task_user_id = :task_user_id'));
+        $count = $page->total($total);
+        $page->handle();
+        $list = \Model\Content::listContent('task', array('task_user_id' => $_SESSION['team']['user_id']), 'task_user_id = :task_user_id', 'task_id desc', "{$page->firstRow}, {$page->listRows}");
+        $show = $page->show();
+        $this->assign('page', $show);
+        $this->assign('list', $list);
+        $this->assign('title', \Model\Menu::getTitleWithMenu());
+        $this->layout();
+    }
+
 }

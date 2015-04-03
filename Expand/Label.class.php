@@ -183,6 +183,10 @@ class Label {
         }
         return $group[$groupID];
     }
+    
+    public function findUser($uid){
+        
+    }
 
     /**
      * 根据父类ID查找数据
@@ -278,6 +282,23 @@ class Label {
             $returnstr = $returnstr . $suffix; //超过长度时在尾处加上省略号
         }
         return $returnstr;
+    }
+
+    public function noticeType($type, $num) {
+        switch ($type) {
+            case '1':
+                return "<li><a href=\"{$this->url('')}\">{$num}个新的任务</a></li>";
+            case '2':
+                return "<li><a href=\"{$this->url('')}\">{$num}个新的指派审核任务</a></li>";
+            case '3':
+                return "<li><a href=\"{$this->url('')}\">{$num}个新的待待审核任务</a></li>";
+            case '4':
+                return "<li><a href=\"{$this->url('')}\">{$num}个新的待修改任务</a></li>";
+            case '5':
+                return "<li><a href=\"{$this->url('')}\">{$num}个新的部门审核指派任务</a></li>";
+            case '6':
+                return "<li><a href=\"{$this->url('')}\">{$num}8个新的完成任务</a></li>";
+        }
     }
 
 }

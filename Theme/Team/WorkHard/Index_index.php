@@ -2,7 +2,7 @@
     <div class="am-topbar-brand">
         <strong>PESCMS</strong> <small>任务系统</small>
     </div>
-    
+
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
@@ -13,15 +13,25 @@
                     <span class="am-icon-plus am-icon-sm"></span>
                 </a>
             </li>
-            <li>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-envelope-o am-icon-sm"></span><span class="msg-tips"></span>
+            <li id="notice" data-am-dropdown class="<?= empty($notice) ? '' : 'am-active'; ?>">
+                <a class="am-dropdown-toggle " data-am-dropdown-toggle href="javascript:;" style="color: #666;border-bottom-color:#000">
+                    <span class="am-icon-envelope-o am-icon-sm"></span>
+                    <?php if (!empty($notice)): ?>
+                        <span class="msg-tips"></span>
+                    <?php endif; ?>
                 </a>
+                <?php if (!empty($notice)): ?>
+                    <ul class="am-dropdown-content am-active" >
+                        <?php foreach ($notice as $key => $value) : ?>
+                            <?= $label->noticeType($value['notice_type'], $value['total_notice']); ?>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
             </li>
             <?php foreach ($menu as $topkey => $topValu) : ?>
                 <li class="am-dropdown" data-am-dropdown>
                     <?php if ($topValu['menu_id'] == '41'): ?>
-                        <a href="javascript:;" id="admin-fullscreen"><img src="http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" alt="" class="am-comment-avatar" width="48" height="48"/></a>
+                        <a href="javascript:;" id="admin-fullscreen"><img src="<?= $_SESSION['team']['user_head'] ?>" alt="" class="am-comment-avatar" width="48" height="48"/></a>
                     <?php else: ?>
                         <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                             <span class="<?= $topValu['menu_icon']; ?> am-icon-md"></span>
@@ -69,7 +79,7 @@
     }
 </style>
 <script>
-    $("#iframe_default").load(function () {
+    $("#iframe_default").load(function() {
         var pageHeight = $(this).contents().find("body").height();
         $(this).height(pageHeight);
     })
