@@ -171,21 +171,33 @@ class Label {
      * 
      * 查找组名称
      * @param type $groupID 用户组ID
-     * @return type 返回处理好的一维用户组数组
+     * @return type 返回处理好的用户组数组
      */
     public function findGroup($groupID) {
         static $group;
         if (empty($group)) {
             $list = \Model\User::userGroupList();
             foreach ($list as $value) {
-                $group[$value['user_group_id']] = $value['user_group_name'];
+                $group[$value['user_group_id']] = $value;
             }
         }
         return $group[$groupID];
     }
-    
-    public function findUser($uid){
-        
+
+    /**
+     * 查找用户
+     * @param type $uid 用户ID
+     * @return type 返回处理好的用户数组
+     */
+    public function findUser($uid) {
+        static $user;
+        if (empty($user)) {
+            $list = \Model\User::userList();
+            foreach ($list as $value) {
+                $user[$value['user_id']] = $value;
+            }
+        }
+        return $user[$uid];
     }
 
     /**

@@ -31,6 +31,13 @@ class User extends \Core\Model\Model {
     public static function findUserGroup($groupId) {
         return self::db('user_group')->where('user_group_id = :user_group_id')->find(array('user_group_id' => $groupId));
     }
+    
+    /**
+     * 输出所有用户
+     */
+    public static function userList(){
+        return self::db('user')->select();
+    }
 
     /**
      * 输出用户组
