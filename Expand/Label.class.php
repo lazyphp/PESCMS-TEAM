@@ -93,6 +93,23 @@ class Label {
     }
 
     /**
+     * 任务优先级
+     * @param type $priority
+     */
+    public function taskPriority($priority) {
+        switch ($priority) {
+            case'1':
+                return '<span class="am-badge am-badge-danger am-radius">严重</span>';
+            case '2':
+                return '<span class="am-badge am-badge-warning am-radius">次要</span>';
+            case '3':
+                return '<span class="am-badge am-badge-secondary am-radius">主要</span>';
+            case '4':
+                return '<span class="am-badge am-radius">普通</span>';
+        }
+    }
+
+    /**
      * 模型属性
      * @param type $attr 属性值
      */
@@ -299,17 +316,17 @@ class Label {
     public function noticeType($type, $num) {
         switch ($type) {
             case '1':
-                return "<li><a href=\"{$this->url('')}\">{$num}个新的任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my')}\">{$num}个新的任务</a></li>";
             case '2':
-                return "<li><a href=\"{$this->url('')}\">{$num}个新的指派审核任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的指派审核任务</a></li>";
             case '3':
-                return "<li><a href=\"{$this->url('')}\">{$num}个新的待待审核任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待待审核任务</a></li>";
             case '4':
-                return "<li><a href=\"{$this->url('')}\">{$num}个新的待修改任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待修改任务</a></li>";
             case '5':
-                return "<li><a href=\"{$this->url('')}\">{$num}个新的部门审核指派任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的部门审核指派任务</a></li>";
             case '6':
-                return "<li><a href=\"{$this->url('')}\">{$num}8个新的完成任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}8个新的完成任务</a></li>";
         }
     }
 

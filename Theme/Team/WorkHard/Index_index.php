@@ -9,7 +9,7 @@
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
             <li class="am-hide-sm-only">
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="<?= $label->url('Team-Task-action'); ?>" title="新建任务">
+                <a class="am-dropdown-toggle" id="add-new-task" data-am-dropdown-toggle href="<?= $label->url('Team-Task-action'); ?>" title="新建任务">
                     <span class="am-icon-plus am-icon-sm"></span>
                 </a>
             </li>
@@ -31,7 +31,7 @@
             <?php foreach ($menu as $topkey => $topValu) : ?>
                 <li class="am-dropdown" data-am-dropdown>
                     <?php if ($topValu['menu_id'] == '41'): ?>
-                        <a href="javascript:;" id="admin-fullscreen"><img src="<?= $_SESSION['team']['user_head'] ?>" alt="" class="am-comment-avatar" width="48" height="48"/></a>
+                        <a href="javascript:;" id="admin-fullscreen"><img src="<?= $_SESSION['team']['user_head']; ?>" alt="" class="am-comment-avatar" width="48" height="48"/></a>
                     <?php else: ?>
                         <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                             <span class="<?= $topValu['menu_icon']; ?> am-icon-md"></span>

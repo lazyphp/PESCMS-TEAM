@@ -33,4 +33,12 @@ class Notice extends \Core\Model\Model {
         return self::db('notice')->insert(array('user_id' => $uid, 'task_id' => $taskId, 'notice_type' => $type));
     }
 
+    /**
+     * 登记系统消息已阅读
+     * @param type $type
+     */
+    public static function readNotice($type) {
+        return self::db('notice')->where('user_id = :user_id AND notice_type = :notice_type ')->update(array('noset' => array('user_id' => $_SESSION['team']['user_id'], 'notice_type' => $type), 'notice_read' => '1'));
+    }
+
 }

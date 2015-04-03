@@ -2,7 +2,7 @@ $(function () {
     /**
      * 设置主框架的跳转链接
      */
-    $(".am-dropdown-content li a").on("click", function () {
+    $(".am-dropdown-content li a, #add-new-task").on("click", function () {
         $("#iframe_default").attr("src", $(this).attr("href"))
         if ($(this).find("span").attr("class") != 'am-icon-sign-out') {
             return false;
@@ -12,7 +12,7 @@ $(function () {
     /**
      * 鼠标移动显示菜单
      */
-    $(".am-dropdown, .am-dropdown-content").on("mouseover", function () {
+    $(".admin-header-list .am-dropdown, .admin-header-list .am-dropdown-content").on("mouseover", function () {
         $(this).siblings(".am-dropdown").each(function () {
             console.dir("1")
             $(this).dropdown('close')
@@ -22,10 +22,29 @@ $(function () {
 
     })
 
-    $(".am-dropdown, .am-dropdown-content").on("mouseleave", function () {
+    $(".admin-header-list .am-dropdown, .admin-header-list .am-dropdown-content").on("mouseleave", function () {
         $(this).dropdown('close')
     })
     /* 鼠标移动显示菜单结束 */
+
+    /**
+     * 移除点击的系统消息
+     */
+    $(".notice-link").on("click", function () {
+        var existNoticLi = false;
+        $("#notice").dropdown('close');
+        $(this).parent().remove();
+        $("#notice ul li").each(function (index) {
+            if (index == '0') {
+                existNoticLi = true;
+            }
+        })
+        
+        if (existNoticLi == false) {
+            $("#notice ul").remove();
+        }
+
+    })
 
     /**
      * 添加部门负责人
@@ -139,5 +158,11 @@ $(function () {
 
         $("input[name=check_user_id]").val(task_check_user.join(","));
     }
+
+    $(".datetimepicker").datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d'
+    });
+
 
 })

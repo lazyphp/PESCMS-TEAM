@@ -29,10 +29,16 @@ class Task extends Content {
             $department[$value['department_id']] = $value['department_name'];
         }
         $this->assign('department', $department);
+
+        //列出项目
+        $project = \Model\Content::listContent('project', array(), '', 'project_listsort ASC, project_id DESC');
+        $this->assign('project', $project);
+
         parent::action();
     }
 
     public function my() {
+        \Model\Notice::readNotice('1');
         $page = new \Expand\Team\Page;
         $total = count(\Model\Content::listContent('task', array('task_user_id' => $_SESSION['team']['user_id']), 'task_user_id = :task_user_id'));
         $count = $page->total($total);

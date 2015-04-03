@@ -110,14 +110,14 @@ class Content extends \Core\Model\Model {
              * 判断提交的字段是否为数组
              */
             if (is_array($_POST[$value['field_name']])) {
-                $_POST[$value['field_name']] = implode(',', $_POST[$value['field_name']]);
+                $_POST[$value['field_name']] = (string) implode(',', $_POST[$value['field_name']]);
             }
 
             /**
              * 时间转换为时间戳
              */
             if ($value['field_type'] == 'date') {
-                $_POST[$value['field_name']] = strtotime($_POST[$value['field_name']]);
+                $_POST[$value['field_name']] = (string) strtotime($_POST[$value['field_name']]);
             }
 
             if ($value['field_required'] == '1') {

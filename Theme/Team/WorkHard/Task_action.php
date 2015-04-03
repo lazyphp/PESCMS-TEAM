@@ -7,6 +7,7 @@
     <form class="am-form" action="<?= $url; ?>" method="post">
         <input type="hidden" name="method" value="<?= $method ?>" />
         <input type="hidden" name="id" value="<?= $id ?>" />
+        <input type="hidden" name="createtime" value="<?= date('Y-m-d'); ?>"/>
         <div class="am-tabs am-margin">
             <ul class="am-tabs-nav am-nav am-nav-tabs">
                 <li class="am-active"><a href="#tab1">基本信息</a></li>
@@ -14,6 +15,20 @@
 
             <div class="am-tabs-bd">
                 <div class="am-tab-panel am-fade am-in am-active">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            所属项目
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <select name="project">
+                                <option value="">请选择</option>
+                                <?php foreach ($project as $key => $value) : ?>
+                                    <option value="<?= $value['project_id']; ?>"><?= $value['project_title']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6">*必填</div>
+                    </div>
 
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
@@ -83,6 +98,21 @@
 
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            任务优先级
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <select name="priority">
+                                <option value="4">普通</option>
+                                <option value="3">主要</option>
+                                <option value="2">次要</option>
+                                <option value="1">严重</option>
+                            </select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6"></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
                             任务说明
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
@@ -109,6 +139,17 @@
 
                                 <div id="task_file" style="margin-top: 10px;">选择文件</div>
                             </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6"></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            期望完成时间
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4 am-form-icon">
+                            <i class="am-icon-calendar" style="left: 1.625em;"></i>
+                            <input type="text" class="am-form-field datetimepicker" name="expecttime" readonly="readonly"/>
                         </div>
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>

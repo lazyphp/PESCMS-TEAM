@@ -29,16 +29,22 @@
                 <tbody>
                     <?php foreach ($list as $key => $value) : ?>
                         <tr>
-                            <td>#<?= $value["task_id"]; ?></td>
-                            <td><?= $value["task_title"]; ?></td>
-                            <td><?= $label->findUser($value["task_create_id"])['user_name']; ?></td>
-                            <td><?= $value["user_name"]; ?></td>
+                            <td class="table-id">#<?= $value["task_id"]; ?></td>
+                            <td class="table-title am-text-center">
+                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['project_id'])) ?>">[项目]</a>
+                                <a href="<?= $label->url('Team-Task-view', array('id' => $value['task_id'])) ?>" style="color:#333"><?= $value["task_title"]; ?></a>
+                            </td>
+                            <td class="table-id"><?= $label->taskPriority($value['task_priority']); ?></td>
+                            <td class="table-title">
+                                <img src="<?= $label->findUser($value["task_create_id"])['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;"/>
+                                <a href="">&nbsp;<?= $label->findUser($value["task_create_id"])['user_name']; ?></a>
+                                <span>指派给</span>
+                                <img src="<?= $_SESSION['team']['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;float: none"/>
+                                <a href=""><?= $_SESSION['team']['user_name']; ?></a>
+                            </td>
                             <td>
-                                <div class="am-btn-toolbar">
-                                    <div class="am-btn-group am-btn-group-xs">
-                                        <a class="am-btn am-btn-secondary" href="<?= $label->url('Team-User-action', array('id' => $value["user_id"])); ?>"><span class="am-icon-pencil-square-o"></span> 查看</a>
-                                    </div>
-                                </div>
+                                创建于：<?= date('Y-m-d', $value['task_createtime']); ?>
+                                期望完成时间:<?= date('Y-m-d', $value['task_expecttime']); ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
