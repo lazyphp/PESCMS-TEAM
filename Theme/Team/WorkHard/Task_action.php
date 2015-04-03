@@ -154,6 +154,23 @@
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>
 
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            阅读权限
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-2">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs am-active">
+                                    <input type="radio" name="read_permission" value="0" checked="checked" > 关闭
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="read_permission" value="1"> 开启
+                                </label>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-8">*开启阅读权限后，任务仅发起人、审核人和执行者可以查看。</div>
+                    </div>
+
                 </div>
 
             </div>

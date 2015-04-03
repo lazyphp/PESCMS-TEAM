@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5
+-- version 4.2.8
 -- http://www.phpmyadmin.net
 --
--- 主机: localhost
--- 生成日期: 2015 年 04 月 03 日 11:07
--- 服务器版本: 5.5.16
--- PHP 版本: 5.3.8
+-- Host: localhost
+-- Generation Time: 2015-04-03 17:42:09
+-- 服务器版本： 5.6.20
+-- PHP Version: 5.6.0
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,34 +17,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- 数据库: `team`
+-- Database: `team`
 --
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pes_category`
---
-
-CREATE TABLE IF NOT EXISTS `pes_category` (
-  `category_id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(128) NOT NULL,
-  `category_aliases` varchar(255) NOT NULL COMMENT '别名',
-  `model_id` int(11) NOT NULL,
-  `category_parent` int(11) NOT NULL,
-  `category_child` text NOT NULL,
-  `category_keyword` varchar(255) NOT NULL,
-  `category_description` text NOT NULL,
-  `category_thumb` varchar(255) NOT NULL,
-  `category_url` varchar(255) NOT NULL,
-  `category_nav` tinyint(4) NOT NULL DEFAULT '1' COMMENT '导航',
-  `category_html` tinyint(1) NOT NULL COMMENT '是否生成HTML',
-  `category_theme` varchar(128) NOT NULL COMMENT '模板名称',
-  `category_lang` varchar(50) NOT NULL COMMENT '语言',
-  `category_listsort` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`),
-  KEY `category_parent` (`category_parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -53,12 +27,11 @@ CREATE TABLE IF NOT EXISTS `pes_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `pes_cookie` (
-  `cookie_id` int(11) NOT NULL AUTO_INCREMENT,
+`cookie_id` int(11) NOT NULL,
   `cookie` varchar(255) NOT NULL,
   `uid` int(11) NOT NULL,
-  `createtime` int(11) NOT NULL,
-  PRIMARY KEY (`cookie_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `createtime` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -67,15 +40,14 @@ CREATE TABLE IF NOT EXISTS `pes_cookie` (
 --
 
 CREATE TABLE IF NOT EXISTS `pes_department` (
-  `department_id` int(11) NOT NULL AUTO_INCREMENT,
+`department_id` int(11) NOT NULL,
   `department_listsort` int(11) NOT NULL,
   `department_lang` tinyint(4) NOT NULL,
   `department_url` varchar(255) NOT NULL,
   `department_createtime` int(11) NOT NULL,
   `department_name` varchar(255) NOT NULL,
-  `department_header` varchar(255) NOT NULL,
-  PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `department_header` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_department`
@@ -89,11 +61,25 @@ INSERT INTO `pes_department` (`department_id`, `department_listsort`, `departmen
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `pes_dynamic`
+--
+
+CREATE TABLE IF NOT EXISTS `pes_dynamic` (
+`dynamic_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL COMMENT '人物',
+  `task_id` int(11) NOT NULL COMMENT '任务',
+  `dynamic_type` tinyint(4) NOT NULL COMMENT '类型',
+  `dynamic_time` int(11) NOT NULL COMMENT '时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `pes_field`
 --
 
 CREATE TABLE IF NOT EXISTS `pes_field` (
-  `field_id` int(11) NOT NULL AUTO_INCREMENT,
+`field_id` int(11) NOT NULL,
   `model_id` int(11) NOT NULL,
   `field_name` varchar(128) NOT NULL,
   `display_name` varchar(128) NOT NULL,
@@ -103,10 +89,8 @@ CREATE TABLE IF NOT EXISTS `pes_field` (
   `field_required` tinyint(4) NOT NULL,
   `field_message` varchar(128) NOT NULL,
   `field_listsort` int(11) NOT NULL,
-  `field_status` tinyint(4) NOT NULL,
-  PRIMARY KEY (`field_id`),
-  UNIQUE KEY `modle_id` (`model_id`,`field_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+  `field_status` tinyint(4) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_field`
@@ -128,7 +112,7 @@ INSERT INTO `pes_field` (`field_id`, `model_id`, `field_name`, `display_name`, `
 (14, 8, 'title', '项目名称', 'text', '', '', 1, '', 1, 1),
 (15, 9, 'status', '状态', 'radio', '{"\\u7981\\u7528":"0","\\u542f\\u7528":"1"}', '1', 0, '', 97, 1),
 (16, 9, 'listsort', '排序', 'text', '', '', 0, '', 98, 1),
-(17, 9, 'createtime', '发布时间', 'date', '', '', 0, '', 99, 1),
+(17, 9, 'createtime', '发布时间', 'date', '', '', 1, '', 99, 1),
 (18, 9, 'accept_id', '属性部门', 'text', '', '', 1, '', 2, 1),
 (19, 9, 'title', '任务标题', 'text', '', '', 1, '', 1, 1),
 (20, 9, 'department_id', '接收部门ID', 'text', '', '', 1, '', 3, 1),
@@ -136,41 +120,18 @@ INSERT INTO `pes_field` (`field_id`, `model_id`, `field_name`, `display_name`, `
 (22, 9, 'create_id', '任务发起者', 'text', '', '', 1, '', 4, 1),
 (24, 9, 'content', '任务说明', 'editor', '', '', 1, '', 6, 1),
 (25, 9, 'file', '任务附件', 'file', '', '', 0, '', 7, 1),
-(26, 9, 'completetime', '完成时间', 'text', '', '', 0, '', 102, 1),
-(27, 9, 'estimatetime', '预计时间', 'text', '', '', 0, '', 100, 1),
-(28, 9, 'actiontime', '执行时间', 'text', '', '', 0, '', 101, 1),
+(26, 9, 'completetime', '完成时间', 'date', '', '', 0, '', 104, 1),
+(27, 9, 'estimatetime', '预计时间', 'date', '', '', 0, '', 102, 1),
+(28, 9, 'actiontime', '执行时间', 'date', '', '', 0, '', 103, 1),
 (30, 10, 'listsort', '排序', 'text', '', '', 0, '', 98, 1),
 (31, 10, 'createtime', '发布时间', 'date', '', '', 0, '', 99, 1),
 (32, 10, 'name', '部门名称', 'text', '', '', 1, '', 1, 1),
 (33, 10, 'header', '负责人', 'text', '', '', 1, '', 2, 1),
-(34, 7, 'department_id', '部门ID', 'text', '', '', 1, '', 2, 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pes_lang`
---
-
-CREATE TABLE IF NOT EXISTS `pes_lang` (
-  `id` int(11) NOT NULL,
-  `country` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pes_mail_verify`
---
-
-CREATE TABLE IF NOT EXISTS `pes_mail_verify` (
-  `mail_verify_id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NOT NULL,
-  `createtime` int(11) NOT NULL,
-  `verifytime` int(11) NOT NULL,
-  `verify_status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`mail_verify_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+(34, 7, 'department_id', '部门ID', 'text', '', '', 1, '', 2, 1),
+(35, 9, 'priority', '优先级', 'text', '', '', 1, '', 8, 1),
+(36, 9, 'expecttime', '期望完成时间', 'date', '', '', 1, '', 101, 1),
+(37, 9, 'project', '任务项目', 'text', '', '', 1, '', 3, 1),
+(38, 9, 'read_permission', '阅读权限', 'text', '', '', 0, '', 9, 1);
 
 -- --------------------------------------------------------
 
@@ -179,15 +140,13 @@ CREATE TABLE IF NOT EXISTS `pes_mail_verify` (
 --
 
 CREATE TABLE IF NOT EXISTS `pes_menu` (
-  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+`menu_id` int(11) NOT NULL,
   `menu_name` varchar(128) NOT NULL,
   `menu_pid` int(11) NOT NULL,
   `menu_icon` varchar(128) NOT NULL,
   `menu_url` varchar(255) NOT NULL,
-  `menu_listsort` tinyint(100) NOT NULL,
-  PRIMARY KEY (`menu_id`),
-  KEY `menu_pid` (`menu_pid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
+  `menu_listsort` tinyint(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -222,15 +181,13 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_u
 --
 
 CREATE TABLE IF NOT EXISTS `pes_model` (
-  `model_id` int(11) NOT NULL AUTO_INCREMENT,
+`model_id` int(11) NOT NULL,
   `model_name` varchar(128) NOT NULL,
   `lang_key` varchar(128) NOT NULL,
   `status` tinyint(4) NOT NULL,
   `is_search` tinyint(11) NOT NULL COMMENT '允许搜索',
-  `model_attr` tinyint(1) NOT NULL COMMENT '模型属性 1:前台(含前台) 2:后台',
-  PRIMARY KEY (`model_id`),
-  UNIQUE KEY `model_name` (`model_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+  `model_attr` tinyint(1) NOT NULL COMMENT '模型属性 1:前台(含前台) 2:后台'
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_model`
@@ -250,17 +207,15 @@ INSERT INTO `pes_model` (`model_id`, `model_name`, `lang_key`, `status`, `is_sea
 --
 
 CREATE TABLE IF NOT EXISTS `pes_node` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL COMMENT '规则唯一英文标识',
   `title` varchar(128) NOT NULL COMMENT '描述名称',
   `pid` int(11) NOT NULL COMMENT '父类ID',
   `child` text NOT NULL,
   `verify` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否进行权限验证',
   `mes` varchar(128) NOT NULL COMMENT '提示信息',
-  `listsort` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`pid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `listsort` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -269,13 +224,32 @@ CREATE TABLE IF NOT EXISTS `pes_node` (
 --
 
 CREATE TABLE IF NOT EXISTS `pes_notice` (
-  `notice_id` int(11) NOT NULL AUTO_INCREMENT,
+`notice_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL COMMENT '用户ID',
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `notice_type` tinyint(1) NOT NULL COMMENT '通知类型 1:收到新任务 2.指派审核任务 3.待审核任务 4.待修改的任务 5.部门待审核指派任务 6.完成的任务',
-  `notice_read` tinyint(1) NOT NULL COMMENT '是否已读：0 未读 1 已读',
-  PRIMARY KEY (`notice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统信息消息' AUTO_INCREMENT=1 ;
+  `notice_read` tinyint(1) NOT NULL COMMENT '是否已读：0 未读 1 已读'
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
+
+--
+-- 转存表中的数据 `pes_notice`
+--
+
+INSERT INTO `pes_notice` (`notice_id`, `user_id`, `task_id`, `notice_type`, `notice_read`) VALUES
+(1, 1, 1, 1, 1),
+(2, 2, 1, 2, 1),
+(3, 1, 2, 1, 1),
+(4, 2, 2, 2, 1),
+(5, 2, 2, 2, 1),
+(20, 3, 17, 5, 1),
+(21, 1, 17, 2, 1),
+(22, 3, 17, 2, 1),
+(23, 3, 18, 5, 1),
+(24, 1, 18, 2, 1),
+(25, 3, 18, 2, 1),
+(26, 4, 19, 5, 1),
+(27, 1, 19, 2, 1),
+(28, 4, 19, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -284,13 +258,12 @@ CREATE TABLE IF NOT EXISTS `pes_notice` (
 --
 
 CREATE TABLE IF NOT EXISTS `pes_option` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `option_name` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
   `value` text NOT NULL,
-  `option_range` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+  `option_range` varchar(128) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_option`
@@ -321,14 +294,13 @@ INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) 
 --
 
 CREATE TABLE IF NOT EXISTS `pes_project` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+`project_id` int(11) NOT NULL,
   `project_listsort` int(11) NOT NULL,
   `project_status` tinyint(4) NOT NULL,
   `project_lang` tinyint(4) NOT NULL,
   `project_url` varchar(255) NOT NULL,
-  `project_title` varchar(255) NOT NULL,
-  PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `project_title` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_project`
@@ -345,12 +317,11 @@ INSERT INTO `pes_project` (`project_id`, `project_listsort`, `project_status`, `
 --
 
 CREATE TABLE IF NOT EXISTS `pes_task` (
-  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+`task_id` int(11) NOT NULL,
   `task_listsort` int(11) NOT NULL,
-  `task_status` tinyint(4) NOT NULL,
+  `task_status` tinyint(4) NOT NULL COMMENT '0: 未进行 1:进行中 2:审核 3:调整 4:完成',
   `task_lang` tinyint(4) NOT NULL,
   `task_url` varchar(255) NOT NULL,
-  `task_createtime` int(11) NOT NULL,
   `task_accept_id` tinyint(1) NOT NULL COMMENT '0: 非本部门任务，需要对应部门负责人审核任务 1:本部门任务，直接指派内部人员',
   `task_title` varchar(255) NOT NULL,
   `task_department_id` varchar(255) NOT NULL,
@@ -358,23 +329,26 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_create_id` varchar(255) NOT NULL,
   `task_content` text NOT NULL,
   `task_file` text NOT NULL,
-  `task_completetime` varchar(255) NOT NULL,
-  `task_estimatetime` varchar(255) NOT NULL,
-  `task_actiontime` varchar(255) NOT NULL,
-  PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `task_createtime` int(11) NOT NULL COMMENT '创建时间',
+  `task_completetime` varchar(255) NOT NULL COMMENT '完成时间',
+  `task_estimatetime` varchar(255) NOT NULL COMMENT '执行者估计时间',
+  `task_actiontime` varchar(255) NOT NULL COMMENT '执行时间',
+  `task_priority` tinytext NOT NULL COMMENT '1:严重 2:主要 3:次要 4:普通',
+  `task_expecttime` int(11) NOT NULL COMMENT '发起者期望完成时间',
+  `task_project` varchar(255) NOT NULL,
+  `task_read_permission` tinyint(1) NOT NULL COMMENT '阅读权限'
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task`
 --
 
-INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, `task_url`, `task_createtime`, `task_accept_id`, `task_title`, `task_department_id`, `task_user_id`, `task_create_id`, `task_content`, `task_file`, `task_completetime`, `task_estimatetime`, `task_actiontime`) VALUES
-(1, 0, 1, 0, '/Task/view/id/1.html', 0, 1, '发起第一个任务', '1', '2', '1', '&lt;p&gt;dfdd&lt;/p&gt;', '', '', '', ''),
-(2, 0, 1, 0, '/Task/view/id/2.html', 0, 0, 'sad', '2', '', '1', '&lt;p&gt;dd&lt;/p&gt;', '', '', '', ''),
-(3, 0, 1, 0, '/Task/view/id/3.html', 0, 1, 'asdsadsad', '1', '1', '2', '&lt;p&gt;sadsad&lt;/p&gt;', '', '', '', ''),
-(4, 0, 1, 0, '/Task/view/id/4.html', 0, 0, 'dsgfdhfgj', '2', '', '2', '&lt;p&gt;asdsad&lt;/p&gt;', '', '', '', ''),
-(5, 0, 1, 0, '/Task/view/id/5.html', 0, 0, 'gikfghkfgk', '3', '', '2', '&lt;p&gt;adfssaf&lt;/p&gt;', '', '', '', ''),
-(6, 0, 1, 0, '/Task/view/id/6.html', 0, 1, 'dsafsdgdfs', '1', '1', '2', '&lt;p&gt;asdsadsad&lt;/p&gt;', '', '', '', '');
+INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, `task_url`, `task_accept_id`, `task_title`, `task_department_id`, `task_user_id`, `task_create_id`, `task_content`, `task_file`, `task_createtime`, `task_completetime`, `task_estimatetime`, `task_actiontime`, `task_priority`, `task_expecttime`, `task_project`, `task_read_permission`) VALUES
+(1, 0, 1, 0, '/Task/view/id/1.html', 1, '完善任务发布的细节', '1', '1', '2', '&lt;p&gt;完善任务发布的细节&lt;/p&gt;', '', 1427990400, '', '', '', '4', 1427990400, '2', 0),
+(2, 0, 1, 0, '/Task/view/id/2.html', 1, '完善任务系统查看页面', '1', '1', '2', '&lt;p&gt;123456&lt;/p&gt;', '', 1427990400, '', '', '', '2', 1428249600, '2', 0),
+(17, 0, 1, 0, '/Task/view/id/17.html', 0, '通知全体员工使用PESCMS TEAM', '2', '', '1', '&lt;p&gt;通知全体员工使用PESCMS TEAM&lt;/p&gt;', '', 1428076800, '', '', '', '1', 1428336000, '2', 0),
+(18, 0, 1, 0, '/Task/view/id/18.html', 0, '发布放假通知', '2', '', '1', '&lt;p&gt;发布放假通知&lt;/p&gt;', '', 1428076800, '', '', '', '2', 1428336000, '2', 1),
+(19, 0, 1, 0, '/Task/view/id/19.html', 0, '修复BUG', '3', '', '1', '&lt;p&gt;修复BUG&lt;/p&gt;', '', 1428076800, '', '', '', '3', 1428249600, '1', 0);
 
 -- --------------------------------------------------------
 
@@ -383,26 +357,25 @@ INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, 
 --
 
 CREATE TABLE IF NOT EXISTS `pes_task_check` (
-  `check_id` int(11) NOT NULL AUTO_INCREMENT,
+`check_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL COMMENT '任务ID',
-  `check_user_id` int(11) NOT NULL COMMENT '审核人ID',
-  PRIMARY KEY (`check_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  `check_user_id` int(11) NOT NULL COMMENT '审核人ID'
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task_check`
 --
 
 INSERT INTO `pes_task_check` (`check_id`, `task_id`, `check_user_id`) VALUES
-(1, 1, 1),
-(2, 1, 5),
-(3, 2, 1),
-(4, 3, 2),
-(5, 4, 2),
-(6, 4, 1),
-(7, 5, 2),
-(8, 5, 1),
-(9, 6, 2);
+(1, 1, 2),
+(2, 2, 2),
+(3, 2, 4),
+(4, 17, 1),
+(5, 17, 3),
+(6, 18, 1),
+(7, 18, 3),
+(8, 19, 1),
+(9, 19, 4);
 
 -- --------------------------------------------------------
 
@@ -411,7 +384,7 @@ INSERT INTO `pes_task_check` (`check_id`, `task_id`, `check_user_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `pes_user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) NOT NULL,
   `user_account` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `user_mail` varchar(255) NOT NULL,
@@ -421,19 +394,18 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
   `user_createtime` int(11) NOT NULL,
   `user_last_login` int(11) NOT NULL,
   `user_department_id` varchar(255) NOT NULL,
-  `user_head` varchar(255) NOT NULL COMMENT '用户头像',
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `user_head` varchar(255) NOT NULL COMMENT '用户头像'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_user`
 --
 
 INSERT INTO `pes_user` (`user_id`, `user_account`, `user_password`, `user_mail`, `user_name`, `user_group_id`, `user_status`, `user_createtime`, `user_last_login`, `user_department_id`, `user_head`) VALUES
-(1, 'admin', '75e1d83ba0f896dd29337a2539facb84', 'dev@pescms.com', '管理员', 1, 1, 1388391307, 1388391307, '1', 'http://static.oschina.net/uploads/user/728/1456141_200.jpg?t=1426432545000'),
+(1, 'admin', '75e1d83ba0f896dd29337a2539facb84', 'dev@pescms.com', '萝卜斯', 1, 1, 1388391307, 1388391307, '1', '/upload/head.jpg'),
 (2, 'zhangsan', 'fa251b0c0d49590b8799af684eae070e', 'dev@pescms.com', '张三', 2, 1, 1388391307, 1388391307, '1', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
-(3, 'lisi', 'f4d91866c0fc28072ac207063197805', 'dev@pescms.com', '李四', 2, 1, 1388391307, 1388391307, '2', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
-(4, 'wangwu', '21312f866c0fc28072ac207063197805', 'dev@pescms.com', '王五', 2, 1, 1388391307, 1388391307, '3', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
+(3, 'lisi', '022a95b734c634792db29d670776526d', 'dev@pescms.com', '李四', 2, 1, 1388391307, 1388391307, '2', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
+(4, 'wangwu', 'bd77d503960a5824815fc7a8533a31dc', 'dev@pescms.com', '王五', 2, 1, 1388391307, 1388391307, '3', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
 (5, 'zhaoliu', 'f4s072asdfdsf7805', 'dev@pescms.com', '赵六', 2, 1, 1388391307, 1388391307, '3', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80');
 
 -- --------------------------------------------------------
@@ -443,15 +415,14 @@ INSERT INTO `pes_user` (`user_id`, `user_account`, `user_password`, `user_mail`,
 --
 
 CREATE TABLE IF NOT EXISTS `pes_user_group` (
-  `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
+`user_group_id` int(11) NOT NULL,
   `user_group_listsort` int(11) NOT NULL,
   `user_group_status` tinyint(4) NOT NULL,
   `user_group_lang` tinyint(4) NOT NULL,
   `user_group_url` varchar(255) NOT NULL,
   `user_group_createtime` int(11) NOT NULL,
-  `user_group_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`user_group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `user_group_name` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_user_group`
@@ -462,6 +433,168 @@ INSERT INTO `pes_user_group` (`user_group_id`, `user_group_listsort`, `user_grou
 (2, 0, 1, 0, '/User_group/view/id/2.html', 1417273440, '普通会员'),
 (3, 0, 1, 0, '/User_group/view/id/3.html', 1417273440, '验证会员');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pes_cookie`
+--
+ALTER TABLE `pes_cookie`
+ ADD PRIMARY KEY (`cookie_id`);
+
+--
+-- Indexes for table `pes_department`
+--
+ALTER TABLE `pes_department`
+ ADD PRIMARY KEY (`department_id`);
+
+--
+-- Indexes for table `pes_dynamic`
+--
+ALTER TABLE `pes_dynamic`
+ ADD PRIMARY KEY (`dynamic_id`);
+
+--
+-- Indexes for table `pes_field`
+--
+ALTER TABLE `pes_field`
+ ADD PRIMARY KEY (`field_id`), ADD UNIQUE KEY `modle_id` (`model_id`,`field_name`);
+
+--
+-- Indexes for table `pes_menu`
+--
+ALTER TABLE `pes_menu`
+ ADD PRIMARY KEY (`menu_id`), ADD KEY `menu_pid` (`menu_pid`);
+
+--
+-- Indexes for table `pes_model`
+--
+ALTER TABLE `pes_model`
+ ADD PRIMARY KEY (`model_id`), ADD UNIQUE KEY `model_name` (`model_name`);
+
+--
+-- Indexes for table `pes_node`
+--
+ALTER TABLE `pes_node`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`,`pid`);
+
+--
+-- Indexes for table `pes_notice`
+--
+ALTER TABLE `pes_notice`
+ ADD PRIMARY KEY (`notice_id`);
+
+--
+-- Indexes for table `pes_option`
+--
+ALTER TABLE `pes_option`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pes_project`
+--
+ALTER TABLE `pes_project`
+ ADD PRIMARY KEY (`project_id`);
+
+--
+-- Indexes for table `pes_task`
+--
+ALTER TABLE `pes_task`
+ ADD PRIMARY KEY (`task_id`);
+
+--
+-- Indexes for table `pes_task_check`
+--
+ALTER TABLE `pes_task_check`
+ ADD PRIMARY KEY (`check_id`);
+
+--
+-- Indexes for table `pes_user`
+--
+ALTER TABLE `pes_user`
+ ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `pes_user_group`
+--
+ALTER TABLE `pes_user_group`
+ ADD PRIMARY KEY (`user_group_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pes_cookie`
+--
+ALTER TABLE `pes_cookie`
+MODIFY `cookie_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `pes_department`
+--
+ALTER TABLE `pes_department`
+MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `pes_dynamic`
+--
+ALTER TABLE `pes_dynamic`
+MODIFY `dynamic_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `pes_field`
+--
+ALTER TABLE `pes_field`
+MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+--
+-- AUTO_INCREMENT for table `pes_menu`
+--
+ALTER TABLE `pes_menu`
+MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+--
+-- AUTO_INCREMENT for table `pes_model`
+--
+ALTER TABLE `pes_model`
+MODIFY `model_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `pes_node`
+--
+ALTER TABLE `pes_node`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `pes_notice`
+--
+ALTER TABLE `pes_notice`
+MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT for table `pes_option`
+--
+ALTER TABLE `pes_option`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `pes_project`
+--
+ALTER TABLE `pes_project`
+MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `pes_task`
+--
+ALTER TABLE `pes_task`
+MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `pes_task_check`
+--
+ALTER TABLE `pes_task_check`
+MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `pes_user`
+--
+ALTER TABLE `pes_user`
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `pes_user_group`
+--
+ALTER TABLE `pes_user_group`
+MODIFY `user_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

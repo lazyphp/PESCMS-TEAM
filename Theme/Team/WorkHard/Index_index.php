@@ -31,7 +31,7 @@
             <?php foreach ($menu as $topkey => $topValu) : ?>
                 <li class="am-dropdown" data-am-dropdown>
                     <?php if ($topValu['menu_id'] == '41'): ?>
-                        <a href="javascript:;" id="admin-fullscreen"><img src="<?= $_SESSION['team']['user_head']; ?>" alt="" class="am-comment-avatar" width="48" height="48"/></a>
+                        <a href="javascript:;" ><img src="<?= $_SESSION['team']['user_head']; ?>" alt="" class="am-comment-avatar" width="48" height="48"/></a>
                     <?php else: ?>
                         <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                             <span class="<?= $topValu['menu_icon']; ?> am-icon-md"></span>
@@ -47,7 +47,6 @@
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
-            <!--<li class="am-hide-sm-only"></li>-->
         </ul>
     </div>
 </header>

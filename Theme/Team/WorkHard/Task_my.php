@@ -30,8 +30,8 @@
                     <?php foreach ($list as $key => $value) : ?>
                         <tr>
                             <td class="table-id">#<?= $value["task_id"]; ?></td>
-                            <td class="table-title am-text-center">
-                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['project_id'])) ?>">[项目]</a>
+                            <td class="table-title">
+                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['task_project'])) ?>">[<?= $label->project($value['task_project'])['project_title']; ?>]</a>
                                 <a href="<?= $label->url('Team-Task-view', array('id' => $value['task_id'])) ?>" style="color:#333"><?= $value["task_title"]; ?></a>
                             </td>
                             <td class="table-id"><?= $label->taskPriority($value['task_priority']); ?></td>

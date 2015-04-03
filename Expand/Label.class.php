@@ -218,6 +218,23 @@ class Label {
     }
 
     /**
+     * 列出项目信息
+     * @param type $id 项目ID
+     * @return type 返回处理好的项目数组
+     */
+    public function project($id) {
+        static $project;
+        if (empty($project)) {
+            //列出项目
+            $list = \Model\Content::listContent('project');
+            foreach ($list as $key => $value) {
+                $project[$value['project_id']] = $value;
+            }
+        }
+        return $project[$id];
+    }
+
+    /**
      * 根据父类ID查找数据
      * @param type $parent_id 分类父类ID
      * @param type $is_nav 是否为导航
@@ -313,6 +330,12 @@ class Label {
         return $returnstr;
     }
 
+    /**
+     * 列出导航栏的提示信息列表
+     * @param type $type 提示消息类型
+     * @param type $num 条目
+     * @return type
+     */
     public function noticeType($type, $num) {
         switch ($type) {
             case '1':

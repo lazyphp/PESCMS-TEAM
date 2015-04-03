@@ -31,8 +31,9 @@ class Task extends \App\Team\Common {
                 $this->db()->rollBack();
                 $this->error('该部门没有负责人，无法创建任务');
             }
+            $department_header = explode(',', $department['department_header']);
 
-            foreach (explode(',', $department['department_header']) as $v) {
+            foreach ($department_header as $v) {
                 $sendNoticeResult = \Model\Notice::addNotice($v, $addResult['mes'], '5');
                 if ($sendNoticeResult == false) {
                     $this->db()->rollBack();
@@ -41,15 +42,16 @@ class Task extends \App\Team\Common {
             }
         }
 
-        //添加任务审核人
-        $checkUserList = explode(',', $_POST['check_user_id']);
+        //添加任务审核人，不论是否设置对应的审核人，部门审核人都将成为审核人之一。
+        $checkUserList = empty($department_header) ? explode(',', $_POST['check_user_id']) : array_unique(array_merge_recursive(explode(',', $_POST['check_user_id']), $department_header));
+
         foreach ($checkUserList as $v) {
             $addCheckResult = $this->db('task_check')->insert(array('task_id' => $addResult['mes'], 'check_user_id' => $v));
             if ($addCheckResult == false) {
                 $this->db()->rollBack();
                 $this->error('添加审核人失败');
             }
-            
+
             $sendNoticeResult = \Model\Notice::addNotice($v, $addResult['mes'], '2');
             if ($sendNoticeResult == false) {
                 $this->db()->rollBack();
