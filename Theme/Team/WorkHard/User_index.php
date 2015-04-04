@@ -45,7 +45,7 @@
                             <td><?= $value["user_mail"]; ?></td>
                             <td><?= $value["user_name"]; ?></td>
                             <td><?= $findDepartment[$value["user_department_id"]]; ?></td>
-                            <td><?= $label->findGroup($value["user_group_id"])['user_group_name']; ?></td>
+                            <td><?= $label->findGroup('user_group', 'user_group_id', $value["user_group_id"])['user_group_name']; ?></td>
                             <td>
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">

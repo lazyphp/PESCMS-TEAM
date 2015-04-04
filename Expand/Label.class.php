@@ -21,6 +21,42 @@ namespace Expand;
 class Label {
 
     /**
+     * 此是语法糖，将一些写法近似的方法整合一起，减少重复
+     * @param type $name
+     * @param type $arguments
+     * @return type
+     */
+    public function __call($name, $arguments) {
+        switch (strtolower($name)) {
+            case 'findproject':
+            case 'finduser':
+            case 'findgroup':
+            case 'findepartment':
+                return $this->findContent($arguments['0'], $arguments['1'], $arguments['2']);
+            default :
+                return '不存在此方法';
+        }
+    }
+
+    /**
+     * 查找某一表信息的语法糖
+     * @param type $table 查询内容的表名称
+     * @param type $field 用于快捷获取内容的组合字段名称
+     * @param type $id 需要查找的ID
+     * @return type 返回处理好的数组
+     */
+    public function findContent($table, $field, $id) {
+        static $array = array();
+        if (empty($array[$table])) {
+            $list = \Model\Content::listContent($table);
+            foreach ($list as $value) {
+                $array[$table][$value[$field]] = $value;
+            }
+        }
+        return $array[$table][$id];
+    }
+
+    /**
      * 生成URL链接
      * @param type $controller 链接的控制器
      * @param array $param 参数
@@ -182,56 +218,6 @@ class Label {
             $str .="{$key}|{$value}\n";
         }
         return trim($str);
-    }
-
-    /**
-     * 
-     * 查找组名称
-     * @param type $groupID 用户组ID
-     * @return type 返回处理好的用户组数组
-     */
-    public function findGroup($groupID) {
-        static $group;
-        if (empty($group)) {
-            $list = \Model\User::userGroupList();
-            foreach ($list as $value) {
-                $group[$value['user_group_id']] = $value;
-            }
-        }
-        return $group[$groupID];
-    }
-
-    /**
-     * 查找用户
-     * @param type $uid 用户ID
-     * @return type 返回处理好的用户数组
-     */
-    public function findUser($uid) {
-        static $user;
-        if (empty($user)) {
-            $list = \Model\User::userList();
-            foreach ($list as $value) {
-                $user[$value['user_id']] = $value;
-            }
-        }
-        return $user[$uid];
-    }
-
-    /**
-     * 列出项目信息
-     * @param type $id 项目ID
-     * @return type 返回处理好的项目数组
-     */
-    public function project($id) {
-        static $project;
-        if (empty($project)) {
-            //列出项目
-            $list = \Model\Content::listContent('project');
-            foreach ($list as $key => $value) {
-                $project[$value['project_id']] = $value;
-            }
-        }
-        return $project[$id];
     }
 
     /**

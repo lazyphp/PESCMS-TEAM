@@ -31,13 +31,13 @@
                         <tr>
                             <td class="table-id">#<?= $value["task_id"]; ?></td>
                             <td class="table-title">
-                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['task_project'])) ?>">[<?= $label->project($value['task_project'])['project_title']; ?>]</a>
+                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['task_project'])) ?>">[<?= $label->findProject('project', 'project_id',$value['task_project'])['project_title']; ?>]</a>
                                 <a href="<?= $label->url('Team-Task-view', array('id' => $value['task_id'])) ?>" style="color:#333"><?= $value["task_title"]; ?></a>
                             </td>
                             <td class="table-id"><?= $label->taskPriority($value['task_priority']); ?></td>
                             <td class="table-title">
-                                <img src="<?= $label->findUser($value["task_create_id"])['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;"/>
-                                <a href="">&nbsp;<?= $label->findUser($value["task_create_id"])['user_name']; ?></a>
+                                <img src="<?= $label->findUser('user', 'user_id', $value["task_create_id"])['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;"/>
+                                <a href="">&nbsp;<?= $label->findUser('user', 'user_id', $value["task_create_id"])['user_name']; ?></a>
                                 <span>指派给</span>
                                 <img src="<?= $_SESSION['team']['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;float: none"/>
                                 <a href=""><?= $_SESSION['team']['user_name']; ?></a>
