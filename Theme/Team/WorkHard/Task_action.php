@@ -283,6 +283,9 @@
         var umcontent = UM.getEditor('content', {
             textarea: 'content',
             imageUrl: "/index.php/?g=Team&m=Upload&a=img"
+        })
+        umcontent.addListener("contentChange", function () {
+            window.parent.changeIframeHeight()
         });
     })
 </script>

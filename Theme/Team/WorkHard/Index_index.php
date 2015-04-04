@@ -78,8 +78,12 @@
     }
 </style>
 <script>
-    $("#iframe_default").load(function() {
+    $("#iframe_default").load(function () {
         var pageHeight = $(this).contents().find("body").height();
         $(this).height(pageHeight);
     })
+    function changeIframeHeight() {
+        var pageHeight = $("#iframe_default").contents().find("body").height();
+        $("#iframe_default").height(pageHeight);
+    }
 </script>
