@@ -37,6 +37,9 @@ class Task extends Content {
         parent::action();
     }
 
+    /**
+     * 查看个人任务列表
+     */
     public function my() {
         \Model\Notice::readNotice('1');
         $page = new \Expand\Team\Page;
@@ -48,6 +51,30 @@ class Task extends Content {
         $this->assign('page', $show);
         $this->assign('list', $list);
         $this->assign('title', \Model\Menu::getTitleWithMenu());
+        $this->layout();
+    }
+
+    /**
+     * 查看任务
+     */
+    public function view() {
+        $task_id = $this->isG('id', '请选择您要查看的任务');
+        $content = $this->db('task AS t')->field("t.*, group_concat(tc.check_user_id) AS check_user_id ")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where('t.task_id = :task_id ')->group('t.task_id')->find(array('task_id' => $task_id));
+
+        /**
+         * 合并任务所有关于用户的ID
+         * task_user_id 不一定存在记录(部门审核)。因此，为空则设置为-1，避免空用户可以查看(尽管不可能有未登录的用户)
+         */
+        $eligible = array_unique(array_merge_recursive(array($content['task_create_id'], empty($content['task_user_id']) ? '-1' : $content['task_user_id']), explode(',', $content['check_user_id'])));
+
+        //开启权限验证，验证发布人，审核人，执行人是否属于本任务
+        if ($content['task_read_permission'] == '1' && !in_array($_SESSION['team']['user_id'], $eligible)) {
+            $this->error('您没有权限查看本任务');
+        }
+        
+        $this->assign('eligible', $eligible);
+        $this->assign($content);
+        $this->assign('title', $content['task_title']);
         $this->layout();
     }
 

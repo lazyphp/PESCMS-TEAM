@@ -339,4 +339,19 @@ class Label {
         }
     }
 
+    public function taskStatus($status) {
+        switch ($status) {
+            case '0':
+                return '<span class="am-badge  am-radius">未进行</span>';
+            case '1':
+                return '<span class="am-badge am-badge-primary am-radius">进行中</span>';
+            case '2':
+                return '<span class="am-badge am-badge-secondary am-radius">审核</span>';
+            case '3':
+                return '<span class="am-badge am-badge-danger am-radius">调整</span>';
+            case '4':
+                return '<span class="am-badge am-badge-success am-radius">完成</span>';
+        }
+    }
+
 }
