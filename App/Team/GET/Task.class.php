@@ -65,13 +65,19 @@ class Task extends Content {
          * 合并任务所有关于用户的ID
          * task_user_id 不一定存在记录(部门审核)。因此，为空则设置为-1，避免空用户可以查看(尽管不可能有未登录的用户)
          */
-        $eligible = array_unique(array_merge_recursive(array($content['task_create_id'], empty($content['task_user_id']) ? '-1' : $content['task_user_id']), explode(',', $content['check_user_id'])));
+        $checkers = explode(',', $content['check_user_id']);
+        $eligible = array_unique(array_merge_recursive(array($content['task_create_id'], empty($content['task_user_id']) ? '-1' : $content['task_user_id']), $checkers));
 
         //开启权限验证，验证发布人，审核人，执行人是否属于本任务
         if ($content['task_read_permission'] == '1' && !in_array($_SESSION['team']['user_id'], $eligible)) {
             $this->error('您没有权限查看本任务');
         }
-        
+
+        //列出所有用户，用于处理外部任务的指派
+        $userList = \Model\Content::listContent('user');
+        $this->assign('user', $userList);
+
+        $this->assign('checkers', $checkers);
         $this->assign('eligible', $eligible);
         $this->assign($content);
         $this->assign('title', $content['task_title']);

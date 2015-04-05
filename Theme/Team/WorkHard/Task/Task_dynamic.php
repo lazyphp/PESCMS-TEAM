@@ -1,4 +1,4 @@
-<?php if (in_array($_SESSION['team']['user_id'], $eligible)): ?>
+<?php if (in_array($_SESSION['team']['user_id'], $eligible) && !empty($dynamic)): ?>
     <div class="am-u-sm-12 am-u-sm-centered">
         <article class="am-comment">
             <a href="#link-to-user-home">

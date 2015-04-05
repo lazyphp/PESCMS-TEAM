@@ -41,11 +41,13 @@
         </div>
         <!--任务内容结束-->
 
-        <!--发起人/审核人操作-->
-        <!--发起人/审核人操作-->
+        <!--部门审核指派-->
+        <?php include 'Task/Task_accept.php'; ?>
+        <!--部门审核指派-->
 
-        <!--部门审核指派-->
-        <!--部门审核指派-->
+        <!--发起人/审核人操作-->
+        <?php include 'Task/Task_check.php'; ?>
+        <!--发起人/审核人操作-->
 
         <!--任务动态-->
         <?php include 'Task/Task_dynamic.php'; ?>
@@ -58,6 +60,21 @@
     </div>
 </div>
 <!-- content end -->
+<script>
+    $(function () {
+        var umcontent = UM.getEditor('content', {
+            toolbar: [
+                'source | undo redo | bold italic underline strikethrough | removeformat selectall cleardoc | image'
+            ],
+            textarea: 'content',
+            imageUrl: "/index.php/?g=Team&m=Upload&a=img",
+            initialFrameWidth: '100%'
+        })
+        umcontent.addListener("contentChange", function () {
+            window.parent.changeIframeHeight()
+        });
+    })
+</script>
 <link href="/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.min.js"></script>

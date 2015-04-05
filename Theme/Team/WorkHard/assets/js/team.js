@@ -39,7 +39,7 @@ $(function () {
                 existNoticLi = true;
             }
         })
-        
+
         if (existNoticLi == false) {
             $("#notice ul").remove();
         }
@@ -165,4 +165,16 @@ $(function () {
     });
 
 
+
+
 })
+
+/**
+ * 删除上传文件
+ * @param {type} id 需要删除的文件ID
+ */
+function removeUploadFile(id) {
+    if (confirm("确认要删除？")) {
+        $("#" + id).remove();
+    }
+}

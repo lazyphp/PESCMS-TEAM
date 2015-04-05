@@ -19,7 +19,9 @@
                     </a>
 
                     <div class="am-comment-bd">
+                        <!--编辑器的JS代码存放于Task_view.php-->
                         <script type="text/plain" id="content" style="height:240px;"></script>
+                        <!--编辑器的JS代码存放于Task_view.php-->
                         <div class="gradient-bg">
                             <button type="submit" class="am-btn am-btn-primary">发表日志</button><a class="am-btn am-btn-warning">提交审核</a>
                         </div>
@@ -30,21 +32,6 @@
         <?php endif; ?>
         <hr/>
     </div>
-    <script>
-        $(function () {
-            var umcontent = UM.getEditor('content', {
-                toolbar: [
-                    'source | undo redo | bold italic underline strikethrough | removeformat selectall cleardoc | image'
-                ],
-                textarea: 'content',
-                imageUrl: "/index.php/?g=Team&m=Upload&a=img",
-                initialFrameWidth: '100%'
-            })
-            umcontent.addListener("contentChange", function () {
-                window.parent.changeIframeHeight()
-            });
-        })
-    </script>
     <style>
         .edui-container{
             border:none !important;
