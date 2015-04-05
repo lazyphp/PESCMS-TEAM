@@ -77,7 +77,6 @@ class Task extends Content {
         $userList = \Model\Content::listContent('user');
         $this->assign('user', $userList);
 
-        $this->assign('checkers', $checkers);
         $this->assign('eligible', $eligible);
         $this->assign($content);
         $this->assign('title', $content['task_title']);

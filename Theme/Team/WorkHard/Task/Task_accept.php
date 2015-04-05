@@ -1,5 +1,4 @@
-<?php if ($_SESSION['team']['user_department_id'] == $task_department_id && in_array($_SESSION['team']['user_id'], $checkers) && $task_accept_id == '0' && empty($task_user_id)): //只要当前用户的部门属性和任务指派部门一致，且在于审核人列表，那么他必定是部门的负责人!
-    ?>
+<?php if ($_SESSION['team']['user_department_id'] == $task_department_id && in_array($_SESSION['team']['user_id'], explode(',', $label->findDepartment('department', 'department_id', $task_department_id)['department_header'])) && $task_accept_id == '0' && empty($task_user_id)): ?>
     <div class="am-u-sm-12 am-u-sm-centered">
         <form action="" class="am-form am-form-inline">
             <div class="am-form-group am-u-md-3">

@@ -21,7 +21,7 @@
                     <a href=""><?= $label->findUser('user', 'user_id', $task_create_id)['user_name']; ?></a>
                     <span>指派给</span>
                     <?php if (empty($task_user_id)): ?>
-                        <?= $label->findepartment('department', 'department_id', $task_department_id)['department_name']; ?> 待审核
+                        <?= $label->findDepartment('department', 'department_id', $task_department_id)['department_name']; ?> 待审核
                     <?php else: ?>
                         <img src="<?= $label->findUser('user', 'user_id', $task_user_id)['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;float: none"/>
                         <a href=""><?= $label->findUser('user', 'user_id', $task_user_id)['user_name']; ?></a>

@@ -31,7 +31,7 @@ class Label {
             case 'findproject':
             case 'finduser':
             case 'findgroup':
-            case 'findepartment':
+            case 'finddepartment':
                 return $this->findContent($arguments['0'], $arguments['1'], $arguments['2']);
             default :
                 return '不存在此方法';
