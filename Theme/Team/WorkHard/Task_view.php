@@ -50,7 +50,7 @@
         <!--发起人/审核人操作-->
 
         <!--任务动态-->
-        <?php include 'Task/Task_dynamic.php'; ?>
+        <?php include 'Task/Task_diary.php'; ?>
         <!--任务动态-->
 
         <!--执行人操作-->
@@ -71,7 +71,13 @@
             initialFrameWidth: '100%'
         })
         umcontent.addListener("contentChange", function () {
-            window.parent.changeIframeHeight()
+            try {
+                if (typeof (eval('window.parent.changeIframeHeight()')) == "function") {
+                    window.parent.changeIframeHeight();
+                }
+            } catch (e) {
+            }
+
         });
     })
 </script>
