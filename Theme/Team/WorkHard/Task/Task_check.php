@@ -1,6 +1,8 @@
 <?php if (in_array($_SESSION['team']['user_id'], $checkers) && $task_status == '2'): ?>
     <div class="am-u-sm-12 am-u-sm-centered">
-        <form class="am-form" action="" method="post">
+        <form class="am-form" action="<?= $label->url('Team-Task-check'); ?>" method="post">
+            <input type="hidden" name="method" value="PUT" />
+            <input type="hidden" name="task_id" value="<?= $task_id ?>" />
             <div class="am-g am-margin-top">
                 <div class="am-u-sm-4 am-u-md-1 am-text-right">
                     任务状态

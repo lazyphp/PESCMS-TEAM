@@ -37,6 +37,26 @@
         <!--任务内容-->
         <div class="am-u-sm-12 am-u-sm-centered">
             <?= htmlspecialchars_decode($task_content); ?>
+
+            <?php if (!empty($task_file)): ?>
+                <?php foreach (explode(',', $task_file) as $key => $value) : ?>
+                    <p>任务附件:<a href="<?= $label->url('Team-SaveFile-index', array('id' => $task_id, 'model' => 'task', 'num' => $key, 'field' => 'file')); ?>">点击下载</a></p>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            <!--任务补充说明-->
+            <?php if (!empty($supplement)): ?>
+                <?php foreach ($supplement as $key => $value) : ?>
+                    <p>---------------任务调整补充(<?= date('Y-m-d', $value['task_supplement_time']); ?>)---------------</p>
+                    <?= empty($value['task_supplement_content']) ? '' : htmlspecialchars_decode($value['task_supplement_content']); ?>
+                    <?php if (!empty($value['task_supplement_file'])): ?>
+                        <?php foreach (explode(',', $value['task_supplement_file']) as $fk => $fv) : ?>
+                            <p>附件: <a href="<?= $label->url('Team-SaveFile-index', array('id' => $value['task_supplement_id'], 'model' => 'task_supplement', 'num' => $fk, 'field' => 'file')); ?>">点击下载</a></p>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <!--任务补充说明-->
             <hr/>
         </div>
         <!--任务内容结束-->
@@ -77,7 +97,7 @@
                 }
             } catch (e) {
             }
-
+            
         });
     })
 </script>

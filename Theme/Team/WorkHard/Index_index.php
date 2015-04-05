@@ -86,4 +86,13 @@
         var pageHeight = $("#iframe_default").contents().find("body").height();
         $("#iframe_default").height(pageHeight);
     }
+
+    //消息提示3秒则自动关闭
+    $(function () {
+        var autoCloseNotice = setTimeout("$('#notice').dropdown('close')", 3000);
+        $("#notice").on("click", function () {
+            clearTimeout(autoCloseNotice);
+        })
+    })
+
 </script>

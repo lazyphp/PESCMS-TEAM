@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-05 06:35:56
+-- Generation Time: 2015-04-05 14:22:50
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -66,11 +66,11 @@ INSERT INTO `pes_department` (`department_id`, `department_listsort`, `departmen
 
 CREATE TABLE IF NOT EXISTS `pes_dynamic` (
 `dynamic_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL COMMENT '人物',
+  `user_id` int(11) NOT NULL COMMENT '所属用户',
   `task_id` int(11) NOT NULL COMMENT '任务',
-  `dynamic_type` tinyint(4) NOT NULL COMMENT '类型',
+  `dynamic_type` tinyint(1) NOT NULL COMMENT '动态类型',
   `dynamic_time` int(11) NOT NULL COMMENT '时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户动态';
 
 -- --------------------------------------------------------
 
@@ -229,30 +229,28 @@ CREATE TABLE IF NOT EXISTS `pes_notice` (
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `notice_type` tinyint(1) NOT NULL COMMENT '通知类型 1:收到新任务 2.指派审核任务 3.待审核任务 4.待修改的任务 5.部门待审核指派任务 6.完成的任务',
   `notice_read` tinyint(1) NOT NULL COMMENT '是否已读：0 未读 1 已读'
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
 
 --
 -- 转存表中的数据 `pes_notice`
 --
 
 INSERT INTO `pes_notice` (`notice_id`, `user_id`, `task_id`, `notice_type`, `notice_read`) VALUES
-(1, 1, 1, 1, 1),
-(2, 2, 1, 2, 1),
-(3, 1, 2, 1, 1),
-(4, 2, 2, 2, 1),
-(5, 2, 2, 2, 1),
-(20, 3, 17, 5, 1),
-(21, 1, 17, 2, 1),
-(22, 3, 17, 2, 1),
-(23, 3, 18, 5, 1),
-(24, 1, 18, 2, 1),
-(25, 3, 18, 2, 1),
-(26, 4, 19, 5, 1),
-(27, 1, 19, 2, 1),
-(28, 4, 19, 2, 1),
-(29, 1, 20, 5, 1),
-(30, 4, 20, 2, 1),
-(31, 1, 20, 2, 1);
+(1, 4, 21, 3, 0),
+(2, 1, 21, 3, 0),
+(3, 1, 21, 4, 0),
+(4, 4, 21, 3, 0),
+(5, 1, 21, 3, 0),
+(6, 1, 21, 4, 0),
+(7, 4, 21, 3, 0),
+(8, 1, 21, 3, 0),
+(9, 1, 21, 4, 0),
+(10, 4, 21, 3, 0),
+(11, 1, 21, 3, 0),
+(12, 1, 21, 4, 0),
+(13, 4, 21, 3, 0),
+(14, 1, 21, 3, 0),
+(15, 1, 21, 6, 0);
 
 -- --------------------------------------------------------
 
@@ -333,26 +331,27 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_content` text NOT NULL,
   `task_file` text NOT NULL,
   `task_createtime` int(11) NOT NULL COMMENT '创建时间',
-  `task_completetime` varchar(255) NOT NULL COMMENT '完成时间',
-  `task_estimatetime` varchar(255) NOT NULL COMMENT '执行者估计时间',
-  `task_actiontime` varchar(255) NOT NULL COMMENT '执行时间',
+  `task_completetime` int(11) NOT NULL COMMENT '完成时间',
+  `task_estimatetime` int(11) NOT NULL COMMENT '执行者估计时间',
+  `task_actiontime` int(11) NOT NULL COMMENT '执行时间',
   `task_priority` tinytext NOT NULL COMMENT '1:严重 2:主要 3:次要 4:普通',
   `task_expecttime` int(11) NOT NULL COMMENT '发起者期望完成时间',
   `task_project` varchar(255) NOT NULL,
   `task_read_permission` tinyint(1) NOT NULL COMMENT '阅读权限'
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task`
 --
 
 INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, `task_url`, `task_accept_id`, `task_title`, `task_department_id`, `task_user_id`, `task_create_id`, `task_content`, `task_file`, `task_createtime`, `task_completetime`, `task_estimatetime`, `task_actiontime`, `task_priority`, `task_expecttime`, `task_project`, `task_read_permission`) VALUES
-(1, 0, 0, 0, '/Task/view/id/1.html', 1, '完善任务发布的细节', '1', '1', '2', '&lt;p&gt;完善任务发布的细节&lt;/p&gt;', '', 1427990400, '', '', '', '4', 1427990400, '2', 0),
-(2, 0, 1, 0, '/Task/view/id/2.html', 1, '完善任务系统查看页面', '1', '1', '2', '&lt;p&gt;123456&lt;/p&gt;', '', 1427990400, '', '', '', '2', 1428249600, '2', 1),
-(17, 0, 1, 0, '/Task/view/id/17.html', 0, '通知全体员工使用PESCMS TEAM', '2', '', '1', '&lt;p&gt;通知全体员工使用PESCMS TEAM&lt;/p&gt;', '', 1428076800, '', '', '', '1', 1428336000, '2', 0),
-(18, 0, 1, 0, '/Task/view/id/18.html', 0, '发布放假通知', '2', '', '5', '&lt;p&gt;发布放假通知&lt;/p&gt;', '', 1428076800, '', '', '', '2', 1428336000, '2', 0),
-(19, 0, 1, 0, '/Task/view/id/19.html', 0, '修复BUG', '3', '', '5', '&lt;p&gt;修复BUG&lt;/p&gt;', '', 1428076800, '', '', '', '3', 1428249600, '1', 0),
-(20, 0, 1, 0, '/Task/view/id/20.html', 0, '请修复主框架的高度BUG', '1', '', '4', '&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;40年后，微软已经是全球最大软件开发商，拥有逾12.5万名员工，总部园区面积达到800万平方英尺(约合74万平方米)，Windows在全球PC市场的份额接近90%。微软现在是全球第三大市值公司，仅落后于埃克森美孚和苹果。&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;本周六，微软将庆祝公司成立40周年。盖茨担任微软CEO长达25年时间，在2000年离职。他在周五向微软员工发送电邮，对公司未来发展提出建议：“让科技的力量惠及每一个人，让人们连接彼此，让个人计算无处不在。”&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;盖茨在电邮中重申了他在40年前为微软规划的愿景——软件将驱动世界。他要求微软不要忘记改变人们生活的使命。“什么最重要，我们下一步就做什么。”他说。&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;盖茨目前担任微软CEO萨蒂亚·纳德拉(Satya Nadella)的顾问，并兼任比尔与梅琳达·盖茨基金会联席主席，专注于慈善事业。过去21年，盖茨16年当选全球首富。不过盖茨承诺将其95%的财富捐献给慈善事业。目前为止，盖茨已经向他的基金会捐献了280亿美元。&lt;/p&gt;', '', 1428076800, '', '', '', '1', 1428336000, '2', 0);
+(1, 0, 0, 0, '/Task/view/id/1.html', 1, '完善任务发布的细节', '1', '1', '2', '&lt;p&gt;完善任务发布的细节&lt;/p&gt;', '', 1427990400, 0, 0, 0, '4', 1427990400, '2', 0),
+(2, 0, 0, 0, '/Task/view/id/2.html', 1, '完善任务系统查看页面', '1', '1', '2', '&lt;p&gt;123456&lt;/p&gt;', '', 1427990400, 0, 0, 0, '2', 1428249600, '2', 1),
+(17, 0, 1, 0, '/Task/view/id/17.html', 0, '通知全体员工使用PESCMS TEAM', '2', '1', '1', '&lt;p&gt;通知全体员工使用PESCMS TEAM&lt;/p&gt;', '', 1428076800, 0, 0, 0, '1', 1428336000, '2', 0),
+(18, 0, 1, 0, '/Task/view/id/18.html', 0, '发布放假通知', '2', '1', '5', '&lt;p&gt;发布放假通知&lt;/p&gt;', '', 1428076800, 0, 0, 0, '2', 1428336000, '2', 0),
+(19, 0, 1, 0, '/Task/view/id/19.html', 0, '修复BUG', '3', '1', '5', '&lt;p&gt;修复BUG&lt;/p&gt;', '', 1428076800, 0, 0, 0, '3', 1428249600, '1', 0),
+(20, 0, 1, 0, '/Task/view/id/20.html', 0, '请修复主框架的高度BUG', '1', '1', '4', '&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;40年后，微软已经是全球最大软件开发商，拥有逾12.5万名员工，总部园区面积达到800万平方英尺(约合74万平方米)，Windows在全球PC市场的份额接近90%。微软现在是全球第三大市值公司，仅落后于埃克森美孚和苹果。&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;本周六，微软将庆祝公司成立40周年。盖茨担任微软CEO长达25年时间，在2000年离职。他在周五向微软员工发送电邮，对公司未来发展提出建议：“让科技的力量惠及每一个人，让人们连接彼此，让个人计算无处不在。”&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;盖茨在电邮中重申了他在40年前为微软规划的愿景——软件将驱动世界。他要求微软不要忘记改变人们生活的使命。“什么最重要，我们下一步就做什么。”他说。&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;盖茨目前担任微软CEO萨蒂亚·纳德拉(Satya Nadella)的顾问，并兼任比尔与梅琳达·盖茨基金会联席主席，专注于慈善事业。过去21年，盖茨16年当选全球首富。不过盖茨承诺将其95%的财富捐献给慈善事业。目前为止，盖茨已经向他的基金会捐献了280亿美元。&lt;/p&gt;', '', 1428076800, 0, 0, 0, '1', 1428336000, '2', 0),
+(21, 0, 4, 0, '/Task/view/id/21.html', 0, '发给IT部的任务', '1', '1', '4', '&lt;p&gt;test&lt;/p&gt;', '/upload/20150405/552138f2464e5.docx,/upload/20150405/552138f4d5cd4.docx', 1428163200, 1428242829, 1428242670, 0, '4', 1420387200, '2', 0);
 
 -- --------------------------------------------------------
 
@@ -364,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_check` (
 `check_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `check_user_id` int(11) NOT NULL COMMENT '审核人ID'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task_check`
@@ -381,7 +380,54 @@ INSERT INTO `pes_task_check` (`check_id`, `task_id`, `check_user_id`) VALUES
 (8, 19, 5),
 (9, 19, 4),
 (10, 20, 4),
-(11, 20, 1);
+(11, 20, 1),
+(12, 21, 4),
+(13, 21, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `pes_task_diary`
+--
+
+CREATE TABLE IF NOT EXISTS `pes_task_diary` (
+`diary_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL COMMENT '任务ID',
+  `diary_content` text NOT NULL COMMENT '日志内容',
+  `diary_time` int(11) NOT NULL COMMENT '添加时间'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='任务日志';
+
+--
+-- 转存表中的数据 `pes_task_diary`
+--
+
+INSERT INTO `pes_task_diary` (`diary_id`, `task_id`, `diary_content`, `diary_time`) VALUES
+(1, 21, '&lt;p&gt;你的假期不足一天，请及时充值！&lt;/p&gt;', 1428228488),
+(2, 21, '&lt;p&gt;你的假期不足一天，请及时充值！&lt;/p&gt;', 1428228498),
+(3, 21, '&lt;p&gt;&lt;img src=&quot;/upload/20150405/5521279a52b29.jpg&quot; _src=&quot;/upload/20150405/5521279a52b29.jpg&quot;/&gt;&lt;/p&gt;', 1428236191),
+(4, 21, '&lt;p&gt;asdsad&lt;/p&gt;', 1428240447);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `pes_task_supplement`
+--
+
+CREATE TABLE IF NOT EXISTS `pes_task_supplement` (
+`task_supplement_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL COMMENT '任务ID',
+  `task_supplement_content` text NOT NULL COMMENT '补充说明',
+  `task_supplement_file` text NOT NULL COMMENT '补充附件',
+  `task_supplement_time` int(11) NOT NULL COMMENT '补充时间'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `pes_task_supplement`
+--
+
+INSERT INTO `pes_task_supplement` (`task_supplement_id`, `task_id`, `task_supplement_content`, `task_supplement_file`, `task_supplement_time`) VALUES
+(2, 21, '你没看文档吗？', '/upload/20150405/552138f2464e5.docx,/upload/20150405/552138f4d5cd4.docx', 1428240634),
+(3, 21, '&lt;p&gt;asdsadsadsad&lt;/p&gt;', '', 1428240648);
 
 -- --------------------------------------------------------
 
@@ -516,6 +562,18 @@ ALTER TABLE `pes_task_check`
  ADD PRIMARY KEY (`check_id`);
 
 --
+-- Indexes for table `pes_task_diary`
+--
+ALTER TABLE `pes_task_diary`
+ ADD UNIQUE KEY `diary_id` (`diary_id`);
+
+--
+-- Indexes for table `pes_task_supplement`
+--
+ALTER TABLE `pes_task_supplement`
+ ADD PRIMARY KEY (`task_supplement_id`);
+
+--
 -- Indexes for table `pes_user`
 --
 ALTER TABLE `pes_user`
@@ -570,7 +628,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `pes_notice`
 --
 ALTER TABLE `pes_notice`
-MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `pes_option`
 --
@@ -585,12 +643,22 @@ MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `pes_task`
 --
 ALTER TABLE `pes_task`
-MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `pes_task_check`
 --
 ALTER TABLE `pes_task_check`
-MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `pes_task_diary`
+--
+ALTER TABLE `pes_task_diary`
+MODIFY `diary_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `pes_task_supplement`
+--
+ALTER TABLE `pes_task_supplement`
+MODIFY `task_supplement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `pes_user`
 --

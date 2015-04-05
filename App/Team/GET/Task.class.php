@@ -77,6 +77,15 @@ class Task extends Content {
         $userList = \Model\Content::listContent('user');
         $this->assign('user', $userList);
 
+        //列出任务日志
+        $diary = \Model\Content::listContent('task_diary', array('task_id' => $task_id), 'task_id = :task_id', 'diary_id DESC');
+
+        //列出任务补调整充说明
+        $supplement = \Model\Content::listContent('task_supplement', array('task_id' => $task_id), 'task_id = :task_id', 'task_supplement_id asc');
+
+        $this->assign('supplement', $supplement);
+        $this->assign('diary', $diary);
+        $this->assign('checkers', $checkers);
         $this->assign('eligible', $eligible);
         $this->assign($content);
         $this->assign('title', $content['task_title']);

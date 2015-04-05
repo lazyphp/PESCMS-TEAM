@@ -329,13 +329,13 @@ class Label {
             case '2':
                 return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的指派审核任务</a></li>";
             case '3':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待待审核任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待审核任务</a></li>";
             case '4':
                 return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待修改任务</a></li>";
             case '5':
                 return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的部门审核指派任务</a></li>";
             case '6':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}8个新的完成任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的完成任务</a></li>";
         }
     }
 
