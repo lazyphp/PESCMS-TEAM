@@ -35,7 +35,13 @@ class Notice extends \Core\Model\Model {
 
     /**
      * 登记系统消息已阅读
-     * @param type $type
+     * @param type $type 通知类型 
+     * 1:收到新任务 
+     * 2.指派审核任务 
+     * 3.待审核任务 
+     * 4.待修改的任务 
+     * 5.部门待审核指派任务 
+     * 6.完成的任务
      */
     public static function readNotice($type) {
         return self::db('notice')->where('user_id = :user_id AND notice_type = :notice_type ')->update(array('noset' => array('user_id' => $_SESSION['team']['user_id'], 'notice_type' => $type), 'notice_read' => '1'));

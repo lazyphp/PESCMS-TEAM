@@ -41,7 +41,8 @@ $(function () {
         })
 
         if (existNoticLi == false) {
-            $("#notice ul").remove();
+            $("#notice").removeClass("am-active");
+            $("#notice ul, .msg-tips").addClass("am-hide");
         }
 
     })
@@ -176,5 +177,17 @@ $(function () {
 function removeUploadFile(id) {
     if (confirm("确认要删除？")) {
         $("#" + id).remove();
+    }
+}
+
+/**
+ * 触发父类窗口实时更新高度
+ */
+function changeParentWindowHegiht() {
+    try {
+        if (typeof (eval('window.parent.changeIframeHeight()')) == "function") {
+            window.parent.changeIframeHeight();
+        }
+    } catch (e) {
     }
 }

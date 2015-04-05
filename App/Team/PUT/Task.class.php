@@ -19,7 +19,7 @@ class Task extends \App\Team\Common {
     public function accept() {
         $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
         $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
-        if (empty($task)) {
+        if (empty($task) || $task['task_delete'] == '1') {
             $this->error('任务不存在');
         }
 
@@ -52,7 +52,7 @@ class Task extends \App\Team\Common {
     public function begin() {
         $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
         $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
-        if (empty($task) || $_SESSION['team']['user_id'] != $task['task_user_id']) {
+        if (empty($task) || $_SESSION['team']['user_id'] != $task['task_user_id'] || $task['task_delete'] == '1') {
             $this->error('任务不存在或者您不是本任务执行人');
         }
 
@@ -72,7 +72,8 @@ class Task extends \App\Team\Common {
     public function diary() {
         $data['task_id'] = $this->isP('task_id', '请选择任务');
         $task = \Model\Content::findContent('task', $data['task_id'], 'task_id');
-        if (empty($task) || $_SESSION['team']['user_id'] != $task['task_user_id']) {
+
+        if (empty($task) || $_SESSION['team']['user_id'] != $task['task_user_id'] || $task['task_delete'] == '1') {
             $this->error('任务不存在或者您不是本任务执行人');
         }
 
@@ -93,7 +94,7 @@ class Task extends \App\Team\Common {
         $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
         $task = $this->db('task AS t')->field("t.*, group_concat(tc.check_user_id) AS check_user_id ")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where('t.task_id = :task_id ')->group('t.task_id')->find(array('task_id' => $data['noset']['task_id']));
 
-        if (empty($task)) {
+        if (empty($task) || $task['task_delete'] == '1') {
             $this->error('任务不存在');
         }
 

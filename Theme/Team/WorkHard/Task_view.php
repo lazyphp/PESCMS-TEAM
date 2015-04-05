@@ -62,19 +62,19 @@
         <!--任务内容结束-->
 
         <!--部门审核指派-->
-        <?php include 'Task/Task_accept.php'; ?>
+        <?php include 'Task_view/Task_accept.php'; ?>
         <!--部门审核指派-->
 
         <!--发起人/审核人操作-->
-        <?php include 'Task/Task_check.php'; ?>
+        <?php include 'Task_view/Task_check.php'; ?>
         <!--发起人/审核人操作-->
 
         <!--任务动态-->
-        <?php include 'Task/Task_diary.php'; ?>
+        <?php include 'Task_view/Task_diary.php'; ?>
         <!--任务动态-->
 
         <!--执行人操作-->
-        <?php include 'Task/Task_user.php'; ?>
+        <?php include 'Task_view/Task_user.php'; ?>
         <!--执行人操作-->
 
     </div>
@@ -91,13 +91,7 @@
             initialFrameWidth: '100%'
         })
         umcontent.addListener("contentChange", function () {
-            try {
-                if (typeof (eval('window.parent.changeIframeHeight()')) == "function") {
-                    window.parent.changeIframeHeight();
-                }
-            } catch (e) {
-            }
-            
+            changeParentWindowHegiht();
         });
     })
 </script>

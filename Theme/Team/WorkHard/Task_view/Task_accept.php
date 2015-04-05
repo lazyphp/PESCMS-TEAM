@@ -15,5 +15,6 @@
             </div>
             <button type="submit" class="am-btn am-btn-primary">指派任务</button>
         </form>
+        <hr />
     </div>
 <?php endif; ?>

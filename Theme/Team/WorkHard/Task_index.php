@@ -5,23 +5,9 @@
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><?= $title; ?></strong> / <small>列表</small></div>
     </div>
 
-    <div class="am-g">
-        <div class="am-u-sm-12 am-u-md-6">
-            <div class="am-btn-toolbar">
-                <div class="am-btn-group am-btn-group-xs">
-                    <a href="<?= $label->url('Team-' . MODULE . '-action'); ?>" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</a>
-                </div>
-            </div>
-        </div>
-        <div class="am-u-sm-12 am-u-md-3">
-            <div class="am-input-group am-input-group-sm">
-                <input type="text" class="am-form-field">
-                <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default" type="button">搜索</button>
-                </span>
-            </div>
-        </div>
-    </div>
+    <!--列表工具栏-->
+    <?php include 'Task_index/Task_toolbar.php'; ?>
+    <!--列表工具栏-->
 
     <div class="am-g">
         <div class="am-u-sm-12">
@@ -31,7 +17,7 @@
                         <tr>
                             <td class="table-id">#<?= $value["task_id"]; ?></td>
                             <td class="table-title">
-                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['task_project'])) ?>">[<?= $label->findProject('project', 'project_id',$value['task_project'])['project_title']; ?>]</a>
+                                <a href="<?= $label->url('Team-Project-task', array('id' => $value['task_project'])) ?>">[<?= $label->findProject('project', 'project_id', $value['task_project'])['project_title']; ?>]</a>
                                 <a href="<?= $label->url('Team-Task-view', array('id' => $value['task_id'])) ?>" style="color:#333"><?= $value["task_title"]; ?></a>
                             </td>
                             <td class="table-id"><?= $label->taskPriority($value['task_priority']); ?></td>
@@ -40,8 +26,12 @@
                                 <img src="<?= $label->findUser('user', 'user_id', $value["task_create_id"])['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;"/>
                                 <a href="">&nbsp;<?= $label->findUser('user', 'user_id', $value["task_create_id"])['user_name']; ?></a>
                                 <span>指派给</span>
-                                <img src="<?= $_SESSION['team']['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;float: none"/>
-                                <a href=""><?= $_SESSION['team']['user_name']; ?></a>
+                                <?php if (empty($value['task_user_id'])): ?>
+                                    <?= $label->findDepartment('department', 'department_id', $value['task_department_id'])['department_name']; ?> 待审核
+                                <?php else: ?>
+                                    <img src="<?= $label->findUser('user', 'user_id', $value['task_user_id'])['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;float: none"/>
+                                    <a href=""><?= $label->findUser('user', 'user_id', $value['task_user_id'])['user_name']; ?></a>
+                                <?php endif; ?>
                             </td>
                             <td>
                                 创建于：<?= date('Y-m-d', $value['task_createtime']); ?>
@@ -52,8 +42,10 @@
 
                 </tbody>
             </table>
+            <ul class="am-pagination am-pagination-right am-text-sm">
+                <?= $page; ?>
+            </ul>
         </div>
-
     </div>
 </div>
 <!-- content end -->

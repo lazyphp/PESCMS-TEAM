@@ -51,27 +51,27 @@ class Page extends \Expand\PageCommon {
         $downRow = $this->nowPage + 1;
         $link = $this->urlModel('Team');
 
-        $url .=!empty($this->totalPages) ? '<span>总计<b>' . $this->totalRow . '</b>个记录</span>' : '';
+        $url .=!empty($this->totalPages) ? '<li><a>总计<b>' . $this->totalRow . '</b>个记录</a></li>' : '';
 
-        $url .=!empty($upRow) ? '<a href="' . $link . $this->urlLinkStr(array('page' => '1'), $this->linkStr, $this->suffix) . '">首页</a><a href="' . $link . $this->urlLinkStr(array('page' => $upRow), $this->linkStr, $this->suffix) . '">上一页</a> ' : '';
+        $url .=!empty($upRow) ? '<li><a href="' . $link . $this->urlLinkStr(array('page' => '1'), $this->linkStr, $this->suffix) . '">首页</a></li><li><a href="' . $link . $this->urlLinkStr(array('page' => $upRow), $this->linkStr, $this->suffix) . '">上一页</a></li> ' : '';
 
         $interval = ceil($this->rollPage / 2);
         for ($i = $this->nowPage - $interval; $i < $this->nowPage; $i++) {
             if ($i > 0) {
-                $url .= '<a href="' . $link . $this->urlLinkStr(array('page' => $i), $this->linkStr, $this->suffix) . '">[' . $i . ']</a>';
+                $url .= '<li><a href="' . $link . $this->urlLinkStr(array('page' => $i), $this->linkStr, $this->suffix) . '">' . $i . '</a></li>';
             }
         }
 
-        $url .= '<span class="page_now">' . $this->nowPage . '</span>';
+        $url .= '<li class="am-active"><a href="javascript:;">' . $this->nowPage . '</a></li>';
 
         for ($i = $this->nowPage + 1; $i < $this->nowPage + $interval + 1; $i++) {
             if ($i <= $this->totalPages) {
-                $url .= '<a href="' . $link . $this->urlLinkStr(array('page' => $i), $this->linkStr, $this->suffix) . '">[' . $i . ']</a>';
+                $url .= '<li><a href="' . $link . $this->urlLinkStr(array('page' => $i), $this->linkStr, $this->suffix) . '">' . $i . '</a></li>';
             }
         }
 
-        $url .=$downRow <= $this->totalPages ? '<a href="' . $link . $this->urlLinkStr(array('page' => $downRow), $this->linkStr, $this->suffix) . '" class="next">下一页</a>' : '';
-        $url .= $this->totalPages > 1 && $this->nowPage < $this->totalPages ? '<a href="' . $link . $this->urlLinkStr(array('page' => $this->totalPages), $this->linkStr, $this->suffix) . '" class="last">最后一页</a></url>' : '';
+        $url .=$downRow <= $this->totalPages ? '<li><a href="' . $link . $this->urlLinkStr(array('page' => $downRow), $this->linkStr, $this->suffix) . '" class="next">下一页</a></li>' : '';
+        $url .= $this->totalPages > 1 && $this->nowPage < $this->totalPages ? '<li><a href="' . $link . $this->urlLinkStr(array('page' => $this->totalPages), $this->linkStr, $this->suffix) . '" class="last">最后一页</a></li>' : '';
         return $url;
     }
 

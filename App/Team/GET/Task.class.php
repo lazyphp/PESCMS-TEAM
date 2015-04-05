@@ -38,20 +38,120 @@ class Task extends Content {
     }
 
     /**
+     * 全体任务列表
+     */
+    public function index() {
+        $condition = "task_delete = 0 ";
+        $param = array();
+        $type = $this->g('type');
+        if ($type >= '0') {
+            $condition .= " AND task_status = :task_status";
+            $param['task_status'] = $type;
+        }
+
+        //审核和完成的任务，按照ID倒序则可
+        if (in_array($type, array('2', '4'))) {
+            $order = "task_id DESC";
+        } else {
+            $order = "task_priority ASC, task_status ASC, task_id DESC";
+        }
+
+        $page = new \Expand\Team\Page;
+        $total = count(\Model\Content::listContent('task', $param, $condition));
+        $count = $page->total($total);
+        $page->handle();
+        $list = \Model\Content::listContent('task', $param, $condition, $order, "{$page->firstRow}, {$page->listRows}");
+        $show = $page->show();
+        $this->assign('page', $show);
+        $this->assign('list', $list);
+        $this->assign('title', '全体任务列表');
+        $this->layout('Task_index');
+    }
+
+    /**
      * 查看个人任务列表
      */
     public function my() {
-        \Model\Notice::readNotice('1');
+        $condition = "task_user_id = :task_user_id AND task_delete = 0 ";
+        $param = array('task_user_id' => $_SESSION['team']['user_id']);
+        $type = $this->g('type');
+        if ($type >= '0') {
+            $condition .= " AND task_status = :task_status";
+            $param['task_status'] = $type;
+        }
+
+        //设置系统消息已读
+        switch ($type) {
+            case '0':
+                \Model\Notice::readNotice('1');
+                break;
+            case '3':
+                \Model\Notice::readNotice('4');
+                break;
+            case '4':
+                \Model\Notice::readNotice('6');
+                break;
+        }
+
+        //审核和完成的任务，按照ID倒序则可
+        if (in_array($type, array('2', '4'))) {
+            $order = "task_id DESC";
+        } else {
+            $order = "task_priority ASC, task_status ASC, task_id DESC";
+        }
+
         $page = new \Expand\Team\Page;
-        $total = count(\Model\Content::listContent('task', array('task_user_id' => $_SESSION['team']['user_id']), 'task_user_id = :task_user_id'));
+        $total = count(\Model\Content::listContent('task', $param, $condition));
         $count = $page->total($total);
         $page->handle();
-        $list = \Model\Content::listContent('task', array('task_user_id' => $_SESSION['team']['user_id']), 'task_user_id = :task_user_id', 'task_id desc', "{$page->firstRow}, {$page->listRows}");
+        $list = \Model\Content::listContent('task', $param, $condition, $order, "{$page->firstRow}, {$page->listRows}");
         $show = $page->show();
         $this->assign('page', $show);
         $this->assign('list', $list);
         $this->assign('title', \Model\Menu::getTitleWithMenu());
-        $this->layout();
+        $this->layout('Task_index');
+    }
+
+    /**
+     * 待我审核/指派的任务
+     */
+    public function check() {
+        $condition = "t.task_delete = 0 AND tc.check_user_id = :check_user_id ";
+        $param = array('check_user_id' => $_SESSION['team']['user_id']);
+
+        $type = $this->g('type');
+        if ($type >= '0') {
+            $condition .= " AND t.task_status = :task_status";
+            $param['task_status'] = $type;
+            $order = "t.task_priority ASC, t.task_status ASC, t.task_id DESC";
+        }
+
+        //设置系统消息已读
+        switch ($type) {
+            case '0':
+                \Model\Notice::readNotice('2');
+                break;
+            case '2':
+                \Model\Notice::readNotice('3');
+                break;
+        }
+
+        if (!empty($_GET['user_type'])) {
+            $condition .= " AND t.task_user_id = ''";
+            \Model\Notice::readNotice('5');
+        }
+
+        $page = new \Expand\Team\Page;
+        $total = count($this->db('task AS t')->field("t.*")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where($condition)->order($order)->group('t.task_id')->select($param));
+        $count = $page->total($total);
+        $page->handle();
+        $list = $this->db('task AS t')->field("t.*")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where($condition)->order($order)->group('t.task_id')->limit("{$page->firstRow}, {$page->listRows}")->select($param);
+        $show = $page->show();
+
+        $this->assign('page', $show);
+        $this->assign('list', $list);
+        $this->assign('title', \Model\Menu::getTitleWithMenu());
+        $this->layout('Task_index');
     }
 
     /**
@@ -59,7 +159,10 @@ class Task extends Content {
      */
     public function view() {
         $task_id = $this->isG('id', '请选择您要查看的任务');
-        $content = $this->db('task AS t')->field("t.*, group_concat(tc.check_user_id) AS check_user_id ")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where('t.task_id = :task_id ')->group('t.task_id')->find(array('task_id' => $task_id));
+        $content = $this->db('task AS t')->field("t.*, group_concat(tc.check_user_id) AS check_user_id ")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where('t.task_id = :task_id AND task_delete = 0 ')->group('t.task_id')->find(array('task_id' => $task_id));
+        if (empty($content)) {
+            $this->error('任务不存在');
+        }
 
         /**
          * 合并任务所有关于用户的ID

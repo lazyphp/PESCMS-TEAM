@@ -161,6 +161,7 @@
                 } else {
                     $("#check-explain, #check-annex, #check-submit").addClass("am-hide");
                 }
+                changeParentWindowHegiht();
             })
 
         });

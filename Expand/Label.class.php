@@ -325,17 +325,17 @@ class Label {
     public function noticeType($type, $num) {
         switch ($type) {
             case '1':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my')}\">{$num}个新的任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my', array('type' => '0'))}\">{$num}个新的任务</a></li>";
             case '2':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的指派审核任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-check', array('type' => '0'))}\">{$num}个新的指派审核任务</a></li>";
             case '3':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待审核任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-check', array('type' => '2'))}\">{$num}个新的待审核任务</a></li>";
             case '4':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的待修改任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my', array('type' => '3'))}\">{$num}个新的待修改任务</a></li>";
             case '5':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的部门审核指派任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-check', array('user_type' => '1'))}\">{$num}个新的部门审核指派任务</a></li>";
             case '6':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('')}\">{$num}个新的完成任务</a></li>";
+                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my', array('type' => '4'))}\">{$num}个新的完成任务</a></li>";
         }
     }
 

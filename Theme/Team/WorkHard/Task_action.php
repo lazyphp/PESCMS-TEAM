@@ -285,12 +285,7 @@
             imageUrl: "/index.php/?g=Team&m=Upload&a=img"
         })
         umcontent.addListener("contentChange", function () {
-            try {
-                if (typeof (eval('window.parent.changeIframeHeight()')) == "function") {
-                    window.parent.changeIframeHeight();
-                }
-            } catch (e) {
-            }
+            changeParentWindowHegiht();
         });
     })
 </script>
