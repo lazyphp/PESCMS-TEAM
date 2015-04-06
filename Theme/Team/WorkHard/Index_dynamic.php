@@ -42,6 +42,13 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+            <?php if ($_SESSION['team']['user_group_id'] == '1'): ?>
+                <div class="am-alert am-alert-warning am-text-sm" data-am-alert>
+                    <button type="button" class="am-close">&times;</button>
+                    <p><i class="am-icon-warning am-padding-right-xs"></i>已经发布了新版，现在更新吗？<a href="<?= $label->url('Team-Setting-upgrade'); ?>" onclick="return confirm('更新前请自行备份程序，避免数据丢失，确认更新吗？')">马上更新</a> 注：只有管理员组才看到本消息</p>
+                </div>
+            <?php endif; ?>
+
             <!--快速发表报表-->
             <form action="<?= $label->url('Team-Report-action'); ?>" method="POST">
                 <article class="am-comment">

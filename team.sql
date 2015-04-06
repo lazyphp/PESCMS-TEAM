@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-06 13:04:32
+-- Generation Time: 2015-04-06 23:50:44
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_icon` varchar(128) NOT NULL,
   `menu_url` varchar(255) NOT NULL,
   `menu_listsort` tinyint(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -189,7 +189,8 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_u
 (42, '我的任务', 41, 'am-icon-tags', 'Team-Task-my', 99),
 (44, '退出系统', 41, 'am-icon-sign-out', 'Team-Index-logout', 0),
 (45, '待审核列表', 41, 'am-icon-check-square-o', 'Team-Task-check', 97),
-(46, '我的报表', 41, 'am-icon-pencil-square-o', 'Team-Report-my', 98);
+(46, '我的报表', 41, 'am-icon-pencil-square-o', 'Team-Report-my', 98),
+(47, '系统更新', 19, 'am-icon-refresh', 'Team-Setting-upgrade', 0);
 
 -- --------------------------------------------------------
 
@@ -307,7 +308,7 @@ INSERT INTO `pes_notice` (`notice_id`, `user_id`, `task_id`, `notice_type`, `not
 (52, 3, 23, 6, 0),
 (53, 3, 29, 1, 0),
 (54, 7, 29, 2, 1),
-(55, 1, 29, 2, 0);
+(55, 1, 29, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -328,19 +329,9 @@ CREATE TABLE IF NOT EXISTS `pes_option` (
 --
 
 INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES
-(1, 'siteurl', '网站链接', 'http://www.cms.com', 'setting'),
-(2, 'sitetitle', '网站名称', 'PESCMS', 'setting'),
-(3, 'subtitle', '副标题', '', 'setting'),
-(4, 'seo_keyword', '网站关键词', 'PESCMS', 'setting'),
-(5, 'seo_description', '网站描述', 'PESCMS', 'setting'),
-(6, 'logo', '网站logo', '/upload/20150327/5515786073efc.png', 'setting'),
 (7, 'theme', '主题', 'WorkHard', 'theme'),
 (8, 'fieldType', '表单类型', '{"category":"\\u5206\\u7c7b","text":"\\u5355\\u884c\\u8f93\\u5165\\u6846","radio":"\\u5355\\u9009\\u6309\\u94ae","checkbox":"\\u590d\\u9009\\u6846","select":"\\u5355\\u9009\\u4e0b\\u62c9\\u6846","textarea":"\\u591a\\u884c\\u8f93\\u5165\\u6846","editor":"\\u7f16\\u8f91\\u5668","thumb":"\\u7565\\u7f29\\u56fe","img":"\\u4e0a\\u4f20\\u56fe\\u7ec4","file":"\\u4e0a\\u4f20\\u6587\\u4ef6","date":"\\u65e5\\u671f"}', 'Miscellaneous'),
-(9, 'sitestatus', '网站状态', '1', 'setting'),
-(10, 'footerCode', '页脚代码', '', 'setting'),
-(11, 'closeReason', '关闭原因', 'PESCMS目前正在维护升级中...\r\n您可以访问OSCGIT获取最新的代码：http://git.oschina.net/fallBirds/PESCMS2.0', 'setting'),
-(12, 'system', '系统变量', '{"copyright":"\\u7248\\u6743\\u6240\\u6709\\u00a92013-2014 PESCMS\\u5f00\\u53d1\\u56e2\\u961f"}', 'system'),
-(13, 'version', '系统版本', 'PESCMS V1.20140226beta', ''),
+(13, 'version', '系统版本', '1.025', ''),
 (14, 'upload_img', '图片格式', '["jpg","jpge","bmp","gif","png"]', 'upload'),
 (15, 'upload_file', '文件格式', '["zip","rar","7z","doc","docx","pdf","xls","xlsx","ppt","pptx","txt","7z"]', 'upload'),
 (16, 'urlModel', 'URL格式', '{"index":"1","urlModel":"3","suffix":"1"}', 'url');
@@ -762,7 +753,7 @@ MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
 -- AUTO_INCREMENT for table `pes_menu`
 --
 ALTER TABLE `pes_menu`
-MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `pes_model`
 --

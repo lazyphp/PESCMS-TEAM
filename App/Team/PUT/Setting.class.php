@@ -36,23 +36,6 @@ class Setting extends \App\Team\Common {
     }
 
     /**
-     * 更新扩展变量
-     */
-    public function expandAction() {
-        $totalKey = count($_POST['key']);
-        if ($totalKey != count($_POST['value'])) {
-            $this->error($GLOBALS['_LANG']['SETTING']['SUBMIT_KEY_LENGTH_NO_SAME_VALUE']);
-        }
-        for ($i = 0; $i < $totalKey; $i++) {
-            $newArray[$_POST['key'][$i]] = $_POST['value'][$i];
-        }
-
-        $updateResult = \Model\Option::update('system', json_encode($newArray));
-        $this->determineSqlExecResult($updateResult, $GLOBALS['_LANG']['SETTING']['UPDATE_EXPAND_FAIL']);
-        $this->success($GLOBALS['_LANG']['SETTING']['UPDATE_EXPAND_SUCCESS'], $this->url('Team-Setting-expandAction'));
-    }
-
-    /**
      * 更新上传格式设置
      */
     public function uploadFormAction() {
@@ -82,16 +65,20 @@ class Setting extends \App\Team\Common {
     }
 
     /**
-     * 更新幻灯片类型
+     * 下载更新文件
      */
-    public function slideshowAction() {
-        $data['noset']['slideshow_type_id'] = $this->isP('id', $GLOBALS['_LANG']['SLIDESHOW']['LOSE_SLIDESHOW_TYPE_ID']);
-        $data['slideshow_type_name'] = $this->isP('slideshow_type_name', $GLOBALS['_LANG']['SLIDESHOW']['ENTER_SLIDESHOW_TYPE_TITLE']);
-        if (!\Model\SlideShow::findSlideshowType($data['noset']['slideshow_type_id'])) {
-            $this->error($GLOBALS['_LANG']['SLIDESHOW']['NOT_EXIST_TYPE_TITLE']);
-        }
-        $this->db('slideshow_type')->where('slideshow_type_id = :slideshow_type_id')->update($data);
-        $this->success($GLOBALS['_LANG']['SLIDESHOW']['UPDATE_SLIDESHOW_TYPE_SUCCESS'], $this->url('Team-Setting-slideshowList'));
+    public function downloadUpgradeFile() {
+        ob_implicit_flush(true);
+        echo '20';
+        flush();
+        sleep('1');
+        echo "50";
+        flush();
+        sleep('1');
+        echo "70";
+        flush();
+        sleep('1');
+        echo '100';
     }
 
 }
