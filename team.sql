@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-06 12:33:32
+-- Generation Time: 2015-04-06 13:04:32
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `pes_dynamic` (
   `task_id` int(11) NOT NULL COMMENT '任务',
   `dynamic_type` tinyint(1) NOT NULL COMMENT '动态类型:1 发起新的任务 2 执行了新任务 3 提交了任务 4.完成了任务',
   `dynamic_time` int(11) NOT NULL COMMENT '时间'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户动态';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='用户动态';
 
 --
 -- 转存表中的数据 `pes_dynamic`
@@ -85,7 +85,8 @@ INSERT INTO `pes_dynamic` (`dynamic_id`, `user_id`, `task_id`, `dynamic_type`, `
 (6, 1, 28, 4, 1428285284),
 (7, 3, 23, 2, 1428285356),
 (8, 3, 23, 3, 1428285358),
-(9, 3, 23, 4, 1428285363);
+(9, 3, 23, 4, 1428285363),
+(10, 7, 29, 1, 1428324912);
 
 -- --------------------------------------------------------
 
@@ -245,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `pes_notice` (
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `notice_type` tinyint(1) NOT NULL COMMENT '通知类型 1:收到新任务 2.指派审核任务 3.待审核任务 4.待修改的任务 5.部门待审核指派任务 6.完成的任务',
   `notice_read` tinyint(1) NOT NULL COMMENT '是否已读：0 未读 1 已读'
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
 
 --
 -- 转存表中的数据 `pes_notice`
@@ -303,7 +304,10 @@ INSERT INTO `pes_notice` (`notice_id`, `user_id`, `task_id`, `notice_type`, `not
 (49, 3, 23, 1, 0),
 (50, 4, 23, 3, 0),
 (51, 3, 23, 3, 0),
-(52, 3, 23, 6, 0);
+(52, 3, 23, 6, 0),
+(53, 3, 29, 1, 0),
+(54, 7, 29, 2, 1),
+(55, 1, 29, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -440,7 +444,7 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_project` varchar(255) NOT NULL,
   `task_read_permission` tinyint(1) NOT NULL COMMENT '阅读权限',
   `task_delete` tinyint(1) NOT NULL COMMENT '0:正常 1:任务被删除。被删除是由于用户被删除了'
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task`
@@ -460,7 +464,8 @@ INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, 
 (25, 0, 0, 0, '/Task/view/id/25.html', 1, '67657', '3', '4', '4', '&lt;p&gt;hhh&lt;/p&gt;', '', 1428163200, 0, 0, 0, '4', 1430323200, '2', 0, 0),
 (26, 0, 0, 0, '/Task/view/id/26.html', 0, '给IT部', '1', '', '4', '&lt;p&gt;dd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1429891200, '2', 0, 0),
 (27, 0, 0, 0, '/Task/view/id/27.html', 0, '测试任务动态', '2', '', '1', '&lt;p&gt;ddddd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1428336000, '2', 0, 0),
-(28, 0, 4, 0, '/Task/view/id/28.html', 1, '发给自己', '1', '1', '1', '&lt;p&gt;asdsad&lt;/p&gt;', '', 1428249600, 1428285284, 1428336000, 0, '4', 1428422400, '1', 0, 0);
+(28, 0, 4, 0, '/Task/view/id/28.html', 1, '发给自己', '1', '1', '1', '&lt;p&gt;asdsad&lt;/p&gt;', '', 1428249600, 1428285284, 1428336000, 0, '4', 1428422400, '1', 0, 0),
+(29, 0, 0, 0, '/Task/view/id/29.html', 1, 'sadasdsadasd', '2', '3', '7', '&lt;p&gt;asdsadasd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1428422400, '2', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -472,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_check` (
 `check_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `check_user_id` int(11) NOT NULL COMMENT '审核人ID'
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task_check`
@@ -504,7 +509,9 @@ INSERT INTO `pes_task_check` (`check_id`, `task_id`, `check_user_id`) VALUES
 (23, 19, 1),
 (24, 27, 1),
 (25, 27, 3),
-(26, 28, 1);
+(26, 28, 1),
+(27, 29, 7),
+(28, 29, 1);
 
 -- --------------------------------------------------------
 
@@ -575,7 +582,7 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
   `user_createtime` int(11) NOT NULL,
   `user_last_login` int(11) NOT NULL,
   `user_department_id` varchar(255) NOT NULL,
-  `user_head` varchar(255) NOT NULL COMMENT '用户头像'
+  `user_head` text NOT NULL COMMENT '用户头像'
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
@@ -745,7 +752,7 @@ MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `pes_dynamic`
 --
 ALTER TABLE `pes_dynamic`
-MODIFY `dynamic_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `dynamic_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `pes_field`
 --
@@ -770,7 +777,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `pes_notice`
 --
 ALTER TABLE `pes_notice`
-MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT for table `pes_option`
 --
@@ -795,12 +802,12 @@ MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `pes_task`
 --
 ALTER TABLE `pes_task`
-MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `pes_task_check`
 --
 ALTER TABLE `pes_task_check`
-MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `pes_task_diary`
 --
