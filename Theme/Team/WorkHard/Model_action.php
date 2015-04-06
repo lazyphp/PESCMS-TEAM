@@ -30,7 +30,7 @@
                             显示名称
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="display_name" value="<?= $GLOBALS['_LANG']['MENU_LIST'][$lang_key] ?>">
+                            <input type="text" class="am-input-sm" name="display_name" value="<?= $lang_key; ?>">
                         </div>
                         <div class="am-hide-sm-only am-u-md-6">*必填</div>
                     </div>

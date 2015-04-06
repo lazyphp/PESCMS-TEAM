@@ -90,10 +90,22 @@ class Task extends \App\Team\Common {
 
         $data['diary_content'] = $this->isP('content', '请填写任务日志');
         $data['diary_time'] = time();
+
+        $this->db()->transaction();
         $addResult = $this->db('task_diary')->insert($data);
         if (empty($addResult)) {
+            $this->db()->rollBack();
             $this->error('添加日志失败');
         }
+
+        //追加为报表
+
+        if (!\Model\Report::addReport($data['diary_content'], $task['task_id'])) {
+            $this->db()->rollBack();
+            $this->error('添加报表失败');
+        }
+
+        $this->db()->commit();
 
         $this->success('发表任务日志成功!', $this->url('Team-Task-view', array('id' => $data['task_id'])));
     }

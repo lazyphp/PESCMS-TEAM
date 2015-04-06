@@ -42,6 +42,26 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+            <!--快速发表报表-->
+            <form action="<?= $label->url('Team-Report-action'); ?>" method="POST">
+                <article class="am-comment">
+                    <a href="javascript:;" >
+                        <img src="<?= $label->findUser('user', 'user_id', $_SESSION['team']['user_id'])['user_head']; ?>" alt="" class="am-comment-avatar am-margin-top" width="48" height="48"/>
+                    </a>
+
+                    <div class="am-comment-bd">
+                        <script type="text/plain" id="content" style="height:100px;"></script>
+                        <div class="gradient-bg">
+                            <button type="submit" class="am-btn am-btn-primary" id="submit-diary">提交报表</button>
+                        </div>
+                    </div>
+                </article>
+            </form>
+            <!--快速发表报表-->
+            <p class="am-text-xs am-link-muted" style="margin-left: 5.3rem;">注：提交多次报表，系统将自动整合为当天的报表，请尽情提交吧。任务日志也会自动纳入当天报表的。</p>
+            <hr />
+
+            <!--用户动态-->
             <ul class="am-comments-list am-comments-list-flip">
                 <?php foreach ($list as $key => $value) : ?>
                     <li class="am-comment <?= $key % '2' != 0 ? 'am-comment-flip' : ''; ?> ">
@@ -59,10 +79,44 @@
                     </li>
                 <?php endforeach; ?>
             </ul>
+            <!--用户动态-->
             <ul class="am-pagination am-pagination-centered am-text-sm">
                 <?= $page; ?>
             </ul>
         </div>
     </div>
 </div>
+<style>
+    .edui-container{
+        border:none !important;
+        box-shadow:none !important;
+        border-top: 1px solid #d4d4d4 !important;
+        border-left: 1px solid #d4d4d4 !important;
+        border-right: 1px solid #d4d4d4 !important;
+        /*border-bottom: 0px solid #d4d4d4 !important;*/
+    }
+    .gradient-bg{
+        background-color: #f8f8f8;
+        border: 1px solid #d4d4d4;
+    }
+</style>
+<script>
+    $(function () {
+        var umcontent = UM.getEditor('content', {
+            toolbar: [
+                'source | undo redo | bold italic underline strikethrough | removeformat selectall cleardoc | image'
+            ],
+            textarea: 'content',
+            imageUrl: "/index.php/?g=Team&m=Upload&a=img",
+            initialFrameWidth: '100%'
+        })
+        umcontent.addListener("contentChange", function () {
+            changeParentWindowHegiht();
+        });
+    })
+</script>
+<link href="/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.min.js"></script>
+<script type="text/javascript" src="/Expand/Form/theme/umeditor/lang/zh-cn/zh-cn.js"></script>
 <!-- content end -->
