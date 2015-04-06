@@ -19,8 +19,16 @@ class Menu extends \Core\Model\Model {
     /**
      * 生成后台菜单
      */
-    public static function menu() {
-        $result = self::db('menu AS m')->field("m.*, IF(parent.top_id IS NULL, m.menu_id, parent.top_id) AS top_id, IF(parent.top_listsort IS NULL, '0', parent.top_listsort) AS top_listsort, IF(parent.top_name IS NULL, m.menu_name, top_name) AS top_name, menu_icon")->join("(SELECT `menu_id` AS top_id, `menu_name` AS top_name, `menu_pid` AS top_pid, `menu_listsort` AS top_listsort FROM `" . self::$prefix . "menu` where menu_pid = 0) AS parent ON parent.top_id = m.menu_pid")->order('top_listsort desc, m.menu_listsort desc, m.menu_id asc')->select();
+    public static function menu($groupId = '') {
+        $condition = "";
+        if (!empty($groupId) && $_SESSION['team']['user_id'] > '1') {
+            $group = \Model\Content::findContent('user_group', $groupId, 'user_group_id');
+            $condition .= "m.menu_id in ({$group['user_group_menu']})";
+        }
+
+
+        $result = self::db('menu AS m')->field("m.*, IF(parent.top_id IS NULL, m.menu_id, parent.top_id) AS top_id, IF(parent.top_listsort IS NULL, '0', parent.top_listsort) AS top_listsort, IF(parent.top_name IS NULL, m.menu_name, top_name) AS top_name, menu_icon")->join("(SELECT `menu_id` AS top_id, `menu_name` AS top_name, `menu_pid` AS top_pid, `menu_listsort` AS top_listsort FROM `" . self::$prefix . "menu` where menu_pid = 0) AS parent ON parent.top_id = m.menu_pid")->where($condition)->order('top_listsort desc, m.menu_listsort desc, m.menu_id asc')->select();
+
         foreach ($result as $key => $value) {
             if ($value['menu_pid'] == 0) {
                 $menu[$value['top_name']]['menu_id'] = $value['top_id'];
