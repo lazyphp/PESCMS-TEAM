@@ -21,29 +21,19 @@ class Index extends \App\Team\Common {
     }
 
     /**
-     * 获取系统信息
+     * 全体动态
      */
-    public function systemInfo() {
-        if (false != ($sendmail_path = ini_get('sendmail_path'))) {
-            $sysMail = 'Unix Sendmail ( Path: ' . $sendmail_path . ')';
-        } elseif (false != ($SMTP = ini_get('SMTP'))) {
-            $sysMail = 'SMTP ( Server: ' . $SMTP . ')';
-        } else {
-            $sysMail = 'Disabled';
-        }
-        $db = $this->db('option');
-        $version = $db->where('id = 13')->find();
-        $mysqlVersion = $db->query("select version() as version");
-        $sysinfo = array(
-            'wind_version' => $version['value'],
-            'php_version' => PHP_VERSION,
-            'server_software' => $_SERVER['SERVER_SOFTWARE'],
-            'mysql_version' => $mysqlVersion[0]['version'],
-            'max_upload' => ini_get('file_uploads') ? ini_get('upload_max_filesize') : 'Disabled',
-            'max_excute_time' => intval(ini_get('max_execution_time')) . ' seconds',
-            'sys_mail' => $sysMail);
+    public function dynamic() {
 
-        $this->assign('sysinfo', $sysinfo);
+        $page = new \Expand\Team\Page;
+        $page->listRows = "30";
+        $total = count($this->db('dynamic AS d')->field('d.dynamic_id')->join("{$this->prefix}task AS t ON t.task_id = d.task_id")->order('dynamic_id DESC')->group('d.dynamic_id')->select());
+        $count = $page->total($total);
+        $page->handle();
+        $list = $this->db('dynamic AS d')->join("{$this->prefix}task AS t ON t.task_id = d.task_id")->order('dynamic_id DESC')->group('d.dynamic_id')->limit("{$page->firstRow}, {$page->listRows}")->select();
+        $show = $page->show();
+        $this->assign('page', $show);
+        $this->assign('list', $list);
         $this->assign('title', \Model\Menu::getTitleWithMenu());
         $this->layout();
     }

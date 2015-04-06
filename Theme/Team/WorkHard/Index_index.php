@@ -1,6 +1,6 @@
 <header class="am-topbar admin-header am-header-fixed">
     <div class="am-topbar-brand">
-        <strong>PESCMS</strong> <small>任务系统</small>
+        <a href="/"><strong>PESCMS</strong> <small>任务系统</small></a>
     </div>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -54,7 +54,7 @@
 <div class="am-cf admin-main">
 
     <!-- content start -->
-    <iframe id="iframe_default" src="/Index/systemInfo.html" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="no"></iframe>
+    <iframe id="iframe_default" src="/Index/dynamic.html" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="no"></iframe>
     <!-- content end -->
 
 </div>

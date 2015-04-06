@@ -59,6 +59,12 @@ class Task extends \App\Team\Common {
             }
         }
 
+        $addDynamic = \Model\Dynamic::addDynamic($_SESSION['team']['user_id'], $addResult['mes'], '1');
+        if (empty($addDynamic)) {
+            $this->db()->rollBack();
+            $this->error('更新用户动态失败');
+        }
+
         $this->db()->commit();
 
         if (!empty($_POST['back_url'])) {

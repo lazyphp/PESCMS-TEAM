@@ -58,10 +58,21 @@ class Task extends \App\Team\Common {
 
         $data['task_estimatetime'] = strtotime($this->isP('task_estimatetime', '请选择任务预计时间'));
         $data['task_status'] = '1';
+        $this->db()->transaction();
+
         $result = $this->db('task')->where('task_id = :task_id')->update($data);
         if (empty($result)) {
+            $this->db()->rollBack();
             $this->error('设置任务开始失败');
         }
+
+        $addDynamic = \Model\Dynamic::addDynamic($_SESSION['team']['user_id'], $data['noset']['task_id'], '2');
+        if (empty($addDynamic)) {
+            $this->db()->rollBack();
+            $this->error('更新用户动态失败');
+        }
+
+        $this->db()->commit();
 
         $this->success('任务已开始，请在指定时间内完成!', $this->url('Team-Task-view', array('id' => $data['noset']['task_id'])));
     }
@@ -109,6 +120,7 @@ class Task extends \App\Team\Common {
                 }
                 $noticeUser = $checker;
                 $noticeType = '3';
+                $dynamicType = '3';
                 break;
             case '3':
             case '4':
@@ -117,7 +129,7 @@ class Task extends \App\Team\Common {
                 }
                 $noticeUser = array($task['task_user_id']);
                 $noticeType = $data['task_status'] == '3' ? '4' : '6';
-
+                $dynamicType = $data['task_status'] == '3' ? '' : '4';
                 break;
             default :
                 $this->error('未知的任务状态');
@@ -131,6 +143,7 @@ class Task extends \App\Team\Common {
             $this->error('提交任务失败');
         }
 
+        //状态为3需要判断是否有任务补充说明提交
         if ($data['task_status'] == 3) {
             $supplement['task_id'] = $data['noset']['task_id'];
             $supplement['task_supplement_content'] = $this->p('content');
@@ -145,11 +158,21 @@ class Task extends \App\Team\Common {
             }
         }
 
+        //生成系统消息
         foreach ($noticeUser as $value) {
             $sendNotice = \Model\Notice::addNotice($value, $data['noset']['task_id'], $noticeType);
             if (empty($sendNotice)) {
                 $this->db()->rollBack();
                 $this->error('生成系统消息出错!');
+            }
+        }
+
+        //生成个人动态
+        if (!empty($dynamicType)) {
+            $addDynamic = \Model\Dynamic::addDynamic($task['task_user_id'], $data['noset']['task_id'], $dynamicType);
+            if (empty($addDynamic)) {
+                $this->db()->rollBack();
+                $this->error('更新用户动态失败');
             }
         }
 

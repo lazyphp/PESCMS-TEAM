@@ -339,6 +339,11 @@ class Label {
         }
     }
 
+    /**
+     * 任务状态
+     * @param type $status 状态ID
+     * @return string 返回处理好的状态标签
+     */
     public function taskStatus($status) {
         switch ($status) {
             case '0':
@@ -351,6 +356,46 @@ class Label {
                 return '<span class="am-badge am-badge-danger am-radius">调整</span>';
             case '4':
                 return '<span class="am-badge am-badge-success am-radius">完成</span>';
+        }
+    }
+
+    /**
+     * 用户动态
+     * @param type $type 动态类型
+     * @return string 返回处理好的状态标签
+     */
+    public function dynamicType($type) {
+        switch ($type) {
+            case '1':
+                return '发布了《%s》任务';
+            case '2':
+                return '执行了《%s》任务';
+            case '3':
+                return '提交了《%s》任务';
+            case '4':
+                return '完成了《%s》任务';
+        }
+    }
+
+    /**
+     * 计算现在时间和提交时间的差值
+     */
+    public function timing($recordTime) {
+        $nowTime = time();
+        $difference = $nowTime - $recordTime;
+//        return $difference;
+        if ($difference < '60') {
+            return "{$difference}秒前";
+        } elseif ($difference >= '60' && $difference < '3600') {
+            return round($difference / 60, 0) . "分钟前";
+        } elseif ($difference >= '3600' && $difference < '86400') {
+            return round($difference / 3600, 0) . "小时前";
+        } elseif ($difference >= '86400' && $difference < '604800') {
+            return round($difference / 86400, 0) . "天前";
+        } elseif ($difference >= '604800' && $difference < '2419200') {
+            return round($difference / 604800, 0) . "周前";
+        } elseif ($difference >= '2419200') {
+            return date('Y-m-d', $recordTime);
         }
     }
 
