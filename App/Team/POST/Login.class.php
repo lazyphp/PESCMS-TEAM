@@ -45,11 +45,17 @@ class Login extends \App\Team\Common {
             $this->error('邮箱地址已存在');
         }
 
+        \Core\Func\CoreFunc::$defaultPath = false;
+        require PES_PATH . '/Expand/Identicon/autoload.php';
+        $identicon = new \Identicon\Identicon();
+        $imageDataUri = $identicon->getImageDataUri($data['user_mail']);
+
         $data['user_name'] = $this->isP('name', '请填写帐号');
         $data['user_status'] = '1';
         $data['user_createtime'] = time();
         $data['user_department_id'] = '2'; //人事部
         $data['user_group_id'] = '2'; //普通用户
+        $data['user_head'] = $imageDataUri;
 
         $addResult = $this->db('user')->insert($data);
         if (empty($addResult)) {
