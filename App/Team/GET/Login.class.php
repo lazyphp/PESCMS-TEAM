@@ -20,5 +20,12 @@ class Login extends \App\Team\Common {
         }
         $this->display();
     }
+    
+    /**
+     * 注册帐号
+     */
+    public function signup(){
+        $this->display();
+    }
 
 }

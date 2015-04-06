@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-06 02:46:41
+-- Generation Time: 2015-04-06 05:35:03
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -533,10 +533,10 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
 --
 
 INSERT INTO `pes_user` (`user_id`, `user_account`, `user_password`, `user_mail`, `user_name`, `user_group_id`, `user_status`, `user_createtime`, `user_last_login`, `user_department_id`, `user_head`) VALUES
-(1, 'admin', '75e1d83ba0f896dd29337a2539facb84', 'dev@pescms.com', '萝卜斯', 1, 1, 1388391307, 1388391307, '1', '/upload/head.jpg'),
-(2, 'zhangsan', 'fa251b0c0d49590b8799af684eae070e', 'dev@pescms.com', '张三', 2, 1, 1388391307, 1388391307, '1', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
-(3, 'lisi', '022a95b734c634792db29d670776526d', 'dev@pescms.com', '李四', 2, 1, 1388391307, 1388391307, '2', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
-(4, 'wangwu', 'bd77d503960a5824815fc7a8533a31dc', 'dev@pescms.com', '王五', 2, 1, 1388391307, 1388391307, '3', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
+(1, 'admin', '75e1d83ba0f896dd29337a2539facb84', 'dev4@pescms.com', '萝卜斯', 1, 1, 1388391307, 1388391307, '1', '/upload/head.jpg'),
+(2, 'zhangsan', 'fa251b0c0d49590b8799af684eae070e', 'dev3@pescms.com', '张三', 2, 1, 1388391307, 1388391307, '1', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
+(3, 'lisi', '022a95b734c634792db29d670776526d', 'dev2@pescms.com', '李四', 2, 1, 1388391307, 1388391307, '2', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
+(4, 'wangwu', 'bd77d503960a5824815fc7a8533a31dc', 'dev1@pescms.com', '王五', 2, 1, 1388391307, 1388391307, '3', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80'),
 (5, 'zhaoliu', 'f4s072asdfdsf7805', 'dev@pescms.com', '赵六', 2, 1, 1388391307, 1388391307, '3', 'http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80');
 
 -- --------------------------------------------------------
@@ -552,17 +552,18 @@ CREATE TABLE IF NOT EXISTS `pes_user_group` (
   `user_group_lang` tinyint(4) NOT NULL,
   `user_group_url` varchar(255) NOT NULL,
   `user_group_createtime` int(11) NOT NULL,
-  `user_group_name` varchar(255) NOT NULL
+  `user_group_name` varchar(255) NOT NULL,
+  `user_group_menu` text NOT NULL COMMENT '用户组菜单列表'
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_user_group`
 --
 
-INSERT INTO `pes_user_group` (`user_group_id`, `user_group_listsort`, `user_group_status`, `user_group_lang`, `user_group_url`, `user_group_createtime`, `user_group_name`) VALUES
-(1, 0, 1, 0, '/User_group/view/id/1.html', 1417273380, '管理员'),
-(2, 0, 1, 0, '/User_group/view/id/2.html', 1417273440, '普通会员'),
-(3, 0, 1, 0, '/User_group/view/id/3.html', 1417273440, '验证会员');
+INSERT INTO `pes_user_group` (`user_group_id`, `user_group_listsort`, `user_group_status`, `user_group_lang`, `user_group_url`, `user_group_createtime`, `user_group_name`, `user_group_menu`) VALUES
+(1, 0, 1, 0, '/User_group/view/id/1.html', 1417273380, '管理员', '1,4,8,11,9,10,13,38,15,16,17,18,40,19,20,41,42,43,45,39,44'),
+(2, 0, 1, 0, '/User_group/view/id/2.html', 1417273440, '普通会员', '41,42,43,45,39,44'),
+(3, 0, 1, 0, '/User_group/view/id/3.html', 1417273440, '验证会员', '41,44');
 
 --
 -- Indexes for dumped tables
@@ -656,7 +657,7 @@ ALTER TABLE `pes_task_supplement`
 -- Indexes for table `pes_user`
 --
 ALTER TABLE `pes_user`
- ADD PRIMARY KEY (`user_id`);
+ ADD PRIMARY KEY (`user_id`), ADD UNIQUE KEY `user_account` (`user_account`), ADD UNIQUE KEY `user_mail` (`user_mail`);
 
 --
 -- Indexes for table `pes_user_group`
