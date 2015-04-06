@@ -8,7 +8,7 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="renderer" content="webkit">
         <meta http-equiv="Cache-Control" content="no-siteapp" />
-        <link rel="alternate icon" type="image/png" href="/Theme/Team/WorkHard/assets/i/favicon.png">
+        <link rel="icon" type="image/png" href="/favicon.ico">
         <link rel="stylesheet" href="/Theme/Team/WorkHard/assets/css/amazeui.min.css"/>
         <style>
             .header {
@@ -27,7 +27,7 @@
     <body>
         <div class="header">
             <div class="am-g">
-                <h1>帐号注册</h1>
+                <h1>注册帐号</h1>
                 <p>我不入地狱，谁入地狱<br />Nothing Ventured, Nothing Gained, Who the hell</p>
             </div>
             <hr />

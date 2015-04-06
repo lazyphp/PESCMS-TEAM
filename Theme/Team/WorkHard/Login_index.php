@@ -2,13 +2,13 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Login Page | Amaze UI Example</title>
+        <title>登录系统 - PESCMS TEAM</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="format-detection" content="telephone=no">
         <meta name="renderer" content="webkit">
         <meta http-equiv="Cache-Control" content="no-siteapp" />
-        <link rel="alternate icon" type="image/png" href="/Theme/Team/WorkHard/assets/i/favicon.png">
+        <link rel="icon" type="image/png" href="/favicon.ico">
         <link rel="stylesheet" href="/Theme/Team/WorkHard/assets/css/amazeui.min.css"/>
         <style>
             .header {

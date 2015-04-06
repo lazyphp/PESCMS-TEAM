@@ -63,7 +63,7 @@
 
 <footer>
     <hr>
-    <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    <p class="am-padding-left">© 2014 - <?= date('Y'); ?> PESCMS为本程序强力驱动</p>
 </footer>
 <style>
     .msg-tips{
