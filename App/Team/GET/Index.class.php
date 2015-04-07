@@ -34,8 +34,40 @@ class Index extends \App\Team\Common {
         $show = $page->show();
         $this->assign('page', $show);
         $this->assign('list', $list);
+
+        //获取更新信息
+        $updateTips = $this->db('update_list')->where('update_list_read = 0')->order('update_list_type DESC')->find();
+        $this->assign('updateTips', $updateTips);
+
         $this->assign('title', \Model\Menu::getTitleWithMenu());
+
+        $this->getUpdate();
         $this->layout();
+    }
+
+    /**
+     * 自动获取更新
+     */
+    private function getUpdate() {
+        $version = \Model\Option::findOption('version')['value'];
+        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+        if (empty($findUpdate)) {
+            if (!function_exists('curl_init')) {
+                $this->assign('noCurl', '1');
+                return false;
+            }
+            $url = "http://www.cms.com/Update/index/version/{$version}/program/2";
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $tmpInfo = curl_exec($curl);
+            curl_close($curl);
+            if (json_decode($tmpInfo, true)['status'] == '200') {
+                $this->db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => json_decode($tmpInfo, true)['info']['version'], 'update_list_createtime' => json_decode($tmpInfo, true)['info']['createtime'], 'update_list_type' => json_decode($tmpInfo, true)['info']['type']));
+            }
+        }
     }
 
     /**

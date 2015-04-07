@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-06 23:50:44
+-- Generation Time: 2015-04-07 16:03:20
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `pes_field` (
   `field_message` varchar(128) NOT NULL,
   `field_listsort` int(11) NOT NULL,
   `field_status` tinyint(4) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_field`
@@ -147,7 +147,8 @@ INSERT INTO `pes_field` (`field_id`, `model_id`, `field_name`, `display_name`, `
 (35, 9, 'priority', '优先级', 'text', '', '', 1, '', 8, 1),
 (36, 9, 'expecttime', '期望完成时间', 'date', '', '', 1, '', 101, 1),
 (37, 9, 'project', '任务项目', 'text', '', '', 1, '', 3, 1),
-(38, 9, 'read_permission', '阅读权限', 'text', '', '', 0, '', 9, 1);
+(38, 9, 'read_permission', '阅读权限', 'text', '', '', 0, '', 9, 1),
+(44, 12, 'read', '是否阅读', 'text', '', '', 0, '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -205,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `pes_model` (
   `status` tinyint(4) NOT NULL,
   `is_search` tinyint(11) NOT NULL COMMENT '允许搜索',
   `model_attr` tinyint(1) NOT NULL COMMENT '模型属性 1:前台(含前台) 2:后台'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_model`
@@ -216,7 +217,8 @@ INSERT INTO `pes_model` (`model_id`, `model_name`, `lang_key`, `status`, `is_sea
 (7, 'User', '会员列表', 1, 0, 2),
 (8, 'Project', '项目列表', 1, 1, 2),
 (9, 'Task', '任务列表', 1, 1, 1),
-(10, 'Department', '部门列表', 1, 1, 2);
+(10, 'Department', '部门列表', 1, 1, 2),
+(12, 'update_list', '更新提示列表', 0, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -559,6 +561,29 @@ INSERT INTO `pes_task_supplement` (`task_supplement_id`, `task_id`, `task_supple
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `pes_update_list`
+--
+
+CREATE TABLE IF NOT EXISTS `pes_update_list` (
+`update_list_id` int(11) NOT NULL,
+  `update_list_url` varchar(255) NOT NULL,
+  `update_list_pre_version` varchar(255) NOT NULL COMMENT '早期版本',
+  `update_list_version` varchar(255) NOT NULL COMMENT '当前最新版本号',
+  `update_list_read` tinyint(1) NOT NULL COMMENT '0:未阅读 1:已阅读',
+  `update_list_type` tinyint(1) NOT NULL COMMENT '更新类型 0:正常 1:严重',
+  `update_list_createtime` int(11) NOT NULL COMMENT '更新发布时间'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='获取更新信息列表';
+
+--
+-- 转存表中的数据 `pes_update_list`
+--
+
+INSERT INTO `pes_update_list` (`update_list_id`, `update_list_url`, `update_list_pre_version`, `update_list_version`, `update_list_read`, `update_list_type`, `update_list_createtime`) VALUES
+(1, '/Update_list/view/id/1.html', '1.025', '1.030', 1, 1, 1428417480);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `pes_user`
 --
 
@@ -714,6 +739,12 @@ ALTER TABLE `pes_task_supplement`
  ADD PRIMARY KEY (`task_supplement_id`);
 
 --
+-- Indexes for table `pes_update_list`
+--
+ALTER TABLE `pes_update_list`
+ ADD PRIMARY KEY (`update_list_id`);
+
+--
 -- Indexes for table `pes_user`
 --
 ALTER TABLE `pes_user`
@@ -748,7 +779,7 @@ MODIFY `dynamic_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT for table `pes_field`
 --
 ALTER TABLE `pes_field`
-MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
+MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `pes_menu`
 --
@@ -758,7 +789,7 @@ MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 -- AUTO_INCREMENT for table `pes_model`
 --
 ALTER TABLE `pes_model`
-MODIFY `model_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `model_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `pes_node`
 --
@@ -809,6 +840,11 @@ MODIFY `diary_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 ALTER TABLE `pes_task_supplement`
 MODIFY `task_supplement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `pes_update_list`
+--
+ALTER TABLE `pes_update_list`
+MODIFY `update_list_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `pes_user`
 --

@@ -42,10 +42,16 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
-            <?php if ($_SESSION['team']['user_group_id'] == '1'): ?>
+            <?php if ($_SESSION['team']['user_group_id'] == '1' && !empty($noCurl)): ?>
+                <div class="am-alert am-alert-success am-text-sm" data-am-alert>
+                    <p>服务器没有启动CURL扩展，程序无法自动更新！注：只有管理员组才看到本消息</p>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($_SESSION['team']['user_group_id'] == '1' && !empty($updateTips)): ?>
                 <div class="am-alert am-alert-warning am-text-sm" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p><i class="am-icon-warning am-padding-right-xs"></i>已经发布了新版，现在更新吗？<a href="<?= $label->url('Team-Setting-upgrade'); ?>" onclick="return confirm('更新前请自行备份程序，避免数据丢失，确认更新吗？')">马上更新</a> 注：只有管理员组才看到本消息</p>
+                    <button type="button" class="am-close" id="close-update-tips" data="<?= $updateTips['update_list_id']; ?>">&times;</button>
+                    <p><i class="am-icon-warning am-padding-right-xs"></i><?= $updateTips['update_list_type'] == '1' ? '【严重】当前版本存在严重漏洞！' : '' ?>已经发布了<?= $updateTips['update_list_version'] ?>新版，现在更新吗？<a href="<?= $label->url('Team-Setting-upgrade'); ?>" onclick="return confirm('更新前请自行备份程序，避免数据丢失，确认更新吗？')">马上更新</a> 注：只有管理员组才看到本消息</p>
                 </div>
             <?php endif; ?>
 
@@ -116,6 +122,15 @@
             textarea: 'content',
             imageUrl: "/index.php/?g=Team&m=Upload&a=img",
             initialFrameWidth: '100%'
+        })
+
+        $("#close-update-tips").on("click", function () {
+            var update_id = $(this).attr("data");
+            $.ajax({
+                url: '/?g=Team&m=Update_list&a=action',
+                data: {method: 'PUT', 'id': update_id, read: '1'},
+                type: 'POST'
+            })
         })
 
     })
