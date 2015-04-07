@@ -68,17 +68,7 @@ class Setting extends \App\Team\Common {
      * 下载更新文件
      */
     public function downloadUpgradeFile() {
-        ob_implicit_flush(true);
-        echo '20';
-        flush();
-        sleep('1');
-        echo "50";
-        flush();
-        sleep('1');
-        echo "70";
-        flush();
-        sleep('1');
-        echo '100';
+        echo '1';
     }
 
 }
