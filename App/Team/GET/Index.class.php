@@ -17,7 +17,7 @@ class Index extends \App\Team\Common {
         $notice = $this->db('notice')->field('notice_type, count(notice_type) AS total_notice')->where('notice_read = 0 AND user_id = :user_id')->group('user_id, notice_type')->select(array('user_id' => $_SESSION['team']['user_id']));
         $this->assign('notice', $notice);
         $this->assign('menu', \Model\Menu::menu($_SESSION['team']['user_group_id']));
-        $this->layout();
+        $this->display();
     }
 
     /**

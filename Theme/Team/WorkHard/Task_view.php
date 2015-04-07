@@ -90,9 +90,6 @@
             imageUrl: "/index.php/?g=Team&m=Upload&a=img",
             initialFrameWidth: '100%'
         })
-        umcontent.addListener("contentChange", function () {
-            changeParentWindowHegiht();
-        });
     })
 </script>
 <link href="/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">

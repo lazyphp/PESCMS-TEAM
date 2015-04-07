@@ -5,7 +5,13 @@
         <script src="/Theme/Team/WorkHard/assets/js/polyfill/respond.min.js"></script>
         <script src="/Theme/Team/WorkHard/assets/js/amazeui.legacy.js"></script>
         <![endif]-->
+    <?php if(MODULE != 'Index' && ACTION != 'index'): ?>
+        <a class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
 
-
+        <footer>
+            <hr>
+            <p class="am-padding-left">© 2014 - <?= date('Y'); ?> PESCMS为本程序强力驱动</p>
+        </footer>
+    <?php endif; ?>
     </body>
 </html>

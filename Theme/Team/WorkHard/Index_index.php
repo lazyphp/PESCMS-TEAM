@@ -1,3 +1,4 @@
+<?php $this->header(); ?>
 <header class="am-topbar admin-header am-header-fixed">
     <div class="am-topbar-brand">
         <a href="/"><strong>PESCMS</strong> <small>任务系统</small></a>
@@ -51,20 +52,21 @@
     </div>
 </header>
 
-<div class="am-cf admin-main">
+<div class="am-cf">
 
     <!-- content start -->
-    <iframe id="iframe_default" src="/Index/dynamic.html" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="no"></iframe>
+    <iframe id="iframe_default" src="/Index/dynamic.html" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="auto"></iframe>
     <!-- content end -->
 
 </div>
-
 <a class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
 
 <footer>
     <hr>
     <p class="am-padding-left">© 2014 - <?= date('Y'); ?> PESCMS为本程序强力驱动</p>
 </footer>
+
+
 <style>
     .msg-tips{
         display: block;
@@ -78,17 +80,15 @@
     }
 </style>
 <script>
-    $("#iframe_default").load(function () {
-        var pageHeight = $(this).contents().find("body").height();
-        $(this).height(pageHeight);
-    })
-    function changeIframeHeight() {
-        var pageHeight = $("#iframe_default").contents().find("body").height();
-        $("#iframe_default").height(pageHeight);
-    }
+    $("#iframe_default").height($(window).height() - 59);
+
+    $(window).resize(function () {
+        $("#iframe_default").height($(window).height() - 59);
+    });
 
     //消息提示3秒则自动关闭
     $(function () {
+        $("body").addClass("am-nbfc")
         var autoCloseNotice = setTimeout("$('#notice').dropdown('close')", 3000);
         $("#notice").on("click", function () {
             clearTimeout(autoCloseNotice);
@@ -96,3 +96,4 @@
     })
 
 </script>
+<?php $this->footer(); ?>

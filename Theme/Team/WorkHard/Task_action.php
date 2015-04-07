@@ -284,9 +284,6 @@
             textarea: 'content',
             imageUrl: "/index.php/?g=Team&m=Upload&a=img"
         })
-        umcontent.addListener("contentChange", function () {
-            changeParentWindowHegiht();
-        });
     })
 </script>
 <link href="/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">

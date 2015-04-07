@@ -179,15 +179,3 @@ function removeUploadFile(id) {
         $("#" + id).remove();
     }
 }
-
-/**
- * 触发父类窗口实时更新高度
- */
-function changeParentWindowHegiht() {
-    try {
-        if (typeof (eval('window.parent.changeIframeHeight()')) == "function") {
-            window.parent.changeIframeHeight();
-        }
-    } catch (e) {
-    }
-}
