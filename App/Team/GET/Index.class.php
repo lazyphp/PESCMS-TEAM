@@ -52,20 +52,14 @@ class Index extends \App\Team\Common {
         $version = \Model\Option::findOption('version')['value'];
         $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
         if (empty($findUpdate)) {
-            if (!function_exists('curl_init')) {
+            $update = \Model\Extra::getUpdate($version);
+            if ($update['status'] == '-1') {
                 $this->assign('noCurl', '1');
                 return false;
             }
-            $url = "http://www.cms.com/Update/index/version/{$version}/program/2";
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-            curl_setopt($curl, CURLOPT_HEADER, 0);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $tmpInfo = curl_exec($curl);
-            curl_close($curl);
-            if (json_decode($tmpInfo, true)['status'] == '200') {
-                $this->db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => json_decode($tmpInfo, true)['info']['version'], 'update_list_createtime' => json_decode($tmpInfo, true)['info']['createtime'], 'update_list_type' => json_decode($tmpInfo, true)['info']['type']));
+
+            if ($update['status'] == '200') {
+                $this->db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => $update['info']['version'], 'update_list_createtime' => $update['info']['createtime'], 'update_list_type' => $update['info']['type'], 'update_list_content' => $update['info']['content']));
             }
         }
     }

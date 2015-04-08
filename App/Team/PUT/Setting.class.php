@@ -68,7 +68,59 @@ class Setting extends \App\Team\Common {
      * 下载更新文件
      */
     public function downloadUpgradeFile() {
-        echo '1';
+        $version = \Model\Option::findOption('version')['value'];
+        $update = \Model\Extra::getUpdate($version);
+        if ($update['status'] == '-1') {
+            $this->error($update['mes']);
+        }
+        //下载更新文件
+        if (!empty($update['info']['file'])) {
+            $this->getFile($update['info']['file']);
+        }
+        //下载更新SQL文件
+        if (!empty($update['info']['sql'])) {
+            $this->getFile($update['info']['sql']);
+        }
+        
+        $this->success('下载成功');
+    }
+
+    private function getFile($url) {
+        $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH');
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath);
+        }
+
+        $downLoadpath = "{$uploadPath}/update";
+        if (!is_dir($downLoadpath)) {
+            mkdir($downLoadpath);
+        }
+
+        $fileInfo = pathinfo($url);
+
+        $newfname = "{$downLoadpath}/{$fileInfo['basename']}";
+        //防止多次下载，引起主站负担过重.
+        if (is_file($newfname)) {
+            return true;
+        }
+
+        $file = fopen($url, "rb");
+
+        if ($file) {
+            $newf = fopen($newfname, "wb");
+            if ($newf)
+                while (!feof($file)) {
+                    fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
+                }
+        } else {
+            $this->error('文件下载失败');
+        }
+        if ($file) {
+            fclose($file);
+        }
+        if ($newf) {
+            fclose($newf);
+        }
     }
 
 }

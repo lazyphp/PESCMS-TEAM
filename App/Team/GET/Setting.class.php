@@ -52,6 +52,9 @@ class Setting extends \App\Team\Common {
      * 更新系统
      */
     public function upgrade() {
+        $version = \Model\Option::findOption('version')['value'];
+        $content = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+        $this->assign($content);
         $this->assign('title', \Model\Menu::getTitleWithMenu());
         $this->layout();
     }
