@@ -26,7 +26,7 @@ class Extra extends \Core\Model\Model {
         if (!function_exists('curl_init')) {
             return array('status' => '-1', 'mes' => '系统没有启动CURL扩展');
         }
-        $url = "http://www.cms.com/Update/index/version/{$version}/program/2";
+        $url = "https://www.pescms.com/Update/index/version/{$version}/program/2";
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
@@ -38,7 +38,10 @@ class Extra extends \Core\Model\Model {
         curl_close($curl);
         $update = json_decode($tmpInfo, true);
         if ($update['status'] == '200') {
-            self::db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => $update['info']['version'], 'update_list_createtime' => $update['info']['createtime'], 'update_list_type' => $update['info']['type'], 'update_list_content' => $update['info']['content'], 'update_list_file' => $update['info']['file'], 'update_list_sql' => $update['info']['sql']));
+            $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+            if (empty($findUpdate)) {
+                self::db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => $update['info']['version'], 'update_list_createtime' => $update['info']['createtime'], 'update_list_type' => $update['info']['type'], 'update_list_content' => $update['info']['content'], 'update_list_file' => $update['info']['file'], 'update_list_sql' => $update['info']['sql']));
+            }
         }
         return $update;
     }

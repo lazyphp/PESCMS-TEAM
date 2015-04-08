@@ -85,19 +85,14 @@ class Setting extends \App\Team\Common {
         if ($update['status'] == '-1') {
             $this->error($update['mes']);
         }
-        $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH') . "/update";
+
 
         //下载更新文件
         if (!empty($update['info']['file'])) {
-            $updateFileName = pathinfo($update['info']['file']);
-            $this->updateFileName = "{$uploadPath}/{$updateFileName['basename']}";
-
             $this->getFile($update['info']['file']);
         }
         //下载更新SQL文件
         if (!empty($update['info']['sql'])) {
-            $updateDbFileName = pathinfo($update['info']['sql']);
-            $this->updateDbFileName = "{$uploadPath}/{$updateDbFileName['basename']}";
 
             $this->getFile($update['info']['sql']);
         }
@@ -109,24 +104,57 @@ class Setting extends \App\Team\Common {
      * 安装更新文件
      */
     public function installUpdateFile() {
-        $this->success($this->updateFileName);
+        $version = \Model\Option::findOption('version')['value'];
+        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+        if (empty($findUpdate['update_list_file'])) {
+            $this->success('本次更新没有文件需要更新');
+        }
+        $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH') . "/update";
+        $updateFileName = "{$uploadPath}/" . pathinfo($findUpdate['update_list_file'])['basename'];
+
+        require PES_PATH . '/Expand/pclzip.lib.php';
+        $archive = new \PclZip($updateFileName);
+        $list = $archive->extract(PCLZIP_OPT_PATH, PES_PATH . "/", PCLZIP_OPT_REPLACE_NEWER);
+        foreach ($list as $v) {
+            if ($v['status'] != "ok" && $v['status'] != 'already_a_directory') {
+                $this->error($v['filename']);
+            }
+        }
+
+        unlink($updateFileName);
+
+        $this->success('文件更新完毕!');
     }
 
     /**
      * 安装更新数据库
      */
     public function installUpdateSql() {
-        $this->success($this->updateDbFileName);
+        $version = \Model\Option::findOption('version')['value'];
+        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+        if (empty($findUpdate['update_list_sql'])) {
+            $this->success('本次更新没有数据库需要更新');
+        }
     }
 
     /**
      * 安装结束，移除下载的更新文件
      */
     public function installEnd() {
-        unlink($this->updateFileName);
-        unlink($this->updateDbFileName);
+        $version = \Model\Option::findOption('version')['value'];
+        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+        //设置系统版本
+        $this->db('option')->where('option_name = :option_name')->update(array('noset' => array('option_name' => 'version'), 'value' => $findUpdate['update_list_version']));
+
+        //设置版本为已读.
+        $this->db('update_list')->where('update_list_version = :update_list_version')->update(array('noset' => array('update_list_version' => $findUpdate['update_list_version']), 'update_list_read' => '1'));
+        $this->success('系统更新已完成');
     }
 
+    /**
+     * 下载文件
+     * @param type $url 下载文件的地址
+     */
     private function getFile($url) {
         $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH');
         if (!is_dir($uploadPath)) {
