@@ -65,12 +65,12 @@
         $("#upgrade-action").removeClass("am-hide");
         var endAnimation = new Array;
         endAnimation['download'] = false;
-        animation('abc', "#upgrade-download-file", 'download', "<p>文件下载完毕...</p>")
+        animation('<?= $label->url('Team-Setting-downloadUpgradeFile', array('method' => 'PUT')) ?>', "#upgrade-download-file", 'download', "<p>文件下载完毕...</p>")
 
         var timeId = setInterval(function() {
             if (endAnimation['download'] == true) {
                 endAnimation['download'] = false;
-                animation('abc', "#upgrade-file", 'db', "<p>文件更新完毕...</p>")
+                animation('<?= $label->url('Team-Setting-installUpdateFile', array('method' => 'PUT')) ?>', "#upgrade-file", 'db', "<p>文件更新完毕...</p>")
                 $("#upgrade-file").removeClass("am-hide");
             }
         }, '500')
@@ -78,7 +78,7 @@
         var timeId = setInterval(function() {
             if (endAnimation['db'] == true) {
                 endAnimation['db'] = false;
-                animation('abc', "#upgrade-db", 'end', "<p>数据库更新完毕...</p>")
+                animation('<?= $label->url('Team-Setting-installUpdateSql', array('method' => 'PUT')) ?>', "#upgrade-db", 'end', "<p>数据库更新完毕...</p>")
                 $("#upgrade-db").removeClass("am-hide");
             }
         }, '500')
@@ -86,6 +86,8 @@
         var timeId = setInterval(function() {
             if (endAnimation['end'] == true) {
                 endAnimation['end'] = false;
+                $.get('<?= $label->url('Team-Setting-installEnd', array('method' => 'PUT')) ?>', function() {
+                })
                 $("#upgrade-end").removeClass("am-hide");
             }
         }, '500')
@@ -94,7 +96,7 @@
             var i = 0;
             var timeId;
             $.ajax({
-                url: '<?= $label->url('Team-Setting-downloadUpgradeFile', array('method' => 'PUT')) ?>',
+                url: url,
                 dataType: 'json',
                 beforeSend: function() {
                     timeId = setInterval(function() {

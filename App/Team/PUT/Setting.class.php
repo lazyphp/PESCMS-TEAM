@@ -14,6 +14,18 @@ namespace App\Team\PUT;
 class Setting extends \App\Team\Common {
 
     /**
+     * 更新文件名称
+     * @var type 
+     */
+    private $updateFileName = '';
+
+    /**
+     * 更新数据库文件名称
+     * @var type 
+     */
+    private $updateDbFileName = '';
+
+    /**
      * 更新系统设置
      */
     public function action() {
@@ -73,16 +85,46 @@ class Setting extends \App\Team\Common {
         if ($update['status'] == '-1') {
             $this->error($update['mes']);
         }
+        $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH') . "/update";
+
         //下载更新文件
         if (!empty($update['info']['file'])) {
+            $updateFileName = pathinfo($update['info']['file']);
+            $this->updateFileName = "{$uploadPath}/{$updateFileName['basename']}";
+
             $this->getFile($update['info']['file']);
         }
         //下载更新SQL文件
         if (!empty($update['info']['sql'])) {
+            $updateDbFileName = pathinfo($update['info']['sql']);
+            $this->updateDbFileName = "{$uploadPath}/{$updateDbFileName['basename']}";
+
             $this->getFile($update['info']['sql']);
         }
-        
+
         $this->success('下载成功');
+    }
+
+    /**
+     * 安装更新文件
+     */
+    public function installUpdateFile() {
+        $this->success($this->updateFileName);
+    }
+
+    /**
+     * 安装更新数据库
+     */
+    public function installUpdateSql() {
+        $this->success($this->updateDbFileName);
+    }
+
+    /**
+     * 安装结束，移除下载的更新文件
+     */
+    public function installEnd() {
+        unlink($this->updateFileName);
+        unlink($this->updateDbFileName);
     }
 
     private function getFile($url) {

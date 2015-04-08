@@ -57,10 +57,6 @@ class Index extends \App\Team\Common {
                 $this->assign('noCurl', '1');
                 return false;
             }
-
-            if ($update['status'] == '200') {
-                $this->db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => $update['info']['version'], 'update_list_createtime' => $update['info']['createtime'], 'update_list_type' => $update['info']['type'], 'update_list_content' => $update['info']['content']));
-            }
         }
     }
 
