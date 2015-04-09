@@ -110,7 +110,7 @@ class Index extends \App\Team\Common {
             }
             closedir($handle);
             if ($dirName == 'Temp') {
-                $this->success($GLOBALS['_LANG']['INDEX']['CLEAR_CACHE_SUCCESS'], $this->url('Team-Index-systemInfo'));
+                $this->success($GLOBALS['_LANG']['INDEX']['CLEAR_CACHE_SUCCESS'], $this->url('Team-Index-dynamic'));
             }
             if (!rmdir($dirName)) {
                 $this->error("{$GLOBALS['_LANG']['INDEX']['REMOVE_DIR_FAIL']}： $dirName");

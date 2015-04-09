@@ -43,10 +43,42 @@ class Task extends Content {
     public function index() {
         $condition = "task_delete = 0 ";
         $param = array();
+        $title = "全体任务列表";
+        //筛选任务状态类型
         $type = $this->g('type');
         if ($type >= '0') {
             $condition .= " AND task_status = :task_status";
             $param['task_status'] = $type;
+        }
+
+        //筛选任务项目
+        $project = $this->g('project');
+        if ($project > '0') {
+            $condition .= " AND task_project = :task_project ";
+            $param['task_project'] = $project;
+            $title = "项目[" . \Model\Content::findContent('project', $project, 'project_id')['project_title'] . "]任务列表";
+        }
+
+        //筛选任务部门
+        $departmengt = $this->g('department');
+        if ($departmengt > '0') {
+            $condition .= " AND task_department_id = :task_department_id ";
+            $param['task_department_id'] = $departmengt;
+            $title = "部门" . \Model\Content::findContent('department', $departmengt, 'department_id')['department_name'] . "任务列表";
+        }
+
+        //筛选任务执行人
+        $user = $this->g('user');
+        if ($user > '0') {
+            $condition .= " AND task_user_id = :task_user_id ";
+            $param['task_user_id'] = $user;
+            $title = "用户" . \Model\Content::findContent('user', $user, 'user_id')['user_name'] . "的任务列表";
+        }
+
+        //搜索 
+        if (!empty($_GET['search'])) {
+            $condition .= " AND task_title LIKE :task_title";
+            $param['task_title'] = '%' . $this->g('search') . '%';
         }
 
         //审核和完成的任务，按照ID倒序则可
@@ -64,7 +96,7 @@ class Task extends Content {
         $show = $page->show();
         $this->assign('page', $show);
         $this->assign('list', $list);
-        $this->assign('title', '全体任务列表');
+        $this->assign('title', $title);
         $this->layout('Task_index');
     }
 
@@ -78,6 +110,12 @@ class Task extends Content {
         if ($type >= '0') {
             $condition .= " AND task_status = :task_status";
             $param['task_status'] = $type;
+        }
+
+        //搜索
+        if (!empty($_GET['search'])) {
+            $condition .= " AND task_title LIKE :task_title";
+            $param['task_title'] = '%' . $this->g('search') . '%';
         }
 
         //设置系统消息已读
@@ -125,6 +163,12 @@ class Task extends Content {
             $param['task_status'] = $type;
             $order = "t.task_priority ASC, t.task_status ASC, t.task_id DESC";
         }
+        
+        //搜索
+        if (!empty($_GET['search'])) {
+            $condition .= " AND t.task_title LIKE :task_title";
+            $param['task_title'] = '%' . $this->g('search') . '%';
+        }
 
         //设置系统消息已读
         switch ($type) {
@@ -136,8 +180,10 @@ class Task extends Content {
                 break;
         }
 
+        //待指派的任务执行人ID为空且是当前用户部门的
         if (!empty($_GET['user_type'])) {
-            $condition .= " AND t.task_user_id = ''";
+            $condition .= " AND t.task_user_id = '' AND t.task_department_id = :task_department_id ";
+            $param['task_department_id'] = $_SESSION['team']['user_department_id'];
             \Model\Notice::readNotice('5');
         }
 

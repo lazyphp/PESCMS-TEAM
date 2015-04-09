@@ -399,4 +399,15 @@ class Label {
         }
     }
 
+    /**
+     * 返回上一页
+     */
+    public function backUrl() {
+        if (empty($_SERVER['HTTP_REFERER'])) {
+            return 'javascript:window.history.back(-1)';
+        } else {
+            return $_SERVER['HTTP_REFERER'];
+        }
+    }
+
 }
