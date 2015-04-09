@@ -3,10 +3,10 @@
 return array(
     //数据库配置
     'DB_TYPE' => 'mysql',
-    'DB_HOST' => '10.4.12.173',
-    'DB_NAME' => 'd5a7bb722c2114fee9f6cb002661a10ae',
-    'DB_USER' => 'ubc7bOfAK7Lst',
-    'DB_PWD' => 'pCuLhABYjRahX',
+    'DB_HOST' => 'localhost',
+    'DB_NAME' => 'team',
+    'DB_USER' => 'root',
+    'DB_PWD' => '123456',
     'DB_PORT' => '3306',
     'DB_PREFIX' => 'pes_',
     'PRIVATE_KEY' => '9jgabqapZKPfgD12v', //程序密钥,请定期更换

@@ -117,7 +117,7 @@ class Setting extends \App\Team\Common {
         $list = $archive->extract(PCLZIP_OPT_PATH, PES_PATH . "/", PCLZIP_OPT_REPLACE_NEWER);
         foreach ($list as $v) {
             if ($v['status'] != "ok" && $v['status'] != 'already_a_directory') {
-                $this->error($v['filename']);
+                $this->error("File:{$v['filename']}, Status:{$v['status']}");
             }
         }
 
