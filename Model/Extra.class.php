@@ -26,7 +26,7 @@ class Extra extends \Core\Model\Model {
         if (!function_exists('curl_init')) {
             return array('status' => '-1', 'mes' => '系统没有启动CURL扩展');
         }
-        $url = "https://www.pescms.com/Update/index/version/{$version}/program/2";
+        $url = "http://api.pescms.com/page/index/version/{$version}/program/2";
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
