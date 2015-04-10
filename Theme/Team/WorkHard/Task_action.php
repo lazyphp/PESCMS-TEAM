@@ -56,7 +56,7 @@
                             <!--是否本部门-->
                         </div>
                         <!--显示选择执行用户下拉框-->
-                        <div class="am-u-sm-8 am-u-md-2 am-hide-lg" id="task-user-layer">
+                        <div class="am-u-sm-8 am-u-md-2 am-hide" id="task-user-layer">
                             <select name="user_id" id="task-user-id">
                                 <option value="">执行用户</option>
                                 <?php foreach ($localUser as $key => $value) : ?>
