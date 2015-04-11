@@ -51,7 +51,7 @@ class Content extends \App\Team\Common {
         $id = $this->g('id');
         if (empty($id)) {
             $this->assign('method', 'POST');
-            $this->assign('title', "{$GLOBALS['_LANG']['CONTENT']['ADD']} - {$GLOBALS['_LANG']['MENU_LIST'][$this->model['lang_key']]}");
+            $this->assign('title', "{$GLOBALS['_LANG']['CONTENT']['ADD']} - {$this->model['lang_key']}");
         } else {
             $content = \Model\Content::findContent($this->table, $id, "{$this->fieldPrefix}id");
             if (empty($content)) {

@@ -2,7 +2,10 @@
 <div class="admin-content">
 
     <div class="am-cf am-padding">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><?= $title; ?></strong></div>
+        <div class="am-fl am-cf">
+            <a href="<?= $label->backUrl(); ?>" class="am-margin-right-xs am-text-danger"><i class="am-icon-reply"></i>返回</a>
+            <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
+        </div>
     </div>
     <form class="am-form" action="<?= $url; ?>" method="post">
         <input type="hidden" name="method" value="<?= $method ?>" />
