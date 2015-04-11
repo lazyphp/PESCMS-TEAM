@@ -1,7 +1,7 @@
 <?php $this->header(); ?>
 <header class="am-topbar admin-header am-header-fixed">
     <div class="am-topbar-brand">
-        <a href="/"><strong>PESCMS</strong> <small>任务系统</small></a>
+        <a href="/"><strong><?= $sitetile; ?></strong></a>
     </div>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>

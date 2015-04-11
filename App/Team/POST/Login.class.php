@@ -28,6 +28,9 @@ class Login extends \App\Team\Common {
      * 注册帐号
      */
     public function signup() {
+        if (\Model\Option::findOption('signup')['value'] == '0') {
+            $this->error('本系统没有开启注册。');
+        }
         $data['user_account'] = $this->isP('account', '请填写帐号');
         $existAccount = \Model\Content::findContent('user', $data['user_account'], 'user_account');
         if (!empty($existAccount)) {

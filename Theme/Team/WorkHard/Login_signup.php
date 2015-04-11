@@ -2,7 +2,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>注册帐号 - PESCMS TEAM</title>
+        <title>注册帐号 - <?= $sitetile; ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="format-detection" content="telephone=no">
@@ -28,7 +28,7 @@
         <div class="header">
             <div class="am-g">
                 <h1>注册帐号</h1>
-                <p>我不入地狱，谁入地狱<br />Nothing Ventured, Nothing Gained, Who the hell</p>
+                <p>一款开源的任务管理系统<br />The open source task management system</p>
             </div>
             <hr />
         </div>
@@ -58,7 +58,6 @@
                     </div>
                 </form>
                 <hr>
-                <p>加入我们，很快你就被炒鱿鱼了!</p>
             </div>
         </div>
     </body>

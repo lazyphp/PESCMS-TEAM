@@ -13,6 +13,12 @@ namespace App\Team\GET;
 
 class Login extends \App\Team\Common {
 
+    public function __construct() {
+        parent::__construct();
+        $this->assign('sitetile', \Model\Option::findOption('sitetitle')['value']);
+        $this->assign('signup', \Model\Option::findOption('signup')['value']);
+    }
+
     public function index() {
         $login = $this->checkLogin();
         if ($login) {
@@ -20,11 +26,11 @@ class Login extends \App\Team\Common {
         }
         $this->display();
     }
-    
+
     /**
      * 注册帐号
      */
-    public function signup(){
+    public function signup() {
         $this->display();
     }
 

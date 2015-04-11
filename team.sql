@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-08 16:05:50
+-- Generation Time: 2015-04-11 14:24:21
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `pes_dynamic` (
   `task_id` int(11) NOT NULL COMMENT '任务',
   `dynamic_type` tinyint(1) NOT NULL COMMENT '动态类型:1 发起新的任务 2 执行了新任务 3 提交了任务 4.完成了任务',
   `dynamic_time` int(11) NOT NULL COMMENT '时间'
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='用户动态';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='用户动态';
 
 --
 -- 转存表中的数据 `pes_dynamic`
@@ -86,7 +86,9 @@ INSERT INTO `pes_dynamic` (`dynamic_id`, `user_id`, `task_id`, `dynamic_type`, `
 (7, 3, 23, 2, 1428285356),
 (8, 3, 23, 3, 1428285358),
 (9, 3, 23, 4, 1428285363),
-(10, 7, 29, 1, 1428324912);
+(10, 7, 29, 1, 1428324912),
+(11, 4, 19, 4, 1428591123),
+(12, 1, 30, 1, 1428591217);
 
 -- --------------------------------------------------------
 
@@ -249,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `pes_notice` (
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `notice_type` tinyint(1) NOT NULL COMMENT '通知类型 1:收到新任务 2.指派审核任务 3.待审核任务 4.待修改的任务 5.部门待审核指派任务 6.完成的任务',
   `notice_read` tinyint(1) NOT NULL COMMENT '是否已读：0 未读 1 已读'
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COMMENT='系统信息消息';
 
 --
 -- 转存表中的数据 `pes_notice`
@@ -310,7 +312,12 @@ INSERT INTO `pes_notice` (`notice_id`, `user_id`, `task_id`, `notice_type`, `not
 (52, 3, 23, 6, 0),
 (53, 3, 29, 1, 0),
 (54, 7, 29, 2, 1),
-(55, 1, 29, 2, 1);
+(55, 1, 29, 2, 1),
+(56, 1, 1, 4, 1),
+(57, 4, 19, 6, 0),
+(58, 3, 30, 5, 0),
+(59, 1, 30, 2, 1),
+(60, 3, 30, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -324,19 +331,22 @@ CREATE TABLE IF NOT EXISTS `pes_option` (
   `name` varchar(128) NOT NULL,
   `value` text NOT NULL,
   `option_range` varchar(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_option`
 --
 
 INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES
+(1, 'sitetitle', '程序标题', 'PESCMS TEAM', ''),
 (7, 'theme', '主题', 'WorkHard', 'theme'),
 (8, 'fieldType', '表单类型', '{"category":"\\u5206\\u7c7b","text":"\\u5355\\u884c\\u8f93\\u5165\\u6846","radio":"\\u5355\\u9009\\u6309\\u94ae","checkbox":"\\u590d\\u9009\\u6846","select":"\\u5355\\u9009\\u4e0b\\u62c9\\u6846","textarea":"\\u591a\\u884c\\u8f93\\u5165\\u6846","editor":"\\u7f16\\u8f91\\u5668","thumb":"\\u7565\\u7f29\\u56fe","img":"\\u4e0a\\u4f20\\u56fe\\u7ec4","file":"\\u4e0a\\u4f20\\u6587\\u4ef6","date":"\\u65e5\\u671f"}', 'Miscellaneous'),
 (13, 'version', '系统版本', '1.000', ''),
 (14, 'upload_img', '图片格式', '["jpg","jpge","bmp","gif","png"]', 'upload'),
-(15, 'upload_file', '文件格式', '["zip","rar","7z","doc","docx","pdf","xls","xlsx","ppt","pptx","txt","7z"]', 'upload'),
-(16, 'urlModel', 'URL格式', '{"index":"1","urlModel":"3","suffix":"1"}', 'url');
+(15, 'upload_file', '文件格式', '["zip","rar","7z","doc","docx","pdf","xls","xlsx","ppt","pptx","txt"]', 'upload'),
+(16, 'urlModel', 'URL格式', '{"index":"1","urlModel":"3","suffix":"1"}', 'url'),
+(17, 'mail', '邮件服务信息', '{"account":"123","passwd":"sad","address":"asdasd","port":"123","name":"123"}', ''),
+(19, 'signup', '帐号注册', '1', '');
 
 -- --------------------------------------------------------
 
@@ -372,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `pes_report` (
   `report_date` varchar(10) NOT NULL COMMENT '报表日期',
   `user_id` int(255) NOT NULL,
   `department_id` int(11) NOT NULL COMMENT '部门ID'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_report`
@@ -382,8 +392,7 @@ INSERT INTO `pes_report` (`report_id`, `report_date`, `user_id`, `department_id`
 (1, '2015-04-06', 1, 1),
 (2, '2015-04-07', 1, 1),
 (3, '2015-04-08', 1, 1),
-(4, '2015-04-09', 1, 1),
-(5, '2015-04-10', 1, 1);
+(6, '2015-04-09', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -398,7 +407,7 @@ CREATE TABLE IF NOT EXISTS `pes_report_content` (
   `task_id` int(11) NOT NULL,
   `task_title` varchar(255) NOT NULL COMMENT '任务标题',
   `task_status` tinyint(1) NOT NULL COMMENT '任务状态'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_report_content`
@@ -407,7 +416,8 @@ CREATE TABLE IF NOT EXISTS `pes_report_content` (
 INSERT INTO `pes_report_content` (`content_id`, `report_id`, `report_content`, `task_id`, `task_title`, `task_status`) VALUES
 (1, 1, '&lt;p&gt;sadasdasd&lt;/p&gt;', 0, '', 0),
 (2, 1, '&lt;p&gt;sadasdasd&lt;/p&gt;', 0, '', 0),
-(3, 1, '&lt;p&gt;&lt;span style=&quot;font-family: &amp;#39;Segoe UI&amp;#39;, &amp;#39;Lucida Grande&amp;#39;, Helvetica, Arial, &amp;#39;Microsoft YaHei&amp;#39;, FreeSans, Arimo, &amp;#39;Droid Sans&amp;#39;, &amp;#39;wenquanyi micro hei&amp;#39;, &amp;#39;Hiragino Sans GB&amp;#39;, &amp;#39;Hiragino Sans GB W3&amp;#39;, FontAwesome, sans-serif; line-height: 25.6000003814697px; white-space: normal;&quot;&gt;听说这里可以插入到报表去&lt;/span&gt;&lt;/p&gt;', 2, '完善任务系统查看页面', 1);
+(3, 1, '&lt;p&gt;&lt;span style=&quot;font-family: &amp;#39;Segoe UI&amp;#39;, &amp;#39;Lucida Grande&amp;#39;, Helvetica, Arial, &amp;#39;Microsoft YaHei&amp;#39;, FreeSans, Arimo, &amp;#39;Droid Sans&amp;#39;, &amp;#39;wenquanyi micro hei&amp;#39;, &amp;#39;Hiragino Sans GB&amp;#39;, &amp;#39;Hiragino Sans GB W3&amp;#39;, FontAwesome, sans-serif; line-height: 25.6000003814697px; white-space: normal;&quot;&gt;听说这里可以插入到报表去&lt;/span&gt;&lt;/p&gt;', 2, '完善任务系统查看页面', 1),
+(4, 6, '&lt;p&gt;asdasdasd&lt;/p&gt;', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -437,18 +447,18 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_project` varchar(255) NOT NULL,
   `task_read_permission` tinyint(1) NOT NULL COMMENT '阅读权限',
   `task_delete` tinyint(1) NOT NULL COMMENT '0:正常 1:任务被删除。被删除是由于用户被删除了'
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task`
 --
 
 INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, `task_url`, `task_accept_id`, `task_title`, `task_department_id`, `task_user_id`, `task_create_id`, `task_content`, `task_file`, `task_createtime`, `task_completetime`, `task_estimatetime`, `task_actiontime`, `task_priority`, `task_expecttime`, `task_project`, `task_read_permission`, `task_delete`) VALUES
-(1, 0, 2, 0, '/Task/view/id/1.html', 1, '完善任务发布的细节', '1', '1', '2', '&lt;p&gt;完善任务发布的细节&lt;/p&gt;', '', 1427990400, 0, 0, 0, '4', 1427990400, '2', 0, 0),
+(1, 0, 3, 0, '/Task/view/id/1.html', 1, '完善任务发布的细节', '1', '1', '2', '&lt;p&gt;完善任务发布的细节&lt;/p&gt;', '', 1427990400, 1428591109, 0, 0, '4', 1427990400, '2', 0, 0),
 (2, 0, 1, 0, '/Task/view/id/2.html', 1, '完善任务系统查看页面', '1', '1', '2', '&lt;p&gt;123456&lt;/p&gt;', '', 1427990400, 0, 1429027200, 0, '2', 1428249600, '2', 1, 0),
 (17, 0, 3, 0, '/Task/view/id/17.html', 0, '通知全体员工使用PESCMS TEAM', '2', '1', '1', '&lt;p&gt;通知全体员工使用PESCMS TEAM&lt;/p&gt;', '', 1428076800, 1428244463, 0, 0, '1', 1428336000, '2', 0, 0),
 (18, 0, 2, 0, '/Task/view/id/18.html', 0, '发布放假通知', '2', '1', '5', '&lt;p&gt;发布放假通知&lt;/p&gt;', '', 1428076800, 1428255452, 0, 0, '2', 1428336000, '2', 0, 0),
-(19, 0, 2, 0, '/Task/view/id/19.html', 0, '修复BUG', '3', '1', '5', '&lt;p&gt;修复BUG&lt;/p&gt;', '', 1428076800, 1428255611, 0, 0, '3', 1428249600, '1', 0, 0),
+(19, 0, 4, 0, '/Task/view/id/19.html', 0, '修复BUG', '3', '4', '5', '&lt;p&gt;修复BUG&lt;/p&gt;', '', 1428076800, 1428591123, 0, 0, '3', 1428249600, '1', 0, 0),
 (20, 0, 3, 0, '/Task/view/id/20.html', 0, '请修复主框架的高度BUG', '1', '1', '4', '&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;40年后，微软已经是全球最大软件开发商，拥有逾12.5万名员工，总部园区面积达到800万平方英尺(约合74万平方米)，Windows在全球PC市场的份额接近90%。微软现在是全球第三大市值公司，仅落后于埃克森美孚和苹果。&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;本周六，微软将庆祝公司成立40周年。盖茨担任微软CEO长达25年时间，在2000年离职。他在周五向微软员工发送电邮，对公司未来发展提出建议：“让科技的力量惠及每一个人，让人们连接彼此，让个人计算无处不在。”&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;盖茨在电邮中重申了他在40年前为微软规划的愿景——软件将驱动世界。他要求微软不要忘记改变人们生活的使命。“什么最重要，我们下一步就做什么。”他说。&lt;/p&gt;&lt;p style=&quot;line-height: 25.6000003814697px; white-space: normal;&quot;&gt;盖茨目前担任微软CEO萨蒂亚·纳德拉(Satya Nadella)的顾问，并兼任比尔与梅琳达·盖茨基金会联席主席，专注于慈善事业。过去21年，盖茨16年当选全球首富。不过盖茨承诺将其95%的财富捐献给慈善事业。目前为止，盖茨已经向他的基金会捐献了280亿美元。&lt;/p&gt;', '', 1428076800, 1428255415, 0, 0, '1', 1428336000, '2', 0, 0),
 (21, 0, 4, 0, '/Task/view/id/21.html', 0, '发给IT部的任务', '1', '1', '4', '&lt;p&gt;test&lt;/p&gt;', '/upload/20150405/552138f2464e5.docx,/upload/20150405/552138f4d5cd4.docx', 1428163200, 1428242829, 1428242670, 0, '4', 1420387200, '2', 0, 0),
 (22, 0, 0, 0, '/Task/view/id/22.html', 0, 'test', '3', '', '2', '&lt;p&gt;测试的&lt;/p&gt;', '', 1428163200, 0, 0, 0, '2', 1428249600, '2', 0, 0),
@@ -458,7 +468,8 @@ INSERT INTO `pes_task` (`task_id`, `task_listsort`, `task_status`, `task_lang`, 
 (26, 0, 0, 0, '/Task/view/id/26.html', 0, '给IT部', '1', '', '4', '&lt;p&gt;dd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1429891200, '2', 0, 0),
 (27, 0, 0, 0, '/Task/view/id/27.html', 0, '测试任务动态', '2', '', '1', '&lt;p&gt;ddddd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1428336000, '2', 0, 0),
 (28, 0, 4, 0, '/Task/view/id/28.html', 1, '发给自己', '1', '1', '1', '&lt;p&gt;asdsad&lt;/p&gt;', '', 1428249600, 1428285284, 1428336000, 0, '4', 1428422400, '1', 0, 0),
-(29, 0, 0, 0, '/Task/view/id/29.html', 1, 'sadasdsadasd', '2', '3', '7', '&lt;p&gt;asdsadasd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1428422400, '2', 0, 0);
+(29, 0, 0, 0, '/Task/view/id/29.html', 1, 'sadasdsadasd', '2', '3', '7', '&lt;p&gt;asdsadasd&lt;/p&gt;', '', 1428249600, 0, 0, 0, '4', 1428422400, '2', 0, 0),
+(30, 0, 0, 0, '/Task/view/id/30.html', 0, 'test', '2', '', '1', '&lt;p&gt;sasdsad&lt;/p&gt;', '', 1428508800, 0, 0, 0, '4', 1428508800, '2', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -470,7 +481,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_check` (
 `check_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `check_user_id` int(11) NOT NULL COMMENT '审核人ID'
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_task_check`
@@ -504,7 +515,9 @@ INSERT INTO `pes_task_check` (`check_id`, `task_id`, `check_user_id`) VALUES
 (25, 27, 3),
 (26, 28, 1),
 (27, 29, 7),
-(28, 29, 1);
+(28, 29, 1),
+(29, 30, 1),
+(30, 30, 3);
 
 -- --------------------------------------------------------
 
@@ -575,7 +588,14 @@ CREATE TABLE IF NOT EXISTS `pes_update_list` (
   `update_list_createtime` int(11) NOT NULL COMMENT '更新发布时间',
   `update_list_file` text NOT NULL COMMENT '更新文件地址',
   `update_list_sql` text NOT NULL COMMENT '更新数据库文件地址'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='获取更新信息列表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='获取更新信息列表';
+
+--
+-- 转存表中的数据 `pes_update_list`
+--
+
+INSERT INTO `pes_update_list` (`update_list_id`, `update_list_url`, `update_list_pre_version`, `update_list_version`, `update_list_read`, `update_list_type`, `update_list_content`, `update_list_createtime`, `update_list_file`, `update_list_sql`) VALUES
+(2, '/Update_list/view/id/2.html', '1.000', '1.005', 1, 0, '&lt;p&gt;测试更新&lt;/p&gt;', 1428421080, 'https://www.pescms.com/upload/20150409/55255267f0f04.zip', '');
 
 -- --------------------------------------------------------
 
@@ -770,7 +790,7 @@ MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `pes_dynamic`
 --
 ALTER TABLE `pes_dynamic`
-MODIFY `dynamic_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `dynamic_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `pes_field`
 --
@@ -795,12 +815,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `pes_notice`
 --
 ALTER TABLE `pes_notice`
-MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
+MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `pes_option`
 --
 ALTER TABLE `pes_option`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `pes_project`
 --
@@ -810,22 +830,22 @@ MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `pes_report`
 --
 ALTER TABLE `pes_report`
-MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `pes_report_content`
 --
 ALTER TABLE `pes_report_content`
-MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `pes_task`
 --
 ALTER TABLE `pes_task`
-MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `pes_task_check`
 --
 ALTER TABLE `pes_task_check`
-MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `pes_task_diary`
 --
@@ -840,7 +860,7 @@ MODIFY `task_supplement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `pes_update_list`
 --
 ALTER TABLE `pes_update_list`
-MODIFY `update_list_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `update_list_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `pes_user`
 --

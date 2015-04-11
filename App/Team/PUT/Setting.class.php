@@ -27,53 +27,24 @@ class Setting extends \App\Team\Common {
 
     /**
      * 更新系统设置
+     * @todo 后台设置是一个败笔之处。部分设置使用了JSON处理，部分没有。
+     * 本方法弱处理，成功与否都提示设置完毕。以后情况严重再修改吧。 2015-04-11
      */
     public function action() {
-        $data['sitestatus'] = is_numeric($_POST['sitestatus']) ? $_POST['sitestatus'] : $GLOBALS['_LANG']['SETTING']['SELECT_SITE_STATUS'];
-        if ($data['sitestatus'] == '0') {
-            $data['closeReason'] = $this->isP('closeReason', $GLOBALS['_LANG']['SETTING']['ENTER_CLOSE_REASON']);
-        }
-        $data['sitetitle'] = $this->isP('sitetitle', $GLOBALS['_LANG']['SETTING']['ENTER_SITE_TITLE']);
-        $data['siteurl'] = $this->isP('siteurl', $GLOBALS['_LANG']['SETTING']['ENTER_SITE_URL']);
-        $data['logo'] = $this->isP('logo', $GLOBALS['_LANG']['SETTING']['UPLOAD_SITE_LOGO']);
-        $data['seo_keyword'] = $this->p('seo_keyword');
-        $data['seo_description'] = $this->p('seo_description');
-        //因为提交的会有JS代码，所以不进行转义
-        $data['footerCode'] = $this->p('footerCode', FALSE);
+        $sitetitle = $this->isP('sitetitle', '请填写程序标题');
+        $upload_img = $this->isP('upload_img', '请填写上传图片格式');
+        $upload_file = $this->isP('upload_file', '请填写上传文件的格式');
+        $signup = in_array($_POST['signup'], array('0', '1')) ? $_POST['signup'] : $this->error('请选择是否开启注册');
 
-        foreach ($data as $key => $value) {
-            \Model\Option::update($key, $value);
-        }
-        $this->success($GLOBALS['_LANG']['SETTING']['UPDATE_SITE_SETTING'], $this->url('Team-Setting-action'));
-    }
+        $mail = $this->p('mail');
 
-    /**
-     * 更新上传格式设置
-     */
-    public function uploadFormAction() {
-        foreach ($_POST['key'] as $key => $value) {
-            if ($key == '0') {
-                $optionName = 'upload_img';
-            } elseif ($key == '1') {
-                $optionName = 'upload_file';
-            }
-            \Model\Option::update($optionName, json_encode(explode(',', $value)));
-        }
-        $this->success($GLOBALS['_LANG']['SETTING']['UPDATE_UPLOAD_SUCCESS'], $this->url("Team-Setting-uploadFormAction"));
-    }
+        \Model\Option::update('sitetitle', $sitetitle);
+        \Model\Option::update('signup', $signup);
+        \Model\Option::update('upload_img', json_encode(explode(',', $upload_img)));
+        \Model\Option::update('upload_file', json_encode(explode(',', $upload_file)));
+        \Model\Option::update('mail', json_encode($mail));
 
-    /**
-     * URL显示模式设置
-     */
-    public function urlModelAction() {
-        $index = $this->p('index');
-        $urlModel = $this->p('urlModel');
-        $suffix = $this->p('suffix');
-        $url = json_encode(array('index' => $index, 'urlModel' => $urlModel, 'suffix' => $suffix));
-
-        $result = \Model\Option::update('urlModel', $url);
-        $this->determineSqlExecResult($result, $GLOBALS['_LANG']['SETTING']['UPDATE_URL_FAILE']);
-        $this->success($GLOBALS['_LANG']['SETTING']['UPDATE_URL_SUCCESS'], $this->url('Team-Setting-urlModelAction'));
+        $this->success('设置完毕!', $this->url('Team-Setting-action'));
     }
 
     /**

@@ -2,7 +2,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>登录系统 - PESCMS TEAM</title>
+        <title>登录系统 - <?= $sitetile; ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="format-detection" content="telephone=no">
@@ -27,8 +27,8 @@
     <body>
         <div class="header">
             <div class="am-g">
-                <h1>PESCMS任务管理系统</h1>
-                <p>一款企业居家旅行 炒人鱿鱼必备良器<br />Fired lazy staff prerequisite software</p>
+                <h1><?= $sitetile; ?></h1>
+                <p>一款开源的任务管理系统<br />The open source task management system</p>
             </div>
             <hr />
         </div>
@@ -45,11 +45,13 @@
                     <br />
                     <div class="am-cf">
                         <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-                        <a href="<?= $label->url('Team-Login-signup'); ?>" class=" am-fr am-btn am-btn-primary am-btn-sm am-fl">注 册</a>
+                        <?php if ($signup == '1'): ?>
+                            <a href="<?= $label->url('Team-Login-signup'); ?>" class=" am-fr am-btn am-btn-primary am-btn-sm am-fl">注 册</a>
+                        <?php endif; ?>
                     </div>
                 </form>
                 <hr>
-                <p>您今天炒了员工没有？</p>
+                <p>效率从任务管理开始</p>
             </div>
         </div>
     </body>
