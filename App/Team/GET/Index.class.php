@@ -42,23 +42,14 @@ class Index extends \App\Team\Common {
 
         $this->assign('title', \Model\Menu::getTitleWithMenu());
 
-        $this->getUpdate();
-        $this->layout();
-    }
-
-    /**
-     * 自动获取更新
-     */
-    private function getUpdate() {
-        $version = \Model\Option::findOption('version')['value'];
-        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
-        if (empty($findUpdate)) {
-            $update = \Model\Extra::getUpdate($version);
+        //每天下午3点开始10分钟将自动检测更新
+        if (date('hi') >= '1500' && date('hi') <= '1510') {
+            $update = \Model\Option::getUpdate();
             if ($update['status'] == '-1') {
                 $this->assign('noCurl', '1');
-                return false;
             }
         }
+        $this->layout();
     }
 
     /**

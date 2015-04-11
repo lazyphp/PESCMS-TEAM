@@ -42,4 +42,17 @@ class Option extends \Core\Model\Model {
         return self::db('option')->where("option_name = :option_name")->update(array('value' => $value, 'noset' => array('option_name' => $optionName)));
     }
 
+    /**
+     * 获取系统更新信息
+     * @return boolean 返回抓去结果
+     */
+    public static function getUpdate() {
+        $version = \Model\Option::findOption('version')['value'];
+        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
+        if (empty($findUpdate)) {
+            $update = \Model\Extra::getUpdate($version);
+            return $update['status'];
+        }
+    }
+
 }

@@ -19,8 +19,8 @@ class Setting extends \App\Team\Common {
     public function action() {
 
         $list = \Model\Content::listContent('option');
-        foreach($list as $key => $value){
-            $setting[$value['option_name']] = $value; 
+        foreach ($list as $key => $value) {
+            $setting[$value['option_name']] = $value;
         }
         $this->assign('setting', $setting);
         $this->assign('title', \Model\Menu::getTitleWithMenu());
@@ -31,6 +31,7 @@ class Setting extends \App\Team\Common {
      * 更新系统
      */
     public function upgrade() {
+        \Model\Option::getUpdate();
         $version = \Model\Option::findOption('version')['value'];
         $content = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
         $this->assign($content);
