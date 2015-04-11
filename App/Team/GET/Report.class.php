@@ -33,10 +33,17 @@ class Report extends \App\Team\Common {
             $this->error('不存在的报表或者您无权查找别人的报表');
         }
         $list = \Model\Content::listContent('report_content', array('report_id' => $id), 'report_id = :report_id', 'content_id DESC');
-        
+
         $this->assign($content);
         $this->assign('list', $list);
         $this->layout();
+    }
+
+    /**
+     * 提取报表
+     */
+    public function extract() {
+        
     }
 
 }

@@ -48,7 +48,7 @@
                                     <div class="am-btn-toolbar">
                                         <div class="am-btn-group am-btn-group-xs">
                                             <a class="am-btn am-btn-secondary" href="<?= $label->url('Team-Department-action', array('id' => $value["department_id"])); ?>"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-                                            <a class="am-btn am-btn-danger" href="<?= $label->url('Admin-Department-action', array('id' => $value["department_id"], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
+                                            <a class="am-btn am-btn-danger" href="<?= $label->url('Team-Department-action', array('id' => $value["department_id"], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
                                         </div>
                                     </div>
                                 </td>
