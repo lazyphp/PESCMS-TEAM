@@ -43,7 +43,26 @@ class Report extends \App\Team\Common {
      * 提取报表
      */
     public function extract() {
-        
+        $head = explode(',', \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id')['department_header']);
+        if (!in_array($_SESSION['team']['user_id'], $head)) {
+            $this->error('您不是部门负责人，无权访问');
+        }
+
+        $condition = "r.department_id = :department_id AND r.report_date = :report_date";
+        $param = array('department_id' => $_SESSION['team']['user_department_id'], 'report_date' => date('Y-m-d'));
+
+        $result = $this->db('report AS r ')->join("{$this->prefix}report_content AS rc ON rc.report_id = r.report_id")->where($condition)->select($param);
+        foreach ($result as $key => $value) {
+            $list[$value['report_date']][$value['user_id']][] = $value;
+        }
+
+        $this->assign('list', $list);
+
+        $userList = \Model\Content::listContent('user');
+        $this->assign('user', $userList);
+
+        $this->assign('title', '提取报表');
+        $this->layout();
     }
 
 }

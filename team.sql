@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-04-11 14:24:21
+-- Generation Time: 2015-04-12 15:41:04
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.6.0
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `pes_department` (
 --
 
 INSERT INTO `pes_department` (`department_id`, `department_listsort`, `department_lang`, `department_url`, `department_createtime`, `department_name`, `department_header`) VALUES
-(1, 0, 0, '/department/view/id/1.html', 0, 'IT部', '1'),
+(1, 0, 0, '/Department/view/id/1.html', 0, 'IT部', '1'),
 (2, 0, 0, '/Department/view/id/2.html', 0, '人事部', '3'),
 (3, 0, 0, '/Department/view/id/3.html', 0, '销售部', '4');
 
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_icon` varchar(128) NOT NULL,
   `menu_url` varchar(255) NOT NULL,
   `menu_listsort` tinyint(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -191,9 +191,10 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_u
 (41, '个人中心', 0, 'am-icon-home', '', 0),
 (42, '我的任务', 41, 'am-icon-tags', 'Team-Task-my', 99),
 (44, '退出系统', 41, 'am-icon-sign-out', 'Team-Index-logout', 0),
-(45, '待审核列表', 41, 'am-icon-check-square-o', 'Team-Task-check', 97),
+(45, '待审核列表', 41, 'am-icon-check-square-o', 'Team-Task-check', 96),
 (46, '我的报表', 41, 'am-icon-pencil-square-o', 'Team-Report-my', 98),
-(47, '系统更新', 19, 'am-icon-refresh', 'Team-Setting-upgrade', 0);
+(47, '系统更新', 19, 'am-icon-refresh', 'Team-Setting-upgrade', 0),
+(48, '提取报表', 41, 'am-icon-newspaper-o', 'Team-Report-extract', 97);
 
 -- --------------------------------------------------------
 
@@ -341,7 +342,7 @@ INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) 
 (1, 'sitetitle', '程序标题', 'PESCMS TEAM', ''),
 (7, 'theme', '主题', 'WorkHard', 'theme'),
 (8, 'fieldType', '表单类型', '{"category":"\\u5206\\u7c7b","text":"\\u5355\\u884c\\u8f93\\u5165\\u6846","radio":"\\u5355\\u9009\\u6309\\u94ae","checkbox":"\\u590d\\u9009\\u6846","select":"\\u5355\\u9009\\u4e0b\\u62c9\\u6846","textarea":"\\u591a\\u884c\\u8f93\\u5165\\u6846","editor":"\\u7f16\\u8f91\\u5668","thumb":"\\u7565\\u7f29\\u56fe","img":"\\u4e0a\\u4f20\\u56fe\\u7ec4","file":"\\u4e0a\\u4f20\\u6587\\u4ef6","date":"\\u65e5\\u671f"}', 'Miscellaneous'),
-(13, 'version', '系统版本', '1.000', ''),
+(13, 'version', '系统版本', '1.005', ''),
 (14, 'upload_img', '图片格式', '["jpg","jpge","bmp","gif","png"]', 'upload'),
 (15, 'upload_file', '文件格式', '["zip","rar","7z","doc","docx","pdf","xls","xlsx","ppt","pptx","txt"]', 'upload'),
 (16, 'urlModel', 'URL格式', '{"index":"1","urlModel":"3","suffix":"1"}', 'url'),
@@ -379,10 +380,10 @@ INSERT INTO `pes_project` (`project_id`, `project_listsort`, `project_status`, `
 
 CREATE TABLE IF NOT EXISTS `pes_report` (
 `report_id` int(11) NOT NULL,
-  `report_date` varchar(10) NOT NULL COMMENT '报表日期',
+  `report_date` date NOT NULL COMMENT '报表日期',
   `user_id` int(255) NOT NULL,
   `department_id` int(11) NOT NULL COMMENT '部门ID'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户报表';
 
 --
 -- 转存表中的数据 `pes_report`
@@ -392,7 +393,10 @@ INSERT INTO `pes_report` (`report_id`, `report_date`, `user_id`, `department_id`
 (1, '2015-04-06', 1, 1),
 (2, '2015-04-07', 1, 1),
 (3, '2015-04-08', 1, 1),
-(6, '2015-04-09', 1, 1);
+(6, '2015-04-09', 1, 1),
+(7, '2015-04-11', 1, 1),
+(8, '2015-04-12', 2, 1),
+(9, '2015-04-12', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -407,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `pes_report_content` (
   `task_id` int(11) NOT NULL,
   `task_title` varchar(255) NOT NULL COMMENT '任务标题',
   `task_status` tinyint(1) NOT NULL COMMENT '任务状态'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_report_content`
@@ -417,7 +421,19 @@ INSERT INTO `pes_report_content` (`content_id`, `report_id`, `report_content`, `
 (1, 1, '&lt;p&gt;sadasdasd&lt;/p&gt;', 0, '', 0),
 (2, 1, '&lt;p&gt;sadasdasd&lt;/p&gt;', 0, '', 0),
 (3, 1, '&lt;p&gt;&lt;span style=&quot;font-family: &amp;#39;Segoe UI&amp;#39;, &amp;#39;Lucida Grande&amp;#39;, Helvetica, Arial, &amp;#39;Microsoft YaHei&amp;#39;, FreeSans, Arimo, &amp;#39;Droid Sans&amp;#39;, &amp;#39;wenquanyi micro hei&amp;#39;, &amp;#39;Hiragino Sans GB&amp;#39;, &amp;#39;Hiragino Sans GB W3&amp;#39;, FontAwesome, sans-serif; line-height: 25.6000003814697px; white-space: normal;&quot;&gt;听说这里可以插入到报表去&lt;/span&gt;&lt;/p&gt;', 2, '完善任务系统查看页面', 1),
-(4, 6, '&lt;p&gt;asdasdasd&lt;/p&gt;', 0, '', 0);
+(4, 6, '&lt;p&gt;asdasdasd&lt;/p&gt;', 0, '', 0),
+(5, 7, '&lt;p&gt;asdsad&lt;/p&gt;', 0, '', 0),
+(6, 7, '&lt;p&gt;asdasdasd&lt;/p&gt;', 1, '完善任务发布的细节', 3),
+(7, 7, '&lt;p&gt;sadasd&lt;/p&gt;', 20, '请修复主框架的高度BUG', 3),
+(8, 8, '&lt;p&gt;大家好。今天天气不错啊!&lt;/p&gt;', 0, '', 0),
+(9, 8, '&lt;p&gt;123&lt;/p&gt;', 0, '', 0),
+(10, 8, '&lt;p&gt;我好像没任务？公司不给任务我做了吗？&lt;/p&gt;', 0, '', 0),
+(11, 8, '&lt;p&gt;周末也要编程，不能停！&lt;/p&gt;', 0, '', 0),
+(12, 8, '&lt;p&gt;现在在编写提取报表功能。&lt;/p&gt;&lt;p&gt;还有邮件通知啦，权限功能啦需要开发。。。。。&lt;/p&gt;', 0, '', 0),
+(13, 8, '&lt;p&gt;我没有写报表？&lt;/p&gt;', 0, '', 0),
+(14, 9, '&lt;p&gt;asdsadsad&lt;/p&gt;', 0, '', 0),
+(15, 9, '&lt;p&gt;ccc&lt;/p&gt;', 0, '', 0),
+(16, 9, '&lt;p&gt;听说报表查询完成了&lt;/p&gt;', 2, '完善任务系统查看页面', 1);
 
 -- --------------------------------------------------------
 
@@ -530,7 +546,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_diary` (
   `task_id` int(11) NOT NULL COMMENT '任务ID',
   `diary_content` text NOT NULL COMMENT '日志内容',
   `diary_time` int(11) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='任务日志';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='任务日志';
 
 --
 -- 转存表中的数据 `pes_task_diary`
@@ -546,7 +562,10 @@ INSERT INTO `pes_task_diary` (`diary_id`, `task_id`, `diary_content`, `diary_tim
 (7, 20, '&lt;p&gt;sadsad&lt;/p&gt;', 1428246120),
 (8, 28, '&lt;p&gt;asdsad&lt;/p&gt;', 1428285236),
 (9, 2, '&lt;p&gt;听说这里可以插入到报表去&lt;/p&gt;', 1428307762),
-(10, 2, '&lt;p&gt;&lt;span style=&quot;font-family: &amp;#39;Segoe UI&amp;#39;, &amp;#39;Lucida Grande&amp;#39;, Helvetica, Arial, &amp;#39;Microsoft YaHei&amp;#39;, FreeSans, Arimo, &amp;#39;Droid Sans&amp;#39;, &amp;#39;wenquanyi micro hei&amp;#39;, &amp;#39;Hiragino Sans GB&amp;#39;, &amp;#39;Hiragino Sans GB W3&amp;#39;, FontAwesome, sans-serif; line-height: 25.6000003814697px; white-space: normal;&quot;&gt;听说这里可以插入到报表去&lt;/span&gt;&lt;/p&gt;', 1428309986);
+(10, 2, '&lt;p&gt;&lt;span style=&quot;font-family: &amp;#39;Segoe UI&amp;#39;, &amp;#39;Lucida Grande&amp;#39;, Helvetica, Arial, &amp;#39;Microsoft YaHei&amp;#39;, FreeSans, Arimo, &amp;#39;Droid Sans&amp;#39;, &amp;#39;wenquanyi micro hei&amp;#39;, &amp;#39;Hiragino Sans GB&amp;#39;, &amp;#39;Hiragino Sans GB W3&amp;#39;, FontAwesome, sans-serif; line-height: 25.6000003814697px; white-space: normal;&quot;&gt;听说这里可以插入到报表去&lt;/span&gt;&lt;/p&gt;', 1428309986),
+(11, 1, '&lt;p&gt;asdasdasd&lt;/p&gt;', 1428763491),
+(12, 20, '&lt;p&gt;sadasd&lt;/p&gt;', 1428763928),
+(13, 2, '&lt;p&gt;听说报表查询完成了&lt;/p&gt;', 1428852288);
 
 -- --------------------------------------------------------
 
@@ -588,14 +607,15 @@ CREATE TABLE IF NOT EXISTS `pes_update_list` (
   `update_list_createtime` int(11) NOT NULL COMMENT '更新发布时间',
   `update_list_file` text NOT NULL COMMENT '更新文件地址',
   `update_list_sql` text NOT NULL COMMENT '更新数据库文件地址'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='获取更新信息列表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='获取更新信息列表';
 
 --
 -- 转存表中的数据 `pes_update_list`
 --
 
 INSERT INTO `pes_update_list` (`update_list_id`, `update_list_url`, `update_list_pre_version`, `update_list_version`, `update_list_read`, `update_list_type`, `update_list_content`, `update_list_createtime`, `update_list_file`, `update_list_sql`) VALUES
-(2, '/Update_list/view/id/2.html', '1.000', '1.005', 1, 0, '&lt;p&gt;测试更新&lt;/p&gt;', 1428421080, 'https://www.pescms.com/upload/20150409/55255267f0f04.zip', '');
+(2, '/Update_list/view/id/2.html', '1.000', '1.005', 1, 0, '&lt;p&gt;测试更新&lt;/p&gt;', 1428421080, 'https://www.pescms.com/upload/20150409/55255267f0f04.zip', ''),
+(4, '/Update_list/view/id/4.html', '1.005', '1.010', 1, 0, '&lt;p class=&quot;p1&quot;&gt;1.补充查看项目、部门、人员的任务明细。&lt;/p&gt;&lt;p class=&quot;p1&quot;&gt;2.补充任务列表中的搜索功能。&lt;/p&gt;&lt;p class=&quot;p1&quot;&gt;3.修复一些逻辑错误。&lt;/p&gt;', 1428592920, 'http://api.pescms.com//upload/20150409/5526994eea1a6.zip', '');
 
 -- --------------------------------------------------------
 
@@ -615,7 +635,7 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
   `user_last_login` int(11) NOT NULL,
   `user_department_id` varchar(255) NOT NULL,
   `user_head` text NOT NULL COMMENT '用户头像'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `pes_user`
@@ -651,8 +671,8 @@ CREATE TABLE IF NOT EXISTS `pes_user_group` (
 
 INSERT INTO `pes_user_group` (`user_group_id`, `user_group_listsort`, `user_group_status`, `user_group_lang`, `user_group_url`, `user_group_createtime`, `user_group_name`, `user_group_menu`) VALUES
 (1, 0, 1, 0, '/User_group/view/id/1.html', 1417273380, '管理员', '1,4,8,11,9,10,13,38,15,16,17,18,40,19,20,41,42,43,45,39,44'),
-(2, 0, 1, 0, '/User_group/view/id/2.html', 1417273440, '普通会员', '41,42,43,45,39,44'),
-(3, 0, 1, 0, '/User_group/view/id/3.html', 1417273440, '验证会员', '41,44');
+(2, 0, 1, 0, '/User_group/view/id/2.html', 1417273440, '普通会员', '41,42,46,45,39,44'),
+(3, 0, 1, 0, '/User_group/view/id/3.html', 1417273440, '部门责任人', '41,42,46,48,45,39,44');
 
 --
 -- Indexes for dumped tables
@@ -800,7 +820,7 @@ MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 -- AUTO_INCREMENT for table `pes_menu`
 --
 ALTER TABLE `pes_menu`
-MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
+MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `pes_model`
 --
@@ -830,12 +850,12 @@ MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `pes_report`
 --
 ALTER TABLE `pes_report`
-MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `pes_report_content`
 --
 ALTER TABLE `pes_report_content`
-MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `pes_task`
 --
@@ -850,7 +870,7 @@ MODIFY `check_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 -- AUTO_INCREMENT for table `pes_task_diary`
 --
 ALTER TABLE `pes_task_diary`
-MODIFY `diary_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `diary_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `pes_task_supplement`
 --
@@ -860,12 +880,12 @@ MODIFY `task_supplement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `pes_update_list`
 --
 ALTER TABLE `pes_update_list`
-MODIFY `update_list_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `update_list_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `pes_user`
 --
 ALTER TABLE `pes_user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `pes_user_group`
 --
