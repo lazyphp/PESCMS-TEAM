@@ -35,7 +35,7 @@ class Task extends \App\Team\Common {
             $this->db()->rollBack();
             $this->error('设置指派失败');
         }
-        $addNotice = \Model\Notice::addNotice($data['task_user_id'], $data['noset']['task_id'], '1');
+        $addNotice = \Model\Notice::addNotice($data['task_user_id'], $data['noset']['task_id'], '1', $task['task_mail']);
         if (empty($addNotice)) {
             $this->db()->rollBack();
             $this->error('生成新任务通知出错');
@@ -172,7 +172,7 @@ class Task extends \App\Team\Common {
 
         //生成系统消息
         foreach ($noticeUser as $value) {
-            $sendNotice = \Model\Notice::addNotice($value, $data['noset']['task_id'], $noticeType);
+            $sendNotice = \Model\Notice::addNotice($value, $data['noset']['task_id'], $noticeType, $task['task_mail']);
             if (empty($sendNotice)) {
                 $this->db()->rollBack();
                 $this->error('生成系统消息出错!');

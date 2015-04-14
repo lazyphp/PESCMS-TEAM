@@ -102,10 +102,10 @@ $(function () {
         var local = $("#task-department-id option:selected").attr("data");
         if (local == '1') {
             $(this).parent().removeClass().addClass("am-u-sm-8 am-u-md-2");
-            $("#task-user-layer").removeClass("am-hide-lg");
+            $("#task-user-layer").removeClass("am-hide");
         } else {
             $(this).parent().removeClass().addClass("am-u-sm-8 am-u-md-4");
-            $("#task-user-layer").addClass("am-hide-lg");
+            $("#task-user-layer").addClass("am-hide");
             $("#task-user-id").val("");
         }
         $("#task-accept-id").val(local);

@@ -20,7 +20,7 @@ class Task extends \App\Team\Common {
 
         //生成任务站内通知,accept_id为1表示本部门，反之需要部门责任人审核任务
         if ($_POST['accept_id'] == '1') {
-            $sendNoticeResult = \Model\Notice::addNotice($_POST['user_id'], $addResult['mes'], '1');
+            $sendNoticeResult = \Model\Notice::addNotice($_POST['user_id'], $addResult['mes'], '1', $_POST['mail']);
             if ($sendNoticeResult == false) {
                 $this->db()->rollBack();
                 $this->error('生成新任务通知失败');
@@ -34,7 +34,7 @@ class Task extends \App\Team\Common {
             $department_header = explode(',', $department['department_header']);
 
             foreach ($department_header as $v) {
-                $sendNoticeResult = \Model\Notice::addNotice($v, $addResult['mes'], '5');
+                $sendNoticeResult = \Model\Notice::addNotice($v, $addResult['mes'], '5', $_POST['mail']);
                 if ($sendNoticeResult == false) {
                     $this->db()->rollBack();
                     $this->error('生成部门审核通知失败');
@@ -52,7 +52,7 @@ class Task extends \App\Team\Common {
                 $this->error('添加审核人失败');
             }
 
-            $sendNoticeResult = \Model\Notice::addNotice($v, $addResult['mes'], '2');
+            $sendNoticeResult = \Model\Notice::addNotice($v, $addResult['mes'], '2', $_POST['mail']);
             if ($sendNoticeResult == false) {
                 $this->db()->rollBack();
                 $this->error('生成指派通知失败');

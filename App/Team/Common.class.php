@@ -24,6 +24,12 @@ abstract class Common extends \Core\Controller\Controller {
         if ($login == FALSE && MODULE != 'Login') {
             $this->jump($this->url('Team-Login-index'));
         }
+
+        //触发邮件发送
+        $mail = new \Expand\Email\SendMail();
+        if (in_array($mail->trigger, array('1', '3')) && METHOD == 'GET') {
+            $mail->sendNotice();
+        }
     }
 
     /**

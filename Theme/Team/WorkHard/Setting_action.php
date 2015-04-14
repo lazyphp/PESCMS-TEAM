@@ -120,12 +120,22 @@
 
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                            邮件发送名称
+                            邮件触发方式
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="mail[name]" value="<?= json_decode($setting['mail']['value'], true)['name'] ?>" >
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs <?= json_decode($setting['mail']['value'], true)['trigger'] == '1' ? 'am-active' : '' ?>">
+                                    <input type="radio" name="mail[trigger]" value="1" <?= json_decode($setting['mail']['value'], true)['trigger'] == '1' ? 'checked="checked"' : '' ?>> 被动触发
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs <?= json_decode($setting['mail']['value'], true)['trigger'] == '2' ? 'am-active' : '' ?>">
+                                    <input type="radio" name="mail[trigger]" value="2" <?= json_decode($setting['mail']['value'], true)['trigger'] == '2' ? 'checked="checked"' : '' ?>> 定时器触发
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs <?= json_decode($setting['mail']['value'], true)['trigger'] == '3' ? 'am-active' : '' ?>">
+                                    <input type="radio" name="mail[trigger]" value="3" <?= json_decode($setting['mail']['value'], true)['trigger'] == '3' ? 'checked="checked"' : '' ?>> 两者兼有
+                                </label>
+                            </div>
                         </div>
-                        <div class="am-hide-sm-only am-u-md-6"></div>
+                        <div class="am-hide-sm-only am-u-md-6">*详情请参考<a href="">文档</a></div>
                     </div>
 
 

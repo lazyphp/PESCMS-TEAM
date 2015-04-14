@@ -171,6 +171,23 @@
                         <div class="am-hide-sm-only am-u-md-8">*开启阅读权限后，任务仅发起人、审核人和执行者可以查看。</div>
                     </div>
 
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            是否发送邮件通知
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-2">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs am-active">
+                                    <input type="radio" name="mail" value="0" checked="checked" > 关闭
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="mail" value="1"> 开启
+                                </label>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-8">*开启后，本任务所有动态都将发送邮件通知</div>
+                    </div>
+
                 </div>
 
             </div>
@@ -184,7 +201,7 @@
     </form>
 </div>
 <script>
-    jQuery(function () {
+    jQuery(function() {
 
         var $ = jQuery,
                 $list = $('#task_fileList'),
@@ -209,7 +226,7 @@
         });
 
         // 当有文件添加进来的时候
-        uploader.on('fileQueued', function (file) {
+        uploader.on('fileQueued', function(file) {
             var $li = $(
                     '<div id="' + file.id + '" class="file-item">' +
                     '<div class="info">' + file.name + '</div>' +
@@ -219,7 +236,7 @@
         });
 
         // 文件上传过程中创建进度条实时显示。
-        uploader.on('uploadProgress', function (file, percentage) {
+        uploader.on('uploadProgress', function(file, percentage) {
             var $li = $('#' + file.id),
                     $percent = $li.find('.progress span');
 
@@ -234,7 +251,7 @@
         });
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-        uploader.on('uploadSuccess', function (file, response) {
+        uploader.on('uploadSuccess', function(file, response) {
             if (response.status == '200') {
                 var rand = Math.round(Math.random() * 10000 * Math.random());
                 $("#task_fileList").before('<dt class="form-text" id="' + rand + 'task_file">Upload File \'' + file.name + '\' : <input type="text" class="form-text-input input-leng3" name="file[]" value="' + response.info + '" /><a href="javascript:;" onclick="removeUploadFile(\'' + rand + 'task_file\')" class="blue-button" style="margin-left:5px;" >删除</a></dt>')
@@ -262,7 +279,7 @@
         });
 
         // 文件上传失败，现实上传出错。
-        uploader.on('uploadError', function (file) {
+        uploader.on('uploadError', function(file) {
             var $li = $('#' + file.id),
                     $error = $li.find('div.error');
 
@@ -274,12 +291,12 @@
         });
 
         // 完成上传完了，成功或者失败，先删除进度条。
-        uploader.on('uploadComplete', function (file) {
+        uploader.on('uploadComplete', function(file) {
             $('#' + file.id).find('.progress').remove();
         });
     });
 
-    $(function () {
+    $(function() {
         var umcontent = UM.getEditor('content', {
             textarea: 'content',
             imageUrl: "/index.php/?g=Team&m=Upload&a=img"
