@@ -4,7 +4,7 @@
     <div class="am-cf am-padding">
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><?= $title; ?></strong> / <small>后台菜单</small></div>
     </div>
-    <form class="am-form" action="<?= $url; ?>" method="post">
+    <form class="am-form" action="<?= $url; ?>" method="post" data-am-validator>
         <input type="hidden" name="method" value="<?= $method ?>" />
         <input type="hidden" name="id" value="<?= $id ?>" />
         <input type="hidden" name="createtime" value="<?= date('Y-m-d'); ?>"/>
@@ -20,7 +20,7 @@
                             所属项目
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <select name="project">
+                            <select name="project" required>
                                 <option value="">请选择</option>
                                 <?php foreach ($project as $key => $value) : ?>
                                     <option value="<?= $value['project_id']; ?>"><?= $value['project_title']; ?></option>
@@ -35,7 +35,7 @@
                             任务标题
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="title" value="<?= $task_title ?>" >
+                            <input type="text" class="am-input-sm" name="title" value="<?= $task_title ?>" required >
                         </div>
                         <div class="am-hide-sm-only am-u-md-6">*必填</div>
                     </div>
@@ -45,8 +45,8 @@
                             所属部门
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <select id="task-department-id" name="department_id" <?= $method == 'PUT' ? 'disabled="disabled"' : '' ?>>
-                                <option value="-1">请选择</option>
+                            <select id="task-department-id" name="department_id" <?= $method == 'PUT' ? 'disabled="disabled"' : '' ?> required>
+                                <option value="">请选择</option>
                                 <?php foreach ($department as $key => $value) : ?>
                                     <option value="<?= $key; ?>" <?= $task_department_id == $key ? 'selected="selected"' : '' ?> data="<?= $_SESSION['team']['user_department_id'] == $key ? '1' : '0'; ?>"  ><?= $value; ?></option>
                                 <?php endforeach; ?>
@@ -149,7 +149,7 @@
                         </div>
                         <div class="am-u-sm-8 am-u-md-4 am-form-icon">
                             <i class="am-icon-calendar" style="left: 1.625em;"></i>
-                            <input type="text" class="am-form-field datetimepicker" name="expecttime" readonly="readonly"/>
+                            <input type="text" class="am-form-field datetimepicker" name="expecttime" readonly="readonly" required/>
                         </div>
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>

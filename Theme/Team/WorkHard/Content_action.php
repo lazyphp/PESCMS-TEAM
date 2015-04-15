@@ -7,7 +7,7 @@
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
     </div>
-    <form class="am-form" action="<?= $url; ?>" method="post">
+    <form class="am-form" action="<?= $url; ?>" method="post" data-am-validator>
         <input type="hidden" name="method" value="<?= $method ?>" />
         <input type="hidden" name="id" value="<?= $id ?>" />
         <div class="am-tabs am-margin">

@@ -7,7 +7,7 @@
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong> / <small>后台菜单</small>
         </div>
     </div>
-    <form class="am-form" action="<?= $url; ?>" method="post">
+    <form class="am-form" action="<?= $url; ?>" method="post" data-am-validator>
         <input type="hidden" name="method" value="<?= $method ?>" />
         <input type="hidden" name="menu_id" value="<?= $menu_id ?>" />
         <div class="am-tabs am-margin">
@@ -20,8 +20,8 @@
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">所属类别</div>
                         <div class="am-u-sm-8 am-u-md-3">
-                            <select name="menu_pid" id="menu-pid">
-                                <option value="-1">请选择</option>
+                            <select name="menu_pid" id="menu-pid" required>
+                                <option value="">请选择</option>
                                 <option value="0">顶层菜单</option>
                                 <?php foreach ($topMenu as $key => $value) : ?>
                                     <option value="<?= $value['menu_id']; ?>" <?= $menu_pid == $value['menu_id'] ? 'selected="selected"' : '' ?>><?= $value['menu_name']; ?></option>
@@ -36,7 +36,7 @@
                             菜单名称
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="menu_name" value="<?= $menu_name ?>">
+                            <input type="text" class="am-input-sm" name="menu_name" value="<?= $menu_name ?>" required>
                         </div>
                         <div class="am-hide-sm-only am-u-md-6">*必填</div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="am-u-sm-8 am-u-md-4">
                             <input type="text" class="am-input-sm" name="menu_url" value="<?= $menu_url ?>">
                         </div>
-                        <div class="am-hide-sm-only am-u-md-6">*必填</div>
+                        <div class="am-hide-sm-only am-u-md-6">*非顶层菜单请填写URL，以：组-模型-方法填写</div>
                     </div>
 
                     <div class="am-g am-margin-top" id="menu-url">
@@ -58,7 +58,7 @@
                         <div class="am-u-sm-8 am-u-md-4">
                             <input type="text" class="am-input-sm" name="menu_icon" value="<?= $menu_icon ?>">
                         </div>
-                        <div class="am-hide-sm-only am-u-md-6">*必填,查看<a href="http://amazeui.org/1.x/css/icon/" target="_blank">图标</a></div>
+                        <div class="am-hide-sm-only am-u-md-6">*查看<a href="http://amazeui.org/1.x/css/icon/" target="_blank">图标</a></div>
                     </div>
 
                     <div class="am-g am-margin-top">

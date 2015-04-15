@@ -7,7 +7,7 @@
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
     </div>
-    <form class="am-form" action="<?= $url; ?>" method="post">
+    <form class="am-form" action="<?= $url; ?>" method="post" data-am-validator>
         <input type="hidden" name="method" value="<?= $method ?>" />
         <input type="hidden" name="field_id" value="<?= $field_id ?>" />
         <input type="hidden" name="model_id" value="<?= $modelId ?>" />
@@ -24,8 +24,8 @@
                             字段类型
                         </div>
                         <div class="am-u-sm-8 am-u-md-3">
-                            <select name="field_type" id="menu-pid" <?= $method == 'PUT' ? 'disabled="disabled"' : '' ?>>
-                                <option value="-1">请选择</option>
+                            <select name="field_type" id="menu-pid" <?= $method == 'PUT' ? 'disabled="disabled"' : '' ?> required>
+                                <option value="">请选择</option>
                                 <?php foreach ($fieldTypeList as $key => $value) : ?>
                                     <option value="<?= $key; ?>" <?= $field_type == $key ? 'selected="selected"' : '' ?>><?= $value; ?></option>
                                 <?php endforeach; ?>
@@ -39,7 +39,7 @@
                             字段名称
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="field_name" value="<?= $field_name ?>" <?= $method == 'PUT' ? 'disabled="disabled"' : '' ?>>
+                            <input type="text" class="am-input-sm" name="field_name" value="<?= $field_name ?>" <?= $method == 'PUT' ? 'disabled="disabled"' : 'required' ?>>
                         </div>
                         <div class="am-hide-sm-only am-u-md-6">*必填，仅限英文下划线</div>
                     </div>
@@ -49,7 +49,7 @@
                             显示名称
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="display_name" value="<?= $display_name ?>">
+                            <input type="text" class="am-input-sm" name="display_name" value="<?= $display_name ?>" required>
                         </div>
                         <div class="am-hide-sm-only am-u-md-6">*必填</div>
                     </div>
@@ -79,10 +79,10 @@
                         <div class="am-u-sm-8 am-u-md-10">
                             <div class="am-btn-group" data-am-button>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $field_required == '1' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="field_required" value="1" <?= $field_required == '1' ? 'checked="checked"' : '' ?>> 是
+                                    <input type="radio" name="field_required" value="1" <?= $field_required == '1' ? 'checked="checked"' : '' ?> required > 是
                                 </label>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $field_required == '0' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="field_required" value="0" <?= $field_required == '0' ? 'checked="checked"' : '' ?>> 否
+                                    <input type="radio" name="field_required" value="0" <?= $field_required == '0' ? 'checked="checked"' : '' ?>required > 否
                                 </label>
                             </div>
                         </div>
@@ -93,10 +93,10 @@
                         <div class="am-u-sm-8 am-u-md-10">
                             <div class="am-btn-group" data-am-button>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $field_status == '1' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="field_status" value="1" <?= $field_status == '1' ? 'checked="checked"' : '' ?>> 启用
+                                    <input type="radio" name="field_status" value="1" <?= $field_status == '1' ? 'checked="checked"' : '' ?> required> 启用
                                 </label>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $field_status == '0' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="field_status" value="2" <?= $field_status == '0' ? 'checked="checked"' : '' ?>> 禁用
+                                    <input type="radio" name="field_status" value="2" <?= $field_status == '0' ? 'checked="checked"' : '' ?> required> 禁用
                                 </label>
                             </div>
                         </div>

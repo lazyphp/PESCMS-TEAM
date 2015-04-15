@@ -4,7 +4,7 @@
     <div class="am-cf am-padding">
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><?= $title; ?></strong> / <small>核能设置</small></div>
     </div>
-    <form class="am-form" action="" method="post">
+    <form class="am-form" action="" method="post" data-am-validator>
         <input type="hidden" name="method" value="PUT" />
         <div class="am-tabs am-margin">
             <ul class="am-tabs-nav am-nav am-nav-tabs">
@@ -29,7 +29,7 @@
                             程序标题
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="sitetitle" value="<?= $setting['sitetitle']['value']; ?>" >
+                            <input type="text" class="am-input-sm" name="sitetitle" value="<?= $setting['sitetitle']['value']; ?>" required >
                         </div>
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>
@@ -41,10 +41,10 @@
                         <div class="am-u-sm-8 am-u-md-4">
                             <div class="am-btn-group" data-am-button>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $setting['signup']['value'] == '1' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="signup" value="1" <?= $setting['signup']['value'] == '1' ? 'checked="checked"' : '' ?>> 开启注册
+                                    <input type="radio" name="signup" value="1" <?= $setting['signup']['value'] == '1' ? 'checked="checked"' : '' ?> required> 开启注册
                                 </label>
                                 <label class="am-btn am-btn-default am-btn-xs <?= $setting['signup']['value'] == '0' ? 'am-active' : '' ?>">
-                                    <input type="radio" name="signup" value="0" <?= $setting['signup']['value'] == '0' ? 'checked="checked"' : '' ?>> 关闭注册
+                                    <input type="radio" name="signup" value="0" <?= $setting['signup']['value'] == '0' ? 'checked="checked"' : '' ?> required> 关闭注册
                                 </label>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                             上传图片格式
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="upload_img" value="<?= implode(',', json_decode($setting['upload_img']['value'], true)); ?>" >
+                            <input type="text" class="am-input-sm" name="upload_img" value="<?= implode(',', json_decode($setting['upload_img']['value'], true)); ?>" required >
                         </div>
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>
@@ -70,7 +70,7 @@
                             上传文件格式
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="upload_file" value="<?= implode(',', json_decode($setting['upload_file']['value'], true)); ?>" >
+                            <input type="text" class="am-input-sm" name="upload_file" value="<?= implode(',', json_decode($setting['upload_file']['value'], true)); ?>" required >
                         </div>
                         <div class="am-hide-sm-only am-u-md-6"></div>
                     </div>

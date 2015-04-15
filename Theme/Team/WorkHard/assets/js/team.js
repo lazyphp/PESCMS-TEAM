@@ -103,9 +103,11 @@ $(function () {
         if (local == '1') {
             $(this).parent().removeClass().addClass("am-u-sm-8 am-u-md-2");
             $("#task-user-layer").removeClass("am-hide");
+            $("#task-user-id").attr("required", "required");
         } else {
             $(this).parent().removeClass().addClass("am-u-sm-8 am-u-md-4");
             $("#task-user-layer").addClass("am-hide");
+            $("#task-user-id").removeAttr("required");
             $("#task-user-id").val("");
         }
         $("#task-accept-id").val(local);
