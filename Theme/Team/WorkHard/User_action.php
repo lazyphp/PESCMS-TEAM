@@ -82,7 +82,7 @@
                             邮箱地址
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" name="user_mail" value="<?= $user_mail ?>" required >
+                            <input type="email" class="am-input-sm" name="user_mail" value="<?= $user_mail ?>" required >
                         </div>
                         <div class="am-hide-sm-only am-u-md-6">*必填</div>
                     </div>

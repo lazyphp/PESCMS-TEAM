@@ -35,21 +35,21 @@
         <div class="am-g">
             <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
 
-                <form class="am-form" action="<?= $label->url('Team-Login-signup'); ?>" method="post">
+                <form class="am-form" action="<?= $label->url('Team-Login-signup'); ?>" method="post" data-am-validator>
                     <label for="account">帐号:</label>
-                    <input type="text" name="account" value="">
+                    <input type="text" name="account" value="" required>
                     <br>
                     <label for="password">密码:</label>
-                    <input type="password" name="password" value="">
+                    <input type="password" name="password" value="" required>
                     <br>
                     <label for="password">确认密码:</label>
-                    <input type="password" name="repassword" value="">
+                    <input type="password" name="repassword" value="" required>
                     <br>
                     <label for="account">邮箱地址:</label>
-                    <input type="text" name="mail" value="">
+                    <input type="email" name="mail" value="" required>
                     <br>
                     <label for="account">姓名:</label>
-                    <input type="text" name="name" value="">
+                    <input type="text" name="name" value="" required>
                     <br>
                     <br />
                     <div class="am-cf">
