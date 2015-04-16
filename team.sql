@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2015 年 04 月 15 日 07:49
+-- 生成日期: 2015 年 04 月 16 日 11:43
 -- 服务器版本: 5.5.16
 -- PHP 版本: 5.4.39
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `pes_field` (
   `field_status` tinyint(4) NOT NULL,
   PRIMARY KEY (`field_id`),
   UNIQUE KEY `modle_id` (`model_id`,`field_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=47 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
 
 --
 -- 转存表中的数据 `pes_field`
@@ -161,7 +161,17 @@ INSERT INTO `pes_field` (`field_id`, `model_id`, `field_name`, `display_name`, `
 (37, 9, 'project', '任务项目', 'text', '', '', 1, '', 3, 1),
 (38, 9, 'read_permission', '阅读权限', 'text', '', '', 0, '', 9, 1),
 (44, 12, 'read', '是否阅读', 'text', '', '', 0, '', 0, 1),
-(46, 9, 'mail', '是否发送邮件', 'select', '{"\\u5426":"0","\\u662f":"1"}', '', 1, '', 96, 1);
+(46, 9, 'mail', '是否发送邮件', 'select', '{"\\u5426":"0","\\u662f":"1"}', '', 1, '', 96, 1),
+(47, 13, 'status', '状态', 'radio', '{"\\u7981\\u7528":"0","\\u542f\\u7528":"1"}', '1', 0, '', 100, 1),
+(48, 13, 'listsort', '排序', 'text', '', '', 0, '', 98, 1),
+(49, 13, 'createtime', '发布时间', 'date', '', '', 0, '', 99, 1),
+(50, 13, 'title', '节点名称', 'text', '', '', 1, '', 1, 1),
+(51, 13, 'parent', '父类节点', 'select', '', '', 0, '', 2, 1),
+(52, 13, 'verify', '是否验证权限', 'select', '', '', 0, '', 5, 1),
+(53, 13, 'msg', '验证提示信息', 'text', '', '', 0, '', 6, 1),
+(54, 13, 'method_type', '操作方法', 'text', '', '', 0, '', 3, 1),
+(55, 13, 'value', '节点匹配值', 'text', '', '', 0, '', 4, 1),
+(56, 13, 'check_value', '节点验证名称', 'text', '', '', 0, '', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_listsort` tinyint(100) NOT NULL,
   PRIMARY KEY (`menu_id`),
   KEY `menu_pid` (`menu_pid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -193,21 +203,21 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_u
 (11, '清空缓存', 1, 'am-icon-refresh', 'Team-Index-clear', 0),
 (13, '内容管理', 0, 'am-icon-database', '', 0),
 (15, '会员管理', 0, 'am-icon-user', '', 0),
-(16, '会员列表', 15, 'am-icon-user', 'Team-User-index', 0),
-(17, '权限节点', 15, 'am-icon-unlink', 'Team-User-nodeList', 0),
-(18, '用户组', 15, 'am-icon-group', 'Team-User_group-index', 0),
+(16, '会员列表', 15, 'am-icon-user', 'Team-User-index', 99),
+(18, '用户组', 15, 'am-icon-group', 'Team-User_group-index', 97),
 (19, '高级设置', 0, 'am-icon-wrench', '', 0),
 (20, '系统设置', 19, 'am-icon-server', 'Team-Setting-action', 0),
 (38, '项目列表', 13, 'am-icon-cubes', 'Team-Project-index', 0),
 (39, '全体任务列表', 41, 'am-icon-tasks', 'Team-Task-index', 3),
-(40, '部门列表', 15, 'am-icon-legal', 'Team-Department-index', 0),
+(40, '部门列表', 15, 'am-icon-legal', 'Team-Department-index', 96),
 (41, '个人中心', 0, 'am-icon-home', '', 0),
 (42, '我的任务', 41, 'am-icon-tags', 'Team-Task-my', 99),
 (44, '退出系统', 41, 'am-icon-sign-out', 'Team-Index-logout', 0),
 (45, '待审核列表', 41, 'am-icon-check-square-o', 'Team-Task-check', 96),
 (46, '我的报表', 41, 'am-icon-pencil-square-o', 'Team-Report-my', 98),
 (47, '系统更新', 19, 'am-icon-refresh', 'Team-Setting-upgrade', 0),
-(48, '提取报表', 41, 'am-icon-newspaper-o', 'Team-Report-extract', 97);
+(48, '提取报表', 41, 'am-icon-newspaper-o', 'Team-Report-extract', 97),
+(49, '权限节点', 15, 'am-icon-unlink', 'Team-Node-index', 98);
 
 -- --------------------------------------------------------
 
@@ -224,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `pes_model` (
   `model_attr` tinyint(1) NOT NULL COMMENT '模型属性 1:前台(含前台) 2:后台',
   PRIMARY KEY (`model_id`),
   UNIQUE KEY `model_name` (`model_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- 转存表中的数据 `pes_model`
@@ -236,7 +246,8 @@ INSERT INTO `pes_model` (`model_id`, `model_name`, `lang_key`, `status`, `is_sea
 (8, 'Project', '项目列表', 1, 1, 2),
 (9, 'Task', '任务列表', 1, 1, 1),
 (10, 'Department', '部门列表', 1, 1, 2),
-(12, 'update_list', '更新提示列表', 0, 0, 2);
+(12, 'update_list', '更新提示列表', 0, 0, 2),
+(13, 'Node', '权限节点', 1, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -245,17 +256,34 @@ INSERT INTO `pes_model` (`model_id`, `model_name`, `lang_key`, `status`, `is_sea
 --
 
 CREATE TABLE IF NOT EXISTS `pes_node` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL COMMENT '规则唯一英文标识',
-  `title` varchar(128) NOT NULL COMMENT '描述名称',
-  `pid` int(11) NOT NULL COMMENT '父类ID',
-  `child` text NOT NULL,
-  `verify` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否进行权限验证',
-  `mes` varchar(128) NOT NULL COMMENT '提示信息',
-  `listsort` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`pid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `node_id` int(11) NOT NULL AUTO_INCREMENT,
+  `node_listsort` int(11) NOT NULL,
+  `node_status` tinyint(4) NOT NULL,
+  `node_lang` tinyint(4) NOT NULL,
+  `node_url` varchar(255) NOT NULL,
+  `node_createtime` int(11) NOT NULL,
+  `node_title` varchar(255) NOT NULL,
+  `node_parent` int(11) NOT NULL,
+  `node_verify` int(11) NOT NULL,
+  `node_msg` varchar(255) NOT NULL,
+  `node_method_type` varchar(255) NOT NULL,
+  `node_value` varchar(255) NOT NULL,
+  `node_check_value` varchar(255) NOT NULL,
+  PRIMARY KEY (`node_id`),
+  KEY `node_check_value` (`node_check_value`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- 转存表中的数据 `pes_node`
+--
+
+INSERT INTO `pes_node` (`node_id`, `node_listsort`, `node_status`, `node_lang`, `node_url`, `node_createtime`, `node_title`, `node_parent`, `node_verify`, `node_msg`, `node_method_type`, `node_value`, `node_check_value`) VALUES
+(1, 0, 1, 0, '/Node/view/id/1.html', 0, '用户管理', 0, 0, '', '', 'User', ''),
+(2, 0, 1, 0, '/Node/view/id/2.html', 0, '用户列表', 1, 1, '', 'GET', 'index', 'TeamGETUserindex'),
+(3, 0, 1, 0, '/Node/view/id/3.html', 0, '新增/编辑用户', 1, 1, '', 'GET', 'action', 'TeamGETUseraction'),
+(4, 0, 1, 0, '/Node/view/id/4.html', 0, '添加用户', 1, 1, '', 'POST', 'action', 'TeamPOSTUseraction'),
+(5, 0, 1, 0, '/Node/view/id/5.html', 0, '更新用户', 1, 1, '', 'PUT', 'action', 'TeamPUTUseraction'),
+(6, 0, 1, 0, '/Node/view/id/6.html', 0, '删除用户', 1, 1, '', 'DELETE', 'delete', 'TeamDELETEUserdelete');
 
 -- --------------------------------------------------------
 
@@ -681,7 +709,7 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_account` (`user_account`),
   UNIQUE KEY `user_mail` (`user_mail`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- 转存表中的数据 `pes_user`

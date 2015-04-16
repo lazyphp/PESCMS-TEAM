@@ -81,7 +81,7 @@ class Model extends \App\Team\Common {
 
         if (empty($fieldId)) {
             $this->assign('method', 'POST');
-            $this->assign('title', $GLOBALS['_LANG']['MODEL']['FIELD_ADD'] . " - {$GLOBALS['_LANG']['MENU_LIST'][$model['lang_key']]}");
+            $this->assign('title', $GLOBALS['_LANG']['MODEL']['FIELD_ADD'] . " - {$model['lang_key']}");
         } else {
             $field = \Model\Field::findField($fieldId);
             if (empty($field)) {
@@ -89,7 +89,7 @@ class Model extends \App\Team\Common {
             }
             $this->assign($field);
             $this->assign('method', 'PUT');
-            $this->assign('title', "{$GLOBALS['_LANG']['MODEL']['FIELD_EDIT']} - {$GLOBALS['_LANG']['MENU_LIST'][$model['lang_key']]}");
+            $this->assign('title', "{$GLOBALS['_LANG']['MODEL']['FIELD_EDIT']} - {$model['lang_key']}");
         }
 
         $fieldTypeOption = \Model\Option::findOption('fieldType');

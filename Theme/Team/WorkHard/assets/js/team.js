@@ -14,7 +14,6 @@ $(function () {
      */
     $(".admin-header-list .am-dropdown, .admin-header-list .am-dropdown-content").on("mouseover", function () {
         $(this).siblings(".am-dropdown").each(function () {
-            console.dir("1")
             $(this).dropdown('close')
         })
         $(this).dropdown('open')
