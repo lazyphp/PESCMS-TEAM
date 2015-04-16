@@ -19,7 +19,7 @@
             <table class="am-table am-table-striped am-table-hover table-main">
                 <thead>
                     <tr>
-                        <th>控制器</th>
+                        <th style="width: 200px">控制器</th>
                         <th>方法</th>
                     </tr>
                 </thead>
@@ -51,9 +51,9 @@
     </div>
 </div>
 <script>
-    $(function() {
+    $(function () {
         var menu = eval('(<?= json_encode(explode(',', $user_group_menu)) ?>)');
-        $('input[name="menu[]"]').each(function() {
+        $('input[name="menu[]"]').each(function () {
             var length = menu.length;
             for (var i = 0; i < length; i++) {
                 if (menu[i] == $(this).val()) {

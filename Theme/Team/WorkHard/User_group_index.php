@@ -48,6 +48,7 @@
                                     <div class="am-btn-toolbar">
                                         <div class="am-btn-group am-btn-group-xs">
                                             <a class="am-btn am-btn-secondary" href="<?= $label->url('Team-' . MODULE . '-action', array('id' => $value["{$fieldPrefix}id"])); ?>"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+                                            <a class="am-btn am-btn-success" href="<?= $label->url('Team-' . MODULE . '-setNode', array('id' => $value["{$fieldPrefix}id"])); ?>"><span class="am-icon-unlink"></span> 设置权限节点</a>
                                             <a class="am-btn am-btn-warning" href="<?= $label->url('Team-' . MODULE . '-setMenu', array('id' => $value["{$fieldPrefix}id"])); ?>"><span class="am-icon-navicon"></span> 设置菜单</a>
                                             <a class="am-btn am-btn-danger" href="<?= $label->url('Team-' . MODULE . '-action', array('id' => $value["{$fieldPrefix}id"], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
                                         </div>

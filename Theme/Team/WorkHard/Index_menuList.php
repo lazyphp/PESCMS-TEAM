@@ -50,7 +50,7 @@
                                     <div class="am-btn-toolbar">
                                         <div class="am-btn-group am-btn-group-xs">
                                             <a class="am-btn am-btn-secondary" href="<?= $label->url('Index-menuAction', array('id' => $topValu['menu_id'])); ?>"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-                                            <a class="am-btn am-btn-danger" href="<?= $label->url('Menu-action', array('id' => $topValu['menu_id'], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
+                                            <a class="am-btn am-btn-danger" href="<?= $label->url('Index-menuAction', array('id' => $topValu['menu_id'], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
                                         </div>
                                     </div>
                                 </td>
@@ -68,7 +68,7 @@
                                             <div class="am-btn-toolbar">
                                                 <div class="am-btn-group am-btn-group-xs">
                                                     <a class="am-btn am-btn-secondary" href="<?= $label->url('Index-menuAction', array('id' => $value['menu_id'])); ?>"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-                                                    <a class="am-btn am-btn-danger" href="<?= $label->url('Menu-action', array('id' => $value['menu_id'], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
+                                                    <a class="am-btn am-btn-danger" href="<?= $label->url('Index-menuAction', array('id' => $value['menu_id'], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
                                                 </div>
                                             </div>
                                         </td>

@@ -30,6 +30,7 @@ abstract class Common extends \Core\Controller\Controller {
         if (in_array($mail->trigger, array('1', '3')) && METHOD == 'GET') {
             $mail->sendNotice();
         }
+        $this->checkNode();
     }
 
     /**
@@ -42,6 +43,28 @@ abstract class Common extends \Core\Controller\Controller {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * 验证用户节点
+     * @todo 若没有添加节点，是否需要严重权限呢？
+     * 应该在设置中添加一个选项，开启严格的权限检测和欢送检测。
+     */
+    protected function checkNode() {
+        //登录，上传，下载文件为权限验证特例。以后看需要再更改吧
+        if (in_array(MODULE, array('Login', 'Upload', 'SaveFile'))) {
+            return true;
+        }
+        $findNode = \Model\Content::findContent('node', GROUP . METHOD . MODULE . ACTION, 'node_check_value');
+        $nodeType = \Model\Content::findContent('option', 'node_type', 'option_name');
+        //没加节点，则表示不验证权限
+        if (empty($findNode) && $nodeType['value'] == '0') {
+            return true;
+        }
+        $checkNode = $this->db('node_group')->where('user_group_id = :user_group_id AND node_id = :node_id')->find(array('user_group_id' => $_SESSION['team']['user_group_id'], 'node_id' => $findNode['node_id']));
+        if (empty($checkNode)) {
+            $this->error(empty($findNode['node_msg']) ? '您的权限不足' : $findNode['node_msg']);
         }
     }
 

@@ -47,19 +47,6 @@ class Model extends \App\Team\Common {
     }
 
     /**
-     * 检查模型内容
-     */
-    public function checkModelValue() {
-        $modelName = ucfirst(strtolower($this->isG('name', $GLOBALS['_LANG']['MODEL']['ENTER_MODEL_NAME'])));
-        $field = $this->isG('field', $GLOBALS['_LANG']['MODEL']['ENTER_FIELD_NAME']);
-        if (\Model\Model::findModelValue($field, $modelName)) {
-            $this->error($GLOBALS['_LANG']['MODEL']['EXIST_MODEL']);
-        } else {
-            $this->success($GLOBALS['_LANG']['MODEL']['NOT_EXIST_MODEL']);
-        }
-    }
-
-    /**
      * 模型字段管理
      */
     public function fieldList() {
@@ -97,20 +84,6 @@ class Model extends \App\Team\Common {
 
         $this->assign('modelId', $modelId);
         $this->layout();
-    }
-
-    /**
-     * 验证字段是否
-     */
-    public function checkFieldName() {
-        $name = $this->isG('name', $GLOBALS['_LANG']['MODEL']['ENTER_FIELD_NAME']);
-        $modelId = $this->isG('model', $GLOBALS['_LANG']['MODEL']['SELECT_MODEL_ID']);
-        $model = \Model\Model::findModel($modelId);
-        if (\Model\Field::findTableField($model['model_name'], $name)) {
-            $this->error($GLOBALS['_LANG']['MODEL']['EXIST_FIELD']);
-        } else {
-            $this->success($GLOBALS['_LANG']['MODEL']['NOT_EXIST_FIELD']);
-        }
     }
 
 }

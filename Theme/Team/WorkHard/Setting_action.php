@@ -138,6 +138,24 @@
                         <div class="am-hide-sm-only am-u-md-6">*详情请参考<a href="">文档</a></div>
                     </div>
 
+                    <h2>权限设置</h2>
+                    <hr />
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            权限验证模式
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs <?= $setting['node_type']['value'] == '0' ? 'am-active' : '' ?>">
+                                    <input type="radio" name="node_type" value="0" <?= $setting['node_type']['value'] == '0' ? 'checked="checked"' : '' ?> required> 宽松模式
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs <?= $setting['node_type']['value'] == '1' ? 'am-active' : '' ?>">
+                                    <input type="radio" name="node_type" value="1" <?= $setting['node_type']['value'] == '1' ? 'checked="checked"' : '' ?> required> 严格模式
+                                </label>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6">*宽松模式下，没有添加的节点地址将允许所有人访问。</div>
+                    </div>
 
                 </div>
 

@@ -35,11 +35,13 @@ class Setting extends \App\Team\Common {
         $upload_img = $this->isP('upload_img', '请填写上传图片格式');
         $upload_file = $this->isP('upload_file', '请填写上传文件的格式');
         $signup = in_array($_POST['signup'], array('0', '1')) ? $_POST['signup'] : $this->error('请选择是否开启注册');
+        $node_type = in_array($_POST['node_type'], array('0', '1')) ? $_POST['node_type'] : $this->error('请选择权限验证模式');
 
         $mail = $this->p('mail');
 
         \Model\Option::update('sitetitle', $sitetitle);
         \Model\Option::update('signup', $signup);
+        \Model\Option::update('node_type', $node_type);
         \Model\Option::update('upload_img', json_encode(explode(',', $upload_img)));
         \Model\Option::update('upload_file', json_encode(explode(',', $upload_file)));
         \Model\Option::update('mail', json_encode($mail));

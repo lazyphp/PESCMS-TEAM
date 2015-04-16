@@ -8,7 +8,7 @@ namespace App\Team\GET;
 class Task extends Content {
 
     /**
-     * 部门添加/编辑
+     * 发表新任务
      */
     public function action() {
         //列出用户

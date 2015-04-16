@@ -28,4 +28,26 @@ class User_group extends Content {
         $this->layout();
     }
 
+    /**
+     * 设置节点
+     */
+    public function setNode() {
+        $id = $this->isG('id', '请选择用户组');
+        $group = \Model\Content::findContent('user_group', $id, 'user_group_id');
+        if (empty($group)) {
+            $this->error('用户组不存在');
+        }
+
+        $nodeList = $this->db('node_group')->where('user_group_id = :user_group_id')->select(array('user_group_id' => $id));
+        foreach ($nodeList as $key => $value) {
+            $groupNode[] = $value['node_id'];
+        }
+
+        $this->assign('groupNode', $groupNode);
+        $this->assign($group);
+        $this->assign('node', \Model\Node::nodeList());
+        $this->assign('title', "设置'{$group['user_group_name']}'用户组权限节点");
+        $this->layout();
+    }
+
 }

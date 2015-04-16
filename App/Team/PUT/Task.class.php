@@ -14,7 +14,7 @@ namespace App\Team\PUT;
 class Task extends \App\Team\Common {
 
     /**
-     * 外部门负责人指派内部人员任务
+     * 部门负责人指派内部人员任务
      */
     public function accept() {
         $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
