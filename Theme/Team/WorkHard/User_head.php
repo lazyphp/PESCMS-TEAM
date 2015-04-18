@@ -3,6 +3,7 @@
 
     <div class="am-cf am-padding">
         <div class="am-fl am-cf">
+            <a href="<?= $label->backUrl(); ?>" class="am-margin-right-xs am-text-danger"><i class="am-icon-reply"></i>返回</a>
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
     </div>
@@ -10,7 +11,8 @@
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="doc-example am-margin-bottom">
-                <form class="avatar-form" action="<?= $label->url('Team-Upload-setHead'); ?>" enctype="multipart/form-data" method="post">
+                <form class="avatar-form" action="<?= $label->url('Team-User-setHead'); ?>" enctype="multipart/form-data" method="post">
+                    <input type="hidden" name="method" value="PUT" />
                     <div class="am-form-inline">
                         <div class="am-form-group">
                             <input type="file" name="file" id="inputImage">
@@ -27,17 +29,17 @@
             </div>
             <div class="am-g">
                 <div class="am-u-md-8 img-container">
-                    <img src="/Theme/Team/WorkHard/assets/i/picture.jpg" alt="Picture">
+                    <img src="/Theme/Team/WorkHard/assets/i/picture.png" alt="Picture">
                 </div>
                 <div class="am-u-md-4">
                     <div class="avatar-preview img-preview preview-lg">
-                        <img src="/Theme/Team/WorkHard/assets/i/picture.jpg">
+                        <img src="<?= $_SESSION['team']['user_head']; ?>">
                     </div>
                     <div class="avatar-preview img-preview preview-md">
-                        <img src="/Theme/Team/WorkHard/assets/i/picture.jpg">
+                        <img src="<?= $_SESSION['team']['user_head']; ?>">
                     </div>
                     <div class="avatar-preview img-preview preview-sm">
-                        <img src="/Theme/Team/WorkHard/assets/i/picture.jpg">
+                        <img src="<?= $_SESSION['team']['user_head']; ?>">
                     </div>
                 </div>
             </div>
@@ -48,7 +50,7 @@
 <link rel="stylesheet" type="text/css" href="/Theme/Team/WorkHard/assets/css/cropper.css" />
 <script src="/Theme/Team/WorkHard/assets/js/cropper.min.js"></script>
 <script>
-    $(function() {
+    $(function () {
         function CropAvatar($element) {
             this.$container = $element;
             this.$avatarForm = this.$container.find('.avatar-form');
@@ -63,7 +65,7 @@
             highlight: false,
             setDragMode: 'crop',
             preview: ".img-preview",
-            crop: function(data) {
+            crop: function (data) {
                 $("input[name=height]").val(Math.round(data.height));
                 $("input[name=width]").val(Math.round(data.width));
                 $("input[name=x]").val(Math.round(data.x));
@@ -71,7 +73,12 @@
             }
         });
 
-        $("#save-head").on("click", function() {
+        $("#save-head").on("click", function () {
+            var data = $('.img-container > img').cropper("getData");
+            $("input[name=height]").val(Math.round(data.height));
+            $("input[name=width]").val(Math.round(data.width));
+            $("input[name=x]").val(Math.round(data.x));
+            $("input[name=y]").val(Math.round(data.y));
             $("form").submit()
         })
 
@@ -79,7 +86,7 @@
                 URL = window.URL || window.webkitURL,
                 blobURL;
         if (URL) {
-            $('#inputImage').change(function() {
+            $('#inputImage').change(function () {
                 var files = this.files,
                         file;
 
@@ -88,7 +95,7 @@
 
                     if (/^image\/\w+$/.test(file.type)) {
                         blobURL = URL.createObjectURL(file);
-                        $('.img-container > img').one('built.cropper', function() {
+                        $('.img-container > img').one('built.cropper', function () {
                             URL.revokeObjectURL(blobURL); // Revoke when load complete
                         }).cropper('reset', true).cropper('replace', blobURL);
                     } else {
