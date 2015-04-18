@@ -51,7 +51,7 @@ class User extends \App\Team\Common {
         }
 
         $savePath = $uploadPath . date('/Ymd/');
-        if (is_dir($uploadPath) === false) {
+        if (is_dir($savePath) === false) {
             mkdir($savePath);
             fopen("{$savePath}/index.html", 'w');
         }
