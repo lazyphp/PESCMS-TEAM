@@ -6,22 +6,16 @@
 
     <div class="am-g">
 
-        <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+        <div class="am-u-sm-10 am-u-md-3 am-u-md-push-9">
             <div class="am-panel am-panel-default">
                 <div class="am-panel-bd">
                     <div class="am-g">
-                        <div class="am-u-md-4">
-                            <img class="am-img-circle am-img-thumbnail" src="<?= $_SESSION['team']['user_head']; ?>" alt=""/>
-                        </div>
                         <div class="am-u-md-8">
-                            <p>你可以使用<a href="#">gravatar.com</a>提供的头像或者使用本地上传头像。 </p>
-                            <form class="am-form">
-                                <div class="am-form-group">
-                                    <input type="file" id="user-pic">
-                                    <p class="am-form-help">请选择要上传的文件...</p>
-                                    <button type="button" class="am-btn am-btn-primary am-btn-xs">保存</button>
-                                </div>
-                            </form>
+                            <p class="am-text-sm"><strong class="am-text-default"><?= $_SESSION['team']['user_name']; ?></strong>, 晚上好</p>
+                            <p class="am-text-xs"><a href="<?= $label->url('Team-User-my'); ?>"><i class="am-icon-venus-mars"></i> 修改资料</a> <a href="<?= $label->url('Team-User-head'); ?>"><i class="am-icon-camera"></i> 更换头像</a></p>
+                        </div>
+                        <div class="am-u-md-4">
+                            <a href="<?= $label->url('Team-User-head'); ?>"><img class="am-img-circle am-img-thumbnail" src="<?= $_SESSION['team']['user_head']; ?>" alt=""/></a>
                         </div>
                     </div>
                 </div>
@@ -30,18 +24,18 @@
             <div class="am-panel am-panel-default">
                 <div class="am-panel-bd">
                     <div class="user-info">
-                        <p>等级信息</p>
+                        <p>经验条</p>
                         <div class="am-progress am-progress-sm">
                             <div class="am-progress-bar" style="width: 60%"></div>
                         </div>
-                        <p class="user-info-order">当前等级：<strong>LV8</strong> 活跃天数：<strong>587</strong> 距离下一级别：<strong>160</strong></p>
+                        <p class="user-info-order"><strong>LV8:</strong> 15/16</p>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <div class="am-u-sm-12 am-u-md-9 am-u-md-pull-3">
             <?php if ($_SESSION['team']['user_group_id'] == '1' && !empty($noCurl)): ?>
                 <div class="am-alert am-alert-success am-text-sm" data-am-alert>
                     <p>服务器没有启动CURL扩展，程序无法自动更新！注：只有管理员组才看到本消息</p>

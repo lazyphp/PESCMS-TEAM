@@ -20,7 +20,7 @@ class User extends \App\Team\Common {
         $page->handle();
         $list = $this->db('user')->order("user_id desc")->limit("{$page->firstRow}, {$page->listRows}")->select();
         $show = $page->show();
-        foreach(\Model\Content::listContent('department') as $key => $value){
+        foreach (\Model\Content::listContent('department') as $key => $value) {
             $findDepartment[$value['department_id']] = $value['department_name'];
         }
         $this->assign('findDepartment', $findDepartment);
@@ -50,6 +50,21 @@ class User extends \App\Team\Common {
         $this->assign('department', \Model\Content::listContent('department'));
         $this->assign('user_id', $userId);
         $this->assign('url', $this->url('Team-User-action'));
+        $this->layout();
+    }
+
+    /**
+     * 更改个人资料
+     */
+    public function my() {
+        
+    }
+
+    /**
+     * 更换头像
+     */
+    public function head() {
+        $this->assign('title', '更换头像');
         $this->layout();
     }
 
