@@ -30,6 +30,9 @@ WEB服务软件最好支持rewrite功能，让每一个URL更好看。
  ![mahua](http://ww2.sinaimg.cn/large/d2d33fbfgw1erb7eopla2j21kw1hadn0.jpg)  
 更多的界面，请自行探索吧！  
   
+##鸣谢  
+感谢[http://amazeui.org/](http://amazeui.org/)提供这么优秀的前端框架!  
+  
 ##反馈和建议  
 邮箱：dev#pescms.com  
 演示地址:[http://team.pescms.com](http://team.pescms.com)  
