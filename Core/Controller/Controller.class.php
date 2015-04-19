@@ -18,8 +18,7 @@ namespace Core\Controller;
  */
 class Controller {
 
-    protected $prefix;
-    private $param = array();
+    protected $prefix, $param = array();
 
     /**
      * 获取系统配置信息

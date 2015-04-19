@@ -14,7 +14,7 @@
                     <span class="am-icon-plus am-icon-sm"></span>
                 </a>
             </li>
-            <li id="notice" data-am-dropdown class="<?= empty($notice) ? '' : 'am-active'; ?>">
+            <li id="notice" data-am-dropdown class="">
                 <a class="am-dropdown-toggle " data-am-dropdown-toggle href="javascript:;" style="color: #666;border-bottom-color:#000">
                     <span class="am-icon-envelope-o am-icon-sm"></span>
                     <?php if (!empty($notice)): ?>
@@ -88,6 +88,12 @@
 
     //消息提示3秒则自动关闭
     $(function () {
+
+        var notic = '<?= $notice ?>';
+        if (notic) {
+            $("#notice").dropdown('open')
+        }
+
         $("body").addClass("am-nbfc")
         var autoCloseNotice = setTimeout("$('#notice').dropdown('close')", 3000);
         $("#notice").on("click", function () {
