@@ -6,4 +6,7 @@
  * @license http://www.pescms.com/license
  * @version 1.0
  */
-header('Location:Install/index.php');
+define('ITEM', 'App');
+define('THEME', dirname(__FILE__).'/Theme');
+define('DEBUG', false);
+require './Core/index.php';

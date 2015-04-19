@@ -1,16 +1,6 @@
 <?php
 
 return array(
-    //数据库配置
-    'DB_TYPE' => 'mysql',
-    'DB_HOST' => 'localhost',
-    'DB_NAME' => 'team',
-    'DB_USER' => 'root',
-    'DB_PWD' => '123456',
-    'DB_PORT' => '3306',
-    'DB_PREFIX' => 'pes_',
-    'PRIVATE_KEY' => '9jgabqapZKPfgD12v', //程序密钥,请定期更换
-    'USER_KEY' => 'Uf3Ab9DJ5jue', //用户帐号密钥
     'LANGUAGE' => 'zh', //默认语言
     'ERROR_MES' => 'ON', //是否开启错误信息 | 必须大写 ON | OFF
     'ERROR_RANK' => '16', //需要显示的错误等级

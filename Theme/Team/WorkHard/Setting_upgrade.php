@@ -120,7 +120,6 @@
                     }, '200');
                 },
                 success: function (data) {
-                    console.dir(data)
                     if (data.status == '0') {
                         clearTimeout(timeId);
                         $(dom + " .am-u-sm-6").append("<p>" + data.info + "，更新已停止</p>");

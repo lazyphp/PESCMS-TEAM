@@ -36,7 +36,7 @@ abstract class Connect {
      * 初始化PDO连接
      */
     protected function __initialization() {
-        $dsn = CoreFunc::loadConfig('DB_TYPE') . ":host=" . CoreFunc::loadConfig('DB_HOST') . ";dbname=" . CoreFunc::loadConfig('DB_NAME');
+        $dsn = CoreFunc::loadConfig('DB_TYPE') . ":host=" . CoreFunc::loadConfig('DB_HOST') . ";dbname=" . CoreFunc::loadConfig('DB_NAME') . ";port=" . CoreFunc::loadConfig('DB_PORT');
         try {
             $this->dbh = new \PDO($dsn, CoreFunc::loadConfig('DB_USER'), CoreFunc::loadConfig('DB_PWD'));
             $this->dbh->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
