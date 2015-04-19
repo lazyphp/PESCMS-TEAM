@@ -14,11 +14,23 @@ namespace App\Team\GET;
 class User extends \App\Team\Common {
 
     public function index() {
+
+        $condition = "";
+        $param = array();
+
+        $search = $this->g('search');
+        if (!empty($search)) {
+            $condition = " user_account LIKE :user_account OR user_mail LIKE :user_mail OR user_name LIKE :user_name ";
+            $param['user_account'] = "%{$search}%";
+            $param['user_mail'] = "%{$search}%";
+            $param['user_name'] = "%{$search}%";
+        }
+
         $page = new \Expand\Team\Page;
-        $total = count($this->db('user')->select());
+        $total = count($this->db('user')->where($condition)->select($param));
         $count = $page->total($total);
         $page->handle();
-        $list = $this->db('user')->order("user_id desc")->limit("{$page->firstRow}, {$page->listRows}")->select();
+        $list = $this->db('user')->where($condition)->order("user_id desc")->limit("{$page->firstRow}, {$page->listRows}")->select($param);
         $show = $page->show();
         foreach (\Model\Content::listContent('department') as $key => $value) {
             $findDepartment[$value['department_id']] = $value['department_name'];
@@ -57,7 +69,12 @@ class User extends \App\Team\Common {
      * 更改个人资料
      */
     public function my() {
-        
+        $this->assign('title', '修改资料');
+        $_SESSION['team'] = $myInfo = \Model\User::findUser($_SESSION['team']['user_id']);
+
+        $this->assign($myInfo);
+        $this->assign('method', 'PUT');
+        $this->layout('User_action');
     }
 
     /**

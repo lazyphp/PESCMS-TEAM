@@ -13,14 +13,6 @@
                 </div>
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3">
-            <div class="am-input-group am-input-group-sm">
-                <input type="text" class="am-form-field">
-                <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default" type="button">搜索</button>
-                </span>
-            </div>
-        </div>
     </div>
 
     <div class="am-g">
@@ -57,6 +49,9 @@
 
                     </tbody>
                 </table>
+                <ul class="am-pagination am-pagination-right am-text-sm">
+                    <?= $page; ?>
+                </ul>
                 <div class="am-margin">
                     <button type="submit" class="am-btn am-btn-primary am-btn-xs">排序</button>
                 </div>

@@ -22,7 +22,15 @@ class User extends \App\Team\Common {
         }
         $this->db()->commit();
 
-        $this->success($GLOBALS['_LANG']['USER']['UPDATE_USER_SUCCESS'], $this->url('Team-User-index'));
+        $this->success($GLOBALS['_LANG']['USER']['UPDATE_USER_SUCCESS'], $this->url('Team-User-' . ACTION));
+    }
+
+    public function my() {
+        $_POST['user_id'] = (string) $_SESSION['team']['user_id'];
+        $_POST['user_group_id'] = (string) $_SESSION['team']['user_group_id'];
+        $_POST['user_department_id'] = (string) $_SESSION['team']['user_department_id'];
+        $_POST['user_status'] = (string) $_SESSION['team']['user_status'];
+        $this->action();
     }
 
     /**

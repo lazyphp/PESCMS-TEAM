@@ -25,46 +25,55 @@
 
     <div class="am-g">
         <div class="am-u-sm-12">
-            <form class="am-form" action="<?= $label->url('Team-' . MODULE . '-listsort'); ?>" method="POST">
-                <input type="hidden" name="method" value="PUT" />
-                <table class="am-table am-table-striped am-table-hover table-main">
-                    <thead>
-                        <tr>
-                            <th class="table-sort">排序</th>
-                            <th class="table-id">ID</th>
-                            <th class="table-title">标题</th>
-                            <th class="table-type">创建时间</th>
-                            <th class="table-set">状态</th>
-                            <th class="table-set">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($list as $key => $value) : ?>
-                            <tr>
-                                <td>
-                                    <input type="text" name="id[<?= $value["{$fieldPrefix}id"]; ?>]" value="<?= $value["{$fieldPrefix}listsort"]; ?>" >
-                                </td>
-                                <td><?= $value["{$fieldPrefix}id"]; ?></td>
-                                <td><?= $value["{$fieldPrefix}title"]; ?></td>
-                                <td><?= date('Y-m-d H:i', $value["{$fieldPrefix}createtime"]); ?></td>
-                                <td><?= $label->status($value["{$fieldPrefix}status"]); ?></td>
-                                <td>
-                                    <div class="am-btn-toolbar">
-                                        <div class="am-btn-group am-btn-group-xs">
-                                            <a class="am-btn am-btn-secondary" href="<?= $label->url('Team-' . MODULE . '-action', array('id' => $value["{$fieldPrefix}id"])); ?>"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-                                            <a class="am-btn am-btn-danger" href="<?= $label->url('Team-' . MODULE . '-action', array('id' => $value["{$fieldPrefix}id"], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-
-                    </tbody>
-                </table>
-                <div class="am-margin">
-                    <button type="submit" class="am-btn am-btn-primary am-btn-xs">排序</button>
+            <?php if (empty($list)): ?>
+                <div class="am-alert am-alert-secondary am-margin-top am-margin-bottom am-text-center" data-am-alert>
+                    <p>本页面没有数据 :-(</p>
                 </div>
-            </form>
+            <?php else: ?>
+                <form class="am-form" action="<?= $label->url('Team-' . MODULE . '-listsort'); ?>" method="POST">
+                    <input type="hidden" name="method" value="PUT" />
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                            <tr>
+                                <th class="table-sort">排序</th>
+                                <th class="table-id">ID</th>
+                                <th class="table-title">标题</th>
+                                <th class="table-type">创建时间</th>
+                                <th class="table-set">状态</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($list as $key => $value) : ?>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="id[<?= $value["{$fieldPrefix}id"]; ?>]" value="<?= $value["{$fieldPrefix}listsort"]; ?>" >
+                                    </td>
+                                    <td><?= $value["{$fieldPrefix}id"]; ?></td>
+                                    <td><?= $value["{$fieldPrefix}title"]; ?></td>
+                                    <td><?= date('Y-m-d H:i', $value["{$fieldPrefix}createtime"]); ?></td>
+                                    <td><?= $label->status($value["{$fieldPrefix}status"]); ?></td>
+                                    <td>
+                                        <div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                                <a class="am-btn am-btn-secondary" href="<?= $label->url('Team-' . MODULE . '-action', array('id' => $value["{$fieldPrefix}id"])); ?>"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+                                                <a class="am-btn am-btn-danger" href="<?= $label->url('Team-' . MODULE . '-action', array('id' => $value["{$fieldPrefix}id"], 'method' => 'DELETE')); ?>"><span class="am-icon-trash-o"></span> 删除</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+                    <ul class="am-pagination am-pagination-right am-text-sm">
+                        <?= $page; ?>
+                    </ul>
+                    <div class="am-margin">
+                        <button type="submit" class="am-btn am-btn-primary am-btn-xs">排序</button>
+                    </div>
+                </form>
+            <?php endif; ?>
         </div>
 
     </div>
