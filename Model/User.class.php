@@ -31,11 +31,11 @@ class User extends \Core\Model\Model {
     public static function findUserGroup($groupId) {
         return self::db('user_group')->where('user_group_id = :user_group_id')->find(array('user_group_id' => $groupId));
     }
-    
+
     /**
      * 输出所有用户
      */
-    public static function userList(){
+    public static function userList() {
         return self::db('user')->select();
     }
 
@@ -141,6 +141,16 @@ class User extends \Core\Model\Model {
         }
 
         return self::success($data);
+    }
+
+    /**
+     * 设置EY值
+     * @param type $uid 用户ID
+     * @param type $num 设置数组
+     */
+    public static function setEy($uid, $num) {
+        $sql = "UPDATE " . self::$prefix . "user SET `user_ey` = `user_ey` + :num WHERE user_id = :user_id ";
+        return self::db()->query($sql, array('user_id' => $uid, 'num' => $num));
     }
 
 }

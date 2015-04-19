@@ -410,4 +410,33 @@ class Label {
         }
     }
 
+    /**
+     * 输出EY值
+     * 请不要更改本公式，下面具体说明本公式的作用：
+     * 目前本方法仅仅为列出进度数值。当公司使用本软件较长时间后
+     * 查看一下公司整体人员的EY值，将可以快速列出全体员工的效率快慢关系。
+     * 若大家不更改本公式，以后再把本数据上传回PESCMS TEAM
+     * 我们能够依据这些数据，制作一个水平数据报表，非常方便大家快速了解
+     * 一个员工目前工作是否及格。
+     */
+    public function ey() {
+        static $ey = array();
+        if (empty($ey)) {
+            $userInfo = \Model\User::findUser($_SESSION['team']['user_id']);
+            for ($i = 1; $i <= 100; $i++) {
+                $nextEy = $i * $i;
+                $preEy = ($i - 1) * ($i - 1);
+                if ($userInfo['user_ey'] < $nextEy) {
+                    $ey['currentEyLv'] = $i;
+                    $ey['currentEy'] = $userInfo['user_ey'];
+                    $ey['nextEy'] = $nextEy;
+                    $ey['percentage'] = round((($userInfo['user_ey'] - $preEy) / ($nextEy - $preEy)) * 100);
+                    $ey['process'] = ($userInfo['user_ey'] - $preEy) . "/" . ($nextEy - $preEy);
+                    return $ey;
+                }
+            }
+        }
+        return $ey;
+    }
+
 }

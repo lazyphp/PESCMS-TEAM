@@ -57,6 +57,8 @@ class Task extends \App\Team\Common {
                 $this->db()->rollBack();
                 $this->error('生成指派通知失败');
             }
+
+            \Model\User::setEy($v, '1');
         }
 
         $addDynamic = \Model\Dynamic::addDynamic($_SESSION['team']['user_id'], $addResult['mes'], '1');

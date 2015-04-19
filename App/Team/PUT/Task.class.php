@@ -72,6 +72,8 @@ class Task extends \App\Team\Common {
             $this->error('更新用户动态失败');
         }
 
+        \Model\User::setEy($_SESSION['team']['user_id'], '1');
+
         $this->db()->commit();
 
         $this->success('任务已开始，请在指定时间内完成!', $this->url('Team-Task-view', array('id' => $data['noset']['task_id'])));
@@ -133,6 +135,8 @@ class Task extends \App\Team\Common {
                 $noticeUser = $checker;
                 $noticeType = '3';
                 $dynamicType = '3';
+                //提交审核，增加EY值
+                \Model\User::setEy($_SESSION['team']['user_id'], '1');
                 break;
             case '3':
             case '4':
@@ -142,6 +146,10 @@ class Task extends \App\Team\Common {
                 $noticeUser = array($task['task_user_id']);
                 $noticeType = $data['task_status'] == '3' ? '4' : '6';
                 $dynamicType = $data['task_status'] == '3' ? '' : '4';
+
+                $eyValue = $data['task_status'] == '3' ? '-2' : '1';
+                \Model\User::setEy($task['task_user_id'], $eyValue);
+
                 break;
             default :
                 $this->error('未知的任务状态');

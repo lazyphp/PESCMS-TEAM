@@ -24,11 +24,11 @@
             <div class="am-panel am-panel-default">
                 <div class="am-panel-bd">
                     <div class="user-info">
-                        <p>经验条</p>
-                        <div class="am-progress am-progress-sm">
-                            <div class="am-progress-bar" style="width: 60%"></div>
+                        <p>我的EY</p>
+                        <div class="am-progress am-progress-striped am-active">
+                            <div class="am-progress-bar" style="width: <?= $label->ey()['percentage'] ?>%"><?= $label->ey()['percentage'] ?>%</div>
                         </div>
-                        <p class="user-info-order"><strong>LV8:</strong> 15/16</p>
+                        <p class="user-info-order"><strong>EY<?= $label->ey()['currentEyLv'] ?>:</strong> <?= $label->ey()['process'] ?></p>
                     </div>
                 </div>
             </div>

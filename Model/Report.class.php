@@ -26,6 +26,8 @@ class Report extends \Core\Model\Model {
         $findReport = self::db('report')->where('report_date = :report_date AND user_id = :user_id')->find(array('report_date' => date('Y-m-d'), 'user_id' => $_SESSION['team']['user_id']))['report_id'];
         if (empty($findReport)) {
             $findReport = self::db('report')->insert(array('report_date' => date('Y-m-d'), 'user_id' => $_SESSION['team']['user_id'], 'department_id' => $_SESSION['team']['user_department_id']));
+
+            \Model\User::setEy($_SESSION['team']['user_id'], '1');
         }
 
         if (!empty($taskId)) {
