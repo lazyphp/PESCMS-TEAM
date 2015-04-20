@@ -1,6 +1,6 @@
 <div class="am-g am-margin-bottom">
     <div class="am-u-lg-8 am-u-md-8 am-u-sm-centered">
-        <form action="/Install/?m=Index&a=option" class="am-form am-form-horizontal" method="POST" data-am-validator>
+        <form action="<?=DOCUMENT_ROOT?>/Install/?m=Index&a=option" class="am-form am-form-horizontal" method="POST" data-am-validator>
             <input type="hidden" name="method" value="GET" />
             <?php include 'Index_check.php'; ?>
 

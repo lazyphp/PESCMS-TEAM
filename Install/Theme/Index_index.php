@@ -57,7 +57,7 @@
             </p>
         </div>
         <div class="am-margin-top am-fr">
-            <a href="/Install/?m=Index&a=config" class="am-btn am-btn-default">下一步</a> 
+            <a href="<?=DOCUMENT_ROOT?>/Install/?m=Index&a=config" class="am-btn am-btn-default">下一步</a> 
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="am-center" style="width: 100px;">
-            <a href="/?g=Team&m=Index&a=index" id="next" class="am-btn am-btn-success am-hide">马上登录</a> 
+            <a href="<?=DOCUMENT_ROOT?>/?g=Team&m=Index&a=index" id="next" class="am-btn am-btn-success am-hide">马上登录</a> 
         </div>
     </div>
 </div>
@@ -24,7 +24,7 @@
         var process = 0;
         $(".action").prepend("<p class=\"wait-begin\">等待响应</p><p>执行安装程序...</p>");
         $.ajax({
-            url: '/Install/?m=Index&a=import&method=GET',
+            url: '<?=DOCUMENT_ROOT?>/Install/?m=Index&a=import&method=GET',
             data: {title: '<?= $sitetitle ?>', account: '<?= $account ?>', passwd: '<?= $passwd ?>', mail: '<?= $mail ?>', name: '<?= $name ?>', urlModel: '<?= $urlModel ?>'},
             type: 'POST',
             dataType: 'json',

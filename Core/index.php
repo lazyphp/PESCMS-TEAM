@@ -24,6 +24,8 @@ defined('PES_PATH') or define('PES_PATH', dirname(dirname(__FILE__)) . '/');
 
 defined('PES_CORE') or define('PES_CORE', dirname(__FILE__) . '/');
 
+defined('DOCUMENT_ROOT') or define('DOCUMENT_ROOT', str_ireplace($_SERVER['DOCUMENT_ROOT'], "", str_replace("\\", "/", PES_PATH)));
+
 require PES_CORE . 'App.class.php';
 
 use Core\App as App;
