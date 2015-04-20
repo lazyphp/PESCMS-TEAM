@@ -49,7 +49,7 @@ class Upload extends \App\Team\Common {
          * 移除完整的目录信息
          * 以便记录入库
          */
-        $this->recordPath = str_replace(PES_PATH, "", $this->savePath);
+        $this->recordPath = DOCUMENT_ROOT.str_replace(PES_PATH, "", $this->savePath);
 
 
         /**

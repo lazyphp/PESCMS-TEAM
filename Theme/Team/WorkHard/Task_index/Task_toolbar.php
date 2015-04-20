@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="am-u-sm-12 am-u-md-3">
-        <form action="/" method="GET">
+        <form action="<?= DOCUMENT_ROOT ?>/" method="GET">
             <div class="am-input-group am-input-group-sm">
                 <input type="hidden" name="g" value="Team" />
                 <input type="hidden" name="m" value="Task" />

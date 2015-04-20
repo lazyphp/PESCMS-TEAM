@@ -8,7 +8,7 @@
 
     <div class="am-g">
         <div class="am-u-sm-12">
-            <form action="/" class="am-form am-form-inline">
+            <form action="<?= DOCUMENT_ROOT ?>/" class="am-form am-form-inline">
                 <input type="hidden" name="g" value="Team"/>
                 <input type="hidden" name="m" value="Report"/>
                 <input type="hidden" name="a" value="extract"/>

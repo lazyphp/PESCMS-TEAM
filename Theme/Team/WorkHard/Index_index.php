@@ -1,7 +1,7 @@
 <?php $this->header(); ?>
 <header class="am-topbar admin-header am-header-fixed">
     <div class="am-topbar-brand">
-        <a href="/"><strong><?= $sitetile; ?></strong></a>
+        <a href="<?= DOCUMENT_ROOT ?>/"><strong><?= $sitetile; ?></strong></a>
     </div>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -55,7 +55,7 @@
 <div class="am-cf">
 
     <!-- content start -->
-    <iframe id="iframe_default" src="<?=$label->url('Team-Index-dynamic');?>" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="auto"></iframe>
+    <iframe id="iframe_default" src="<?= $label->url('Team-Index-dynamic'); ?>" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="auto"></iframe>
     <!-- content end -->
 
 </div>
@@ -82,12 +82,12 @@
 <script>
     $("#iframe_default").height($(window).height() - 59);
 
-    $(window).resize(function () {
+    $(window).resize(function() {
         $("#iframe_default").height($(window).height() - 59);
     });
 
     //消息提示3秒则自动关闭
-    $(function () {
+    $(function() {
 
         var notic = '<?= $notice ?>';
         if (notic) {
@@ -96,7 +96,7 @@
 
         $("body").addClass("am-nbfc")
         var autoCloseNotice = setTimeout("$('#notice').dropdown('close')", 3000);
-        $("#notice").on("click", function () {
+        $("#notice").on("click", function() {
             clearTimeout(autoCloseNotice);
         })
     })

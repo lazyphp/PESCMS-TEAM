@@ -215,7 +215,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Team&m=Upload&a=file',
+            server: '<?= DOCUMENT_ROOT ?>/index.php?g=Team&m=Upload&a=file',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
@@ -299,11 +299,11 @@
     $(function() {
         var umcontent = UM.getEditor('content', {
             textarea: 'content',
-            imageUrl: "/index.php/?g=Team&m=Upload&a=img"
+            imageUrl: "<?= DOCUMENT_ROOT ?>/index.php/?g=Team&m=Upload&a=img"
         })
     })
 </script>
-<link href="/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.min.js"></script>
-<script type="text/javascript" src="/Expand/Form/theme/umeditor/lang/zh-cn/zh-cn.js"></script>
+<link href="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8" src="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/umeditor.min.js"></script>
+<script type="text/javascript" src="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/lang/zh-cn/zh-cn.js"></script>

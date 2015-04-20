@@ -108,20 +108,20 @@
     }
 </style>
 <script>
-    $(function () {
+    $(function() {
         var umcontent = UM.getEditor('content', {
             toolbar: [
                 'source | undo redo | bold italic underline strikethrough | removeformat selectall cleardoc | image'
             ],
             textarea: 'content',
-            imageUrl: "/index.php/?g=Team&m=Upload&a=img",
+            imageUrl: "<?= DOCUMENT_ROOT ?>/index.php/?g=Team&m=Upload&a=img",
             initialFrameWidth: '100%'
         })
 
-        $("#close-update-tips").on("click", function () {
+        $("#close-update-tips").on("click", function() {
             var update_id = $(this).attr("data");
             $.ajax({
-                url: '/?g=Team&m=Update_list&a=action',
+                url: '<?= DOCUMENT_ROOT ?>/?g=Team&m=Update_list&a=action',
                 data: {method: 'PUT', 'id': update_id, read: '1'},
                 type: 'POST'
             })
@@ -129,8 +129,8 @@
 
     })
 </script>
-<link href="/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="/Expand/Form/theme/umeditor/umeditor.min.js"></script>
-<script type="text/javascript" src="/Expand/Form/theme/umeditor/lang/zh-cn/zh-cn.js"></script>
+<link href="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8" src="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/umeditor.min.js"></script>
+<script type="text/javascript" src="<?= DOCUMENT_ROOT ?>/Expand/Form/theme/umeditor/lang/zh-cn/zh-cn.js"></script>
 <!-- content end -->

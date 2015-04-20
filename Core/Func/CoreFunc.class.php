@@ -101,7 +101,7 @@ class CoreFunc {
         if ($urlModel['suffix'] == '1' && $urlModel['urlModel'] != '1') {
             $url .= ".html";
         }
-        return $url;
+        return DOCUMENT_ROOT . $url;
     }
 
     /**
