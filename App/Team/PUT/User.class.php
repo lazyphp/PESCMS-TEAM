@@ -91,11 +91,11 @@ class User extends \App\Team\Common {
         imagedestroy($back);
 
         $updateHeadPath = str_replace(PES_PATH, "", $savePath . $name);
-        $setHeadResult = $this->db('user')->where('user_id = :user_id')->update(array('noset' => array('user_id' => $_SESSION['team']['user_id']), 'user_head' => $updateHeadPath));
+        $setHeadResult = $this->db('user')->where('user_id = :user_id')->update(array('noset' => array('user_id' => $_SESSION['team']['user_id']), 'user_head' => DOCUMENT_ROOT.$updateHeadPath));
         if ($setHeadResult == false) {
             $this->error('设置头像失败');
         }
-        $_SESSION['team']['user_head'] = $updateHeadPath;
+        $_SESSION['team']['user_head'] = DOCUMENT_ROOT . $updateHeadPath;
 
         $this->success('设置成功!', $this->url('Team-Index-dynamic'));
     }

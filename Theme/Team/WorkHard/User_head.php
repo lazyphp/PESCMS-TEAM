@@ -29,7 +29,7 @@
             </div>
             <div class="am-g">
                 <div class="am-u-md-8 img-container">
-                    <img src="/Theme/Team/WorkHard/assets/i/picture.png" alt="Picture">
+                    <img src="<?= DOCUMENT_ROOT ?>/Theme/Team/WorkHard/assets/i/picture.png" alt="Picture">
                 </div>
                 <div class="am-u-md-4">
                     <div class="avatar-preview img-preview preview-lg">
@@ -46,11 +46,11 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="/Theme/Team/WorkHard/assets/css/cropper.min.css" />
-<link rel="stylesheet" type="text/css" href="/Theme/Team/WorkHard/assets/css/cropper.css" />
-<script src="/Theme/Team/WorkHard/assets/js/cropper.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?= DOCUMENT_ROOT ?>/Theme/Team/WorkHard/assets/css/cropper.min.css" />
+<link rel="stylesheet" type="text/css" href="<?= DOCUMENT_ROOT ?>/Theme/Team/WorkHard/assets/css/cropper.css" />
+<script src="<?= DOCUMENT_ROOT ?>/Theme/Team/WorkHard/assets/js/cropper.min.js"></script>
 <script>
-    $(function () {
+    $(function() {
         function CropAvatar($element) {
             this.$container = $element;
             this.$avatarForm = this.$container.find('.avatar-form');
@@ -65,7 +65,7 @@
             highlight: false,
             setDragMode: 'crop',
             preview: ".img-preview",
-            crop: function (data) {
+            crop: function(data) {
                 $("input[name=height]").val(Math.round(data.height));
                 $("input[name=width]").val(Math.round(data.width));
                 $("input[name=x]").val(Math.round(data.x));
@@ -73,7 +73,7 @@
             }
         });
 
-        $("#save-head").on("click", function () {
+        $("#save-head").on("click", function() {
             var data = $('.img-container > img').cropper("getData");
             $("input[name=height]").val(Math.round(data.height));
             $("input[name=width]").val(Math.round(data.width));
@@ -86,7 +86,7 @@
                 URL = window.URL || window.webkitURL,
                 blobURL;
         if (URL) {
-            $('#inputImage').change(function () {
+            $('#inputImage').change(function() {
                 var files = this.files,
                         file;
 
@@ -95,7 +95,7 @@
 
                     if (/^image\/\w+$/.test(file.type)) {
                         blobURL = URL.createObjectURL(file);
-                        $('.img-container > img').one('built.cropper', function () {
+                        $('.img-container > img').one('built.cropper', function() {
                             URL.revokeObjectURL(blobURL); // Revoke when load complete
                         }).cropper('reset', true).cropper('replace', blobURL);
                     } else {
