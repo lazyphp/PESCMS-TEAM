@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PSE核心引入文件
  * @author LuoBoss
@@ -24,7 +25,22 @@ defined('PES_PATH') or define('PES_PATH', dirname(dirname(__FILE__)) . '/');
 
 defined('PES_CORE') or define('PES_CORE', dirname(__FILE__) . '/');
 
-defined('DOCUMENT_ROOT') or define('DOCUMENT_ROOT', str_ireplace($_SERVER['DOCUMENT_ROOT'], "", substr(str_replace("\\", "/", PES_PATH), '0', '-1')));
+//移除一些已知的URL名称。可能存在缺陷，今后慢慢想办法修复它！
+$killUrl = array(
+    'Install/.*',
+    'Install/\?g.*',
+    'Install/\?m.*',
+    '\?g.*',
+    '\?m.*',
+    'index.php\?g.*',
+    'index.php\?m.*',
+    'Team.*',
+    'index.php/Team.*',
+    'index.php',
+);
+$surviveUrl = preg_replace('#/(' . implode('|', $killUrl) . ')#i', '', $_SERVER['REQUEST_URI']);
+
+defined('DOCUMENT_ROOT') or define('DOCUMENT_ROOT', $surviveUrl == '/' ? '' : $surviveUrl);
 
 require PES_CORE . 'App.class.php';
 
