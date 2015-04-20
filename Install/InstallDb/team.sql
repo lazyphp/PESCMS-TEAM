@@ -459,7 +459,7 @@ INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) 
 (1, 'sitetitle', '程序标题', '', ''),
 (7, 'theme', '主题', 'WorkHard', 'theme'),
 (8, 'fieldType', '表单类型', '{"category":"\\u5206\\u7c7b","text":"\\u5355\\u884c\\u8f93\\u5165\\u6846","radio":"\\u5355\\u9009\\u6309\\u94ae","checkbox":"\\u590d\\u9009\\u6846","select":"\\u5355\\u9009\\u4e0b\\u62c9\\u6846","textarea":"\\u591a\\u884c\\u8f93\\u5165\\u6846","editor":"\\u7f16\\u8f91\\u5668","thumb":"\\u7565\\u7f29\\u56fe","img":"\\u4e0a\\u4f20\\u56fe\\u7ec4","file":"\\u4e0a\\u4f20\\u6587\\u4ef6","date":"\\u65e5\\u671f"}', 'Miscellaneous'),
-(13, 'version', '系统版本', '1.000', ''),
+(13, 'version', '系统版本', '1.010', ''),
 (14, 'upload_img', '图片格式', '["jpg","jpge","bmp","gif","png"]', 'upload'),
 (15, 'upload_file', '文件格式', '["zip","rar","7z","doc","docx","pdf","xls","xlsx","ppt","pptx","txt"]', 'upload'),
 (16, 'urlModel', 'URL格式', '{"index":"1","urlModel":"3","suffix":"1"}', 'url'),
