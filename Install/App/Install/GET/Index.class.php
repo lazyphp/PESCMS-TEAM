@@ -32,8 +32,12 @@ class Index extends Common {
      */
     public function config() {
         $check['pdo'] = in_array('mysql', pdo_drivers()) ? true : false;
-        $check['gd'] = empty(gd_info()) ? false : true;
-        $check['curl'] = empty(curl_version()) ? false : true;
+        
+        $gd_info = gd_info();
+        $check['gd'] = empty($gd_info) ? false : true;
+        
+        $curl_version = curl_version();
+        $check['curl'] = empty($curl_version) ? false : true;
         $this->assign($check);
         $this->assign('title', '配置信息');
         $this->layout();
