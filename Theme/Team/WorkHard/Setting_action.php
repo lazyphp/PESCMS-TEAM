@@ -157,6 +157,35 @@
                         <div class="am-hide-sm-only am-u-md-6">*宽松模式下，没有添加的节点地址将允许所有人访问。</div>
                     </div>
 
+                    <h2>URL模式</h2>
+                    <hr />
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            URL模式
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <select name="urlModel" required>
+                                <option value="">请选择</option>
+                                <option value="1" <?= json_decode($setting['urlModel']['value'], true)['urlModel'] == '1' ? 'selected="selected"' : '' ?> >默认模型</option>
+                                <option value="3" <?= json_decode($setting['urlModel']['value'], true)['urlModel'] == '3' ? 'selected="selected"' : '' ?>>斜杠模式</option>
+                            </select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6">*服务器支持rewrite的话，可以选择斜杠模式，否则请选择默认模式</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            隐藏index.php
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <select name="index" required>
+                                <option value="">请选择</option>
+                                <option value="0" <?= json_decode($setting['urlModel']['value'], true)['index'] == '0' ? 'selected="selected"' : '' ?>>显示</option>
+                                <option value="1" <?= json_decode($setting['urlModel']['value'], true)['index'] == '1' ? 'selected="selected"' : '' ?>>隐藏</option>
+                            </select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6">*服务器不支持Rewrite，勿选隐藏<a href="http://doc.pescms.com/Doc/view/id/13.html" target="_blank">参考此处</a></div>
+                    </div>
+
                 </div>
 
             </div>

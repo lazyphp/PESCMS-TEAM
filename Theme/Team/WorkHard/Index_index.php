@@ -55,7 +55,7 @@
 <div class="am-cf">
 
     <!-- content start -->
-    <iframe id="iframe_default" src="/Index/dynamic.html" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="auto"></iframe>
+    <iframe id="iframe_default" src="<?=$label->url('Team-Index-dynamic');?>" style="width: 100%; height: 100%;" data-id="default" frameborder="0" scrolling="auto"></iframe>
     <!-- content end -->
 
 </div>

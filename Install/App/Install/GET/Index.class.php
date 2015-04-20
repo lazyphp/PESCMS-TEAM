@@ -119,7 +119,7 @@ class Index extends Common {
      */
     public function import() {
         $title = $this->isP('title', '请填写系统的标题');
-        $urlModel = $this->isP('urlModel', '请选择URL模式');
+        $urlModel = $this->isP('urlModel', '请选择URL模式', FALSE);
 
         $data['user_account'] = $this->isP('account', '请填写管理员帐号');
         $data['user_password'] = \Core\Func\CoreFunc::generatePwd($data['user_account'] . $this->isP('passwd', '请填写管理员密码'), 'PRIVATE_KEY');
