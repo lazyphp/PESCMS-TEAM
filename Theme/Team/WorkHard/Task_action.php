@@ -299,7 +299,7 @@
     $(function() {
         var umcontent = UM.getEditor('content', {
             textarea: 'content',
-            imageUrl: "<?= DOCUMENT_ROOT ?>/index.php/?g=Team&m=Upload&a=img"
+            imageUrl: "<?= DOCUMENT_ROOT ?>/index.php?g=Team&m=Upload&a=img"
         })
     })
 </script>

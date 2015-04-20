@@ -90,7 +90,7 @@
                 'source | undo redo | bold italic underline strikethrough | removeformat selectall cleardoc | image'
             ],
             textarea: 'content',
-            imageUrl: "<?= DOCUMENT_ROOT ?>/index.php/?g=Team&m=Upload&a=img",
+            imageUrl: "<?= DOCUMENT_ROOT ?>/index.php?g=Team&m=Upload&a=img",
             initialFrameWidth: '100%'
         })
     })
