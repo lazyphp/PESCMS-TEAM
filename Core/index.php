@@ -25,23 +25,24 @@ defined('PES_PATH') or define('PES_PATH', dirname(dirname(__FILE__)) . '/');
 
 defined('PES_CORE') or define('PES_CORE', dirname(__FILE__) . '/');
 
-//移除一些已知的URL名称。可能存在缺陷，今后慢慢想办法修复它！
-$killUrl = array(
-    'Install/.*',
-    'Install/\?g.*',
-    'Install/\?m.*',
-    '\?g.*',
-    '\?m.*',
-    'index.php\?g.*',
-    'index.php\?m.*',
-    'Team.*',
-    'index.php/Team.*',
-    'index.php/.*',
-    'index.php',
-);
-$surviveUrl = preg_replace('#/(' . implode('|', $killUrl) . ')#i', '', $_SERVER['REQUEST_URI']);
-
-defined('DOCUMENT_ROOT') or define('DOCUMENT_ROOT', $surviveUrl == '/' ? '' : $surviveUrl);
+/**
+ * 由于没有找到解决方法
+ * 此处直接使用thinkphp的源码，感谢！
+ */
+define('IS_CGI', (0 === strpos(PHP_SAPI, 'cgi') || false !== strpos(PHP_SAPI, 'fcgi')) ? 1 : 0 );
+if (!defined('_PHP_FILE_')) {
+    if (IS_CGI) {
+        //CGI/FASTCGI模式下
+        $_temp = explode('.php', $_SERVER['PHP_SELF']);
+        define('PHP_FILE', rtrim(str_replace($_SERVER['HTTP_HOST'], '', $_temp[0] . '.php'), '/'));
+    } else {
+        define('PHP_FILE', rtrim($_SERVER['SCRIPT_NAME'], '/'));
+    }
+}
+if (!defined('DOCUMENT_ROOT')) {
+    $_root = rtrim(dirname(PHP_FILE), '/');
+    define('DOCUMENT_ROOT', (($_root == '/' || $_root == '\\') ? '' : $_root));
+}
 
 require PES_CORE . 'App.class.php';
 
