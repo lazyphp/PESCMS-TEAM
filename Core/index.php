@@ -36,6 +36,7 @@ $killUrl = array(
     'index.php\?m.*',
     'Team.*',
     'index.php/Team.*',
+    'index.php/.*',
     'index.php',
 );
 $surviveUrl = preg_replace('#/(' . implode('|', $killUrl) . ')#i', '', $_SERVER['REQUEST_URI']);
