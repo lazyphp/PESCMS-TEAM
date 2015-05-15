@@ -1,6 +1,6 @@
 <div class="am-g am-margin-bottom">
     <div class="am-u-lg-8 am-u-md-8 am-u-sm-centered">
-        <form action="<?=DOCUMENT_ROOT?>/Install/?m=Index&a=option" class="am-form am-form-horizontal" method="POST" data-am-validator>
+        <form action="<?=DOCUMENT_ROOT?>/?m=Index&a=option" class="am-form am-form-horizontal" method="POST" data-am-validator>
             <input type="hidden" name="method" value="GET" />
             <?php include 'Index_check.php'; ?>
 
@@ -40,7 +40,7 @@
             </div>
 
             <div class="am-margin-top am-fl">
-                <a href="/Install/?m=Index&a=index" class="am-btn am-btn-default">上一步</a> 
+                <a href="<?=DOCUMENT_ROOT?>/?m=Index&a=index" class="am-btn am-btn-default">上一步</a> 
             </div>
 
             <div class="am-margin-top am-fr">
