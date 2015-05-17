@@ -52,8 +52,8 @@
 <script>
     $(function () {
         $("#next").on("click", function () {
-            if($("#pdo").attr("class") == 'am-btn am-btn-danger'){
-                alert("PESCMS TEAM必须使用PDO扩展，否则程序无法安装");
+            if($("#version,#pdo").attr("class") == 'am-btn am-btn-danger'){
+                alert($(".install_tips").text());
                 return false;
             }
             

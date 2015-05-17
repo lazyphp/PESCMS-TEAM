@@ -14,7 +14,7 @@ namespace Install\App\Install\GET;
 class Index extends Common {
 
     public function __construct() {
-        if(is_file(PES_PATH . '/Install/install.txt')){
+        if (is_file(PES_PATH . '/Install/install.txt')) {
             $this->error('不能再次执行安装程序！');
         }
     }
@@ -31,10 +31,13 @@ class Index extends Common {
      * 验证扩展
      */
     public function config() {
-        $check['pdo'] = function_exists('pdo_drivers') ? true : false;
-        
+        $phpVersion = explode('.', phpversion());
+        $check['version'] = $phpVersion['1'] >= 4 ? true : false;
+
+        $check['pdo'] = in_array('pdo_mysql', get_loaded_extensions()) ? true : false;
+
         $check['gd'] = function_exists('gd_info') ? true : false;
-        
+
         $check['curl'] = function_exists('curl_version') ? true : false;
         $this->assign($check);
         $this->assign('title', '配置信息');
@@ -56,7 +59,7 @@ class Index extends Common {
         $data['USER_KEY'] = substr(md5(uniqid()), '10', '10');
 
         //写入安装配置信息
-        $installConfig = require PES_PATH . '/Install/Config/config.php';
+        $installConfig = require PES_PATH . '/Install/Config/config_same.php';
         $fopen = fopen(PES_PATH . '/Install/Config/config.php', 'w+');
         if (!$fopen) {
             $this->error('文件无法打开，请检测程序安装目录是否设置足够的权限');
@@ -71,7 +74,7 @@ class Index extends Common {
         fclose($fopen);
 
         //写入运行配置信息
-        $config = require PES_PATH . '/Config/config.php';
+        $config = require PES_PATH . '/Config/config_same.php';
         $fopen = fopen(PES_PATH . '/Config/config.php', 'w+');
         if (!$fopen) {
             $this->error('文件无法打开，请检测程序目录是否设置足够的权限');

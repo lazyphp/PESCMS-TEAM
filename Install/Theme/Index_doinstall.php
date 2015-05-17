@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="am-center" style="width: 100px;">
-            <a href="<?=DOCUMENT_ROOT?>/?g=Team&m=Index&a=index" id="next" class="am-btn am-btn-success am-hide">马上登录</a> 
+            <a href="<?=str_replace("/Install", "", DOCUMENT_ROOT)?>/?g=Team&m=Index&a=index" id="next" class="am-btn am-btn-success am-hide">马上登录</a> 
         </div>
     </div>
 </div>
