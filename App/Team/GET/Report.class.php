@@ -45,12 +45,17 @@ class Report extends \App\Team\Common {
     public function extract() {
 
         $head = explode(',', \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id')['department_header']);
-        if (!in_array($_SESSION['team']['user_id'], $head)) {
+        if (!in_array($_SESSION['team']['user_id'], $head) && ACTION == 'extract') {
             $this->error('您不是部门负责人，无权访问');
         }
 
-        $condition = "r.department_id = :department_id AND r.report_date BETWEEN :begin AND :end ";
-        $param = array('department_id' => $_SESSION['team']['user_department_id'], 'report_date' => date('Y-m-d'));
+        $condition = "r.report_date BETWEEN :begin AND :end ";
+        $param = array('report_date' => date('Y-m-d'));
+        //allExtract将移除此限制
+        if (ACTION == 'extract') {
+            $condition .= " AND r.department_id = :department_id";
+            $param['department_id'] = $_SESSION['team']['user_department_id'];
+        }
 
         if (!empty($_GET['begin']) && !empty($_GET['end'])) {
             $param['begin'] = $_GET['begin'];
@@ -74,12 +79,12 @@ class Report extends \App\Team\Common {
 
             foreach ($result as $key => $value) {
                 $list[$value['report_date']][$value['report_date']] = $value['report_date'];
-                $list[$value['report_date'].$value['user_id']][$value['user_id']] = $label->findUser('user', 'user_id', $value['user_id'])['user_name'];
-                $list[$value['report_date'].$value['user_id']][] = strip_tags(htmlspecialchars_decode($value['report_content']));
+                $list[$value['report_date'] . $value['user_id']][$value['user_id']] = $label->findUser('user', 'user_id', $value['user_id'])['user_name'];
+                $list[$value['report_date'] . $value['user_id']][] = strip_tags(htmlspecialchars_decode($value['report_content']));
             }
 
             $excel = new \Expand\Excel\Excel();
-            $excel->export('test', $excelTitle, $list);
+            $excel->export(date('YmdHis').'提取报表', $excelTitle, $list);
         } else {
             foreach ($result as $key => $value) {
                 $list[$value['report_date']][$value['user_id']][] = $value;
@@ -93,7 +98,14 @@ class Report extends \App\Team\Common {
         $this->assign('begin', $param['begin']);
         $this->assign('end', $param['end']);
         $this->assign('title', '提取报表');
-        $this->layout();
+        $this->layout('Report_extract');
+    }
+
+    /**
+     * 提取所有人报表
+     */
+    public function allExtract() {
+        $this->extract();
     }
 
 }

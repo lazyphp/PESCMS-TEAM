@@ -51,6 +51,13 @@ class User extends \Core\Model\Model {
      */
     public static function add() {
         $data = self::baseFrom();
+
+        //自动生成头像
+        \Core\Func\CoreFunc::$defaultPath = false;
+        require PES_PATH . '/Expand/Identicon/autoload.php';
+        $identicon = new \Identicon\Identicon();
+        $data['mes']['user_head'] = $identicon->getImageDataUri($_POST['user_mail']);
+
         if ($data['status'] == false) {
             return self::error($data['mes']);
         }
@@ -59,7 +66,7 @@ class User extends \Core\Model\Model {
             return self::error($GLOBALS['_LANG']['USER']['ADD_CONTENT_FAIL']);
         }
 
-        return self::success();
+        return self::success($addResult);
     }
 
     /**
