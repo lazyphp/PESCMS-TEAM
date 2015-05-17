@@ -22,7 +22,7 @@ class User extends \App\Team\Common {
         }
         $this->db()->commit();
 
-        $this->success($GLOBALS['_LANG']['USER']['UPDATE_USER_SUCCESS'], $this->url('Team-User-' . ACTION));
+        $this->success($GLOBALS['_LANG']['USER']['UPDATE_USER_SUCCESS'], $this->url('Team-User-index'));
     }
 
     public function my() {
