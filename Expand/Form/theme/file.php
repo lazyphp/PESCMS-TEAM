@@ -2,7 +2,7 @@
     <?php if (!empty($field['value'])): ?>
         <?php foreach (explode(',', $field['value']) as $key => $value) : ?>
             <div class="form-text" id="<?= $key . $field['field_name'] ?>">
-                <input type="text" class="form-text-input input-leng3" name="file[]" value="<?= $value ?>" />
+                <input type="text" class="form-text-input input-leng3" name="<?= $field['field_name'] ?>[]" value="<?= $value ?>" />
                 <a href="javascript:;" onclick="removeUploadFile('<?= $key . $field['field_name'] ?>')" class="blue-button" style="margin-left:5px;"><?php echo $GLOBALS['_LANG']['COMMON']['DELETE']; ?></a>
             </div>
         <?php endforeach; ?>

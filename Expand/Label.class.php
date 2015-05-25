@@ -438,5 +438,21 @@ class Label {
         }
         return $ey;
     }
+    
+    /**
+     * 获取对应的字段，然后进行内容值匹配
+     * @param type $fieldId 字段ID
+     * @param type $value 进行匹配的值
+     */
+    public function getFieldOptionToMatch($fieldId, $value){
+        $fieldContent = \Model\Content::findContent('field', $fieldId, 'field_id');
+        $option = json_decode($fieldContent['field_option'], true);
+        $search = array_search($value, $option);
+        if(empty($search)){
+            return '未知值';
+        }else{
+            return $search;
+        }  
+    }
 
 }
