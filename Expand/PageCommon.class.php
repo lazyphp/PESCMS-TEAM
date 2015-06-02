@@ -68,7 +68,7 @@ class PageCommon {
                 $url .= $this->urlLinkStr($_GET);
                 $this->linkStr = '';
         }
-        return $url;
+        return DOCUMENT_ROOT.$url;
     }
 
     /**
