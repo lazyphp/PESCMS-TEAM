@@ -17,7 +17,7 @@
             <p>
                 <span>
                     #<?= $task_id; ?>
-                    <a href="<?= $label->url('Team-Project-task', array('id' => $task_project)) ?>"><span class="am-icon-chain"></span> <?= $label->findProject('project', 'project_id', $task_project)['project_title']; ?></a>
+                    <a href="<?= $label->url('Team-Task-index', array('project' => $task_project)) ?>"><span class="am-icon-chain"></span> <?= $label->findProject('project', 'project_id', $task_project)['project_title']; ?></a>
                     <?= $label->taskPriority($task_priority); ?>
                     <?= $label->taskStatus($task_status); ?>
                     <img src="<?= $label->findUser('user', 'user_id', $task_create_id)['user_head']; ?>" class="am-comment-avatar" style="width: 20px;height: 20px;float: none"/>
