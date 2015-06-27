@@ -13,8 +13,8 @@ namespace App\Team\GET;
 
 class Login extends \App\Team\Common {
 
-    public function __construct() {
-        parent::__construct();
+    public function __init() {
+        parent::__init();
         $this->assign('sitetile', \Model\Option::findOption('sitetitle')['value']);
         $this->assign('signup', \Model\Option::findOption('signup')['value']);
     }

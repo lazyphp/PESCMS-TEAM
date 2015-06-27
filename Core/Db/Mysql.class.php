@@ -351,7 +351,7 @@ class Mysql extends Connect {
         $lastInsertId = $this->dbh->lastInsertId();
         if (!empty($lastInsertId)) {
             return $lastInsertId;
-        } elseif ($statistics != 0) {
+        } elseif ($statistics >= 0) {
             return $statistics;
         } else {
             return false;

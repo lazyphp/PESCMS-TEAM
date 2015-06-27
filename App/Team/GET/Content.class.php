@@ -9,8 +9,8 @@ class Content extends \App\Team\Common {
 
     private $model, $table, $fieldPrefix, $theme;
 
-    public function __construct() {
-        parent::__construct();
+    public function __init() {
+        parent::__init();
 
         $this->table = strtolower(MODULE);
         $this->fieldPrefix = $this->table . "_";

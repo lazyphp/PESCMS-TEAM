@@ -18,7 +18,7 @@ abstract class Common extends \Core\Controller\Controller {
      */
     protected $team;
 
-    public function __construct() {
+    public function __init() {
         $login = $this->checkLogin();
 
         if ($login == FALSE && MODULE != 'Login') {

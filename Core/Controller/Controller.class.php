@@ -20,6 +20,18 @@ class Controller {
 
     protected $prefix, $param = array();
 
+    public final function __construct() {
+        $this->prefix = \Core\Func\CoreFunc::loadConfig('DB_PREFIX');
+        $this->__init();
+    }
+    
+    /**
+     * 实现自定义构造函数
+     */
+    public function __init(){
+        
+    }
+
     /**
      * 获取系统配置信息
      * @param type $name 配置信息 | 为空则获取所有
@@ -42,7 +54,6 @@ class Controller {
         }
 
         $db->tableName($name);
-        $this->prefix = $db->prefix;
         return $db;
     }
 

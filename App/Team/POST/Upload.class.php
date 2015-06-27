@@ -15,8 +15,8 @@ class Upload extends \App\Team\Common {
 
     private $uploadPath, $recordPath, $uploadFileType, $savePath, $saveName, $newWidth, $newHeight;
 
-    public function __construct() {
-        parent::__construct();
+    public function __init() {
+        parent::__init();
 
         if (empty($_FILES)) {
             $this->callBack($GLOBALS['_LANG']['UPLOAD']['EMPTY_UPLOAD'], '0');
