@@ -21,7 +21,7 @@ use \PDO,
  */
 class Mysql extends Connect {
 
-    public $getLastSql, $getLastInsert, $prefix, $param = array();
+    public $getLastSql, $getLastInsert, $prefix, $errorInfo = array(), $param = array();
     private $tableName, $field = '*', $where = '', $join = array(), $order = '',
             $group = '', $limit = '';
 
@@ -134,7 +134,6 @@ class Mysql extends Connect {
         $this->join = empty($this->join) ? array('') : $this->join;
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $limit;
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $result = $sth->fetch();
         $this->emptyParam();
         return $result;
@@ -151,7 +150,6 @@ class Mysql extends Connect {
         $this->join = empty($this->join) ? array('') : $this->join;
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $this->limit;
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $result = $sth->fetchALL();
         $this->emptyParam();
         return $result;
@@ -171,45 +169,12 @@ class Mysql extends Connect {
         }
         $this->getLastSql = 'INSERT INTO ' . $this->tableName . ' (' . implode(',', $field) . ' ) VALUES (' . implode(',', $namedPlaceholders) . ' )';
         $sth = $this->PDOBindArray();
-        $result = $sth->execute();
         $this->emptyParam();
-        if ($result == false) {
+        if ($this->dbh->lastInsertId() === false) {
             return false;
         } else {
             return $this->dbh->lastInsertId();
         }
-    }
-
-    /**
-     * 多数据插入
-     * @param array $param 插入参数(二维维数组)
-     * @param str $fieldType 字段类型
-     * @return array 返回最后插入的ID数组集
-     */
-    public function insertAll($param = '', $fieldType = '') {
-        $this->dealMoreParam($param, $fieldType);
-        foreach ($this->param as $row) {
-            foreach ($row as $key => $value) {
-                $field[$key] = "`{$key}`";
-                $namedPlaceholders[$key] = ':' . $key;
-            }
-        }
-
-        $this->getLastSql = 'INSERT INTO ' . $this->tableName . ' (' . implode(',', $field) . ' ) VALUES (' . implode(',', $namedPlaceholders) . ' )';
-        $sth = $this->dbh->prepare($this->getLastSql);
-
-        foreach ($this->param as $row) {
-            foreach ($row as $key => $value) {
-                $sth->bindValue(':' . $key, $value['value'], $value['fieldType']);
-            }
-            $sth->execute();
-            $result[] = $this->dbh->lastInsertId();
-            if ($this->dbh->lastInsertId() == false) {
-                return false;
-            }
-        }
-        $this->emptyParam();
-        return $result;
     }
 
     /**
@@ -234,7 +199,6 @@ class Mysql extends Connect {
         $this->getLastSql = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', $content) . $this->where;
 
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $result = $sth->rowCount();
         $this->emptyParam();
         if ($result >= 0) {
@@ -254,7 +218,6 @@ class Mysql extends Connect {
         $this->dealParam($param, $fieldType);
         $this->getLastSql = 'DELETE FROM ' . $this->tableName . $this->where;
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $result = $sth->rowCount();
         $this->emptyParam();
 
@@ -263,33 +226,6 @@ class Mysql extends Connect {
         } else {
             return false;
         }
-    }
-
-    /**
-     * 删除多条数据
-     * @param array $param 插入参数(二维数组)
-     * @param str $fieldType 字段类型
-     * @return str 返回影响行数
-     */
-    public function deleteAll($param = '', $fieldType = '') {
-        $this->dealMoreParam($param, $fieldType);
-        $this->getLastSql = 'DELETE FROM ' . $this->tableName . $this->where;
-        $sth = $this->dbh->prepare($this->getLastSql);
-        foreach ($this->param as $row) {
-            foreach ($row as $key => $value) {
-                $sth->bindValue(':' . $key, $value['value'], $value['fieldType']);
-            }
-            $sth->execute();
-            $result = $sth->rowCount();
-            if ($result == 0) {
-                return false;
-            } else {
-                return $result;
-            }
-        }
-        $this->emptyParam();
-
-        return $result;
     }
 
     /**
@@ -303,7 +239,6 @@ class Mysql extends Connect {
         $this->dealParam($param, $fieldType);
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $result = $sth->fetch();
         $this->emptyParam();
         if (!empty($result)) {
@@ -324,7 +259,6 @@ class Mysql extends Connect {
         $this->dealParam($param, $fieldType);
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $result = $sth->fetchALL();
         $this->emptyParam();
         if (!empty($result)) {
@@ -345,7 +279,6 @@ class Mysql extends Connect {
         $this->dealParam($param, $fieldType);
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
-        $sth->execute();
         $statistics = $sth->rowCount();
         $this->emptyParam();
         $lastInsertId = $this->dbh->lastInsertId();
@@ -368,11 +301,10 @@ class Mysql extends Connect {
         $this->dealParam($param, $fieldType);
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
-        $result = $sth->execute();
-        if ($result == false) {
+        if ($sth === false) {
             return false;
         } else {
-            return $result;
+            return $sth;
         }
     }
 
@@ -472,13 +404,19 @@ class Mysql extends Connect {
      * @return type 返回PDO预处理的对象
      */
     public function PDOBindArray() {
-        $sth = $this->dbh->prepare($this->getLastSql);
-        if (!empty($this->param)) {
-            foreach ($this->param as $key => $value) {
-                $sth->bindValue(':' . $key, $value['value'], $value['fieldType']);
+        try {
+            $sth = $this->dbh->prepare($this->getLastSql);
+            if (!empty($this->param)) {
+                foreach ($this->param as $key => $value) {
+                    $sth->bindValue(':' . $key, $value['value'], $value['fieldType']);
+                }
             }
+            $sth->execute();
+            return $sth;
+        } catch (\PDOException $e) {
+            $this->errorInfo['message'] = $e->getMessage();
+            $this->errorInfo['string'] = $e->getTraceAsString();
         }
-        return $sth;
     }
 
     /**
@@ -501,50 +439,6 @@ class Mysql extends Connect {
         $this->group = '';
         $this->limit = '';
         $this->param = array();
-    }
-
-    /**
-     * 执行递增
-     * @param str $field 字段名称
-     * @param int $num 递增数值
-     * @return type 返回影响行数
-     * @todo 此处存在注入风险，请勿用于用户提交数据！
-     */
-    public function setInc($field, $num = '1') {
-        $this->getLastSql = "UPDATE {$this->tableName} SET `{$field}` = {$field} + :num {$this->where} ";
-        $sth = $this->dbh->prepare($this->getLastSql);
-        $sth->bindValue(':num', $num, PDO::PARAM_INT);
-        $sth->execute();
-        $result = $sth->rowCount();
-        $this->emptyParam();
-        if ($result == 0) {
-            return false;
-        } else {
-            return $result;
-        }
-        return $result;
-    }
-
-    /**
-     * 执行递减
-     * @param str $field 字段名称
-     * @param int $num 递减数值
-     * @return type 返回影响行数
-     * @todo 此处存在注入风险，请勿用于用户提交数据！
-     */
-    public function setDec($field, $num = '1') {
-        $this->getLastSql = "UPDATE {$this->tableName} SET `{$field}` = {$field} - :num {$this->where} ";
-        $sth = $this->dbh->prepare($this->getLastSql);
-        $sth->bindValue(':num', $num, PDO::PARAM_INT);
-        $sth->execute();
-        $result = $sth->rowCount();
-        $this->emptyParam();
-        if ($result == 0) {
-            return false;
-        } else {
-            return $result;
-        }
-        return $result;
     }
 
     /**

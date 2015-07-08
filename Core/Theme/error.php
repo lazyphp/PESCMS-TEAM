@@ -40,6 +40,11 @@
             .copyright a{
                 color: #0066CC;
             }
+            .footer{
+                clear: both;
+                height: 20px;
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -47,18 +52,23 @@
             <div id="error_tips">
                 <h1><?php echo $title; ?></h1>
                 <div class="error_cont">
+                    <?php if (!empty($db->errorInfo)): ?>
+                        <p><?php echo $errorSql; ?></p>
+                        <p><?php echo $errorSqlString; ?></p>
+                    <?php endif; ?>
                     <p><?php echo $errorMes; ?></p>
                     <p><?php echo $errorFile ?></p>
                 </div>
                 <div class="copyright">
                     <p>Power by <a href="http://www.pescms.com" target="brank">PESCMS</a></p>
                 </div>
-                <?php if(!empty($sql)): ?>
-                <p><b>Last Exec SQL:</b><br />
-                    <textarea style="position: absolute; width: 600px;height: 130px;"><?= $sql ?></textarea>
-                </p>
+                <?php if (!empty($sql)): ?>
+                    <p><b>Last Exec SQL:</b><br />
+                        <textarea style=" width: 600px;height: 130px;"><?= $sql ?></textarea>
+                    </p>
                 <?php endif; ?>
             </div>
         </div>
+        <div class="footer"></div>
     </body>
 </html>

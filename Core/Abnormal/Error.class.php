@@ -48,6 +48,10 @@ class Error {
     public static function getShutdown() {
         $error = error_get_last();
         if ($error) {
+            $db = \Core\Db\Db::__init();
+            if (!empty($db->errorInfo)) {
+                self::recordLog(implode("\r", $db->errorInfo), false);
+            }
             //记录日志
             self::recordLog($error);
             if (DEBUG == true) {
@@ -65,11 +69,10 @@ class Error {
                     default :
                         $type = 'PHP error';
                 }
-                
+
                 /**
                  * 处理最后一次执行的 SQL
                  */
-                $db = \Core\Db\Db::__init();
                 if (!empty($db->getLastSql)) {
                     foreach ($db->param as $key => $value) {
                         $placeholder[] = ":{$key}";
@@ -77,8 +80,10 @@ class Error {
                     }
                     $sql = str_replace($placeholder, $paramValue, $db->getLastSql);
                 }
-
-
+                if (!empty($db->errorInfo)) {
+                    $errorSql = "<b>Sql Run Error</b>: {$db->errorInfo['message']}";
+                    $errorSqlString = "<b>Sql Error String</b>:<br/> " . implode("<br/>", explode("\n", $db->errorInfo['string']));
+                }
                 $errorMes = "<b>{$type}: </b>{$message}";
                 $errorFile = "<b>File: </b>{$file} <b>Line: </b>{$line}";
             } else {
@@ -96,9 +101,16 @@ class Error {
      * 记录错误日志
      * @param type $error 错误信息
      */
-    private static function recordLog($error) {
+    private static function recordLog($error, $extract = true) {
         $fileName = 'error_' . md5(self::loadConfig('PRIVATE_KEY') . date("Ymd"));
-        $mes = "Rank[{$error['type']}] PHP error: {$error['message']}\rFile:{$error['file']};Line:{$error['line']}\r\r";
+
+        if ($extract == true) {
+            $mes = "Rank[{$error['type']}] PHP error: {$error['message']}\rFile:{$error['file']};Line:{$error['line']}\r\r";
+        } else {
+            $mes = "{$error}\r";
+        }
+
+
         $loadLogPath = self::loadConfig('LOG_PATH');
         $logPath = empty($loadLogPath) ? PES_PATH . './log' : PES_PATH . $loadLogPath;
         if (!is_dir($logPath)) {
