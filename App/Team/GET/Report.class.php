@@ -50,7 +50,7 @@ class Report extends \App\Team\Common {
         }
 
         $condition = "r.report_date BETWEEN :begin AND :end ";
-        $param = array('report_date' => date('Y-m-d'));
+        $param = array();
         //allExtract将移除此限制
         if (ACTION == 'extract') {
             $condition .= " AND r.department_id = :department_id";
