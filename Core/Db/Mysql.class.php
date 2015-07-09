@@ -135,7 +135,6 @@ class Mysql extends Connect {
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $limit;
         $sth = $this->PDOBindArray();
         $result = $sth->fetch();
-        $this->emptyParam();
         return $result;
     }
 
@@ -151,7 +150,6 @@ class Mysql extends Connect {
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $this->limit;
         $sth = $this->PDOBindArray();
         $result = $sth->fetchALL();
-        $this->emptyParam();
         return $result;
     }
 
@@ -169,7 +167,6 @@ class Mysql extends Connect {
         }
         $this->getLastSql = 'INSERT INTO ' . $this->tableName . ' (' . implode(',', $field) . ' ) VALUES (' . implode(',', $namedPlaceholders) . ' )';
         $sth = $this->PDOBindArray();
-        $this->emptyParam();
         if ($this->dbh->lastInsertId() === false) {
             return false;
         } else {
@@ -200,7 +197,6 @@ class Mysql extends Connect {
 
         $sth = $this->PDOBindArray();
         $result = $sth->rowCount();
-        $this->emptyParam();
         if ($result >= 0) {
             return $result;
         } else {
@@ -219,7 +215,6 @@ class Mysql extends Connect {
         $this->getLastSql = 'DELETE FROM ' . $this->tableName . $this->where;
         $sth = $this->PDOBindArray();
         $result = $sth->rowCount();
-        $this->emptyParam();
 
         if ($result >= 0) {
             return $result;
@@ -240,12 +235,28 @@ class Mysql extends Connect {
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
         $result = $sth->fetch();
-        $this->emptyParam();
         if (!empty($result)) {
             return $result;
         } else {
             return false;
         }
+    }
+
+    /**
+     * 暴露一个仅执行了却没有取出数据的对象方法。
+     * 本方法用法类似mysql中的mysql_fetch_array();
+     * 具体参考如下的链接
+     * @link URL http://php.net/manual/en/function.mysql-fetch-array.php
+     * @param type $sql
+     * @param type $param
+     * @param type $fieldType
+     * @return type
+     */
+    public function fetchArray($sql, $param = '', $fieldType = '') {
+        $this->dealParam($param, $fieldType);
+        $this->getLastSql = $sql;
+        $sth = $this->PDOBindArray();
+        return $sth;
     }
 
     /**
@@ -260,7 +271,6 @@ class Mysql extends Connect {
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
         $result = $sth->fetchALL();
-        $this->emptyParam();
         if (!empty($result)) {
             return $result;
         } else {
@@ -280,7 +290,6 @@ class Mysql extends Connect {
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
         $statistics = $sth->rowCount();
-        $this->emptyParam();
         $lastInsertId = $this->dbh->lastInsertId();
         if (!empty($lastInsertId)) {
             return $lastInsertId;
@@ -412,6 +421,7 @@ class Mysql extends Connect {
                 }
             }
             $sth->execute();
+            $this->emptyParam();
             return $sth;
         } catch (\PDOException $e) {
             $this->errorInfo['message'] = $e->getMessage();
