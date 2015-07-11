@@ -426,6 +426,7 @@ class Mysql extends Connect {
         } catch (\PDOException $e) {
             $this->errorInfo['message'] = $e->getMessage();
             $this->errorInfo['string'] = $e->getTraceAsString();
+            \Core\Abnormal\Error::errorSql();
         }
     }
 

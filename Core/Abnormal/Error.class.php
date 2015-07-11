@@ -8,6 +8,28 @@
  * For the full copyright and license information, please view
  * the file LICENSE.md that was distributed with this source code.
  */
+//         ._                __.
+//        / \"-.          ,-",'/ 
+//       (   \ ,"--.__.--".,' /  
+//       =---Y(_i.-'  |-.i_)---=
+//      f ,  "..'/\\v/|/|/\  , l
+//      l//  ,'|/   V / /||  \\j
+//       "--; / db     db|/---"
+//          | \ YY   , YY//
+//          '.\>_   (_),"' __
+//        .-"    "-.-." I,"  `.
+//        \.-""-. ( , ) ( \   |
+//        (     l  `"'  -'-._j 
+// __,---_ '._." .  .    \
+//(__.--_-'.  ,  :  '  \  '-.
+//    ,' .'  /   |   \  \  \ "-
+//     "--.._____t____.--'-""'
+//            /  /  `. ".
+//           / ":     \' '.
+//         .'  (       \   : 
+//         |    l      j    "-.
+//         l_;_;I      l____;_I
+
 
 namespace Core\Abnormal;
 
@@ -95,6 +117,38 @@ class Error {
             require self::promptPage();
             exit;
         }
+    }
+
+    /**
+     * SQL执行错误提示信息
+     */
+    public static function errorSql() {
+        $db = \Core\Db\Db::__init();
+        if (!empty($db->errorInfo)) {
+            self::recordLog(implode("\r", $db->errorInfo), false);
+        }
+        if (DEBUG == true) {
+            /**
+             * 处理最后一次执行的 SQL
+             */
+            if (!empty($db->getLastSql)) {
+                foreach ($db->param as $key => $value) {
+                    $placeholder[] = ":{$key}";
+                    $paramValue[] = "'{$value['value']}'";
+                }
+                $sql = str_replace($placeholder, $paramValue, $db->getLastSql);
+            }
+
+            $errorMes = "<b>Sql Run Error</b>: {$db->errorInfo['message']}";
+            $errorFile = "<b>Sql Error String</b>:<br/> " . implode("<br/>", explode("\n", $db->errorInfo['string']));
+        } else {
+            $errorMes = "There was an error. Please try again later.";
+            $errorFile = "That's all we know.";
+        }
+        header("HTTP/1.1 500 Internal Server Error");
+        $title = "500 Internal Server Error";
+        require self::promptPage();
+        exit;
     }
 
     /**
