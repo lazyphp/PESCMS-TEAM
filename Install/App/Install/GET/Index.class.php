@@ -13,7 +13,7 @@ namespace Install\App\Install\GET;
 
 class Index extends Common {
 
-    public function __construct() {
+    public function __init() {
         if (is_file(PES_PATH . '/Install/install.txt')) {
             $this->error('不能再次执行安装程序！');
         }

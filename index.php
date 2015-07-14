@@ -20,4 +20,4 @@ if (!defined('DOCUMENT_ROOT')) {
     $_root = rtrim(dirname(PHP_FILE), '/');
     define('DOCUMENT_ROOT', (($_root == '/' || $_root == '\\') ? '' : $_root));
 }
-header('Location:'.DOCUMENT_ROOT.'/Install/index.php');
+header('Location:'.DOCUMENT_ROOT.'/Install/index.php?g=Install&m=Index&a=index');
