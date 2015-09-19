@@ -36,5 +36,5 @@ WEB服务软件最好支持rewrite功能，让每一个URL更好看。
 ##反馈和建议  
 邮箱：dev#pescms.com  
 演示地址:[http://team.pescms.com](http://team.pescms.com)  
-开发文档：[http://doc.pescms.com](http://doc.pescms.com)  
-QQ群：451828934（注明:PESCMS 或者PESCMS TEAM） <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=70b9d382c5751b7b64117191a71d083fbab885f1fb7c009f0dc427851300be3a"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="PESCMS TEAM官方群" title="PESCMS TEAM官方群"></a> 
+开发文档：[http://www.pescms.com/d/index](http://www.pescms.com/d/index)  
+QQ群：451828934 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=70b9d382c5751b7b64117191a71d083fbab885f1fb7c009f0dc427851300be3a"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="PESCMS TEAM官方群" title="PESCMS TEAM官方群"></a> 
