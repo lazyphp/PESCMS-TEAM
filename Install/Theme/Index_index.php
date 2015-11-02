@@ -29,10 +29,13 @@
                 5.PESCMS团队会不定期为PESCMS TEAM提供版本的更新，使用者在执行版本更新前，请自行备份数据。若因版本升级造成的任何损失，PESCMS团队不承担任何责任。
             </p>
             <p style="text-indent:2em;">
-                6.本协议官方会不定期地进行修正，添加，删除等行为，若本协议超出了使用者所承担的范围内，请马上终止使用PESCMS TEAM。同时，请使用者及时留意官方对于本协议调整。若因使用者没有主动从官方获知协议的调整，而导致产生纠纷的，PESCMS团队不承担任何责任。
+                6.所有PESCMS系列软件分广告版和非广告版。使用广告版的用户，可以自行移除代码中广告实现的方法。但禁止在互联网中散布、编写、分享等任何形式指导其他用户移除广告。一经发现上述行为，PESCMS团队将保留追究的权利。若您不懂如何去除程序的广告，可以购买官方的非广告版（您的支出，将对PESCMS的发展起重要的动力支持）。具体请参考官网的商业计划。任何对程序内置广告感到反感的用户，可以终止使用本软件。
             </p>
             <p style="text-indent:2em;">
-                7.对于软件其他的补充，请自行参考GPLv2的说明。
+                7.本协议官方会不定期地进行修正，添加，删除等行为，若本协议超出了使用者所承担的范围内，请马上终止使用PESCMS TEAM。同时，请使用者及时留意官方对于本协议调整。若因使用者没有主动从官方获知协议的调整，而导致产生纠纷的，PESCMS团队不承担任何责任。
+            </p>
+            <p style="text-indent:2em;">
+                8.对于软件其他的补充，请自行参考GPLv2的说明。
             </p>
             <h5 style="text-indent:2em;">
                 隐私说明
@@ -57,7 +60,7 @@
             </p>
         </div>
         <div class="am-margin-top am-fr">
-            <a href="<?=DOCUMENT_ROOT?>/?m=Index&a=config" class="am-btn am-btn-default">下一步</a> 
+            <a href="<?=DOCUMENT_ROOT?>/?m=Index&a=config" class="am-btn am-btn-default">下一步</a>
         </div>
     </div>
 </div>
