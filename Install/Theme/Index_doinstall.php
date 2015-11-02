@@ -64,8 +64,11 @@
                 } else if (data['status'] != '200') {
                     $(".action").prepend("<p>" + data['info'] + "</p>");
                 } else {
-                    $(".action").prepend("<p>安装遇到无法解析的错误!</p>");
+                    $(".action").prepend("<p>安装遇到无法解析的错误!</p><p>"+data+"</p>");
                 }
+            },
+            error:function(obj){
+                $(".action").prepend("<p>安装出错,未知原因!</p><p>"+obj.responseText+"</p>");
             }
         })
     })

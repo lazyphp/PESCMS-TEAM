@@ -28,7 +28,7 @@
             <div class="am-form-group">
                 <label for="doc-ipt-3" class="am-u-sm-2 am-form-label">数据库密码:</label>
                 <div class="am-u-sm-10">
-                    <input type="text" name="passwd" placeholder="数据库密码" required>
+                    <input type="text" name="passwd" placeholder="数据库密码" >
                 </div>
             </div>
 

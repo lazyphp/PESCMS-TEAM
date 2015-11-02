@@ -32,7 +32,8 @@ class Index extends Common {
      */
     public function config() {
         $phpVersion = explode('.', phpversion());
-        $check['version'] = $phpVersion['1'] >= 4 ? true : false;
+        $version = "{$phpVersion['0']}.{$phpVersion['1']}";
+        $check['version'] =  $version >= 5.4 ? true : false;
 
         $check['pdo'] = in_array('pdo_mysql', get_loaded_extensions()) ? true : false;
 
@@ -52,7 +53,7 @@ class Index extends Common {
         $data['DB_HOST'] = $this->isP('host', '请填写数据库地址!');
         $data['DB_NAME'] = $this->isP('name', '请填写数据库名称!');
         $data['DB_USER'] = $this->isP('account', '请填写数据库帐号!');
-        $data['DB_PWD'] = $this->isP('passwd', '请填写数据库密码!');
+        $data['DB_PWD'] = $this->p('passwd');
         $data['DB_PORT'] = $this->isP('port', '请填写数据库端口!');
         $data['DB_PREFIX'] = 'pes_';
         $data['PRIVATE_KEY'] = substr(md5(uniqid()), '0', '10');
@@ -136,6 +137,11 @@ class Index extends Common {
         //配置PDO信息
         $config = \Core\Func\CoreFunc::loadConfig();
         try {
+            //创建数据库
+            $tmp = new \PDO("mysql:host={$config['DB_HOST']};port={$config['DB_PORT']}", $config['DB_USER'], $config['DB_PWD']);
+            $createDb = "CREATE DATABASE IF NOT EXISTS {$config['DB_NAME']} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
+            $tmp->exec($createDb);
+            //连接数据库
             $db = new \PDO("mysql:host={$config['DB_HOST']};port={$config['DB_PORT']};dbname={$config['DB_NAME']}", $config['DB_USER'], $config['DB_PWD']);
         } catch (\PDOException $e) {
             $this->error($e->getMessage());

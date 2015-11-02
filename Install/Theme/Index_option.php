@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div class="am-u-sm-8 am-vertical-align-middle">
-                    *服务器不支持Rewrite，勿选隐藏！ <a href="http://doc.pescms.com/Doc/view/id/13.html" target="_blank">参考此处</a>
+                    *服务器不支持Rewrite，勿选隐藏！ <a href="http://www.pescms.com/d/v/9/14.html" target="_blank">参考此处</a>
                 </div>
             </div>
 
