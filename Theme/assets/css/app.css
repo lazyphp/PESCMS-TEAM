@@ -1,0 +1,375 @@
+/* Write your styles */
+.table-sort {
+    width: 60px;
+}
+
+/*状态进度标记开始*/
+.console-step .step-pass {
+    background-color: #99dcf3;
+}
+
+.console-step .step {
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    color: #FFF;
+    z-index: 1;
+    text-align: center;
+}
+
+.console-step .step-active {
+    background-color: #00a0c7;
+}
+
+.row:before, .row:after {
+    display: table;
+    content: " ";
+}
+
+.row:after {
+    clear: both;
+}
+
+.console-step .step:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -12px;
+    z-index: 8;
+    top: 0px;
+    border-top: 12px solid #cacaca;
+    border-left: 12px solid transparent !important;
+    border-bottom: 12px solid #cacaca;
+}
+
+.console-step .step-pass:before {
+    border-color: #99dcf3;
+}
+
+.console-step .step-active:before {
+    border-color: #00a0c7;
+}
+
+.console-step .step-first:before {
+    display: none;
+}
+
+.console-step .step:after {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 24px;
+    position: absolute;
+    right: 0px;
+    z-index: 9;
+    top: 0px;
+    border-top: 12px solid transparent !important;
+    border-left: 12px solid #cacaca;
+    border-bottom: 12px solid transparent !important;
+    background-color: #FFF;
+}
+
+.console-step .step-pass:after {
+    border-color: #99dcf3;
+}
+
+.console-step .step-active:after {
+    border-color: #00a0c7;
+}
+
+.console-step .step-end:after {
+    display: none;
+}
+
+/*状态标记结束*/
+
+/*工单内容描述开始*/
+.pt-info-panel {
+    background-color: #f8f8f8;
+}
+
+.pt-text-explode {
+    color: #999 !important;
+}
+
+/*工单内容描述结束*/
+
+/*鼠标移动至li上的背景颜色*/
+.am-list-hover li:hover {
+    background: #f5f5f5;
+}
+
+/*鼠标移动至li上的背景颜色*/
+
+/*扩展颜色*/
+.am-text-gray {
+    color: #999;
+}
+
+/*扩展颜色*/
+
+/*
+===================
+图标 导航、版块管理
+展开收起、所属
+===================
+*/
+.start_icon,
+.away_icon,
+.zero_icon,
+.plus_icon,
+.plus_end_icon {
+    background: url(../i/icon_list.png) no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.start_icon,
+.away_icon,
+.zero_icon,
+.plus_none_icon {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.away_icon {
+    background-position: 0 -20px;
+}
+
+.zero_icon {
+    background-position: -20px 0;
+    cursor: default;
+}
+
+.plus_icon,
+.plus_end_icon {
+    width: 40px;
+    height: 24px;
+    background-position: 0 -43px;
+    margin-right: 5px;
+}
+
+.plus_end_icon {
+    background-position: 0 -70px;
+}
+
+.plus_on_icon {
+    background-position: 0 -100px;
+    cursor: default;
+}
+
+/*消息提示小红点*/
+.msg-tips {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #f65645;
+    border-radius: 5px;
+    left: 28px;
+    top: 13px;
+    position: absolute;
+}
+
+/*消息提示小红点*/
+
+/*任务列表*/
+.task-hr {
+    border-top: 1px solid #d3d3d3 !important;
+}
+
+.task-date {
+    height: 0;
+}
+
+.task-date-align {
+    position: relative;
+    top: -12px;
+    background-color: #fff !important;
+}
+
+.task-list {
+    padding: 1rem .5rem;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.task-list .am-comment-avatar {
+    float: none;
+}
+
+/*任务列表*/
+/*任务详细页*/
+.task-active-subtitle {
+    color: #13bb92;
+    margin: 0 0 -1px 0;
+    border-bottom: 2px solid #13bb92
+}
+
+.am-article-bd img {
+    display: inline-block;
+}
+
+.task-entry input {
+    margin-right: 0.5rem;
+}
+
+/*任务详细页*/
+/*任务看板*/
+
+.task-card {
+    position: fixed;
+    top: 54px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.task-card .am-u-md-3 {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    padding: 0 0.5rem;
+}
+
+.task-card-box {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 10px 10px;
+    background-color: #eee;
+}
+
+.task-card-head {
+    position: absolute;
+    z-index: 5000;
+    height: 40px;
+    width: 100%;
+    font-size: 1.4rem;
+    padding: 0 15px;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    margin: 0;
+    background: rgba(0, 0, 0, .02);
+    line-height: 40px;
+    min-height: 40px;
+    white-space: initial;
+    word-break: break-all;
+}
+
+.task-card-head {
+    top: 0;
+}
+
+.task-box-list-box {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 0.2rem;
+}
+
+.task-car-list-box-fit {
+    position: static;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.task-card-list {
+    position: relative;
+    width: 100% !important;
+    border-left: 5px solid #ddd !important;
+    background: #fff;
+    display: block;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    margin: 5px 0 0;
+}
+
+.task-card-list:hover {
+    border: 1px solid #aaa;
+    border-left-width: 5px;
+}
+
+.task-card-warning, .task-card-warning a {
+    color: #fff;
+}
+
+.task-card-warning {
+    background-color: #FB6969 !important;
+    border-left: 5px solid #FFA500 !important;
+}
+
+/*任务看板*/
+
+/*设置滚动条样式*/
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+/*设置滚动条样式*/
+
+/*公告侧栏的宽度设置*/
+#bulletin .am-offcanvas-bar:after {
+    border-right: 1px solid #fff;
+}
+
+#bulletin .am-offcanvas-bar {
+    background-color: #fff;
+}
+
+@media only screen and (max-width: 640px) {
+    #bulletin .am-offcanvas-bar {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 641px) {
+    #bulletin .am-offcanvas-bar {
+        width: 50%;
+    }
+}
+
+.bulletin-content {
+    color: #666;
+}
+
+/*公告侧栏的宽度设置*/
+
+/*报表列表样式*/
+.report-list p{
+    margin: 0;
+}
+.report-list a {
+    padding: 0 !important;
+    display: inline-block !important;
+}
+
+.report-list a:hover {
+    background: none !important;
+}
+/*报表列表样式*/

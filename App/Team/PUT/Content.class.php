@@ -5,27 +5,31 @@ namespace App\Team\PUT;
 /**
  * 公用内容更新
  */
-class Content extends \App\Team\Common {
+class Content extends \Core\Controller\Controller {
 
     /**
      * 更新内容
+     * @param type $jump 是否跳转.当继承本类时,若不跳转,提交false
+     * @param type $commit 是否提交事务.默认提交.若想继承者继续在本事务中操作,请提交false
      */
-    public function action() {
+    public function action($jump = TRUE, $commit = TRUE) {
+
         $this->db()->transaction();
         $updateResult = \Model\Content::updateContent();
-        if ($updateResult['status'] == false) {
-            $this->db()->rollBack();
-            $this->error($updateResult['mes']);
-        }
-        $this->db()->commit();
 
         if (!empty($_POST['back_url'])) {
-            $url = $_POST['back_url'];
+            $url = base64_decode($_POST['back_url']);
         } else {
-            $url = $this->url('Team-' . MODULE . '-index');
+            $url = $this->url(GROUP . '-' . MODULE . '-index');
         }
 
-        $this->success($GLOBALS['_LANG']['CONTENT']['UPDATE_CONTENT_SUCCESS'], $url);
+        if ($commit === TRUE) {
+            $this->db()->commit();
+        }
+
+        if ($jump === TRUE) {
+            $this->success('更新内容成功', $url);
+        }
     }
 
     /**
@@ -33,7 +37,7 @@ class Content extends \App\Team\Common {
      */
     public function listsort() {
         foreach ($_POST['id'] as $key => $value) {
-            \Model\Model::updateSortFromModel(MODULE, $key, $value);
+            \Model\ModelManage::updateSortFromModel(MODULE, $key, $value);
         }
 
         if (!empty($_SERVER['HTTP_REFERER'])) {
@@ -41,7 +45,7 @@ class Content extends \App\Team\Common {
         } else {
             $url = "";
         }
-        $this->success($GLOBALS['_LANG']['COMMON']['SORT_SUCCESS'], $url);
+        $this->success('内容排序成功', $url);
     }
 
 }

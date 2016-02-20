@@ -16,50 +16,89 @@ namespace Model;
  */
 class Notice extends \Core\Model\Model {
 
+    public static $taskid;
+
     /**
-     * 添加新的系统信息
-     * @param type $uid 接收消息的用户
-     * @param type $taskId 任务ID
-     * @param type $type 通知类型 
-     * 1:收到新任务 
-     * 2.指派审核任务 
-     * 3.待审核任务 
-     * 4.待修改的任务 
-     * 5.部门待审核指派任务 
-     * 6.完成的任务
-     * @todo 本方法还需要添加邮件通知记录。
+     * 生成系统通知
+     * @param $userid 接收通知的用户ID
+     * @param $type 通知类型
+     * @return mixed
      */
-    public static function addNotice($uid, $taskId, $type, $mail) {
-        return self::db('notice')->insert(array('user_id' => $uid, 'task_id' => $taskId, 'notice_type' => $type, 'task_mail' => $mail));
+    public static function newNotice($userid, $type) {
+        $text = self::noticeText($type);
+
+        //如果等于1，则执行邮件发送
+        if ($text['mail'] == '1') {
+            \Model\Extra::insertSend(
+                \Model\Content::findContent('user', $userid, 'user_id')['user_mail'],
+                strip_tags($text['title']),
+                $text['title'],
+                '1'
+            );
+        }
+
+        return self::db('notice')->insert([
+            'notice_user_id' => $userid,
+            'notice_type' => $type,
+            'notice_title' => $text['title'],
+            'notice_content' => $text['content'],
+            'notice_time' => time()
+        ]);
     }
 
     /**
-     * 登记系统消息已阅读
-     * @param type $type 通知类型 
-     * 1:收到新任务 
-     * 2.指派审核任务 
-     * 3.待审核任务 
-     * 4.待修改的任务 
-     * 5.部门待审核指派任务 
-     * 6.完成的任务
+     * 消息文本
+     * @param $type 消息类型
+     * @return array
      */
-    public static function readNotice($type) {
-        return self::db('notice')->where('user_id = :user_id AND notice_type = :notice_type ')->update(array('noset' => array('user_id' => $_SESSION['team']['user_id'], 'notice_type' => $type), 'notice_read' => '1'));
+    private static function noticeText($type) {
+        $task = \Model\Content::findContent('task', self::$taskid, 'task_id');
+
+        $title = '<a href="' . self::url('Team-User-view', ['id' => $_SESSION['team']['user_id']]) . '">' . $_SESSION['team']['user_name'] . '</a> 在任务 <a href="' . self::url('Team-Task-view', ['id' => self::$taskid]) . '">' . $task['task_title'] . '</a> 中';
+        $content = '<p>任务计划开始时间:' . date('Y-m-d H:i', $task['task_start_time']) . '</p><p>任务计划结束时间:' . date('Y-m-d H:i', $task['task_end_time']) . '</p>' . $task['task_content'];
+
+        switch ($type) {
+            case '1':
+                $title .= '指派给您执行任务的需求';
+                break;
+            case '2':
+                $title .= '赋予您审核的权限';
+                break;
+            case '3':
+                $title .= '提交了审核，请您对该任务进行验证审核';
+                break;
+            case '4':
+                $title .= '指派了您的部门';
+                break;
+            case '5':
+                $title .= "对内容进行修改和补充说明，请您留意该变动";
+                //任务的修改和补充，他的内容字段名称都为content.
+                $content = self::p('content');
+                break;
+
+        }
+        return ['title' => $title, 'content' => $content, 'mail' => $task['task_mail']];
     }
 
     /**
-     * 列出等待发送邮件通知的5条消息
+     * 依据任务操作者进行生成系统消息
+     * @param $taskid 任务ID
+     * @param $taskUserType 任务操作者类型
+     * @param $noticeType 消息类型
      */
-    public static function listNoticeWaitMail() {
-        return self::db('notice AS n')->field('n.*, u.user_mail, u.user_name, t.task_title')->join(self::$prefix . "user AS u ON u.user_id = n.user_id")->join(self::$prefix . "task AS t ON t.task_id = n.task_id")->where('n.task_mail = 1 AND n.mail_send = 0 AND t.task_delete = 0 ')->select();
-    }
-
-    /**
-     * 更新消息提示为已发送
-     * @param type $noticeId 消息提示ID
-     */
-    public static function updateNoticeMailSend($noticeId) {
-        return self::db('notice')->where('notice_id = :notice_id')->update(array('noset' => array('notice_id' => $noticeId), 'mail_send' => '1'));
+    public static function accordingTaskUserToaddNotice($taskid, $taskUserType, $noticeType) {
+        self::$taskid = $taskid;
+        $userList = \Model\Content::listContent([
+            'table' => 'task_user',
+            'condition' => 'task_id = :task_id AND task_user_type = :task_user_type',
+            'param' => [
+                'task_id' => $taskid,
+                'task_user_type' => $taskUserType
+            ]
+        ]);
+        foreach ($userList as $value) {
+            self::newNotice($value['user_id'], $noticeType);
+        }
     }
 
 }

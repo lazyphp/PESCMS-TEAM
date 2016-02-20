@@ -11,31 +11,27 @@
 
 namespace App\Team\GET;
 
-class Setting extends \App\Team\Common {
+class Setting extends \Core\Controller\Controller {
 
     /**
-     * 系统基础设置
+     * 系统设置
      */
-    public function action() {
-
-        $list = \Model\Content::listContent('option');
-        foreach ($list as $key => $value) {
-            $setting[$value['option_name']] = $value;
+    public function action(){
+        $option = [];
+        foreach(\Model\Content::listContent(['table' => 'option']) as $key => $value){
+            if(is_array(json_decode($value['value'], true)) || $value['option_name'] == 'crossdomain' ){
+                $option[$value['option_name']] = json_decode($value['value'], true);
+            }else{
+                $option[$value['option_name']] = $value;
+            }
         }
-        $this->assign('setting', $setting);
-        $this->assign('title', \Model\Menu::getTitleWithMenu());
+        $this->assign($option);
+        $this->assign('title', '系统设置');
         $this->layout();
     }
 
-    /**
-     * 更新系统
-     */
-    public function upgrade() {
-        \Model\Option::getUpdate();
-        $version = \Model\Option::findOption('version')['value'];
-        $content = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
-        $this->assign($content);
-        $this->assign('title', \Model\Menu::getTitleWithMenu());
+    public function upgrade(){
+        $this->assign('title', '检查更新');
         $this->layout();
     }
 

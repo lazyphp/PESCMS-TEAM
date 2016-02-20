@@ -11,162 +11,92 @@
 
 namespace App\Team\PUT;
 
-class Setting extends \App\Team\Common {
+class Setting extends \Core\Controller\Controller {
 
-    /**
-     * 更新文件名称
-     * @var type 
-     */
-    private $updateFileName = '';
-
-    /**
-     * 更新数据库文件名称
-     * @var type 
-     */
-    private $updateDbFileName = '';
-
-    /**
-     * 更新系统设置
-     * @todo 后台设置是一个败笔之处。部分设置使用了JSON处理，部分没有。
-     * 本方法弱处理，成功与否都提示设置完毕。以后情况严重再修改吧。 2015-04-11
-     */
     public function action() {
-        $sitetitle = $this->isP('sitetitle', '请填写程序标题');
-        $upload_img = $this->isP('upload_img', '请填写上传图片格式');
-        $upload_file = $this->isP('upload_file', '请填写上传文件的格式');
-        $signup = in_array($_POST['signup'], array('0', '1')) ? $_POST['signup'] : $this->error('请选择是否开启注册');
-        $node_type = in_array($_POST['node_type'], array('0', '1')) ? $_POST['node_type'] : $this->error('请选择权限验证模式');
-        $urlModel = $this->isP('urlModel', '请选择URL模式');
-        $index = $this->isP('index', '请选择是否隐藏index.php');
-        $urlModel = json_encode(array('index' => $index, 'urlModel' => $urlModel, 'suffix' => '1'));
-        $mail = $this->p('mail');
 
-        \Model\Option::update('sitetitle', $sitetitle);
-        \Model\Option::update('signup', $signup);
-        \Model\Option::update('node_type', $node_type);
-        \Model\Option::update('upload_img', json_encode(explode(',', $upload_img)));
-        \Model\Option::update('upload_file', json_encode(explode(',', $upload_file)));
-        \Model\Option::update('mail', json_encode($mail));
-        \Model\Option::update('urlModel', $urlModel);
+        foreach (['upload_img', 'upload_file'] as $value) {
+            $data[$value] = json_encode(explode(',', str_replace(["\r\n", "\r", " "], '', $_POST[$value])));
+        }
 
-        $this->success('设置完毕!', $this->url('Team-Setting-action'));
+        $data['notice_way'] = $this->p('notice_way');
+        $data['mail'] = json_encode($this->p('mail'));
+
+        foreach ($data as $key => $value) {
+            $this->db('option')->where('option_name = :option_name')->update(['value' => $value, 'noset' => ['option_name' => $key]]);
+        }
+
+        $this->success('保存设置成功!', $this->url('Team-Setting-action'));
     }
 
     /**
-     * 下载更新文件
+     * 自动更新
+     * @todo 日后在弄
      */
-    public function downloadUpgradeFile() {
-        $version = \Model\Option::findOption('version')['value'];
-        $update = \Model\Extra::getUpdate($version);
-        if ($update['status'] == '-1') {
-            $this->error($update['mes']);
-        }
+    public function atUpgrade() {
 
-
-        //下载更新文件
-        if (!empty($update['info']['file'])) {
-            $this->getFile($update['info']['file']);
-        }
-        //下载更新SQL文件
-        if (!empty($update['info']['sql'])) {
-
-            $this->getFile($update['info']['sql']);
-        }
-
-        $this->success('下载成功');
     }
 
     /**
-     * 安装更新文件
+     * 手动更新
      */
-    public function installUpdateFile() {
-        $version = \Model\Option::findOption('version')['value'];
-        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
-        if (empty($findUpdate['update_list_file'])) {
-            $this->success('本次更新没有文件需要更新');
+    public function mtUpgrade() {
+        $file = $_FILES['zip'];
+        if (pathinfo($file['name'])['extension'] != 'zip') {
+            $this->error('请导入zip的更新补丁');
         }
-        $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH') . "/update";
-        $updateFileName = "{$uploadPath}/" . pathinfo($findUpdate['update_list_file'])['basename'];
 
-        require PES_PATH . '/Expand/pclzip.lib.php';
-        $archive = new \PclZip($updateFileName);
-        $list = $archive->extract(PCLZIP_OPT_PATH, PES_PATH . "/", PCLZIP_OPT_REPLACE_NEWER);
-        foreach ($list as $v) {
-            if ($v['status'] != "ok" && $v['status'] != 'already_a_directory') {
-                $this->error("File:{$v['filename']}, Status:{$v['status']}");
+        /**
+         * 解压出错
+         */
+        $info = (new \Expand\zip()) ->unzip($file['tmp_name']);
+
+        $info = $this->actionsql();
+
+        if($info === true){
+            $info = ['升级完成'];
+        }
+
+        $this->assign('info', $info);
+        $this->assign('menu', \Model\Menu::menu($_SESSION['team']['user_group_id']));
+        $this->layout('Setting_upgrade_info');
+    }
+
+    /**
+     * 执行数据库更新
+     * @return bool|string
+     */
+    private function actionsql(){
+        $version = \Model\Content::findContent('option', 'version', 'option_name')['value'];
+
+        $ini = PES_PATH.'Upgrade/actionsql.ini';
+        if(!file_exists($ini)){
+            return ['升级配置数据库文件不存在'];
+        }
+
+        $ini_array = parse_ini_file($ini, true);
+
+        foreach($ini_array as $iniversion => $value){
+            if($iniversion > $version){
+                if(!empty($value['sql'])){
+                    foreach($value['sql'] as $sql){
+                        $this->db()->query($sql);
+                    }
+                }
+
+                $this->db('option')->where('option_name = :option_name')->update([
+                    'value' => $iniversion,
+                    'noset' => [
+                        'option_name' => 'version'
+                    ]
+                ]);
             }
         }
+        //移除升级的配置文件
+        unlink($ini);
 
-        unlink($updateFileName);
+        return true;
 
-        $this->success('文件更新完毕!');
-    }
-
-    /**
-     * 安装更新数据库
-     */
-    public function installUpdateSql() {
-        $version = \Model\Option::findOption('version')['value'];
-        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
-        if (empty($findUpdate['update_list_sql'])) {
-            $this->success('本次更新没有数据库需要更新');
-        }
-    }
-
-    /**
-     * 安装结束，移除下载的更新文件
-     */
-    public function installEnd() {
-        $version = \Model\Option::findOption('version')['value'];
-        $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
-        //设置系统版本
-        $this->db('option')->where('option_name = :option_name')->update(array('noset' => array('option_name' => 'version'), 'value' => $findUpdate['update_list_version']));
-
-        //设置版本为已读.
-        $this->db('update_list')->where('update_list_version = :update_list_version')->update(array('noset' => array('update_list_version' => $findUpdate['update_list_version']), 'update_list_read' => '1'));
-        $this->success('系统更新已完成');
-    }
-
-    /**
-     * 下载文件
-     * @param type $url 下载文件的地址
-     */
-    private function getFile($url) {
-        $uploadPath = PES_PATH . \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH');
-        if (!is_dir($uploadPath)) {
-            mkdir($uploadPath);
-        }
-
-        $downLoadpath = "{$uploadPath}/update";
-        if (!is_dir($downLoadpath)) {
-            mkdir($downLoadpath);
-        }
-
-        $fileInfo = pathinfo($url);
-
-        $newfname = "{$downLoadpath}/{$fileInfo['basename']}";
-        //防止多次下载，引起主站负担过重.
-        if (is_file($newfname)) {
-            return true;
-        }
-
-        $file = fopen($url, "rb");
-
-        if ($file) {
-            $newf = fopen($newfname, "wb");
-            if ($newf)
-                while (!feof($file)) {
-                    fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
-                }
-        } else {
-            $this->error('文件下载失败');
-        }
-        if ($file) {
-            fclose($file);
-        }
-        if ($newf) {
-            fclose($newf);
-        }
     }
 
 }

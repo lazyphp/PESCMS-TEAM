@@ -14,34 +14,17 @@ namespace App\Team\PUT;
 /**
  * 模型管理
  */
-class Model extends \App\Team\Common {
+class Model extends Content {
 
     /**
      * 更新模型
      */
-    public function action() {
-        $model = \Model\Model::findModel($_POST['model_id']);
-        $result = \Model\Model::updateModel();
-        if ($result['status'] == false) {
-            $this->error($result['mes']);
-        }
-
+    public function action($jump=FALSE, $commit = TRUE) {
+        $model = \Model\ModelManage::findModel($_POST['id']);
+        parent::action($jump, $commit);
         //更新菜单
-        $this->db('menu')->where('menu_name = :old_name')->update(array('menu_name' => $this->p('display_name'), 'noset' => array('old_name' => $model['lang_key'])));
+        $this->db('menu')->where('menu_name = :old_name')->update(array('menu_name' => $this->p('title'), 'noset' => array('old_name' => $model['model_title'])));
 
-        $this->success($GLOBALS['_LANG']['MODEL']['UPDATE_MODEL_SUCCESS'], $this->url('Team-Model-index'));
+        $this->success('更新模型成功', $this->url(GROUP . '-Model-index'));
     }
-
-    /**
-     * 更新字段
-     */
-    public function fieldAction() {
-        $result = \Model\Field::updateField();
-        if ($result['status'] == false) {
-            $this->error($result['mes']);
-        }
-
-        $this->success($GLOBALS['_LANG']['MODEL']['UPDATE_FIELD_SUCCESS'], $this->url('Team-Model-fieldList', array('id' => $result['mes']['model_id'])));
-    }
-
 }

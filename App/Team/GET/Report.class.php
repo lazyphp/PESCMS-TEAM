@@ -3,23 +3,29 @@
 namespace App\Team\GET;
 
 /**
- * 插入报表
+ * 报表
  */
-class Report extends \App\Team\Common {
+class Report extends \Core\Controller\Controller {
 
     /**
      * 我的报表
      */
     public function my() {
-        $page = new \Expand\Team\Page;
-        $total = count(\Model\Content::listContent('report', array('user_id' => $_SESSION['team']['user_id']), 'user_id = :user_id'));
-        $count = $page->total($total);
-        $page->handle();
-        $list = \Model\Content::listContent('report', array('user_id' => $_SESSION['team']['user_id']), 'user_id = :user_id', 'report_id DESC', "{$page->firstRow}, {$page->listRows}");
-        $show = $page->show();
-        $this->assign('page', $show);
-        $this->assign('list', $list);
-        $this->assign('title', \Model\Menu::getTitleWithMenu());
+        $sql = "SELECT %s FROM {$this->prefix}report WHERE user_id = :user_id ORDER BY report_id DESC";
+
+        $result = \Model\Content::quickListContent([
+            'count' => sprintf($sql, 'count(*)'),
+            'normal' => sprintf($sql, '*'),
+            'param' => [
+                'user_id' => $_SESSION['team']['user_id']
+            ],
+            'style' => ['total' => '', 'first' => '', 'last' => ''],
+            'LANG' => ['pre' => '&laquo;', 'next' => '&raquo;']
+        ]);
+        $this->assign('list', $result['list']);
+        $this->assign('page', $result['page']);
+
+        $this->assign('title', \Model\Menu::getTitleWithMenu()['menu_name']);
         $this->layout('Report_index');
     }
 
@@ -32,8 +38,14 @@ class Report extends \App\Team\Common {
         if (empty($content) || $content['user_id'] != $_SESSION['team']['user_id']) {
             $this->error('不存在的报表或者您无权查找别人的报表');
         }
-        $list = \Model\Content::listContent('report_content', array('report_id' => $id), 'report_id = :report_id', 'content_id DESC');
+        $list = \Model\Content::listContent([
+            'table' => 'report_content',
+            'condition' => 'report_id = :report_id',
+            'param' => ['report_id' => $id],
+            'order' => 'content_id DESC'
+        ]);
 
+        $this->assign('title', date('Y-m-d', $content['report_date']).'我的报表详细内容');
         $this->assign($content);
         $this->assign('list', $list);
         $this->layout();
@@ -58,11 +70,11 @@ class Report extends \App\Team\Common {
         }
 
         if (!empty($_GET['begin']) && !empty($_GET['end'])) {
-            $param['begin'] = $_GET['begin'];
-            $param['end'] = $_GET['end'];
+            $param['begin'] = strtotime($_GET['begin']. ' 00:00:00');
+            $param['end'] = strtotime($_GET['end']. ' 23:59:59');
         } else {
-            $param['begin'] = date('Y-m-d');
-            $param['end'] = date('Y-m-d');
+            $param['begin'] = strtotime(date('Y-m-d 00:00:00'));
+            $param['end'] = strtotime(date('Y-m-d 23:59:59'));
         }
 
         if (!empty($_GET['user'])) {
@@ -91,13 +103,21 @@ class Report extends \App\Team\Common {
             }
         }
 
+
         $this->assign('list', $list);
 
-        $userList = \Model\Content::listContent('user');
-        $this->assign('user', $userList);
+        $userList = \Model\Content::listContent([
+            'table' => 'user'
+        ]);
+
+        foreach($userList as $value){
+            $user[$value['user_id']] = $value;
+        }
+
+        $this->assign('user', $user);
         $this->assign('begin', $param['begin']);
         $this->assign('end', $param['end']);
-        $this->assign('title', '提取报表');
+        $this->assign('title', \Model\Menu::getTitleWithMenu()['menu_name']);
         $this->layout('Report_extract');
     }
 

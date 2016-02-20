@@ -7,18 +7,18 @@
                     <?php foreach (explode(',', $field['value']) as $key => $value) : ?>
                         <li id="<?= $key ?>pics">
                             <p><img src="<?= $value ?>"></p>
-                            <div class="file-panel" style="height: 0px;"><span class="cancel" data="<?= $key ?>"><?php echo $GLOBALS['_LANG']['COMMON']['DELETE']; ?></span></div>
+                            <div class="file-panel" style="height: 0px;"><span class="cancel" data="<?= $key ?>">删除</span></div>
                         </li>
                         <input type="hidden" id="<?= $key ?>input" name="<?= $field['field_name'] ?>[]" value="<?= $value ?>" />
 
                     <?php endforeach; ?>
                 <?php else: ?>
                     <li id="example-pics">
-                        <p><img src="/Theme/Team/WorkHard/assets/i/image.png"></p>
+                        <p><img src="/Theme/assets/i/image.png"></p>
                     </li>
                 <?php endif; ?>
             </ul>
-            <p id="info"><?= empty($field['value']) ? $GLOBALS['_LANG']['UPLOAD']['SELETC_YOUR_UPLOAD_PIC'] : ''; ?></p>
+            <p id="info"><?= empty($field['value']) ? '选择您要上传的图片' : ''; ?></p>
         </div>
         <div class="statusBar">
             <div class="progress" style="display: none;">
@@ -26,7 +26,7 @@
                 <span class="percentage" style="width: 0%;"></span>
             </div>
             <div class="btns">
-                <div id="<?= $field['field_name'] ?>" size="400-400"><?= $GLOBALS['_LANG']['COMMON']['SELECT_PIC']; ?></div>
+                <div id="<?= $field['field_name'] ?>" size="400-400">选择图片</div>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Team&m=Upload&a=img',
+            server: '/index.php?g=<?=GROUP?>&m=Upload&a=img',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
@@ -165,7 +165,7 @@
             if (!jQuery("#<?= $field['field_name'] ?>List").find("li").length) {
                 var $li = $(
                         '<li id="example-pics" style="background: none">' +
-                        '<p><img src="/Theme/Team/WorkHard/assets/i/image.png"></p>' +
+                        '<p><img src="/Theme/assets/i/image.png"></p>' +
                         '</li>'
                         )
                 jQuery("#<?= $field['field_name'] ?>List").append($li);

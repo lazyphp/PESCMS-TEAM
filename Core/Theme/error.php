@@ -2,73 +2,65 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
         <title><?php echo $title; ?></title>
-        <style>
-            body {
-                font-family: Arial;
-                color: #333;
-                font-size: 16px;
-                background: #f3f3f3;
-                line-height: 1.5;
-                _width: 98%;
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
-            html, body, div, dl, dt, dd, ul, p, th, td, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, 
-            legend {
-                margin: 0;
-                padding: 0;
-            }
-            .wrap{
-                width: 650px;
-                margin: 0 auto;
-                padding-top: 10%;
-                background: url('/Theme/error.png') no-repeat 450px 95%;
-            }
-            .error_cont{
-                margin-top: 20px;
-            }
-            .error_cont p{
-                margin-top: 10px;
-            }
-            .copyright{
-                margin-top: 20px;
-                padding-bottom: 40px;
-                color: #0066CC;
-            }
-            .copyright a{
-                color: #0066CC;
-            }
-            .footer{
-                clear: both;
-                height: 20px;
-                margin-top: 20px;
-            }
-        </style>
+        <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>
     </head>
-    <body>
-        <div class="wrap">
-            <div id="error_tips">
-                <h1><?php echo $title; ?></h1>
-                <div class="error_cont">
-                    <?php if (!empty($db->errorInfo)): ?>
-                        <p><?php echo $errorSql; ?></p>
-                        <p><?php echo $errorSqlString; ?></p>
+    <body style="background: #fff;">
+        <div class="footer"></div>
+        <div class="admin-content">
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-sm-centered am-u-lg-centered">
+                    <h2 class="am-text-center am-text-xxl am-margin-top-lg"><?= $title; ?></h2>
+                    <?php if (DEBUG == false): ?>
+                        <p class="am-text-center">
+                            <?php echo $errorMes; ?>
+                            <?php echo $errorFile ?>
+                        </p>
+                        <pre class="page-404" style="width: 300px;margin: 0 auto;">
+         ._                __.
+        / \"-.          ,-",'/ 
+       (   \ ,"--.__.--".,' /  
+       =---Y(_i.-'  |-.i_)---=
+      f ,  "..'/\\v/|/|/\  , l
+      l//  ,'|/   V / /||  \\j
+       "--; / db     db|/---"
+          | \ YY   , YY//
+          '.\>_   (_),"' __
+        .-"    "-.-." I,"  `.
+        \.-""-. ( , ) ( \   |
+        (     l  `"'  -'-._j 
+ __,---_ '._." .  .    \
+(__.--_-'.  ,  :  '  \  '-.
+    ,' .'  /   |   \  \  \ "-
+     "--.._____t____.--'-""'
+            /  /  `. ".
+           / ":     \' '.
+         .'  (       \   : 
+         |    l      j    "-.
+         l_;_;I      l____;_I    
+                        </pre>
+                    <?php else: ?>
+                        
+                        <div style="width: 700px;margin: 0 auto;">
+                        <pre class="am-pre-scrollable>
+                            <?php if (!empty($errorSql)): ?>
+                                <?= $errorSql; ?>
+                                <?= $errorSqlString; ?>
+                            <?php endif; ?>
+                            <span class="am-block"><?= $errorMes; ?></span>
+                            <span class="am-block"><?= $errorFile ?></span>
+                        </pre>
+                            <?php if (!empty($sql)): ?>
+                            <textarea cols="68" class="am-text-default"><?= $sql ?></textarea>
+                            <?php endif; ?>
+                        </div>
                     <?php endif; ?>
-                    <p><?php echo $errorMes; ?></p>
-                    <p><?php echo $errorFile ?></p>
                 </div>
-                <div class="copyright">
-                    <p>Power by <a href="http://www.pescms.com" target="brank">PESCMS</a></p>
-                </div>
-                <?php if (!empty($sql)): ?>
-                    <p><b>Last Exec SQL:</b><br />
-                        <textarea style=" width: 600px;height: 130px;"><?= $sql ?></textarea>
-                    </p>
-                <?php endif; ?>
             </div>
         </div>
-        <div class="footer"></div>
     </body>
 </html>

@@ -9,6 +9,6 @@
  */
 define('ITEM', 'Install\App');
 define('CONFIG_PATH', '../Install/');
-define('THEME', '../Install/Theme');
+define('THEME', dirname(__FILE__).'/Theme');
 define('DEBUG', true);
 require dirname(dirname(__FILE__)) . '/Core/index.php';

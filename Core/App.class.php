@@ -1,16 +1,16 @@
 <?php
 
 /**
- * PESCMS run in PHP 5.3+
+ * PESCMS for PHP 5.4+
  *
- * Copyright (c) 2014 PESMCMS (http://www.pesmcs.com)
+ * Copyright (c) 2015 PESCMS (http://www.pescms.com)
  *
  * For the full copyright and license information, please view
  * the file LICENSE.md that was distributed with this source code.
+ * @version 2.5
  */
 
 namespace Core;
-
 use Core\Abnormal\Abnormal as Abnormal,
     Core\Route\Route as Route;
 
@@ -20,6 +20,8 @@ use Core\Abnormal\Abnormal as Abnormal,
  * @version 1.0
  */
 class App {
+
+    private $unixPath;
 
     public function __construct() {
 
@@ -33,91 +35,93 @@ class App {
     }
 
     /**
-     * 设置语言
-     */
-    private function setLanguage() {
-        /**
-         * 设置语言
-         */
-        if (empty($_COOKIE['language'])) {
-            $lang = $_SESSION['language'] = \Core\Func\CoreFunc::loadConfig('LANGUAGE');
-            setcookie('language', $lang, time() + 604800, '/');
-        } else {
-            $lang = $_SESSION['language'] = $_COOKIE['language'];
-        }
-
-        /**
-         * 定义全局语言包
-         * @name $_LANG 语言包
-         */
-        $GLOBALS['_CORELANG'] = require PES_PATH . "Language/{$lang}/Core/lang.php";
-        if (file_exists(PES_PATH . "Language/{$lang}/" . GROUP . "/lang.php")) {
-            $GLOBALS['_LANG'] = require PES_PATH . "Language/{$lang}/" . GROUP . "/lang.php";
-        }
-    }
-
-    /**
      * 执行指定模块
      */
     public function start() {
         $route = new Route();
         $route->index();
         unset($route);
-        $this->setLanguage();
 
-        try {
-            $class = "\\" . ITEM . "\\" . GROUP . "\\" . METHOD . "\\" . MODULE;
-            $unixPath = str_replace("\\", "/", $class);
-            /**
-             * 当前执行的类文件不存在
-             * 则调用Content类。
-             */
-            if (!file_exists(PES_PATH . $unixPath . '.class.php')) {
-                $class = ITEM . "\\" . GROUP . "\\" . METHOD . "\\Content";
-                $obj = new $class();
-                throw new Abnormal($GLOBALS['_CORELANG']['404']);
-            }
+        include PES_PATH . '/Slice/registerSlice.php';
 
-            $obj = new $class();
+        array_walk(\Core\Slice\InitSlice::$slice, function($obj){
+            $obj->before();
+        });
 
-            if (!method_exists($obj, ACTION)) {
-                throw new Abnormal($GLOBALS['_CORELANG']['404']);
+        $runningNormally = false;
+        foreach (['getContorller', 'getContent'] as $value) {
+            if ($this->$value() !== false) {
+                $runningNormally = true;
+                break;
             }
-            $a = ACTION;
-            $obj->$a();
-            unset($a);
-        } catch (Abnormal $e) {
-            try {
-                //让魔术方法可以调用
-                if (!is_callable(array($obj, ACTION))) {
-                    throw new Abnormal($GLOBALS['_CORELANG']['404']);
-                }
-                $a = ACTION;
-                $obj->$a();
-                unset($a);
-            } catch (Abnormal $e) {
-                /* 无法侦测到 */
-                try {
-                    if (file_exists(THEME . '/' . GROUP . '/' . METHOD . '/' . MODULE . '_' . ACTION . '.php')) {
-                        include THEME . '/' . GROUP . '/' . METHOD . '/' . MODULE . '_' . ACTION . '.php';
-                    } else {
-                        throw new Abnormal('404 Not found!');
-                    }
-                } catch (Abnormal $e) {
-                    header('HTTP/1.1 404');
-                    if (DEBUG == true) {
-                        $title = "404 Page Not Found";
-                        $errorMes = "<b>Debug route info:</b><br /> Group:" . GROUP . ", Model:" . MODULE . ", Method:" . METHOD . ", Action:" . ACTION;
-                        $errorFile = "<b>File loaded:</b><br />" . PES_PATH . "{$unixPath}.class.php";
-                    } else {
-                        $title = $GLOBALS['_CORELANG']['404'];
-                        $errorMes = $GLOBALS['_CORELANG']['ERROR_MES'];
-                        $errorFile = $GLOBALS['_CORELANG']['ERROR_FILE'];
-                    }
-                    require $this->promptPage();
-                    exit;
-                }
-            }
+        }
+
+        if(\Core\Slice\InitSlice::$beforeViewToExecAfter === false){
+            array_walk(\Core\Slice\InitSlice::$slice, function($obj){
+                $obj->after();
+            });
+        }
+
+
+        if ($runningNormally === false) {
+            $title = "404 Page Not Found";
+            $errorMes = "<b>Debug route info:</b><br />Group:" . GROUP . ", Model:" . MODULE . ", Method:" . METHOD . ", Action:" . ACTION;
+            $errorFile = "<b>File loaded:</b><br />" . PES_PATH . "{$this->unixPath}.class.php";
+
+            $this->promptPage($title, $errorMes, $errorFile);
+        }
+
+    }
+
+    /**
+     * 初始化控制器
+     */
+    private function getContorller() {
+        return $this->initObj("\\" . ITEM . "\\" . GROUP . "\\" . METHOD . "\\" . MODULE);
+    }
+
+    /**
+     * 获取智能表单
+     */
+    private function getContent() {
+        return $this->initObj("\\" . ITEM . "\\" . GROUP . "\\" . METHOD . "\\Content");
+    }
+
+    /**
+     * 初始化控制器的对象
+     * @param $class 对象的命名空间
+     */
+    private function initObj($class) {
+        $this->unixPath = str_replace("\\", "/", $class);
+
+        if (!file_exists(PES_PATH . $this->unixPath . '.class.php')) {
+            return false;
+        }
+        //使用反射机制，验证控制器方法和是否支持魔术方法是否存在
+        $reflectionClass = new \ReflectionClass($class);
+        if ($reflectionClass->hasMethod(ACTION) === false && $reflectionClass->hasMethod('__call') === false) {
+            return false;
+        }
+
+        $obj = new $class();
+        $a = ACTION;
+        $obj->$a();
+
+    }
+
+    /**
+     * 获取模板
+     * @todo 本方法暂时被废弃。因为和智能表单功能产生了一些冲突。
+     */
+    private function getTemplate() {
+        $theme = \Core\Func\CoreFunc::getThemeName();
+        $path = THEME . '/' . GROUP . "/{$theme}/";
+        if (file_exists($path . MODULE . '/' . MODULE . '_' . ACTION . '.php')) {
+            require $path . MODULE . '/' . MODULE . '_' . ACTION . '.php';
+        } elseif (file_exists($path . MODULE . '_' . ACTION . '.php')) {
+            require $path . MODULE . '_' . ACTION . '.php';
+        } else {
+            return false;
         }
     }
 
@@ -127,24 +131,17 @@ class App {
      */
     private function loader($className) {
         $unixPath = str_replace("\\", "/", $className);
+
         if (file_exists(PES_PATH . $unixPath . '.class.php')) {
             require PES_PATH . $unixPath . '.class.php';
         } else {
             if (\Core\Func\CoreFunc::$defaultPath == false) {
                 return true;
             } else {
-                header('HTTP/1.1 404');
-                if (DEBUG == true) {
-                    $title = $GLOBALS['_CORELANG']['CLASS_LOST'];
-                    $errorMes = "<b>Debug info:</b><br /> Class undefined.";
-                    $errorFile = "<b>File :</b> <br />" . PES_PATH . "{$unixPath}.class.php";
-                } else {
-                    $title = $GLOBALS['_CORELANG']['404'];
-                    $errorMes = $GLOBALS['_CORELANG']['ERROR_MES'];
-                    $errorFile = $GLOBALS['_CORELANG']['ERROR_FILE'];
-                }
-                require $this->promptPage();
-                exit;
+                $title = 'Class File Lose';
+                $errorMes = "<b>Debug info:</b><br /> Class undefined.";
+                $errorFile = "<b>File :</b> <br />" . PES_PATH . "{$unixPath}.class.php";
+                $this->promptPage($title, $errorMes, $errorFile);
             }
         }
     }
@@ -153,12 +150,20 @@ class App {
      * 获取提示页
      * @return type 返回模板
      */
-    private function promptPage() {
-        if (file_exists(THEME . '/' . GROUP . '/404.php')) {
-            return THEME . '/' . GROUP . '/404.php';
-        } else {
-            return PES_CORE . 'Theme/error.php';
+    private function promptPage($title, $errorMes, $errorFile) {
+        header('HTTP/1.1 404');
+        if (DEBUG === false) {
+            $title = '404';
+            $errorMes = 'The requested URL was not found on this server.';
+            $errorFile = 'That’s all we know.';
         }
+
+        if (file_exists(THEME . '/' . GROUP . '/404.php')) {
+            require THEME . '/' . GROUP . '/404.php';
+        } else {
+            require PES_CORE . 'Theme/error.php';
+        }
+        exit;
     }
 
 }

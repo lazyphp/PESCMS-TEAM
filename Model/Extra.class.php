@@ -17,33 +17,89 @@ namespace Model;
  */
 class Extra extends \Core\Model\Model {
 
+    const EMAIL = 1;
+    const URL = 2;
+    const NUMBER = 3;
+    const ALPHANUMERIC = 4;
+    const PHONE = 5;
+
     /**
-     * 获取更新
-     * @param type $version 当前版本
-     * @return boolean 返回获取的版本信息
+     * 生成唯一的ID
      */
-    public static function getUpdate($version) {
-        if (!function_exists('curl_init')) {
-            return array('status' => '-1', 'mes' => '系统没有启动CURL扩展');
+    public static function getOnlyNumber() {
+        $randStr = range('A', 'Z');
+        shuffle($randStr);
+        $microtime = explode(" ", microtime());
+        $number = round($microtime['0'] * $microtime['1'] * rand(1, 100));
+
+        $No = "";
+        for ($i = 0; $i < rand(1, 10); $i++) {
+            $No .= $randStr[$i];
         }
-        $url = "http://api.pescms.com/page/index/version/{$version}/program/2";
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $tmpInfo = curl_exec($curl);
-        curl_close($curl);
-        $update = json_decode($tmpInfo, true);
-        if ($update['status'] == '200') {
-            $findUpdate = \Model\Content::findContent('update_list', $version, 'update_list_pre_version');
-            if (empty($findUpdate)) {
-                self::db('update_list')->insert(array('update_list_pre_version' => $version, 'update_list_version' => $update['info']['version'], 'update_list_createtime' => $update['info']['createtime'], 'update_list_type' => $update['info']['type'], 'update_list_content' => $update['info']['content'], 'update_list_file' => $update['info']['file'], 'update_list_sql' => $update['info']['sql']));
+        return $No . $number;
+    }
+
+
+    /**
+     * 验证输入的内容类型
+     * @param $value 输入的内容
+     * @param $type 验证的类型
+     * @return bool 符合则返回true，反之false
+     */
+    public static function checkInputValueType($value, $type) {
+        switch ($type) {
+            case 1:
+                return filter_var($value, FILTER_VALIDATE_EMAIL);
+            case 2:
+                return filter_var($value, FILTER_VALIDATE_URL);
+            case 3:
+                if (!is_numeric($value)) {
+                    return false;
+                }
+                break;
+            case 4:
+                if(!preg_match("/^[a-z\d]$/i",$value)){
+                    return false;
+                }
+                break;
+            case 5:
+                if(strlen($value) != 11 && substr($value, 0) != '1'){
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 快速插入通知
+     * @param string $title 标题 | 可以为空
+     * @param $content 发送的内容
+     * @param $type 通知类型
+     * @return mixed
+     */
+    public static function insertSend($account, $title = '', $content, $type){
+        return self::db('send')->insert([
+            'send_account' => $account,
+            'sned_title' => $title,
+            'send_content' => $content,
+            'send_time' => '0',
+            'send_type' => $type
+        ]);
+    }
+
+    /**
+     * 执行通知发送
+     */
+    public static function actionNoticeSend(){
+        foreach (\Model\Content::listContent(['table' => 'send']) as $value) {
+            //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
+            switch ($value['send_type']) {
+                case '1':
+                    (new \Expand\Notice\Mail())->send();
+                    break;
             }
         }
-        return $update;
     }
 
 }

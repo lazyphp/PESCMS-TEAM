@@ -7,7 +7,7 @@
             </div>
         <?php endif; ?>
     </div>
-    <div id="<?= $field['field_name'] ?>" size="<?= implode('-', json_decode($field['field_option'], true)); ?>"><?= $GLOBALS['_LANG']['COMMON']['SELECT_PIC']; ?></div>
+    <div id="<?= $field['field_name'] ?>" size="<?= implode('-', json_decode($field['field_option'], true)); ?>">选择图片</div>
 </div>
 <script>
     jQuery(function () {
@@ -38,7 +38,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Team&m=Upload&a=img',
+            server: '/index.php?g=<?=GROUP?>&m=Upload&a=img',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {

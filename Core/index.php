@@ -3,9 +3,9 @@
 /**
  * PSE核心引入文件
  * @author LuoBoss
- * @copyright ©2013-2014 PESCMS
+ * @copyright ©2013-2015 PESCMS
  * @license http://www.pescms.com/license
- * @version 1.0
+ * @version 2.5
  */
 //PES已经自定义错误功能，因此禁用系统的错误信息
 error_reporting(0);

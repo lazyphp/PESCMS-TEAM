@@ -1,11 +1,21 @@
 <?php
+/**
+ * PESCMS for PHP 5.4+
+ *
+ * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE.md that was distributed with this source code.
+ * @core version 2.8
+ * @version 1.0
+ */
 
 namespace App\Team\DELETE;
 
 /**
  * 公用内容删除方法
  */
-class Content extends \App\Team\Common {
+class Content extends \Core\Controller\Controller {
 
     /**
      * 魔术方法，执行删除
@@ -20,12 +30,12 @@ class Content extends \App\Team\Common {
      * 执行删除动作
      */
     public function delete() {
-        $id = $this->isG('id', $GLOBALS['_LANG']['COMMON']['DELETE_ID']);
-        $result = \Model\Model::deleteFromModelId(MODULE, $id);
+        $id = $this->isG('id', '请选择要删除的数据!');
+        $result = \Model\ModelManage::deleteFromModelId(MODULE, $id);
         if (empty($result)) {
-            $this->error($GLOBALS['_LANG']['COMMON']['DELETE_ERROR']);
+            $this->error('删除失败');
         } else {
-            $this->success($GLOBALS['_LANG']['COMMON']['DELETE_SUCCESS']);
+            $this->success('删除成功');
         }
     }
 

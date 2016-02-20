@@ -14,66 +14,36 @@ namespace App\Team\POST;
 /**
  * 模型管理
  */
-class Model extends \App\Team\Common {
+class Model extends Content {
 
     /**
      * 添加模型
      */
-    public function action() {
-        $this->db()->transaction();
-        /**
-         * 插入模型信息
-         */
-        $addModelresult = \Model\Model::addModel();
-        if ($addModelresult['status'] == false) {
-            $this->db()->rollBack();
-            $this->error($addModelresult['mes']);
-        }
+    public function action($jump = FALSE, $commit = FALSE) {
+        parent::action($jump, $commit);
+
+        $modelId = $this->db()->getLastInsert;
+        $modelName = $this->p('name');
 
         /**
          * 插入模型菜单
          */
-        $addMenuResult = \Model\Menu::insertModelMenu($addModelresult['mes']['lang_key'], '9', "Team-{$addModelresult['mes']['model_name']}-index");
-        if ($addMenuResult == false) {
+        $addMenuResult = \Model\Menu::insertMenu(['menu_name' => $this->p('title'), 'menu_pid' => '9', 'menu_link' => GROUP . "-".ucfirst($modelName)."-index"]);
+        if ($addMenuResult === false) {
             $this->db()->rollBack();
-            $this->error($GLOBALS['_LANG']['MENU']['ADD_MENU_FAIL']);
+            $this->error('插入菜单失败');
         }
 
         /**
          * 插入初始化的字段
          */
-        $setFieldResult = \Model\Model::setInitField($addModelresult['mes']['model_id']);
-
-        if ($setFieldResult['status'] == false) {
-            $this->db()->rollBack();
-            $this->error($setFieldResult['mes']);
-        }
+        \Model\ModelManage::setInitField($modelId);
 
         $this->db()->commit();
 
-        $initResult = \Model\Model::initModelTable($addModelresult['mes']['model_name']);
-        if ($setFieldResult['status'] == false) {
+        $initResult = \Model\ModelManage::initModelTable(strtolower($modelName));
 
-            $log = new \Expand\Log();
-            $failLog = "Create Model Table Field: {$setFieldResult['mes']}" . date("Y-m-d H:i:s");
-            $log->creatLog('modelError', $failLog);
-
-            $this->error($GLOBALS['_LANG']['MODEL']['CREATE_TABLE_ERROR']);
-        }
-
-        $this->success($GLOBALS['_LANG']['MODEL']['ADD_MODEL_SUCCESS'], $this->url('Team-Model-index'));
-    }
-
-    /**
-     * 添加字段
-     */
-    public function fieldAction() {
-        $result = \Model\Field::addField();
-        if ($result['status'] == false) {
-            $this->error($result['mes']);
-        }
-
-        $this->success($GLOBALS['_LANG']['MODEL']['ADD_FIELD_SUCCESS'], $this->url('Team-Model-fieldList', array('id' => $result['mes']['model_id'])));
+        $this->success('添加模型成功', $this->url(GROUP . '-Model-index'));
     }
 
 }

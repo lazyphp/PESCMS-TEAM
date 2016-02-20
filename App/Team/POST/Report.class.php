@@ -5,7 +5,7 @@ namespace App\Team\POST;
 /**
  * 插入报表
  */
-class Report extends \App\Team\Common {
+class Report extends \Core\Controller\Controller {
 
     /**
      * 添加新报表
@@ -15,7 +15,7 @@ class Report extends \App\Team\Common {
         if (!\Model\Report::addReport($contnt)) {
             $this->error('提交报表失败');
         }
-        $this->success('提交报表成功', $this->url('Team-Index-dynamic'));
+        $this->success('提交报表成功', $this->url('Team-Report-my'));
     }
 
 }

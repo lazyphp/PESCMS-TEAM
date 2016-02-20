@@ -3,13 +3,13 @@
         <?php foreach (explode(',', $field['value']) as $key => $value) : ?>
             <div class="form-text" id="<?= $key . $field['field_name'] ?>">
                 <input type="text" class="form-text-input input-leng3" name="<?= $field['field_name'] ?>[]" value="<?= $value ?>" />
-                <a href="javascript:;" onclick="removeUploadFile('<?= $key . $field['field_name'] ?>')" class="blue-button" style="margin-left:5px;"><?php echo $GLOBALS['_LANG']['COMMON']['DELETE']; ?></a>
+                <a href="javascript:;" onclick="removeUploadFile('<?= $key . $field['field_name'] ?>')" class="blue-button" style="margin-left:5px;">删除</a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
     <div id="<?= $field['field_name'] ?>List" class="uploader-list"></div>
 
-    <div id="<?= $field['field_name'] ?>" style="margin-top: 10px;"><?= $GLOBALS['_LANG']['COMMON']['SELECT_FILE']; ?></div>
+    <div id="<?= $field['field_name'] ?>" style="margin-top: 10px;">请选择上传文件</div>
 </div>
 <script>
     jQuery(function () {
@@ -26,7 +26,7 @@
             // swf文件路径
             swf: '../../dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/index.php?g=Team&m=Upload&a=file',
+            server: '/index.php?g=<?=GROUP?>&m=Upload&a=file',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {

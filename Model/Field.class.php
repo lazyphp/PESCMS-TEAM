@@ -16,20 +16,22 @@ namespace Model;
  */
 class Field extends \Core\Model\Model {
 
-    private static $model;
+    public static $model;
 
     /**
      * 列出对应的模型的字段
      * @param type $modelId 模型ID
-     * @param type $status 字段状态 | 不输入则输出全部的字段
+     * @param array $condition 筛选条件| 字段名称 => 匹配值
      * @return type
      */
-    public static function fieldList($modelId, $status = '') {
-        $where = "model_id = :model_id ";
+    public static function fieldList($modelId, array $condition = array()) {
+        $where = "field_model_id = :model_id ";
         $data = array('model_id' => $modelId);
-        if (!empty($status)) {
-            $where .= " AND field_status = :field_status";
-            $data['field_status'] = $status;
+        if (!empty($condition)) {
+            foreach ($condition as $key => $value) {
+                $where .= " AND {$key} = :{$key}";
+                $data[$key] = $value;
+            }
         }
         return self::db('field')->where($where)->order('field_listsort asc, field_id asc')->select($data);
     }
@@ -46,7 +48,7 @@ class Field extends \Core\Model\Model {
      */
     public static function findTableField($tableName, $fieldName) {
         $tableName = strtolower($tableName);
-        $fieldList = self::db()->getAll("show columns from `" . self::$prefix . "{$tableName}`");
+        $fieldList = self::db()->getAll("show columns from `" . self::$modelPrefix . "{$tableName}`");
         if (!empty($fieldList)) {
             foreach ($fieldList as $value) {
                 if ($value['Field'] == "{$tableName}_{$fieldName}") {
@@ -72,31 +74,22 @@ class Field extends \Core\Model\Model {
      */
     public static function alertTableField($model, $fieldName) {
         $model = strtolower($model);
-        $prefix = self::$prefix;
+        $prefix = self::$modelPrefix;
         return self::db()->alter("ALTER TABLE `{$prefix}{$model}` DROP `{$model}_$fieldName`;");
     }
 
     /**
      * 插入字段
      */
-    public static function addField() {
-        $data = self::baseForm();
-        if ($data['status'] == false) {
-            return $data;
-        }
-        $addResult = self::db('field')->insert($data['mes']);
-        if ($addResult == false) {
-            return self::error($GLOBALS['_LANG']['MODEL']['ADD_FIELD_FAIL']);
-        }
+    public static function addField($fieldID) {
 
-        $fieldType = self::returnFieldType($data['mes']['field_type']);
-        $alterTableResult = self::addTableField(self::$model['model_name'], $data['mes']['field_name'], $fieldType);
+        $fieldType = self::returnFieldType($_POST['type']);
+        $alterTableResult = self::addTableField(self::$model['model_name'], self::p('name'), $fieldType);
 
-        if ($alterTableResult == FALSE) {
-            self::removeField($addResult);
-            return self::error($GLOBALS['_LANG']['MODEL']['ADD_FIELD_FAIL']);
+        if ($alterTableResult === FALSE) {
+            self::removeField($fieldID);
+            self::error('添加字段失败');
         }
-        return self::success($data['mes']);
     }
 
     /**
@@ -104,7 +97,7 @@ class Field extends \Core\Model\Model {
      */
     public static function addTableField($model, $fieldName, $fieldType) {
         $model = strtolower($model);
-        return self::db()->alter("ALTER TABLE `" . self::$prefix . "{$model}` ADD `{$model}_{$fieldName}`  {$fieldType} NOT NULL ;");
+        return self::db()->alter("ALTER TABLE `" . self::$modelPrefix . "{$model}` ADD `{$model}_{$fieldName}`  {$fieldType} NOT NULL ;");
     }
 
     /**
@@ -117,7 +110,10 @@ class Field extends \Core\Model\Model {
             case 'checkbox':
             case 'thumb':
                 return ' VARCHAR( 255 ) ';
-
+            case 'color':
+                return ' VARCHAR( 8 ) ';
+            case 'icon':
+                return ' VARCHAR( 32 ) ';
             case 'textarea':
             case 'editor':
             case 'img':
@@ -133,76 +129,30 @@ class Field extends \Core\Model\Model {
     }
 
     /**
-     * 更新字段
-     */
-    public static function updateField() {
-        $data = self::baseForm();
-        if ($data['status'] == false) {
-            return $data;
-        }
-        $updateResult = self::db('field')->where('field_id = :field_id')->update($data['mes']);
-        if ($updateResult == false) {
-            return self::error($GLOBALS['_LANG']['MODEL']['UPDATE_FIELD_FAIL']);
-        }
-        return self::success($data['mes']);
-    }
-
-    /**
      * 基础表单
      */
     public static function baseForm() {
 
-        if (!$data['model_id'] = self::isP('model_id')) {
-            return self::error($GLOBALS['_LANG']['MODEL']['LOST_MODEL_ID']);
-        }
-        if (!self::$model = \Model\Model::findModel($data['model_id'])) {
-            return self::error($GLOBALS['_LANG']['MODEL']['NOT_EXIST_MODEL']);
+        if (!self::$model = \Model\ModelManage::findModel(self::isP('model_id', '丢失模型ID'))) {
+            self::error('不存在的模型');
         }
 
-        if (self::p('method') == 'PUT') {
-            if (!$data['noset']['field_id'] = self::isP('field_id')) {
-                return self::error($GLOBALS['_LANG']['MODEL']['LOST_FIELD_ID']);
-            }
-            if (!self::findField($data['noset']['field_id'])) {
-                return self::error($GLOBALS['_LANG']['MODEL']['NOT_EXIST_FIELD']);
-            }
-        } else {
-            if (!$data['field_type'] = self::isP('field_type')) {
-                return self::error($GLOBALS['_LANG']['MODEL']['SELECT_FIELD_TYPE']);
-            }
-            if (!$data['field_name'] = self::isP('field_name')) {
-                return self::error($GLOBALS['_LANG']['MODEL']['ENTER_FIELD_NAME']);
-            }
-        }
+        $option = self::splitOption(self::p('option'));
 
-        if (!$data['display_name'] = self::isP('display_name')) {
-            return self::error($GLOBALS['_LANG']['MODEL']['ENTER_DISPLAY_NAME']);
+        if ($option === false) {
+            self::error('拆分字段选项出错');
         }
-
-        if (!$data['field_option'] = self::splitOption()) {
-            self::error($GLOBALS['_LANG']['MODEL']['SPLIT_OPTION_ERROR']);
-        }
-
-        if (!($data['field_required'] = self::isP('field_required')) && !is_numeric($data['field_required'])) {
-            return self::error($GLOBALS['_LANG']['MODEL']['SELECT_REQUIRED']);
-        }
-
-        if (!($data['field_status'] = self::isP('field_status')) && !is_numeric($data['field_status'])) {
-            return self::error($GLOBALS['_LANG']['MODEL']['SELECT_FIELD_STATUS']);
-        }
-
-        $data['field_default'] = self::p('field_default');
-        $data['field_listsort'] = self::p('field_listsort');
-        
-        return self::success($data);
+        $_POST['option'] = (string) $option;
     }
 
     /**
-     * 拆分选项框
+     * 拆分选项值，返回为一个数组
+     * @param $fieldOption 提交过来的选项值， 以：名称|值 提交的字符串
+     * @return json
      */
-    private static function splitOption() {
-        if (self::p('field_option')) {
-            $splitNewline = explode("\n", self::p('field_option'));
+    public static function splitOption($fieldOption) {
+        if (!empty($fieldOption)) {
+            $splitNewline = explode("\n", $fieldOption);
         } else {
             return '';
         }
@@ -223,7 +173,7 @@ class Field extends \Core\Model\Model {
      * @param type $modelId 模型 ID
      */
     public static function deleteModelField($modelId) {
-        return self::db('field')->where('model_id = :model_id')->delete(array('model_id' => $modelId));
+        return self::db('field')->where('field_model_id = :model_id')->delete(array('model_id' => $modelId));
     }
 
 }

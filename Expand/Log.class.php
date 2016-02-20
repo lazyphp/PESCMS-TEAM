@@ -29,26 +29,22 @@ class Log {
     private function checkPath() {
         $this->config = require PES_PATH . 'Config/config.php';
 
-        $this->logPath = PES_PATH . $this->config['LOG_PATH'];
-        if (!is_dir($this->logPath)) {
-            mkdir($this->logPath);
-            fopen("{$this->logPath}/index.html", 'w');
-        }
+        $this->logPath = substr(PES_PATH, 0, -1) . $this->config['LOG_PATH'];
 
         $this->path = $this->logPath . date('/Ymd');
-        if (!is_dir($this->path)) {
-            mkdir($this->path);
-            fopen("{$this->path}/index.html", 'w');
-        }
+
+        \Expand\CreatePath::action($this->config['LOG_PATH']. date('/Ymd'));
     }
 
     /**
      * 创建日志
      * @param type $fileName 日志名称
      * @param type $logContent 日志内容
+     * @param bool $custom 是否客户自定义日志名称 | 默认为false
      */
-    public function creatLog($fileName, $logContent) {
-        $file = "{$this->path}/{$fileName}_" . md5(md5($this->config['PRIVATE_KEY'])) . ".txt";
+    public function creatLog($fileName, $logContent, $custom = false) {
+        $file = $custom === false ?  "{$this->path}/{$fileName}_" . md5(md5($this->config['PRIVATE_KEY'])) . ".txt" : $fileName ;
+
         if (!file_exists("$file")) {
             fopen("$file", "w");
             $fp = fopen("$file", 'ab');

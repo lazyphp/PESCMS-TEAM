@@ -22,11 +22,8 @@ class Form {
      */
     public function formList($field) {
         switch ($field['field_type']) {
-            case 'text':
-                require 'theme/text.php';
-                break;
-            case 'textarea':
-                require 'theme/textarea.php';
+            case $field['field_type']:
+                require "theme/{$field['field_type']}.php";
                 break;
             case 'editor':
                 /**
@@ -38,35 +35,14 @@ class Form {
                     /* 表单名称 */
                     $checkEditor[] = $field['field_name'];
                     /* 显示名称 */
-                    $checkEditorName[] = $field['display_name'];
+                    $checkEditorName[] = $field['field_display_name'];
                 }
                 require 'theme/editor.php';
                 break;
-            case 'date':
-                require 'theme/date.php';
-                break;
-            case 'radio':
-                require 'theme/radio.php';
-                break;
-            case 'checkbox':
-                require 'theme/checkbox.php';
-                break;
-            case 'thumb':
-                require 'theme/thumb.php';
-                break;
             case 'category':
                 \Model\Category::$where = 'm.model_name = "' . MODULE . '"';
-                $tree = \Model\Category::getSelectCate($field['value'] ? array($field['value']) : '', true);
+                $tree = \Model\Category::getSelectCate($field['value'] ? array($field['value']) : array(), true);
                 require 'theme/category.php';
-                break;
-            case 'select':
-                require 'theme/select.php';
-                break;
-            case 'file':
-                require 'theme/file.php';
-                break;
-            case 'img':
-                require 'theme/img.php';
                 break;
         }
     }

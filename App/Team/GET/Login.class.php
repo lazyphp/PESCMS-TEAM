@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PESCMS for PHP 5.4+
  *
@@ -7,31 +6,21 @@
  *
  * For the full copyright and license information, please view
  * the file LICENSE.md that was distributed with this source code.
+ * @core version 2.6
+ * @version 1.0
  */
 
 namespace App\Team\GET;
 
-class Login extends \App\Team\Common {
+class Login extends \Core\Controller\Controller{
 
-    public function __init() {
-        parent::__init();
-        $this->assign('sitetile', \Model\Option::findOption('sitetitle')['value']);
-        $this->assign('signup', \Model\Option::findOption('signup')['value']);
-    }
-
-    public function index() {
-        $login = $this->checkLogin();
-        if ($login) {
-            $this->jump($this->url('Team-Index-index'));
-        }
+    public function index(){
         $this->display();
     }
 
-    /**
-     * 注册帐号
-     */
-    public function signup() {
-        $this->display();
+    public function logout(){
+        session_destroy();
+        $this->success('您已安全退出', $this->url('Ticket-Login-index'));
     }
 
 }

@@ -27,13 +27,11 @@ abstract class Core {
 
     /**
      * 声明DB类
-     * @param type $table 表名
+     * @param type $name 表名
      * @return type
      */
-    public function db($table = '') {
-        $db = \Core\Db\Db::__init();
-        $db->tableName($table);
-        return $db;
+    public function db($name = '') {
+        return \Core\Func\CoreFunc::db($name);
     }
 
     /**

@@ -48,7 +48,7 @@ class Label {
     public function findContent($table, $field, $id) {
         static $array = array();
         if (empty($array[$table])) {
-            $list = \Model\Content::listContent($table);
+            $list = \Model\Content::listContent(['table' => $table]);
             foreach ($list as $value) {
                 $array[$table][$value[$field]] = $value;
             }
@@ -63,7 +63,7 @@ class Label {
      * @param type $filterHtmlSuffix 是否强制过滤HTML后缀 | 由于ajax GET请求中，若不过滤HTML，将会引起404的问题
      * @return type 返回URL
      */
-    public function url($controller, array $param = array(), $filterHtmlSuffix = false) {
+    public function url($controller, $param = array(), $filterHtmlSuffix = false) {
         $url = \Core\Func\CoreFunc::url($controller, $param);
         if ($filterHtmlSuffix == true) {
             if (substr($url, '-5') == '.html') {
@@ -92,11 +92,11 @@ class Label {
     public function status($type) {
         switch ($type) {
             case '0':
-                return "<font color=\"red\">{$GLOBALS['_LANG']['COMMON']['DISABLE']}</font>";
+                return "<font color=\"red\">禁用</font>";
             case '1':
-                return "<font color=\"green\">{$GLOBALS['_LANG']['COMMON']['ENABLE']}</font>";
+                return "<font color=\"green\">启用</font>";
             default:
-                return $GLOBALS['_LANG']['COMMON']['UNKNOW'];
+                return '未知状态';
         }
     }
 
@@ -106,11 +106,11 @@ class Label {
     public function isSearch($type) {
         switch ($type) {
             case '0':
-                return "<font color=\"red\">{$GLOBALS['_LANG']['COMMON']['BAN']}</font>";
+                return "<font color=\"red\">禁止</font>";
             case '1':
-                return "<font color=\"green\">{$GLOBALS['_LANG']['COMMON']['ALLOW']}</font>";
+                return "<font color=\"green\">允许</font>";
             default:
-                return $GLOBALS['_LANG']['COMMON']['UNKNOW'];
+                return '未知状态';
         }
     }
 
@@ -120,28 +120,11 @@ class Label {
     public function isQequired($type) {
         switch ($type) {
             case '0':
-                return "<font color=\"red\">{$GLOBALS['_LANG']['COMMON']['NO']}</font>";
+                return "<font color=\"red\">不</font>";
             case '1':
-                return "<font color=\"green\">{$GLOBALS['_LANG']['COMMON']['YES']}</font>";
+                return "<font color=\"green\">是</font>";
             default:
-                return $GLOBALS['_LANG']['COMMON']['UNKNOW'];
-        }
-    }
-
-    /**
-     * 任务优先级
-     * @param type $priority
-     */
-    public function taskPriority($priority) {
-        switch ($priority) {
-            case'1':
-                return '<span class="am-badge am-badge-danger am-radius">严重</span>';
-            case '2':
-                return '<span class="am-badge am-badge-warning am-radius">次要</span>';
-            case '3':
-                return '<span class="am-badge am-badge-secondary am-radius">主要</span>';
-            case '4':
-                return '<span class="am-badge am-radius">普通</span>';
+                return '未知状态';
         }
     }
 
@@ -152,57 +135,35 @@ class Label {
     public function modelAttr($attr) {
         switch ($attr) {
             case '1':
-                return "<font color=\"green\">{$GLOBALS['_LANG']['MODEL']['RECEPTION']}</font>";
+                return "<font color=\"green\">前台</font>";
             case '2':
-                return "<font color=\"#E7790E\">{$GLOBALS['_LANG']['MODEL']['BACKSTAGE']}</font>";
+                return "<font color=\"#E7790E\">后台</font>";
             default:
-                return $GLOBALS['_LANG']['COMMON']['UNKNOW'];
+                return '未知状态';
         }
     }
 
     /**
-     * 字段类型
-     * @param type $type
+     * 返回消息提醒的文字说明
+     * @param $type 通知类型
+     * @param $number 数量
+     * @return string
      */
-    public function fieldType($type) {
-        switch ($type) {
-            case 'category':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_CATEGORTS'];
-
-            case 'text':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_TEXT'];
-
-            case 'select':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_SELECT'];
-
-            case 'checkbox':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_CHECKBOX'];
-
-            case 'radio':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_RADIO'];
-
-            case 'textarea':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_TEXTAREA'];
-
-            case 'thumb':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_THUMB'];
-
-            case 'editor':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_EDITOR'];
-
-            case 'img':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_IMG'];
-
-            case 'file':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_FILE'];
-
-            case 'date':
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_DATE'];
-
-            default:
-                return $GLOBALS['_LANG']['FIELD_TYPE']['FIELD_UNKNOW'];
+    public function notice($type, $number){
+        switch($type){
+            case '1':
+                return "{$number}个新任务";
+            case '2':
+                return "{$number}个新审核任务";
+            case '3':
+                return "{$number}个新待审核任务";
+            case '4':
+                return "{$number}个新待指派任务";
+            case '5':
+                return "{$number}个任务内容修改/补充";
         }
     }
+
 
     /**
      * 返回字段选项值的内容
@@ -215,46 +176,9 @@ class Label {
         $array = json_decode($option, true);
         $str = "";
         foreach ($array as $key => $value) {
-            $str .="{$key}|{$value}\n";
+            $str .= "{$key}|{$value}\n";
         }
         return trim($str);
-    }
-
-    /**
-     * 根据父类ID查找数据
-     * @param type $parent_id 分类父类ID
-     * @param type $is_nav 是否为导航
-     * @return array 返回二维数组
-     */
-    public function getCate($category_parent = '0', $category_nav = '') {
-        return \Model\Category::getCat($category_parent, $category_nav);
-    }
-
-    /**
-     * 单页标签
-     */
-    public function page($id) {
-        return \Model\Content::findContent('page', $id, 'page_id');
-    }
-
-    /**
-     * 幻灯片
-     */
-    public function slideShow($slideshow_type_id, $limit = '99') {
-        return \Model\SlideShow::slideShowList($slideshow_type_id, $limit);
-    }
-
-    /**
-     * 列出内容（动态条件）
-     * @param type $table 内容表名
-     * @param array $param 绑定参数
-     * @param type $where 查找条件
-     * @param type $order 排序
-     * @param type $limit 限制输出
-     * @return type
-     */
-    public function listContent($table, array $param = array(), $where = '', $order = '', $limit = '') {
-        return \Model\Content::listContent($table, $param, $where, $order, $limit);
     }
 
     /**
@@ -316,66 +240,6 @@ class Label {
         return $returnstr;
     }
 
-    /**
-     * 列出导航栏的提示信息列表
-     * @param type $type 提示消息类型
-     * @param type $num 条目
-     * @return type
-     */
-    public function noticeType($type, $num) {
-        switch ($type) {
-            case '1':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my', array('type' => '0'))}\">{$num}个新的任务</a></li>";
-            case '2':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-check', array('type' => '0'))}\">{$num}个新的指派审核任务</a></li>";
-            case '3':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-check', array('type' => '2'))}\">{$num}个新的待审核任务</a></li>";
-            case '4':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my', array('type' => '3'))}\">{$num}个新的待修改任务</a></li>";
-            case '5':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-check', array('user_type' => '1'))}\">{$num}个新的部门审核指派任务</a></li>";
-            case '6':
-                return "<li><a class=\"notice-link\" href=\"{$this->url('Team-Task-my', array('type' => '4'))}\">{$num}个新的完成任务</a></li>";
-        }
-    }
-
-    /**
-     * 任务状态
-     * @param type $status 状态ID
-     * @return string 返回处理好的状态标签
-     */
-    public function taskStatus($status) {
-        switch ($status) {
-            case '0':
-                return '<span class="am-badge  am-radius">未进行</span>';
-            case '1':
-                return '<span class="am-badge am-badge-primary am-radius">进行中</span>';
-            case '2':
-                return '<span class="am-badge am-badge-secondary am-radius">审核</span>';
-            case '3':
-                return '<span class="am-badge am-badge-danger am-radius">调整</span>';
-            case '4':
-                return '<span class="am-badge am-badge-success am-radius">完成</span>';
-        }
-    }
-
-    /**
-     * 用户动态
-     * @param type $type 动态类型
-     * @return string 返回处理好的状态标签
-     */
-    public function dynamicType($type) {
-        switch ($type) {
-            case '1':
-                return '发布了《%s》任务';
-            case '2':
-                return '执行了《%s》任务';
-            case '3':
-                return '提交了《%s》任务';
-            case '4':
-                return '完成了《%s》任务';
-        }
-    }
 
     /**
      * 计算现在时间和提交时间的差值
@@ -399,16 +263,6 @@ class Label {
         }
     }
 
-    /**
-     * 返回上一页
-     */
-    public function backUrl() {
-        if (empty($_SERVER['HTTP_REFERER'])) {
-            return 'javascript:window.history.back(-1)';
-        } else {
-            return $_SERVER['HTTP_REFERER'];
-        }
-    }
 
     /**
      * 输出EY值
@@ -438,21 +292,97 @@ class Label {
         }
         return $ey;
     }
-    
+
     /**
      * 获取对应的字段，然后进行内容值匹配
      * @param type $fieldId 字段ID
      * @param type $value 进行匹配的值
      */
-    public function getFieldOptionToMatch($fieldId, $value){
+    public function getFieldOptionToMatch($fieldId, $value) {
         $fieldContent = \Model\Content::findContent('field', $fieldId, 'field_id');
-        $option = json_decode($fieldContent['field_option'], true);
+        $option = json_decode(htmlspecialchars_decode($fieldContent['field_option']), true);
         $search = array_search($value, $option);
-        if(empty($search)){
+        if (empty($search)) {
             return '未知值';
-        }else{
+        } else {
             return $search;
-        }  
+        }
+    }
+
+
+    /**
+     * 获取任务的执行者
+     * @param $taskid 任务ID
+     * @return mixed
+     */
+    public function getActionUser($taskid) {
+        static $taskUser = [];
+        if (empty($user[$taskid])) {
+            $userList = \Model\Content::listContent([
+                'table' => 'task_user',
+                'condition' => 'task_id = :task_id AND task_user_type > 1',
+                'limit' => '1',
+                'param' => ['task_id' => $taskid]
+            ]);
+            if ($userList[0]['task_user_type'] == '2') {
+                $user = $this->findContent('user', 'user_id', $userList['0']['user_id']);
+                $taskUser[$taskid] = $user;
+                $taskUser[$taskid]['name'] = $user['user_name'];
+            } elseif ($userList[0]['task_user_type'] == '3') {
+                $department = $this->findContent('department', 'department_id', $userList['0']['user_id']);
+                $taskUser[$taskid] = $department;
+                $taskUser[$taskid]['name'] = $department['department_name'];
+            }
+            $taskUser[$taskid]['type'] = $userList[0]['task_user_type'];
+        }
+        return $taskUser[$taskid];
+    }
+
+    /**
+     * 获取星期名称
+     * @param $time
+     * @return string
+     */
+    public function getWeekName($time) {
+        if (date('Ymd') == date('Ymd', $time)) {
+            return '今天';
+        }
+
+        $week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+        return $week[date('w', $time)];
+    }
+
+    /**
+     * 获取任务状态选择功能
+     * @param array $statusMark 状态标记数组
+     * @param array $task 任务信息数组 必须任务ID和任务状态
+     */
+    public function getStatusSelect(array $statusMark, array $task) {
+        $auth = \Model\Task::actionAuth($task['task_id']);
+        require THEME_PATH . '/Task/Task_status_select.php';
+    }
+
+    /**
+     * 获取图片
+     * @param $path 图片地址
+     * @param array $size 获取的尺寸，为空则获取原图 。数组 两个参数 (长, 宽)
+     */
+    public function getImg($path, $size = array()){
+        $extension = pathinfo($path)['extension'];
+        $add = empty($size) ? '' : '_'.implode('x', $size).".{$extension}";
+        if(is_file(PES_PATH.$path)){
+            return $path.$add;
+        }else{
+            //确认是否base64位的
+            if (strpos($path, 'base64,') !== false) {
+                return $path;
+            }else{
+                //@todo 需要补一张缺省图
+                return '';
+            }
+        }
+
     }
 
 }

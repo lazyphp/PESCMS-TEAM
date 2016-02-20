@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PESCMS for PHP 5.4+
  *
@@ -7,21 +6,19 @@
  *
  * For the full copyright and license information, please view
  * the file LICENSE.md that was distributed with this source code.
+ * @core version 2.6
+ * @version 1.0
  */
 
 namespace App\Team\GET;
 
-class Node extends Content {
+class Node extends Content{
 
     public function index() {
+        $this->assign('title', $this->model['model_title']);
         $this->assign('node', \Model\Node::nodeList());
-        parent::index();
+        $this->layout();
     }
 
-    public function action() {
-        $parent = \Model\Content::listContent('node', array('node_parent' => '0'), 'node_parent = :node_parent');
-        $this->assign('parent', $parent);
-        parent::action();
-    }
 
 }

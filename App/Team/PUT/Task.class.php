@@ -1,204 +1,156 @@
 <?php
-
 /**
  * PESCMS for PHP 5.4+
  *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * Copyright (c) 2015 PESCMS (http://www.pescms.com)
  *
  * For the full copyright and license information, please view
  * the file LICENSE.md that was distributed with this source code.
+ * @core version 2.6
+ * @version 2.0
  */
 
 namespace App\Team\PUT;
 
-class Task extends \App\Team\Common {
+class Task extends Content {
 
     /**
-     * 部门负责人指派内部人员任务
+     * 更新任务内容
      */
-    public function accept() {
-        $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
-        $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
-        if (empty($task) || $task['task_delete'] == '1') {
-            $this->error('任务不存在');
+    public function action($jump = true, $commit = true) {
+        $data['noset']['task_id'] = $this->isP('task_id', '请提交您要编辑内容的任务');
+        $data['task_title'] = $this->isP('title', '请填写您要更新的标题');
+        $data['task_priority'] = $this->isP('priority', '请选择任务的优先度');
+        $data['task_content'] = empty($_POST['content']) ? '发布者非常懒！还没填写详细说明！' : $this->p('content');
+        $auth = \Model\Task::actionAuth($data['noset']['task_id']);
+        if ($auth['check'] === false) {
+            $this->error('您没有权限操作本任务');
         }
 
-        $label = new \Expand\Label();
-        if (!in_array($_SESSION['team']['user_id'], explode(',', $label->findDepartment('department', 'department_id', $task['task_department_id'])['department_header']))) {
-            $this->error('您不是部门负责人，不能进行指派');
+        $update = $this->db('task')->where('task_id = :task_id')->update($data);
+        if ($update === false) {
+            $this->error('更新任务内容失败！可能任务内容没有变更，也可能任务不存在');
         }
 
-        $data['task_user_id'] = $this->isP('task_user_id', '请选择指派的人');
-        $this->db()->transaction();
-        $setAccept = $this->db('task')->where('task_id = :task_id')->update($data);
-        if (empty($setAccept)) {
-            $this->db()->rollBack();
-            $this->error('设置指派失败');
-        }
-        $addNotice = \Model\Notice::addNotice($data['task_user_id'], $data['noset']['task_id'], '1', $task['task_mail']);
-        if (empty($addNotice)) {
-            $this->db()->rollBack();
-            $this->error('生成新任务通知出错');
-        }
+        //生成系统通知
+        \Model\Notice::accordingTaskUserToaddNotice($data['noset']['task_id'], '2', '5');
 
-        $this->db()->commit();
-
-        $this->success('设置指派成功!', $this->url('Team-Task-view', array('id' => $data['noset']['task_id'])));
+        $this->success('更新任务内容成功!');
     }
 
     /**
-     * 执行任务
+     * 更新任务条目
      */
-    public function begin() {
-        $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
-        $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
-        if (empty($task) || $_SESSION['team']['user_id'] != $task['task_user_id'] || $task['task_delete'] == '1') {
-            $this->error('任务不存在或者您不是本任务执行人');
+    public function taskListAction() {
+        $taskListID = $this->isG('listid', '请选您要标记的任务条目');
+        $update = $this->db('task_list')->where('task_list_id = :task_list_id')->update([
+            'task_user_id' => $_SESSION['team']['user_id'],
+            'task_list_time' => time(),
+            'noset' => [
+                'task_list_id' => $taskListID
+            ]
+        ]);
+
+        if ($update === false) {
+            $this->error('该条目标记失败！可能已经被标记或者已删除。');
         }
 
-        $data['task_estimatetime'] = strtotime($this->isP('task_estimatetime', '请选择任务预计时间'));
-        $data['task_status'] = '1';
-        $this->db()->transaction();
+        $this->success('标记任务条目成功!');
 
-        $result = $this->db('task')->where('task_id = :task_id')->update($data);
-        if (empty($result)) {
-            $this->db()->rollBack();
-            $this->error('设置任务开始失败');
-        }
-
-        $addDynamic = \Model\Dynamic::addDynamic($_SESSION['team']['user_id'], $data['noset']['task_id'], '2');
-        if (empty($addDynamic)) {
-            $this->db()->rollBack();
-            $this->error('更新用户动态失败');
-        }
-
-        \Model\User::setEy($_SESSION['team']['user_id'], '1');
-
-        $this->db()->commit();
-
-        $this->success('任务已开始，请在指定时间内完成!', $this->url('Team-Task-view', array('id' => $data['noset']['task_id'])));
-    }
-
-    /**
-     * 提交任务日志
-     */
-    public function diary() {
-        $data['task_id'] = $this->isP('task_id', '请选择任务');
-        $task = \Model\Content::findContent('task', $data['task_id'], 'task_id');
-
-        if (empty($task) || $_SESSION['team']['user_id'] != $task['task_user_id'] || $task['task_delete'] == '1') {
-            $this->error('任务不存在或者您不是本任务执行人');
-        }
-
-        $data['diary_content'] = $this->isP('content', '请填写任务日志');
-        $data['diary_time'] = time();
-
-        $this->db()->transaction();
-        $addResult = $this->db('task_diary')->insert($data);
-        if (empty($addResult)) {
-            $this->db()->rollBack();
-            $this->error('添加日志失败');
-        }
-
-        //追加为报表
-
-        if (!\Model\Report::addReport($data['diary_content'], $task['task_id'])) {
-            $this->db()->rollBack();
-            $this->error('添加报表失败');
-        }
-
-        $this->db()->commit();
-
-        $this->success('发表任务日志成功!', $this->url('Team-Task-view', array('id' => $data['task_id'])));
     }
 
     /**
      * 更改任务状态
      */
-    public function check() {
-        $data['noset']['task_id'] = $this->isP('task_id', '请选择任务');
-        $task = $this->db('task AS t')->field("t.*, group_concat(tc.check_user_id) AS check_user_id ")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where('t.task_id = :task_id ')->group('t.task_id')->find(array('task_id' => $data['noset']['task_id']));
-
-        if (empty($task) || $task['task_delete'] == '1') {
-            $this->error('任务不存在');
+    public function status() {
+        $data['noset']['task_id'] = $this->isG('task_id', '请提交您要编辑内容的任务');
+        $data['task_status'] = $this->isG('status', '请选择您要变更的任务状态');
+        if ($data['task_status'] == '3') {
+            $data['task_complete_time'] = time();
         }
 
-        $checker = explode(',', $task['check_user_id']);
-        $data['task_status'] = empty($_POST['task_status']) ? '2' : $this->p('task_status');
+        //@todo PHP 5.5 empty() now supports expressions, rather than only variables.
+        $statusMark = \Model\Task::getTaskStatusMark($data['task_status']);
+        if (empty($statusMark)) {
+            $this->error('不存在的状态');
+        }
+        $auth = \Model\Task::actionAuth($data['noset']['task_id']);
 
-        $this->db()->transaction();
-        switch ($data['task_status']) {
-            case '2':
-                if ($_SESSION['team']['user_id'] != $task['task_user_id']) {
-                    $this->error('您不是本任务执行人');
-                }
-                $noticeUser = $checker;
-                $noticeType = '3';
-                $dynamicType = '3';
-                //提交审核，增加EY值
-                \Model\User::setEy($_SESSION['team']['user_id'], '1');
-                break;
-            case '3':
-            case '4':
-                if (!in_array($_SESSION['team']['user_id'], $checker)) {
-                    $this->error('您没有权限处理本任务');
-                }
-                $noticeUser = array($task['task_user_id']);
-                $noticeType = $data['task_status'] == '3' ? '4' : '6';
-                $dynamicType = $data['task_status'] == '3' ? '' : '4';
-
-                $eyValue = $data['task_status'] == '3' ? '-2' : '1';
-                \Model\User::setEy($task['task_user_id'], $eyValue);
-
-                break;
-            default :
-                $this->error('未知的任务状态');
+        if (in_array($data['task_status'], ['3', '10']) && $auth['check'] === FALSE) {
+            $this->error('您没有权限更改本任务状态');
         }
 
-        //每个状态变更，都表示一个完成时间
-        $data['task_completetime'] = time();
-        $updateResultt = $this->db('task')->where('task_id = :task_id')->update($data);
-        if (empty($updateResultt)) {
-            $this->db()->rollBack();
-            $this->error('提交任务失败');
+        $update = $this->db('task')->where('task_id = :task_id')->update($data);
+        if ($update === false) {
+            $this->error('更改任务状态失败!任务状态可能没有变更或者任务不存在');
         }
 
-        //状态为3需要判断是否有任务补充说明提交
-        if ($data['task_status'] == 3) {
-            $supplement['task_id'] = $data['noset']['task_id'];
-            $supplement['task_supplement_content'] = $this->p('content');
-            $supplement['task_supplement_file'] = !empty($_POST['file']) && is_array($_POST['file']) ? implode(',', $_POST['file']) : '';
-            $supplement['task_supplement_time'] = time();
-            if (!empty($supplement['task_supplement_content']) || !empty($supplement['task_supplement_file'])) {
-                $addSupplement = $this->db('task_supplement')->insert($supplement);
-                if (empty($addSupplement)) {
-                    $this->db()->rollBack();
-                    $this->error('添加任务补充说明失败');
-                }
-            }
+        //生成系统通知
+        if($data['task_status'] == '2'){
+            \Model\Notice::accordingTaskUserToaddNotice($data['noset']['task_id'], '1', '3');
         }
 
-        //生成系统消息
-        foreach ($noticeUser as $value) {
-            $sendNotice = \Model\Notice::addNotice($value, $data['noset']['task_id'], $noticeType, $task['task_mail']);
-            if (empty($sendNotice)) {
-                $this->db()->rollBack();
-                $this->error('生成系统消息出错!');
-            }
+        //自动生成报表
+        if ($auth['action'] === TRUE) {
+            $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
+            $url = $this->url('Team-Task-view', ['id' => $task['task_id']]);
+            \Model\Report::addReport("{$_SESSION['team']['user_name']}将任务<a href=\"{$url}\">《{$task['task_title']}》</a>状态变更为：{$statusMark['task_status_name']}。");
         }
 
-        //生成个人动态
-        if (!empty($dynamicType)) {
-            $addDynamic = \Model\Dynamic::addDynamic($task['task_user_id'], $data['noset']['task_id'], $dynamicType);
-            if (empty($addDynamic)) {
-                $this->db()->rollBack();
-                $this->error('更新用户动态失败');
-            }
-        }
+        $this->success('更改任务状态成功!');
 
-
-        $this->db()->commit();
-        $this->success('任务状态已更新!', $this->url('Team-Task-view', array('id' => $data['noset']['task_id'])));
     }
 
+    /**
+     * 任务的部门成员指派
+     * @description 指派部门成员后，部门负责人会自动成为任务的审核者。而部门指派的能力将被移除
+     */
+    public function department() {
+        $taskid = $this->isP('task_id', '请提交您要编辑内容的任务');
+        $user = $this->isP('user', '请提交您要指派的部门成员');
+
+        $auth = \Model\Task::actionAuth($taskid);
+        if ($auth['department'] === false) {
+            $this->error('您没有指派部门成员的权限');
+        }
+
+        //获取部门负责人
+        $department = \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id');
+
+        $this->db()->transaction();
+
+        $removeDepart = $this->db('task_user')->where('user_id = :department AND task_user_type = 3')->delete(['department' => $_SESSION['team']['user_department_id']]);
+        if ($removeDepart === false) {
+            $this->db()->rollback();
+            $this->error('移出部门指派权限出错');
+        }
+
+        \Model\Notice::$taskid = $taskid;
+        //部门负责人成为本任务的审核者
+        foreach (explode(',', $department['department_header']) as $value) {
+            $department_header = trim($value);
+            $this->db('task_user')->insert([
+                'task_id' => $taskid,
+                'user_id' => $department_header,
+                'task_user_type' => '1'
+            ]);
+            \Model\Notice::newNotice($value, '2');
+        }
+
+        //被指派的人员成为本任务的执行者。
+        foreach ($user as $value) {
+            $this->db('task_user')->insert([
+                'task_id' => $taskid,
+                'user_id' => $value,
+                'task_user_type' => '2'
+            ]);
+            \Model\Notice::newNotice($value, '1');
+        }
+
+        $this->db()->commit();
+
+        $this->success('完成部门指派!');
+
+
+    }
 }

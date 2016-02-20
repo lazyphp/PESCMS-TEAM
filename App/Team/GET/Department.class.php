@@ -1,23 +1,23 @@
 <?php
-
+/**
+ * PESCMS for PHP 5.4+
+ *
+ * Copyright (c) 2015 PESCMS (http://www.pescms.com)
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE.md that was distributed with this source code.
+ */
 namespace App\Team\GET;
 
-/**
- * 部门方法
- */
-class Department extends Content {
+class Department extends Content{
 
-    /**
-     * 部门添加/编辑
-     */
-    public function action() {
-        $userList = \Model\Content::listContent('user');
-        $this->assign('user', $userList);
-        foreach ($userList as $key => $value) {
-            $findUser[$value['user_id']] = $value['user_name'];
-        }
-        $this->assign('findUser', $findUser);
-        parent::action();
+    public function __init(){
+        $this->assign('user', json_encode(\Model\Content::listContent([
+            'table' => 'user',
+            'field' => 'user_id, user_name',
+            'condition' => 'user_status = 1'
+        ])));
+        parent::__init();
     }
 
 }

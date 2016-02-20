@@ -1,5 +1,14 @@
 <?php
-
+/**
+ * PESCMS for PHP 5.4+
+ *
+ * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE.md that was distributed with this source code.
+ * @core version 2.6
+ * @version 2.0
+ */
 namespace App\Team\GET;
 
 /**
@@ -7,196 +16,154 @@ namespace App\Team\GET;
  */
 class Task extends Content {
 
-    /**
-     * 发表新任务
-     */
-    public function action() {
-        //列出用户
-        $userList = \Model\Content::listContent('user');
-        $this->assign('user', $userList);
-        foreach ($userList as $key => $value) {
-            //获取本部门的用户
-            if ($value['user_department_id'] == $_SESSION['team']['user_department_id']) {
-                $localUser[$value['user_id']] = $value['user_name'];
-            }
-            //将所有用户放到一个以用户ID的一维数组，方便查找
-            $findUser[$value['user_id']] = $value['user_name'];
-        }
-        $this->assign('localUser', $localUser);
-        $this->assign('findUser', $findUser);
-        //列出部门
-        foreach (\Model\Content::listContent('department') as $key => $value) {
-            $department[$value['department_id']] = $value['department_name'];
-        }
-        $this->assign('department', $department);
+    private $statusMark, $sidebar = ['search'];
 
-        //列出项目
-        $project = \Model\Content::listContent('project', array(), '', 'project_listsort ASC, project_id DESC');
-        $this->assign('project', $project);
+    public function __init() {
+        parent::__init();
+        //任务状态，因为切片已经赋值了模板状态变量，此处直接从模板变量借来的
+        $this->statusMark = \Core\Func\CoreFunc::$param['statusMark'];
+        if (empty($_GET['status'])) {
+            $_GET['status'] = '0';
+        }
+        if (in_array($_GET['status'], array_keys($this->statusMark))) {
+            \Model\Task::$condtion .= ' AND t.task_status = :task_status ';
+            \Model\Task::$param['task_status'] = $_GET['status'];
+        }
+        //状态为666的，表示任务逾期的
+        if ($_GET['status'] == '666') {
+            \Model\Task::$condtion .= ' AND t.task_end_time < :time AND t.task_status < 2';
+            \Model\Task::$param['time'] = time();
+        }
 
-        parent::action();
+        if (!empty($_GET['k'])) {
+            \Model\Task::$condtion .= ' AND (t.task_title LIKE :task_title OR t.task_id LIKE :task_id)';
+            \Model\Task::$param['task_title'] = \Model\Task::$param['task_id'] = '%' . $this->g('k') . '%';
+        }
+
+        $this->assign('sidebar', $this->sidebar);
+
+        $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon']);
+
     }
 
     /**
-     * 全体任务列表
+     * 任务列表
+     * @param string $theme 调用的模板
      */
     public function index() {
-        $condition = "task_delete = 0 ";
-        $param = array();
-        $title = "全体任务列表";
-        //筛选任务状态类型
-        $type = $this->g('type');
-        if ($type >= '0') {
-            $condition .= " AND task_status = :task_status";
-            $param['task_status'] = $type;
+        $result = \Model\Task::getTaskList();
+
+        $this->sidebar[] = 'bulletin';
+
+        //状态为所有时，将显示时效图
+        if ($_GET['status'] == '233') {
+            $this->sidebar[] = 'aging';
+            $this->assign('aging', \Model\Task::taskAgingGapFigureLineChart());
         }
 
-        //筛选任务项目
-        $project = $this->g('project');
-        if ($project > '0') {
-            $condition .= " AND task_project = :task_project ";
-            $param['task_project'] = $project;
-            $title = "项目[" . \Model\Content::findContent('project', $project, 'project_id')['project_title'] . "]任务列表";
-        }
+        $this->assign('bulletin', \Model\Content::listContent(['table' => 'bulletin', 'order' => 'bulletin_listsort ASC, bulletin_id DESC', 'limit' => '5']));
 
-        //筛选任务部门
-        $departmengt = $this->g('department');
-        if ($departmengt > '0') {
-            $condition .= " AND task_department_id = :task_department_id ";
-            $param['task_department_id'] = $departmengt;
-            $title = "部门" . \Model\Content::findContent('department', $departmengt, 'department_id')['department_name'] . "任务列表";
-        }
+        $this->assign('sidebar', $this->sidebar);
 
-        //筛选任务执行人
-        $user = $this->g('user');
-        if ($user > '0') {
-            $condition .= " AND task_user_id = :task_user_id ";
-            $param['task_user_id'] = $user;
-            $title = "用户" . \Model\Content::findContent('user', $user, 'user_id')['user_name'] . "的任务列表";
-        }
 
-        //搜索 
-        if (!empty($_GET['search'])) {
-            $condition .= " AND task_title LIKE :task_title";
-            $param['task_title'] = '%' . $this->g('search') . '%';
-        }
-
-        //审核和完成的任务，按照ID倒序则可
-        if (in_array($type, array('2', '4'))) {
-            $order = "task_id DESC";
-        } else {
-            $order = "task_priority ASC, task_status ASC, task_id DESC";
-        }
-
-        $page = new \Expand\Team\Page;
-        $total = count(\Model\Content::listContent('task', $param, $condition));
-        $count = $page->total($total);
-        $page->handle();
-        $list = \Model\Content::listContent('task', $param, $condition, $order, "{$page->firstRow}, {$page->listRows}");
-        $show = $page->show();
-        $this->assign('page', $show);
-        $this->assign('list', $list);
-        $this->assign('title', $title);
+        $this->assign('list', $result['list']);
+        $this->assign('page', $result['page']);
         $this->layout('Task_index');
     }
 
     /**
-     * 查看个人任务列表
+     * 个人任务
      */
     public function my() {
-        $condition = "task_user_id = :task_user_id AND task_delete = 0 ";
-        $param = array('task_user_id' => $_SESSION['team']['user_id']);
-        $type = $this->g('type');
-        if ($type >= '0') {
-            $condition .= " AND task_status = :task_status";
-            $param['task_status'] = $type;
+        \Model\Task::getUserTask($_SESSION['team']['user_id']);
+        $this->index();
+    }
+
+    /**
+     * 查看指定项目的任务列表
+     */
+    public function project(){
+        $id = $this->isG('id', '请选择您要查看的项目');
+        $project = \Model\Content::findContent('project', $id, 'project_id');
+        if(empty($project)){
+            $this->error('该项目不存在');
+        }
+        $this->sidebar[] = 'project';
+        $this->assign($project);
+        \Model\Task::$condtion .= ' AND task_project_id = :task_project_id';
+        \Model\Task::$param['task_project_id'] = $id;
+        $this->assign('title', "{$project['project_title']}的项目信息");
+        $this->index();
+    }
+
+
+    /**
+     * 任务看板
+     */
+    public function myCard() {
+        //@todo 默认输出9999条，详细应该没人达到这么可怕的地步吧？
+        \Model\Task::$page = 9999;
+        $list = [];
+        foreach ($this->statusMark as $statusid => $value) {
+
+            \Model\Task::$condtion = 'WHERE t.task_status = :task_status';
+            \Model\Task::$param = ['task_status' => $statusid];
+
+            //完成状态的任务看板，仅列出当天完成的。
+            if ($statusid == '3') {
+                \Model\Task::$condtion .= ' AND task_complete_time >= :today';
+                \Model\Task::$param['today'] = strtotime(date('Y-m-d 00:00:00'));
+            }
+
+            //@todo 排序需要进一步优化
+            \Model\Task::$oder = 'ORDER BY task_submit_time DESC';
+
+            \Model\Task::getUserTask($_SESSION['team']['user_id']);
+            $list[$statusid] = $value;
+            $list[$statusid]['task'] = \Model\Task::getTaskList()['list'];
         }
 
-        //搜索
-        if (!empty($_GET['search'])) {
-            $condition .= " AND task_title LIKE :task_title";
-            $param['task_title'] = '%' . $this->g('search') . '%';
-        }
-
-        //设置系统消息已读
-        switch ($type) {
-            case '0':
-                \Model\Notice::readNotice('1');
-                break;
-            case '3':
-                \Model\Notice::readNotice('4');
-                break;
-            case '4':
-                \Model\Notice::readNotice('6');
-                break;
-        }
-
-        //审核和完成的任务，按照ID倒序则可
-        if (in_array($type, array('2', '4'))) {
-            $order = "task_id DESC";
-        } else {
-            $order = "task_priority ASC, task_status ASC, task_id DESC";
-        }
-
-        $page = new \Expand\Team\Page;
-        $total = count(\Model\Content::listContent('task', $param, $condition));
-        $count = $page->total($total);
-        $page->handle();
-        $list = \Model\Content::listContent('task', $param, $condition, $order, "{$page->firstRow}, {$page->listRows}");
-        $show = $page->show();
-        $this->assign('page', $show);
         $this->assign('list', $list);
-        $this->assign('title', \Model\Menu::getTitleWithMenu());
+
+        $this->layout();
+    }
+
+    /**
+     * 等待审核的任务列表
+     */
+    public function check() {
+        \Model\Task::$condtion = '';
+        \Model\Task::$join = " LEFT JOIN {$this->prefix}task_user AS tu ON tu.task_id = t.task_id";
+        \Model\Task::$condtion = 'WHERE t.task_status = 2 AND tu.user_id = :user_id AND tu.task_user_type = 1';
+        \Model\Task::$param = ['user_id' => $_SESSION['team']['user_id']];
+
+        $result = \Model\Task::getTaskList();
+        $this->assign('list', $result['list']);
+        $this->assign('page', $result['page']);
         $this->layout('Task_index');
     }
 
     /**
-     * 待我审核/指派的任务
+     * 部门指派列表
      */
-    public function check() {
-        $condition = "t.task_delete = 0 AND tc.check_user_id = :check_user_id ";
-        $param = array('check_user_id' => $_SESSION['team']['user_id']);
+    public function department() {
+        $department = \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id');
 
-        $type = $this->g('type');
-        if ($type >= '0') {
-            $condition .= " AND t.task_status = :task_status";
-            $param['task_status'] = $type;
-            $order = "t.task_priority ASC, t.task_status ASC, t.task_id DESC";
-        }
-        
-        //搜索
-        if (!empty($_GET['search'])) {
-            $condition .= " AND t.task_title LIKE :task_title";
-            $param['task_title'] = '%' . $this->g('search') . '%';
+        if (empty($department['department_header'])) {
+            $this->error('您的部门还没有指派负责人，联系管理员进行设置');
         }
 
-        //设置系统消息已读
-        switch ($type) {
-            case '0':
-                \Model\Notice::readNotice('2');
-                break;
-            case '2':
-                \Model\Notice::readNotice('3');
-                break;
+        if (!in_array($_SESSION['team']['user_id'], explode(',', $department['department_header']))) {
+            $this->error('您不是本部门的负责人，无法访问本页面');
         }
 
-        //待指派的任务执行人ID为空且是当前用户部门的
-        if (!empty($_GET['user_type'])) {
-            $condition .= " AND t.task_user_id = '' AND t.task_department_id = :task_department_id ";
-            $param['task_department_id'] = $_SESSION['team']['user_department_id'];
-            \Model\Notice::readNotice('5');
-        }
-
-        $page = new \Expand\Team\Page;
-        $total = count($this->db('task AS t')->field("t.*")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where($condition)->order($order)->group('t.task_id')->select($param));
-        $count = $page->total($total);
-        $page->handle();
-        $list = $this->db('task AS t')->field("t.*")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where($condition)->order($order)->group('t.task_id')->limit("{$page->firstRow}, {$page->listRows}")->select($param);
-        $show = $page->show();
-
-        $this->assign('page', $show);
-        $this->assign('list', $list);
-        $this->assign('title', \Model\Menu::getTitleWithMenu());
+        \Model\Task::$condtion = '';
+        \Model\Task::$join = " LEFT JOIN {$this->prefix}task_user AS tu ON tu.task_id = t.task_id";
+        \Model\Task::$condtion = 'WHERE tu.user_id = :department AND tu.task_user_type = 3';
+        \Model\Task::$param = ['department' => $_SESSION['team']['user_department_id']];
+        $result = \Model\Task::getTaskList();
+        $this->assign('list', $result['list']);
+        $this->assign('page', $result['page']);
         $this->layout('Task_index');
     }
 
@@ -204,41 +171,75 @@ class Task extends Content {
      * 查看任务
      */
     public function view() {
-        $task_id = $this->isG('id', '请选择您要查看的任务');
-        $content = $this->db('task AS t')->field("t.*, group_concat(tc.check_user_id) AS check_user_id ")->join("{$this->prefix}task_check AS tc ON tc.task_id = t.task_id")->where('t.task_id = :task_id AND task_delete = 0 ')->group('t.task_id')->find(array('task_id' => $task_id));
-        if (empty($content)) {
+        $taskid = $this->isG('id', '请选择您要查看的任务ID');
+        $task = \Model\Content::findContent('task', $taskid, 'task_id');
+        if (empty($task)) {
             $this->error('任务不存在');
         }
 
-        /**
-         * 合并任务所有关于用户的ID
-         * task_user_id 不一定存在记录(部门审核)。因此，为空则设置为-1，避免空用户可以查看(尽管不可能有未登录的用户)
-         */
-        $checkers = explode(',', $content['check_user_id']);
-        $eligible = array_unique(array_merge_recursive(array($content['task_create_id'], empty($content['task_user_id']) ? '-1' : $content['task_user_id']), $checkers));
-
-        //开启权限验证，验证发布人，审核人，执行人是否属于本任务
-        if ($content['task_read_permission'] == '1' && !in_array($_SESSION['team']['user_id'], $eligible)) {
-            $this->error('您没有权限查看本任务');
+        //验证权限
+        $actionAuth = \Model\Task::actionAuth($taskid);
+        if ($task['task_read_permission'] == '1' && $actionAuth['check'] == false && $actionAuth['action'] == false && $actionAuth['department'] == false) {
+            $this->error('当前任务您没有查阅的权限');
         }
 
-        //列出所有用户，用于处理外部任务的指派
-        $userList = \Model\Content::listContent('user');
-        $this->assign('user', $userList);
+        $param['task_id'] = $taskid;
 
-        //列出任务日志
-        $diary = \Model\Content::listContent('task_diary', array('task_id' => $task_id), 'task_id = :task_id', 'diary_id DESC');
+        //任务追加内容
+        $supplement = \Model\Content::listContent(['table' => 'task_supplement', 'condition' => 'task_supplement_task_id = :task_id', 'param' => $param]);
 
-        //列出任务补调整充说明
-        $supplement = \Model\Content::listContent('task_supplement', array('task_id' => $task_id), 'task_id = :task_id', 'task_supplement_id asc');
+        //任务条目
+        $taskList = \Model\Content::listContent(['table' => 'task_list', 'condition' => 'task_id = :task_id', 'param' => $param]);
+
+        //任务动态
+        $dynamice = \Model\Content::listContent(['table' => 'task_dynamic', 'condition' => 'task_dynamic_task_id = :task_id', 'order' => 'task_dynamic_createtime DESC', 'param' => $param]);
 
         $this->assign('supplement', $supplement);
-        $this->assign('diary', $diary);
-        $this->assign('checkers', $checkers);
-        $this->assign('eligible', $eligible);
-        $this->assign($content);
-        $this->assign('title', $content['task_title']);
+        $this->assign('dynamice', $dynamice);
+        $this->assign('taskList', $taskList);
+        $this->assign('userAccessList', \Model\Content::listContent([
+            'table' => 'task_user',
+            'condition' => 'task_id = :task_id',
+            'param' => $param
+        ]));
+        $this->assign('actionAuth', $actionAuth);
+
+        $this->assign('department', \Model\Content::listContent([
+            'table' => 'user',
+            'condition' => 'user_department_id = :department_id',
+            'param' => [
+                'department_id' => $_SESSION['team']['user_department_id']
+            ]
+        ]));
+        $this->assign($task);
         $this->layout();
     }
+
+
+    /**
+     * 发表任务
+     */
+    public function action() {
+        //任务发表后，不允许进入编辑页面
+        if (!empty($_GET['id'])) {
+            header('Location:' . $this->url('Team-Task-action'));
+        }
+        $userList = \Model\Content::listContent(['table' => 'user', 'field' => 'user_id,user_name,user_department_id', 'condition' => 'user_status = 1']);
+        $user = [];
+        foreach ($userList as $value) {
+            $user['list'][$value['user_id']] = $value['user_name'];
+            if ($value['user_department_id'] == $_SESSION['team']['user_department_id']) {
+                $user['department'][$value['user_id']] = $value['user_name'];
+            }
+        }
+
+        $this->assign('user', $user);
+
+        $department = \Model\Content::listContent(['table' => 'department', 'order' => 'department_listsort ASC, department_id DESC']);
+        $this->assign('department', $department);
+
+        parent::action();
+    }
+
 
 }

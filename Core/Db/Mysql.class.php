@@ -1,12 +1,13 @@
 <?php
 
 /**
- * PESCMS run in PHP 5.3+
+ * PESCMS for PHP 5.4+
  *
- * Copyright (c) 2014 PESMCMS (http://www.pesmcs.com)
+ * Copyright (c) 2015 PESCMS (http://www.pescms.com)
  *
  * For the full copyright and license information, please view
  * the file LICENSE.md that was distributed with this source code.
+ * @version 2.5
  */
 
 namespace Core\Db;
@@ -19,20 +20,52 @@ use \PDO,
  * @author LuoBoss
  * @version 1.0
  */
-class Mysql extends Connect {
+class Mysql {
 
-    public $getLastSql, $getLastInsert, $prefix, $errorInfo = array(), $param = array();
-    private $tableName, $field = '*', $where = '', $join = array(), $order = '',
-            $group = '', $limit = '';
+    public $dbh, $getLastSql, $getLastInsert, $prefix, $errorInfo = array(), $param = array();
+    private $defaultDb, $tableName, $field = '*', $where = '', $join = array(), $order = '',
+            $group = '', $limit = '', $transaction = false;
+
+    public function __construct() {
+        try {
+            $config = CoreFunc::loadConfig();
+            $configParam = array('DB_TYPE', 'DB_HOST', 'DB_NAME', 'DB_PORT', 'DB_USER', 'DB_PWD', 'DB_PREFIX');
+            foreach ($configParam as $value) {
+                $useConfig[$value] = !empty($config[GROUP][$value]) ? $config[GROUP][$value] : $config[$value];
+            }
+
+            $this->defaultDb = $useConfig['DB_NAME'];
+
+            $dns = "{$useConfig['DB_TYPE']}:host={$useConfig['DB_HOST']};dbname={$useConfig['DB_NAME']};port={$useConfig['DB_PORT']}";
+            $this->prefix = $useConfig['DB_PREFIX'];
+
+            $this->dbh = new \PDO($dns, $useConfig['DB_USER'], $useConfig['DB_PWD']);
+            $this->dbh->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->dbh->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            $this->dbh->exec('SET NAMES UTF8');
+        } catch (\PDOException $e) {
+            if (DEBUG == true) {
+                die("Error!: {$e->getMessage()} <br/>");
+            } else {
+                die("Error!: DB ERROR <br/>");
+            }
+        }
+    }
 
     /**
      * 设置表名
      * @param str $name 表名称
      * @return \Core\Db\Mysql 返回变量
      */
-    public function tableName($name) {
-        $this->prefix = CoreFunc::loadConfig('DB_PREFIX');
-        $this->tableName = $this->prefix . $name;
+    public function tableName($name, $database = '', $dbPrefix = '') {
+        if (empty($database)) {
+            $database = $this->defaultDb;
+        }
+        if (empty($dbPrefix)) {
+            $dbPrefix = $this->prefix;
+        }
+        $this->tableName = "`$database`.{$dbPrefix}{$name}";
         return $this;
     }
 
@@ -135,6 +168,7 @@ class Mysql extends Connect {
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $limit;
         $sth = $this->PDOBindArray();
         $result = $sth->fetch();
+        $this->emptyParam();
         return $result;
     }
 
@@ -150,6 +184,7 @@ class Mysql extends Connect {
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $this->limit;
         $sth = $this->PDOBindArray();
         $result = $sth->fetchALL();
+        $this->emptyParam();
         return $result;
     }
 
@@ -167,9 +202,11 @@ class Mysql extends Connect {
         }
         $this->getLastSql = 'INSERT INTO ' . $this->tableName . ' (' . implode(',', $field) . ' ) VALUES (' . implode(',', $namedPlaceholders) . ' )';
         $sth = $this->PDOBindArray();
+        $this->emptyParam();
         if ($this->dbh->lastInsertId() === false) {
             return false;
         } else {
+            $this->getLastInsert = $this->dbh->lastInsertId();
             return $this->dbh->lastInsertId();
         }
     }
@@ -197,6 +234,7 @@ class Mysql extends Connect {
 
         $sth = $this->PDOBindArray();
         $result = $sth->rowCount();
+        $this->emptyParam();
         if ($result >= 0) {
             return $result;
         } else {
@@ -215,6 +253,7 @@ class Mysql extends Connect {
         $this->getLastSql = 'DELETE FROM ' . $this->tableName . $this->where;
         $sth = $this->PDOBindArray();
         $result = $sth->rowCount();
+        $this->emptyParam();
 
         if ($result >= 0) {
             return $result;
@@ -235,28 +274,12 @@ class Mysql extends Connect {
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
         $result = $sth->fetch();
+        $this->emptyParam();
         if (!empty($result)) {
             return $result;
         } else {
             return false;
         }
-    }
-
-    /**
-     * 暴露一个仅执行了却没有取出数据的对象方法。
-     * 本方法用法类似mysql中的mysql_fetch_array();
-     * 具体参考如下的链接
-     * @link URL http://php.net/manual/en/function.mysql-fetch-array.php
-     * @param type $sql
-     * @param type $param
-     * @param type $fieldType
-     * @return type
-     */
-    public function fetchArray($sql, $param = '', $fieldType = '') {
-        $this->dealParam($param, $fieldType);
-        $this->getLastSql = $sql;
-        $sth = $this->PDOBindArray();
-        return $sth;
     }
 
     /**
@@ -271,6 +294,7 @@ class Mysql extends Connect {
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
         $result = $sth->fetchALL();
+        $this->emptyParam();
         if (!empty($result)) {
             return $result;
         } else {
@@ -290,7 +314,8 @@ class Mysql extends Connect {
         $this->getLastSql = $sql;
         $sth = $this->PDOBindArray();
         $statistics = $sth->rowCount();
-        $lastInsertId = $this->dbh->lastInsertId();
+        $this->emptyParam();
+        $lastInsertId = $this->getLastInsert  = $this->dbh->lastInsertId();
         if (!empty($lastInsertId)) {
             return $lastInsertId;
         } elseif ($statistics >= 0) {
@@ -421,7 +446,6 @@ class Mysql extends Connect {
                 }
             }
             $sth->execute();
-            $this->emptyParam();
             return $sth;
         } catch (\PDOException $e) {
             $this->errorInfo['message'] = $e->getMessage();
@@ -456,6 +480,7 @@ class Mysql extends Connect {
      * 启动事务
      */
     public function transaction() {
+        $this->transaction = true;
         return $this->dbh->beginTransaction();
     }
 
@@ -463,7 +488,9 @@ class Mysql extends Connect {
      * 事务回滚
      */
     public function rollBack() {
-        return $this->dbh->rollBack();
+        if($this->transaction === true){
+            return $this->dbh->rollBack();
+        }
     }
 
     /**
