@@ -371,7 +371,7 @@ class Label {
     public function getImg($path, $size = array()){
         $extension = pathinfo($path)['extension'];
         $add = empty($size) ? '' : '_'.implode('x', $size).".{$extension}";
-        if(is_file(PES_PATH.$path)){
+        if(is_file(PES_PATH.str_replace(DOCUMENT_ROOT, '',$path))){
             return $path.$add;
         }else{
             //确认是否base64位的
@@ -379,7 +379,7 @@ class Label {
                 return $path;
             }else{
                 //@todo 需要补一张缺省图
-                return '';
+                return DOCUMENT_ROOT.'/Theme/assets/i/team.png';
             }
         }
 
