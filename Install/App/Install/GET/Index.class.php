@@ -98,6 +98,7 @@ class Index extends \Core\Controller\Controller {
      * 执行安装
      */
     public function doinstall() {
+        $data['domain'] = $this->p('domain');
         $data['account'] = $this->isP('account', '请填写管理员帐号');
         $data['passwd'] = $this->isP('passwd', '请填写管理员密码');
         $data['name'] = $this->isP('name', '请填写管理员名称');
@@ -116,6 +117,7 @@ class Index extends \Core\Controller\Controller {
      * 导入数据库
      */
     public function import() {
+        $domain = $this->p('domain');
         $data['user_account'] = $this->isP('account', '请填写管理员帐号');
         $data['user_password'] = \Core\Func\CoreFunc::generatePwd($data['user_account'].$this->isP('passwd', '请填写管理员密码'), 'PRIVATE_KEY');
         $data['user_name'] = $this->isP('name', '请填写管理员名称');
@@ -144,6 +146,14 @@ class Index extends \Core\Controller\Controller {
         }
         //安装数据库文件
         $db->exec($sqlFile);
+
+        if(!empty($domain)){
+            $this->db('option')->insert([
+                'option_name' => 'domain',
+                'name' => '网站域名',
+                'value' => $domain
+            ]);
+        }
 
         \Core\Func\CoreFunc::$defaultPath = false;
         require PES_PATH . '/Expand/Identicon/autoload.php';

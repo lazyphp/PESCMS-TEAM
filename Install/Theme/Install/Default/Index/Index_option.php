@@ -4,6 +4,16 @@
             <input type="hidden" name="method" value="GET" />
 
             <div class="am-form-group">
+                <label for="doc-ipt-3" class="am-u-sm-2 am-form-label">域名:</label>
+                <div class="am-u-sm-10">
+                    <input type="text" name="domain" placeholder="域名" required>
+                    <div class="am-alert am-alert-secondary" data-am-alert>
+                        域名主要用于发送邮件通知后，便于用户查看邮件时，可跳转至任务系统
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-group">
                 <label for="doc-ipt-3" class="am-u-sm-2 am-form-label">管理员帐号:</label>
                 <div class="am-u-sm-10">
                     <input type="text" name="account" placeholder="管理员帐号" required>
