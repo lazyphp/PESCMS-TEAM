@@ -7,7 +7,7 @@
     </div>
     <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 
-    <form class="am-form am-form-horizontal" action="<?= $url; ?>" method="post" data-am-validator>
+    <form class="am-form am-form-horizontal ajax-submit" action="<?= $url; ?>" method="post" data-am-validator>
         <input type="hidden" name="method" value="PUT"/>
         <ul class="am-list am-list-static am-list-border am-text-sm">
             <li style="background: #F5f6FA;border-left: 4px solid #6d7781;">基础信息</li>
@@ -17,6 +17,23 @@
 
                     <div class="am-u-sm-9">
                         <a class="am-btn am-btn-sm am-btn-warning" href="<?= $label->url('Team-Setting-upgrade') ?>"><i class="am-icon-refresh"></i> <?= $version['value'] ?></a>
+                    </div>
+                    <div class="am-u-sm-1">
+                        <span class="am-badge am-round am-badge-danger">必填</span>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="am-g">
+                    <label for="" class="am-u-sm-2 am-form-label">程序域名</label>
+
+                    <div class="am-u-sm-9">
+                        <input type="text" name="domain" value="<?= $domain['value'] ?>" />
+
+                        <div class="am-alert am-alert-secondary am-text-xs " data-am-alert>
+                            <i class="am-icon-lightbulb-o"></i> 域名主要用于发送邮件通知后，便于用户查看邮件时，可跳转至任务系统
+                        </div>
                     </div>
                     <div class="am-u-sm-1">
                         <span class="am-badge am-round am-badge-danger">必填</span>

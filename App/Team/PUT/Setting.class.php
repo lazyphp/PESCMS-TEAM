@@ -20,6 +20,7 @@ class Setting extends \Core\Controller\Controller {
         }
 
         $data['notice_way'] = $this->p('notice_way');
+        $data['domain'] = $this->p('domain');
         $data['mail'] = json_encode($this->p('mail'));
 
         foreach ($data as $key => $value) {

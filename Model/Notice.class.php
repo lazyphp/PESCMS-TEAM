@@ -32,7 +32,7 @@ class Notice extends \Core\Model\Model {
             \Model\Extra::insertSend(
                 \Model\Content::findContent('user', $userid, 'user_id')['user_mail'],
                 strip_tags($text['title']),
-                $text['title'],
+                str_replace('href="', 'href="'.\Model\Content::findContent('option', 'domain', 'option_name')['value'], $text['title']),
                 '1'
             );
         }
