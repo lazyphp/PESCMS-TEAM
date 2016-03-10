@@ -24,10 +24,10 @@ $(function () {
      */
     $('body').on('submit', '.ajax-submit', function () {
         var url = $(this).attr("action")
-
+		var dom = $(this)
         $.ajaxsubmit({
             url: url,
-            data: $(".ajax-submit").serialize()
+            data: dom.serialize()
         }, function(){});
 
         return false;
