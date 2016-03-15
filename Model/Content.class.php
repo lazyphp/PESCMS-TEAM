@@ -169,7 +169,8 @@ class Content extends \Core\Model\Model {
         $page->style = $sql['style'];
         $page->LANG = $sql['LANG'];
         $page->listRows = $sql['page'];
-        $total = current(self::db()->fetch($sql['count'], $sql['param']));
+        $count = self::db()->fetch($sql['count'], $sql['param']);
+        $total = $count === false ? '0' : current($count);
         $page->total($total);
         $page->handle();
         $list = self::db()->getAll("{$sql['normal']} LIMIT {$page->firstRow}, {$page->listRows}", $sql['param']);
