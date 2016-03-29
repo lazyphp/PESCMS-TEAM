@@ -76,9 +76,15 @@ class Task extends Content {
         }
         $auth = \Model\Task::actionAuth($data['noset']['task_id']);
 
-        if (in_array($data['task_status'], ['3', '10']) && $auth['check'] === FALSE) {
-            $this->error('您没有权限更改本任务状态');
+        //@todo 此处在下一个版本中将依据自定义状态进行判断 begin
+        if ($auth['action'] === FALSE && $auth['check'] === FALSE) {
+            $this->error('您没有更改本任务状态的权限');
         }
+
+        if (in_array($data['task_status'], ['3', '10']) && $auth['check'] === FALSE) {
+            $this->error('您没有设置任务完成或者关闭任务的权限');
+        }
+        //@todo end
 
         $update = $this->db('task')->where('task_id = :task_id')->update($data);
         if ($update === false) {

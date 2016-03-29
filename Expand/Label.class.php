@@ -360,6 +360,12 @@ class Label {
      */
     public function getStatusSelect(array $statusMark, array $task) {
         $auth = \Model\Task::actionAuth($task['task_id']);
+        
+        //@todo 此处在下一个版本中将依据自定义状态进行判断
+        if ($auth['action'] === FALSE && $auth['check'] === FALSE) {
+            return FALSE;
+        }
+        
         require THEME_PATH . '/Task/Task_status_select.php';
     }
 
