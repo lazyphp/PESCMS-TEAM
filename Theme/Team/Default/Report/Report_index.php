@@ -20,11 +20,13 @@
 
     </div>
 </div>
-<ul class="am-list am-list-border am-list-striped">
-    <?php foreach ($list as $key => $value): ?>
-        <li><a href="<?= $label->url('Team-Report-view', ['id' => $value['report_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"><?= date('Y-m-d', $value['report_date']); ?>报表</a></li>
-    <?php endforeach; ?>
-</ul>
-<ul class="am-pagination am-pagination-centered am-text-xs">
-    <?= $page; ?>
-</ul>
+<?php if (!empty($list)): ?>
+    <ul class="am-list am-list-border am-list-striped">
+        <?php foreach ($list as $key => $value): ?>
+            <li><a href="<?= $label->url('Team-Report-view', ['id' => $value['report_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"><?= date('Y-m-d', $value['report_date']); ?>报表</a></li>
+        <?php endforeach; ?>
+    </ul>
+    <ul class="am-pagination am-pagination-centered am-text-xs">
+        <?= $page; ?>
+    </ul>
+<?php endif; ?>
