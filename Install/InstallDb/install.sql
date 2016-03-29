@@ -731,7 +731,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_dynamic` (
   `task_dynamic_createtime` int(11) NOT NULL,
   `task_dynamic_task_id` varchar(255) NOT NULL,
   `task_dynamic_user_id` varchar(255) NOT NULL,
-  `task_dynamic_content` varchar(255) NOT NULL,
+  `task_dynamic_content` text NOT NULL,
   PRIMARY KEY (`task_dynamic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务动态' AUTO_INCREMENT=1 ;
 
