@@ -3,12 +3,12 @@
 
     <a href="javascript:;" class="am-dropdown-toggle" data-am-dropdown-toggle style="color: <?= $statusMark[$task['task_status']]['task_status_color'] ?>">
         <span class="<?= $statusMark[$task['task_status']]['task_status_icon'] ?> status-icon"></span>
-        <?php if (!in_array($task['task_status'], ['3'])): ?>
+        <?php if (!in_array($task['task_status'], ['3']) && ($auth['action'] === TRUE || $auth['check'] === TRUE) ): ?>
             <span class="am-icon-caret-down"></span>
         <?php endif; ?>
     </a>
 
-    <?php if (!in_array($task['task_status'], ['3'])): ?>
+    <?php if (!in_array($task['task_status'], ['3']) && ($auth['action'] === TRUE || $auth['check'] === TRUE) ): ?>
         <ul class="am-dropdown-content">
             <?php foreach ($statusMark as $status): ?>
                 <?php
