@@ -7,7 +7,7 @@
             <input type="hidden" name="checkuser" value="<?= $_SESSION['team']['user_id']; ?>"/>
 
             <div class="am-block am-margin-bottom-xs check-user">
-                <a href="javascript:;" type="no" data="1" class="remove-check-user"><i class="am-icon-user"></i><span> <?= $_SESSION['team']['user_name']; ?>(本人)</span></a>
+                <a href="javascript:;" type="no" data="<?= $_SESSION['team']['user_id']; ?>" class="remove-check-user"><i class="am-icon-user"></i><span> <?= $_SESSION['team']['user_name']; ?>(本人)</span></a>
             </div>
 
             <select class="select-check-user">
