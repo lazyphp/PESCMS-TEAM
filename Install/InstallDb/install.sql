@@ -581,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `pes_option` (
 --
 
 INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES
-(13, 'version', '系统版本', '2.0.0', ''),
+(13, 'version', '系统版本', '2.0.1', ''),
 (14, 'upload_img', '图片格式', '[".jpg",".jpge",".bmp",".gif",".png"]', 'upload'),
 (15, 'upload_file', '文件格式', '[".zip",".rar",".7z",".doc",".docx",".pdf",".xls",".xlsx",".ppt",".pptx",".txt"]', 'upload'),
 (17, 'mail', '邮件服务信息', '{"account":"213","passwd":"12","address":"213","port":"25"}', ''),
