@@ -174,5 +174,13 @@ class Excel {
             return $objRichText2;
         }
     }
+    
+        /**
+     * 导入EXCEL
+     */
+    public function import($file) {
+        $objPHPExcel = \PHPExcel_IOFactory::load($file);
+        return $objPHPExcel->getActiveSheet()->toArray();
+    }
 
 }
