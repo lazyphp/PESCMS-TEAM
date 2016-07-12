@@ -190,4 +190,47 @@ class CoreFunc {
         return self::$ThemeName;
     }
 
+    /**
+     * 判断是否ajax提交
+     * @param str $code 状态码
+     * @param str $msg 信息
+     * @param str $jumpUrl 跳转的URL
+     * @return boolean|json|xml|str 返回对应的数据类型
+     */
+    public static function isAjax($code, $msg, $jumpUrl = ''){
+        if (empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            return FALSE;
+        }
+
+        //@todo 我觉得ajax请求不论失败还是什么，不应该存在返回上一页的。现在直接设置为空置，让本身的函数执行刷新功能。
+        if($jumpUrl == 'javascript:history.go(-1)'){
+            $jumpUrl = '';
+        }
+
+        $type = explode(',', $_SERVER['HTTP_ACCEPT']);
+        $status['status'] = $code;
+        $status['msg'] = $msg;
+        $status['url'] = $jumpUrl;
+
+        $token = md5(\Model\Extra::getOnlyNumber());
+        $_SESSION['token'] = $token;
+        $status['token'] = $token;
+        switch ($type[0]) {
+            case 'application/json':
+                exit(json_encode($status));
+                break;
+            case 'text/javascript':
+                // javascript 或 JSONP 格式  需要扩展
+                exit();
+                break;
+            case 'text/html':
+                exit($status);
+                break;
+            case 'application/xml':
+                //  XML 格式  需要扩展
+                exit();
+                break;
+        }
+    }
+
 }

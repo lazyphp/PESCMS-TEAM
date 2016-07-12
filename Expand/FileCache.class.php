@@ -7,9 +7,15 @@ namespace Expand;
  */
 class FileCache {
 
-    public $config, $cachePath, $path;
+    public $config, $cachePath, $path, $cacheTime;
 
-    public function __construct() {
+    /**
+     *
+     * FileCache constructor.
+     * @param string $cacheTime 定义缓存时间 | 默认调用配置文件的时间
+     */
+    public function __construct($cacheTime = '') {
+        $this->cacheTime = $cacheTime;
         $this->checkPath();
     }
 
@@ -22,6 +28,11 @@ class FileCache {
         \Expand\CreatePath::action($this->config['FILE_CACHE_PATH']);
 
         $this->cachePath = PES_PATH . $this->config['FILE_CACHE_PATH'];
+
+        if(empty($this->cacheTime)){
+            $this->cacheTime = $this->config['FILE_CACHE_TIME'];
+        }
+
 
     }
 
@@ -54,7 +65,7 @@ class FileCache {
             return FALSE;
         }
         $file = file($cacheFile);
-        if (time() - $file[0] > $this->config['FILE_CACHE_TIME']) {
+        if (time() - $file[0] > $this->cacheTime) {
             return false;
         } else {
             return $file['1'];

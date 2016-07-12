@@ -29,9 +29,11 @@ class Error {
      * @param type $errline 错误行数
      */
     public static function getError($errno, $errstr, $errfile, $errline) {
-        if(DEBUG === false){
+        //调试模式关闭的状态下和ajax请求将不输出任何信息
+        if (DEBUG === false || !empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return true;
         }
+
         $str = "<b>%s</b></b>{$errstr}<br /><b>File</b>：{$errfile} <b>Line {$errline}</b><br />";
 
         switch ($errno) {
@@ -86,11 +88,11 @@ class Error {
     public static function getShutdown() {
         $error = error_get_last();
         if ($error) {
-			if( strstr($error['message'], 'PHP Startup') ){
-				echo '当前PHP环境有扩展加载失败';
-				exit;
-			}
-        
+            if (strstr($error['message'], 'PHP Startup')) {
+                echo '当前PHP环境有扩展加载失败';
+                exit;
+            }
+
             $db = \Core\Func\CoreFunc::db();
             if (!empty($db->errorInfo)) {
                 self::recordLog(implode("\r", $db->errorInfo), false);
@@ -135,13 +137,12 @@ class Error {
             }
             header("HTTP/1.1 500 Internal Server Error");
             $title = "500 Internal Server Error";
-            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                if (!empty($db->errorInfo)) {
-                    echo $errorSql.'<br/>'.$errorSqlString;
-                }
-                echo $errorMes.'<br/>'.$errorFile;
-                exit;
+
+            if (!empty($db->errorInfo)) {
+                \Core\Func\CoreFunc::isAjax(500, $errorMes . '<br/>' . $errorSqlString);
             }
+            \Core\Func\CoreFunc::isAjax(500, $errorMes . '<br/>' . $errorFile);
+
             require self::promptPage();
             exit;
         }
@@ -179,10 +180,8 @@ class Error {
         }
         header("HTTP/1.1 500 Internal Server Error");
         $title = "500 Internal Server Error";
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-            echo $errorMes.'<br/>'.$errorFile;
-            exit;
-        }
+
+        \Core\Func\CoreFunc::isAjax(500, $errorMes . '<br/>' . $errorFile);
         require self::promptPage();
         exit;
     }
@@ -193,7 +192,7 @@ class Error {
      */
     private static function recordLog($error, $extract = true) {
         $fileName = 'error_' . md5(self::loadConfig('PRIVATE_KEY') . date("Ymd"));
-        $msg = 'Date:'.date('Y-m-d H:i:s')."\rTimestamp:".time()."\r";
+        $msg = 'Date:' . date('Y-m-d H:i:s') . "\rTimestamp:" . time() . "\r";
         if ($extract == true) {
             $msg .= "Rank[{$error['type']}] PHP error: {$error['message']}\rFile:{$error['file']};Line:{$error['line']}\r\r";
         } else {

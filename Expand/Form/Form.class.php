@@ -16,15 +16,26 @@ namespace Expand\Form;
  */
 class Form {
 
+    private $imgsuffix, $filesuffix, $label;
+
     /**
      * 生成对应的HTML表单内容
      * @param type $field 提交过来的字段
      */
     public function formList($field) {
+
+        if (empty($this->imgsuffix)) {
+            $this->imgsuffix = str_replace('.', '', implode(',', json_decode(\Model\Content::findContent('option', 'upload_img', 'option_name')['value'], true)));
+        }
+        if (empty($this->filesuffix)) {
+            $this->filesuffix = str_replace('.', '', implode(',', json_decode(\Model\Content::findContent('option', 'upload_file', 'option_name')['value'], true)));
+        }
+
+        if(empty($this->label)){
+            $this->label = new \Expand\Label();
+        }
+
         switch ($field['field_type']) {
-            case $field['field_type']:
-                require "theme/{$field['field_type']}.php";
-                break;
             case 'editor':
                 /**
                  * 将属于必填项的表单名称写入数组
@@ -43,6 +54,9 @@ class Form {
                 \Model\Category::$where = 'm.model_name = "' . MODULE . '"';
                 $tree = \Model\Category::getSelectCate($field['value'] ? array($field['value']) : array(), true);
                 require 'theme/category.php';
+                break;
+            case $field['field_type']:
+                require "theme/{$field['field_type']}.php";
                 break;
         }
     }

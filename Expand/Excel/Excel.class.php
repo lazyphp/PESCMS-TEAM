@@ -178,7 +178,7 @@ class Excel {
         /**
      * 导入EXCEL
      */
-    public function import($file) {
+    public static function import($file) {
         $objPHPExcel = \PHPExcel_IOFactory::load($file);
         return $objPHPExcel->getActiveSheet()->toArray();
     }
