@@ -125,7 +125,7 @@ class Task extends Content {
 
         $this->db()->transaction();
 
-        $removeDepart = $this->db('task_user')->where('user_id = :department AND task_user_type = 3')->delete(['department' => $_SESSION['team']['user_department_id']]);
+        $removeDepart = $this->db('task_user')->where(' task_id = :taskid AND user_id = :department AND task_user_type = 3')->delete(['taskid' => $taskid ,'department' => $_SESSION['team']['user_department_id']]);
         if ($removeDepart === false) {
             $this->db()->rollback();
             $this->error('移出部门指派权限出错');
