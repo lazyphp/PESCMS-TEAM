@@ -93,9 +93,11 @@ $(function () {
                     d.content('系统响应出问题，请再次提交').showModal();
                 }
             }
+            $.refreshToken(data.token);
             callback(data);
 
-        }, 'JSON').fail(function () {
+        }, 'JSON').fail(function (jqXHR, textStatus, error) {
+            $.refreshToken(jqXHR.responseJSON.token);
             d.content('系统请求出错！请再次提交!').showModal();
         });
         setTimeout(function () {
@@ -103,6 +105,16 @@ $(function () {
         }, 3000);
 
         progress.done();
+    }
+
+    /**
+     * 更新token
+     * @param token
+     */
+    $.refreshToken = function(token){
+        $('input[name=token]').each(function(){
+            $(this).val(token);
+        })
     }
 
     /**
