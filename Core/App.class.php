@@ -134,6 +134,8 @@ class App {
 
         if (file_exists(PES_PATH . $unixPath . '.class.php')) {
             require PES_PATH . $unixPath . '.class.php';
+        }elseif(file_exists(PES_CORE . $unixPath . '.class.php')){
+            require PES_CORE . $unixPath . '.class.php';
         } else {
             if (\Core\Func\CoreFunc::$defaultPath == false) {
                 return true;
