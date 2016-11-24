@@ -218,6 +218,19 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `pes_findpassword`
+--
+
+CREATE TABLE IF NOT EXISTS `pes_findpassword` (
+  `findpassword_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `findpassword_mark` varchar(255) NOT NULL COMMENT '标记',
+  `findpassword_createtime` int(11) NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`findpassword_id`),
+  UNIQUE KEY `findpassword_mark` (`findpassword_mark`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='查找密码' AUTO_INCREMENT=1 ;
+
+--
 -- 表的结构 `pes_menu`
 --
 
@@ -581,7 +594,7 @@ CREATE TABLE IF NOT EXISTS `pes_option` (
 --
 
 INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES
-(13, 'version', '系统版本', '2.0.1', ''),
+(13, 'version', '系统版本', '2.1.0', ''),
 (14, 'upload_img', '图片格式', '[".jpg",".jpge",".bmp",".gif",".png"]', 'upload'),
 (15, 'upload_file', '文件格式', '[".zip",".rar",".7z",".doc",".docx",".pdf",".xls",".xlsx",".ppt",".pptx",".txt"]', 'upload'),
 (17, 'mail', '邮件服务信息', '{"account":"213","passwd":"12","address":"213","port":"25"}', ''),

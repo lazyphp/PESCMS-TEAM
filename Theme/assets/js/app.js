@@ -11,7 +11,7 @@ $(function () {
     $.fn.datetimepicker.dates['zh-CN'] = {
         days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
         daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-        daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+        daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
         months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
         monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
         today: "今天",
@@ -24,11 +24,12 @@ $(function () {
      */
     $('body').on('submit', '.ajax-submit', function () {
         var url = $(this).attr("action")
-		var dom = $(this)
+        var dom = $(this)
         $.ajaxsubmit({
             url: url,
             data: dom.serialize()
-        }, function(){});
+        }, function () {
+        });
 
         return false;
     })
@@ -42,7 +43,7 @@ $(function () {
         var url = $(this).attr("href");
         var stop = false;
         //设置了禁用则不允许触发事件
-        if($(this).hasClass('am-disabled')){
+        if ($(this).hasClass('am-disabled')) {
             return false;
         }
 
@@ -60,7 +61,8 @@ $(function () {
 
         $.ajaxsubmit({
             url: url
-        }, function(){});
+        }, function () {
+        });
         return false;
     })
 
@@ -111,8 +113,8 @@ $(function () {
      * 更新token
      * @param token
      */
-    $.refreshToken = function(token){
-        $('input[name=token]').each(function(){
+    $.refreshToken = function (token) {
+        $('input[name=token]').each(function () {
             $(this).val(token);
         })
     }
@@ -120,9 +122,9 @@ $(function () {
     /**
      * 预览输入的图标
      */
-    $("body").on("blur", ".icon-input", function(){
+    $("body").on("blur", ".icon-input", function () {
         var name = $(this).attr("name");
-        $('.'+name).attr("class", $(this).val()+ ' '+ name);
+        $('.' + name).attr("class", $(this).val() + ' ' + name);
     })
 
     /**
@@ -143,5 +145,13 @@ $(function () {
         minView: '1',
         startDate: new Date(),
         autoclose: true
+    });
+
+    /**
+     * 刷新验证码
+     */
+    $(document).on('click', '.refresh-verify', function () {
+        var src = $(this).attr('src')
+        $(this).attr('src', src + '&time=' + Math.random());
     });
 })

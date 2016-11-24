@@ -12,29 +12,34 @@
 
 namespace App\Team\GET;
 
-class Login extends \Core\Controller\Controller{
+class Login extends \Core\Controller\Controller {
+
+    public function __init() {
+        parent::__init();
+        $this->bing();
+    }
 
     /**
      * 登录页
      */
-    public function index(){
-        $this->bing();
-        $this->display();
+    public function index() {
+        $this->assign('title', '登录账号');
+        $this->layout('', 'Login_layout');
     }
 
     /**
      * 获取必应背景图
      */
-    private function bing(){
+    private function bing() {
         $cache = new \Expand\FileCache('86400');
         $bingCache = $cache->loadCache('bing');
-        if($bingCache === false){
+        if ($bingCache === false) {
             $url = 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
-            $res= file_get_contents($url);
+            $res = file_get_contents($url);
             $bing = json_decode($res, true);
-            if(!empty($bing['images'])){
+            if (!empty($bing['images'])) {
                 $img = [];
-                foreach($bing['images'] as $key => $value){
+                foreach ($bing['images'] as $key => $value) {
                     $img = $value['url'];
                 }
             }
@@ -47,9 +52,39 @@ class Login extends \Core\Controller\Controller{
     /**
      * 退出账号
      */
-    public function logout(){
+    public function logout() {
         session_destroy();
-        $this->success('您已安全退出', $this->url('Ticket-Login-index'));
+        $this->jump($this->url('Ticket-Login-index'));
+    }
+
+    /**
+     * 查找密码
+     */
+    public function findPassword() {
+        $this->assign('title', '找回密码');
+        $this->layout('', 'Login_layout');
+    }
+
+    /**
+     * 重置密码
+     */
+    public function setPassword() {
+        $mark = $this->isG('mark', '请提交正确的MARK');
+        $checkMark = $this->db('findpassword')->where('findpassword_createtime >= :time AND findpassword_mark = :findpassword_mark ')->find([
+            'time' => time() - 86400,
+            'findpassword_mark' => $mark
+        ]);
+        if (empty($checkMark)) {
+            $this->error('MARK不存在', '/');
+        }
+
+        $this->assign('title', '重置密码');
+        $this->layout('', 'Login_layout');
+    }
+
+    public function verify() {
+        $verify = new \Expand\Verify();
+        $verify->createVerify('4');
     }
 
 }
