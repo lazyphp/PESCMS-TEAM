@@ -5,8 +5,7 @@
  */
 ?>
 <!-- content start -->
-<div class="admin-content am-padding am-padding-top-0">
-
+<div class="admin-content am-padding am-padding-top-0 am-padding-bottom-0">
     <div class="am-cf">
         <div class="am-fl am-cf">
             <?php if (!empty($_GET['back_url'])): ?>
@@ -16,7 +15,6 @@
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
     </div>
-    <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
-    <form class="am-form am-form-horizontal ajax-submit" action="<?= $url; ?>" method="post" data-am-validator>
-        <ul class="am-list am-list-static am-list-border am-text-sm">
-            <li style="background: #F5f6FA;border-left: 4px solid #6d7781;">基础信息</li>
+</div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
+<form class="am-form am-form-horizontal ajax-submit"  action="<?= $url; ?>" method="post" data-am-validator>

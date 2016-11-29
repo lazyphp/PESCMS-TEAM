@@ -14,6 +14,7 @@ class Content extends \Core\Controller\Controller {
      * @param type $commit 是否提交事务.默认提交.若想继承者继续在本事务中操作,请提交false
      */
     public function action($jump = TRUE, $commit = TRUE) {
+        $this->checkToken();
         $this->db()->transaction();
         $addResult = \Model\Content::addContent();
         if ($addResult === false) {

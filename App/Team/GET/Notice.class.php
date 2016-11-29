@@ -13,7 +13,7 @@ namespace App\Team\GET;
 
 class Notice extends Content {
 
-    public function index() {
+    public function index($display = true) {
         $condition = "";
         $param = ['user_id' => $_SESSION['team']['user_id']];
 

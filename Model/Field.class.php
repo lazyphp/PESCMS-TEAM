@@ -109,6 +109,8 @@ class Field extends \Core\Model\Model {
             case 'text':
             case 'checkbox':
             case 'thumb':
+            case 'theme':
+            case 'author':
                 return ' VARCHAR( 255 ) ';
             case 'color':
                 return ' VARCHAR( 8 ) ';

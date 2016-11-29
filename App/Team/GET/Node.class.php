@@ -14,7 +14,7 @@ namespace App\Team\GET;
 
 class Node extends Content{
 
-    public function index() {
+    public function index($display = true) {
         $this->assign('title', $this->model['model_title']);
         $this->assign('node', \Model\Node::nodeList());
         $this->layout();

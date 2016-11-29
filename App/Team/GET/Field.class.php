@@ -16,7 +16,7 @@ namespace App\Team\GET;
  */
 class Field extends Content {
 
-    public function index(){
+    public function index($display = true){
         $model_id = $this->isG('model_id', '请选择您要查看的模型字段');
 
         $param = ['field_model_id' => $model_id];

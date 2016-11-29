@@ -14,13 +14,13 @@ namespace App\Team\GET;
 
 class Menu extends Content{
 
-    public function index(){
+    public function index($display = true){
         $this->assign('title', $this->model['model_title']);
         $this->assign('field', $this->field);
         $this->layout();
     }
 
-    public function action(){
+    public function action($display = true){
         $this->assign('topMenu', json_encode(\Model\Menu::topMenu()));
         parent::action();
     }

@@ -50,7 +50,7 @@ class Task extends Content {
      * 任务列表
      * @param string $theme 调用的模板
      */
-    public function index() {
+    public function index($display = true) {
         $result = \Model\Task::getTaskList();
 
         $this->sidebar[] = 'bulletin';
@@ -219,7 +219,7 @@ class Task extends Content {
     /**
      * 发表任务
      */
-    public function action() {
+    public function action($display = true) {
         //任务发表后，不允许进入编辑页面
         if (!empty($_GET['id'])) {
             header('Location:' . $this->url('Team-Task-action'));
