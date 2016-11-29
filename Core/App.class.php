@@ -163,7 +163,7 @@ class App {
         if (file_exists(THEME . '/' . GROUP . '/404.php')) {
             require THEME . '/' . GROUP . '/404.php';
         } else {
-            require PES_CORE . 'Theme/error.php';
+            require PES_CORE . 'Core/Theme/error.php';
         }
         exit;
     }

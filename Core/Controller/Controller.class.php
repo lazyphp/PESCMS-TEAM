@@ -290,8 +290,7 @@ class Controller {
      * @return type 返回模板
      */
     private static function promptPage() {
-        $theme = \Core\Func\CoreFunc::loadConfig(strtoupper(GROUP) . '_MES_PROMPT');
-        return is_array($theme) ? PES_CORE . 'Theme/jump.php' : $theme;
+        return PES_CORE . 'Core/Theme/jump.php';
     }
 
     /**

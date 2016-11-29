@@ -7,6 +7,7 @@
  * @license http://www.pescms.com/license
  * @version 2.5
  */
+define('PES_RUN_TIME', microtime(true));
 //PES已经自定义错误功能，因此禁用系统的错误信息
 //error_reporting(0);
 date_default_timezone_set('Asia/Shanghai');
@@ -16,7 +17,6 @@ session_start();
 defined('DEBUG') or define('DEBUG', FALSE);
 //核心文件当前的路径
 defined('PES_CORE') or define('PES_CORE', dirname(dirname(__FILE__)) . '/');
-
 
 //解决二级目录的问题
 define('IS_CGI', (0 === strpos(PHP_SAPI, 'cgi') || false !== strpos(PHP_SAPI, 'fcgi')) ? 1 : 0 );

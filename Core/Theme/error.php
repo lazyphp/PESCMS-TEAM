@@ -7,7 +7,7 @@
         <meta name="renderer" content="webkit">
         <meta http-equiv="Cache-Control" content="no-siteapp" />
         <title><?php echo $title; ?></title>
-        <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>
+        <link rel="stylesheet" href="//cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>
     </head>
     <body style="background: #fff;">
         <div class="footer"></div>

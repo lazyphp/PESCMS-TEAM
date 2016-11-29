@@ -209,7 +209,7 @@ class Error {
      * @return type 返回模板
      */
     private static function promptPage() {
-        return PES_PATH . self::loadConfig('ERROR_PROMPT');
+        return PES_CORE . 'Core/Theme/error.php';
     }
 
     /**

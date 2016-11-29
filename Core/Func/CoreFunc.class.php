@@ -81,7 +81,7 @@ class CoreFunc {
 
         if ($param === true) {
             self::$useRoute = true;
-            return $controller;
+            return $controller.$suffix;
         }
 
         $routeUrlPath = PES_PATH . '/Config/RouteUrl/' . md5(self::loadConfig('PRIVATE_KEY')) . '_route.php';
