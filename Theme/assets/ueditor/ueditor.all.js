@@ -6901,9 +6901,9 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     '.view{padding:0;word-wrap:break-word;cursor:text;height:90%;}\n' +
                     //设置默认字体和字号
                     //font-family不能呢随便改，在safari下fillchar会有解析问题
-                    'body{margin:8px !important;background:none !important;font-family:sans-serif;font-size:1.4rem !important;}' +
+                    'body{margin:8px !important;background:none !important;font-family:sans-serif;font-size:16px !important;}' +
                     //设置段落间距
-                    'p{margin:5px 0;}</style>' +
+                    'p{}</style>' +
                     ( options.iframeCssUrl ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + utils.unhtml(options.iframeCssUrl) + '\'/>' : '' ) +
                     (options.initialStyle ? '<style>' + options.initialStyle + '</style>' : '') +
                     '</head><body class=\'view\' ></body>' +
@@ -8028,7 +8028,7 @@ UE.Editor.defaultOptions = function(editor){
         initialContent: '',
         initialStyle:'',
         autoClearinitialContent: false,
-        iframeCssUrl: path +'/Theme/assets/css/amazeui.min.css',
+        iframeCssUrl: PESCMS_PATH+'Theme/assets/css/amazeui.min.css',
         textarea: 'editorValue',
         focus: false,
         focusInEnd: true,
