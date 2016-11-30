@@ -19,9 +19,5 @@
                 </div>
             </div>
         </div>
-        <?php if ($value['field_name'] == 'priority'): ?>
-            <?php include 'Task_action_custom.php' ?>
-        <?php endif; ?>
-
     <?php endif; ?>
 <?php endforeach; ?>
