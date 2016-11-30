@@ -3,6 +3,7 @@
         <h4 class="task-active-subtitle am-inline-block">指派部门成员</h4>
         <hr class="am-margin-0 task-hr"/>
         <form action="<?= $label->url('Team-Task-department'); ?>" class="am-form" method="POST">
+            <?= $label->token(); ?>
             <input type="hidden" name="method" value="PUT"/>
             <input type="hidden" name="task_id" value="<?= $task_id ?>"/>
             <input type="hidden" name="back_url" value="<?= base64_encode($_SERVER['REQUEST_URI']); ?>">

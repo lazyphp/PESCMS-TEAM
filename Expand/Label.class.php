@@ -21,6 +21,11 @@ namespace Expand;
 class Label {
 
     /**
+     * @var token存储值
+     */
+    private $token;
+
+    /**
      * 此是语法糖，将一些写法近似的方法整合一起，减少重复
      * @param type $name
      * @param type $arguments
@@ -78,10 +83,12 @@ class Label {
      * 生成令牌
      */
     public function token() {
-        list($usec, $sec) = explode(" ", microtime());
-        $token = md5(substr($usec, 2) * rand(1, 100));
-        $_SESSION['token'] = $token;
-        return "<input type=\"hidden\" name=\"token\" value=\"{$token}\" />";
+        if(empty($this->token)){
+            list($usec, $sec) = explode(" ", microtime());
+            $this->token = md5(substr($usec, 2) * rand(1, 100));
+            $_SESSION['token'] = $this->token;
+        }
+        return "<input type=\"hidden\" name=\"token\" value=\"{$this->token}\" />";
     }
 
     /**

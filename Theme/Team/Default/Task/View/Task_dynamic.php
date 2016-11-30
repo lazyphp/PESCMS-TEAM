@@ -21,6 +21,7 @@
     <?php endif; ?>
     <?php if ($actionAuth['action'] == true && ($task_status == 1)): ?>
         <form action="<?= $label->url('Team-Task_dynamic-action'); ?>" method="POST" class="am-margin-top-sm">
+            <?= $label->token(); ?>
             <input type="hidden" name="task_id" value="<?= $task_id; ?>"/>
             <input type="hidden" name="back_url" value="<?= base64_encode($_SERVER['REQUEST_URI']); ?>">
 

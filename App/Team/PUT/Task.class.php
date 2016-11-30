@@ -17,23 +17,27 @@ class Task extends Content {
     /**
      * 更新任务内容
      */
-    public function action($jump = true, $commit = true) {
-        $data['noset']['task_id'] = $this->isP('task_id', '请提交您要编辑内容的任务');
-        $data['task_title'] = $this->isP('title', '请填写您要更新的标题');
-        $data['task_priority'] = $this->isP('priority', '请选择任务的优先度');
-        $data['task_content'] = empty($_POST['content']) ? '发布者非常懒！还没填写详细说明！' : $this->p('content');
-        $auth = \Model\Task::actionAuth($data['noset']['task_id']);
+    public function action($jump = FALSE, $commit = TRUE) {
+        $taskid = $this->isP('id', '请提交您要编辑内容的任务');
+        $checkTask = \Model\Content::findContent('task', $taskid, 'task_id');
+        if (empty($checkTask)) {
+            $this->error('任务不存在');
+        }
+        $auth = \Model\Task::actionAuth($taskid);
         if ($auth['check'] === false) {
             $this->error('您没有权限操作本任务');
         }
 
-        $update = $this->db('task')->where('task_id = :task_id')->update($data);
-        if ($update === false) {
-            $this->error('更新任务内容失败！可能任务内容没有变更，也可能任务不存在');
-        }
+        //预设值
+        $_POST['submit_time'] = (string) date('Y-m-d H:i:s', $checkTask['task_submit_time']);
+        $_POST['multiplayer'] = (string)$checkTask['task_multiplayer'];
+        $_POST['create_id'] = (string)$checkTask['task_create_id'];
+        $_POST['content'] = empty($_POST['content']) ? '发布者非常懒！还没填写详细说明！' : $_POST['content'];
+
+        parent::action($jump, $commit);
 
         //生成系统通知
-        \Model\Notice::accordingTaskUserToaddNotice($data['noset']['task_id'], '2', '5');
+        \Model\Notice::accordingTaskUserToaddNotice($taskid, '2', '5');
 
         $this->success('更新任务内容成功!');
     }
@@ -92,7 +96,7 @@ class Task extends Content {
         }
 
         //生成系统通知
-        if($data['task_status'] == '2'){
+        if ($data['task_status'] == '2') {
             \Model\Notice::accordingTaskUserToaddNotice($data['noset']['task_id'], '1', '3');
         }
 
@@ -125,7 +129,7 @@ class Task extends Content {
 
         $this->db()->transaction();
 
-        $removeDepart = $this->db('task_user')->where(' task_id = :taskid AND user_id = :department AND task_user_type = 3')->delete(['taskid' => $taskid ,'department' => $_SESSION['team']['user_department_id']]);
+        $removeDepart = $this->db('task_user')->where(' task_id = :taskid AND user_id = :department AND task_user_type = 3')->delete(['taskid' => $taskid, 'department' => $_SESSION['team']['user_department_id']]);
         if ($removeDepart === false) {
             $this->db()->rollback();
             $this->error('移出部门指派权限出错');

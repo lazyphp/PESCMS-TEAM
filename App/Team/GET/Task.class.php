@@ -211,6 +211,8 @@ class Task extends Content {
                 'department_id' => $_SESSION['team']['user_department_id']
             ]
         ]));
+
+        $this->assign('project', \Model\Content::listContent(['table' => 'project', 'order' => 'project_id DESC, project_listsort ASC']));
         $this->assign($task);
         $this->layout();
     }

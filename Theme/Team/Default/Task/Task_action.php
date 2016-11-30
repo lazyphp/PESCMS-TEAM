@@ -7,7 +7,7 @@
 </div>
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 <form action="<?= $label->url('Team-Task-action'); ?>" class="am-form ajax-submit am-margin-bottom" method="POST" data-am-validator>
-
+    <?= $label->token(); ?>
     <?php foreach ($field as $key => $value) : ?>
         <?php if ($value['field_form']): ?>
             <div class="am-g">

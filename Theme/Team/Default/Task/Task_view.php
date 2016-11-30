@@ -3,17 +3,12 @@
     <?php include 'View/Task_topbar.php' ?>
     <!--任务顶栏信息-->
 
-    <form action="<?= $label->url('Team-Task-action'); ?>" class="am-form am-margin-bottom-sm" method="POST">
-        <input type="hidden" name="method" value="PUT"/>
-        <input type="hidden" name="task_id" value="<?= $task_id; ?>">
-        <input type="hidden" name="back_url" value="<?= base64_encode($_SERVER['REQUEST_URI']); ?>">
-        <!--任务标题等信息-->
-        <?php include 'View/Task_title.php' ?>
-        <!--任务标题等信息-->
-        <!--任务内容-->
-        <?php include 'View/Task_content.php' ?>
-        <!--任务内容-->
-    </form>
+    <!--任务标题等信息-->
+    <?php include 'View/Task_title.php' ?>
+    <!--任务标题等信息-->
+    <!--任务内容-->
+    <?php include 'View/Task_content.php' ?>
+    <!--任务内容-->
 
     <!--追加任务内容-->
     <?php include 'View/Task_supplement.php' ?>
