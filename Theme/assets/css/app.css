@@ -171,8 +171,21 @@
     top: 13px;
     position: absolute;
 }
-
 /*消息提示小红点*/
+
+/*消息提示背景以及优化*/
+.team-notice-background>li>a{
+    padding:2px 20px !important;
+}
+.team-notice-background, .team-notice-background>li>a:hover{
+    background-color: #fff9c9 !important;
+
+}
+.team-notice-background:after{
+    border-bottom-color:#fff9c9 !important;
+}
+/*消息提示背景以及优化*/
+
 
 /*任务列表*/
 .task-hr {
@@ -373,3 +386,12 @@
     background: none !important;
 }
 /*报表列表样式*/
+
+/*页脚*/
+.my-footer {
+    background: #fff;
+    border-top: 1px solid #dcdcdc;
+    padding: 10px 0;
+    text-align: center;
+}
+/*页脚*/

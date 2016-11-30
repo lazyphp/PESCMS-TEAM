@@ -17,7 +17,7 @@
                     <?php endif; ?>
                 </a>
                 <?php if (!empty($notice)): ?>
-                    <ul class="am-dropdown-content">
+                    <ul class="am-dropdown-content am-text-sm team-notice-background">
                         <?php foreach ($notice as $value): ?>
                             <li><a href="<?= $label->url('Team-Notice-index', ['type' => $value['notice_type'], 'read' => '0']); ?>"><?= $label->notice($value['notice_type'], $value['number']); ?></a></li>
                         <?php endforeach; ?>

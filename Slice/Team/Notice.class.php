@@ -19,11 +19,12 @@ namespace Slice\Team;
 class Notice extends \Core\Slice\Slice{
 
     public function before() {
-        $notice = $this->db('notice')->field('count(notice_type) AS number, notice_type')->where('notice_user_id = :user_id AND notice_read = 0')->group('notice_type')->order('notice_type ASC')->select(['user_id' => $_SESSION['team']['user_id']]);
-        $this->assign('notice', $notice);
+
     }
 
     public function after() {
+        $notice = $this->db('notice')->field('count(notice_type) AS number, notice_type')->where('notice_user_id = :user_id AND notice_read = 0')->group('notice_type')->order('notice_type ASC')->select(['user_id' => $_SESSION['team']['user_id']]);
+        $this->assign('notice', $notice);
     }
 
 
