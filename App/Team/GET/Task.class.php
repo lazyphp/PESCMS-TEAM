@@ -82,10 +82,10 @@ class Task extends Content {
     /**
      * 查看指定项目的任务列表
      */
-    public function project(){
+    public function project() {
         $id = $this->isG('id', '请选择您要查看的项目');
         $project = \Model\Content::findContent('project', $id, 'project_id');
-        if(empty($project)){
+        if (empty($project)) {
             $this->error('该项目不存在');
         }
         $this->sidebar[] = 'project';
@@ -179,7 +179,7 @@ class Task extends Content {
 
         //验证权限
         $actionAuth = \Model\Task::actionAuth($taskid);
-        if ($task['task_read_permission'] == '1' && $actionAuth['check'] == false && $actionAuth['action'] == false && $actionAuth['department'] == false) {
+        if ($task['task_read_permission'] == '1' && $actionAuth['check'] == FALSE && $actionAuth['action'] == FALSE && $actionAuth['department'] == FALSE) {
             $this->error('当前任务您没有查阅的权限');
         }
 
@@ -197,20 +197,32 @@ class Task extends Content {
         $this->assign('supplement', $supplement);
         $this->assign('dynamice', $dynamice);
         $this->assign('taskList', $taskList);
-        $this->assign('userAccessList', \Model\Content::listContent([
-            'table' => 'task_user',
-            'condition' => 'task_id = :task_id',
-            'param' => $param
-        ]));
-        $this->assign('actionAuth', $actionAuth);
 
-        $this->assign('department', \Model\Content::listContent([
-            'table' => 'user',
-            'condition' => 'user_department_id = :department_id',
-            'param' => [
-                'department_id' => $_SESSION['team']['user_department_id']
-            ]
-        ]));
+        //获取审核人和执行人的信息
+        $userAccessList = \Model\Content::listContent([
+            'table' => 'task_user AS t',
+            'field' => 't.*, u.user_name, u.user_head',
+            'join' => "{$this->prefix}user AS u ON u.user_id = t.user_id",
+            'condition' => 't.task_id = :task_id AND t.task_user_type in (1,2)',
+            'param' => $param
+        ]);
+
+        //将与指派部门合并为一个数组输出
+        $this->assign('userAccessList', array_merge($userAccessList, \Model\Content::listContent([
+            'table' => 'task_user AS t',
+            'field' => 't.*, d.department_name',
+            'join' => "{$this->prefix}department AS d ON d.department_id = t.user_id",
+            'condition' => 't.task_id = :task_id AND t.task_user_type = 3',
+            'param' => $param
+        ])));
+
+        //审核人显示编辑模式的必要信息
+        if ($actionAuth['check'] == true) {
+            $this->formDate();
+            parent::action(FALSE);
+        }
+
+        $this->assign('actionAuth', $actionAuth);
 
         $this->assign('project', \Model\Content::listContent(['table' => 'project', 'order' => 'project_id DESC, project_listsort ASC']));
         $this->assign($task);
@@ -226,6 +238,14 @@ class Task extends Content {
         if (!empty($_GET['id'])) {
             header('Location:' . $this->url('Team-Task-action'));
         }
+        $this->formDate();
+        parent::action();
+    }
+
+    /**
+     * 表单数据
+     */
+    private function formDate() {
         $userList = \Model\Content::listContent(['table' => 'user', 'field' => 'user_id,user_name,user_department_id', 'condition' => 'user_status = 1']);
         $user = [];
         foreach ($userList as $value) {
@@ -239,8 +259,6 @@ class Task extends Content {
 
         $department = \Model\Content::listContent(['table' => 'department', 'order' => 'department_listsort ASC, department_id DESC']);
         $this->assign('department', $department);
-
-        parent::action();
     }
 
 

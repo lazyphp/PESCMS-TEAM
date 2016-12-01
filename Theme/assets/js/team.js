@@ -2,6 +2,28 @@
  * 发布任务常用的JS操作
  */
 $(function () {
+
+    /**
+     * 在编辑模式下，先匹配获取执行人得ID
+     */
+    $('.remove-action-user, .remove-action-user, .remove-action-department').each(function () {
+        var id = $(this).attr('data');
+
+        if ($(this).hasClass('remove-check-user')) {
+            var dom = '.select-check-user';
+        } else if ($(this).hasClass('remove-action-user')) {
+            var dom = '.department-user';
+        } else if ($(this).hasClass('remove-action-department')) {
+            var dom = '.department';
+        }
+
+        $(dom + ' option').each(function () {
+            if ($(this).val() == id) {
+                $(this).remove();
+            }
+        })
+    });
+
     /**
      * 添加任务审核人
      */
@@ -22,7 +44,7 @@ $(function () {
     /**
      * 指派部门
      */
-    $(".department").on("change", function () {
+    $("body").on("change", '.department', function () {
 
         if ($(this).val() == "") {
             return true;

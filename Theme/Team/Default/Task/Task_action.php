@@ -8,29 +8,10 @@
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 <form action="<?= $label->url('Team-Task-action'); ?>" class="am-form ajax-submit am-margin-bottom" method="POST" data-am-validator>
     <?= $label->token(); ?>
-    <?php foreach ($field as $key => $value) : ?>
-        <?php if ($value['field_form']): ?>
-            <div class="am-g">
-                <div class="am-u-sm-12 am-u-sm-centered">
-                    <div class="am-form-group">
-                        <label class="am-block"><?= $value['field_display_name'] ?><?= $value['field_required'] == '1' ? '<i class="am-text-danger">*</i>' : '' ?></label>
-                        <?= $form->formList($value); ?>
-                        <?php if (!empty($value['field_explain'])): ?>
-                            <div class="am-alert am-alert-secondary am-text-xs " data-am-alert>
-                                <i class="am-icon-lightbulb-o"></i> <?= $value['field_explain'] ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-            <?php if ($value['field_name'] == 'priority'): ?>
-                <?php include 'Task_action_custom.php' ?>
-            <?php endif; ?>
-
-        <?php endif; ?>
-    <?php endforeach; ?>
+    <?php include THEME_PATH . '/Task/Action/Task_action_form.php'; ?>
     <div class="am-g">
-        <div class="am-u-sm-12 am-u-sm-centered"><button type="submit" class="am-btn am-btn-success">发布任务</button></div>
+        <div class="am-u-sm-12 am-u-sm-centered">
+            <button type="submit" class="am-btn am-btn-success">发布任务</button>
+        </div>
     </div>
 </form>
-<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/team.js"></script>

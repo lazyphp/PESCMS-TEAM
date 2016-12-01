@@ -11,8 +11,8 @@
             <div class="am-margin-bottom"></div>
             <div class="am-form-group department-user am-hide">
                 <select name="user[]" multiple style="background:none">
-                    <?php foreach ($department as $value): ?>
-                        <option value="<?= $value['user_id']; ?>"><?= $value['user_name']; ?></option>
+                    <?php foreach ($user['department'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

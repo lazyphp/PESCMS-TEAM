@@ -28,12 +28,12 @@
         <?php foreach ($userAccessList as $value): ?>
                 <?php if ($value['task_user_type'] == '2'): ?>
                     <a href="<?= $label->url('Team-User-view', ['id' => $value['user_id']]); ?>">
-                        <img src="<?= $label->getImg($label->findContent('user', 'user_id', $value['user_id'])['user_head'], ['50', '50']); ?>"
+                        <img src="<?= $label->getImg($value['user_head'], ['50', '50']); ?>"
                              class="am-comment-avatar" style="width: 20px;height: 20px;"/>
-                        <?= $label->findContent('user', 'user_id', $value['user_id'])['user_name']; ?></a>
+                        <?= $value['user_name']; ?></a>
                 <?php elseif ($value['task_user_type'] == '3'): ?>
                         <i class="am-icon-legal"></i>
-                        <?= $label->findContent('department', 'department_id', $value['user_id'])['department_name']; ?></a>
+                        <?= $value['department_name']; ?></a>
                 <?php endif; ?>
                 <?= $value != end($userAccessList) && !in_array($value['task_user_type'], ['1']) ? '、': '' ?>
         <?php endforeach; ?>
