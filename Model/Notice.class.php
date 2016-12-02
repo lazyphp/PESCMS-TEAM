@@ -32,7 +32,7 @@ class Notice extends \Core\Model\Model {
             \Model\Extra::insertSend(
                 \Model\Content::findContent('user', $userid, 'user_id')['user_mail'],
                 strip_tags($text['title']),
-                str_replace('href="', 'href="'.\Model\Content::findContent('option', 'domain', 'option_name')['value'], $text['title']),
+                str_replace('href="', 'href="' . \Model\Content::findContent('option', 'domain', 'option_name')['value'], $text['title']),
                 '1'
             );
         }
@@ -98,6 +98,30 @@ class Notice extends \Core\Model\Model {
         ]);
         foreach ($userList as $value) {
             self::newNotice($value['user_id'], $noticeType);
+        }
+    }
+
+    /**
+     * 消息触发器
+     */
+    public static function trigger( array $type) {
+        $noticeWay = \Model\Content::findContent('option', 'notice_way', 'option_name')['value'];
+        if (in_array($noticeWay, $type)) {
+            self::actionNoticeSend();
+        }
+    }
+
+    /**
+     * 执行通知发送
+     */
+    public static function actionNoticeSend(){
+        foreach (\Model\Content::listContent(['table' => 'send']) as $value) {
+            //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
+            switch ($value['send_type']) {
+                case '1':
+                    (new \Expand\Notice\Mail())->send();
+                    break;
+            }
         }
     }
 

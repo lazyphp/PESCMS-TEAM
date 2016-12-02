@@ -15,10 +15,7 @@ require 'Core.php';
 class SendNotice extends Core {
     
     public function index() {
-        $noticeWay = \Model\Content::findContent('option', 'notice_way', 'option_name')['value'];
-        if (in_array($noticeWay, ['2', '3'])) {
-            \Model\Extra::actionNoticeSend();
-        }
+        \Model\Notice::trigger(['2', '3']);
     }
 
 }

@@ -19,10 +19,7 @@ namespace Slice\Common;
 class SendNotice extends \Core\Slice\Slice {
 
     public function before() {
-        $noticeWay = \Model\Content::findContent('option', 'notice_way', 'option_name')['value'];
-        if (in_array($noticeWay, ['1', '3'])) {
-            \Model\Extra::actionNoticeSend();
-        }
+        \Model\Notice::trigger(['1', '3']);
     }
 
     public function after() {
