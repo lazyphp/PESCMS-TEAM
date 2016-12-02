@@ -1,5 +1,5 @@
 <div class="am-block am-hide task-edit">
-    <form action="<?= $label->url('Team-Task-action'); ?>" class="am-form am-margin-bottom-sm" method="POST">
+    <form action="<?= $label->url('Team-Task-action'); ?>" class="am-form am-margin-bottom-sm ajax-submit" method="POST">
         <?= $label->token(); ?>
         <input type="hidden" name="method" value="PUT"/>
         <input type="hidden" name="id" value="<?= $task_id; ?>">

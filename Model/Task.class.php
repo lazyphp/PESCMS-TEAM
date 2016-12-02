@@ -39,13 +39,26 @@ class Task extends \Core\Model\Model {
     /**
      * 插入任务审核人和执行人
      * @param $taskid 任务ID
+     * @param $sendNotice 是否发送通知
      */
-    public static function insertTaskUser($taskid) {
+    public static function insertTaskUser($taskid, $sendNotice = TRUE) {
+        //预清除任务审核人/执行人列表
+        self::db('task_user')->where('task_id = :task_id')->delete([
+            'task_id' => $taskid
+        ]);
+
         foreach (['1' => 'checkuser', '2' => 'actionuser', '3' => 'actiondepartment'] as $type => $name) {
 
             foreach (explode(',', $_POST[$name]) as $value) {
                 if (empty($value)) {
                     continue;
+                }
+                if ($type == '3') {
+                    $department = \Model\Content::findContent('department', $value, 'department_id');
+                    if (empty($department['department_header'])) {
+                        self::db()->rollback();
+                        self::error("指派给<{$department['department_name']}>部门目前没有负责人，请添加该部门的负责任后再指派。");
+                    }
                 }
 
                 $result = self::db('task_user')->insert(['task_id' => $taskid, 'user_id' => $value, 'task_user_type' => $type]);
@@ -56,6 +69,9 @@ class Task extends \Core\Model\Model {
                 }
 
                 //生成系统消息
+                if ($sendNotice === false) {
+                    continue;
+                }
                 \Model\Notice::$taskid = $taskid;
                 switch ($type) {
                     case '1':
@@ -65,11 +81,6 @@ class Task extends \Core\Model\Model {
                         \Model\Notice::newNotice($value, '1');
                         break;
                     case '3':
-                        $department = \Model\Content::findContent('department', $value, 'department_id');
-                        if (empty($department['department_header'])) {
-                            self::db()->rollback();
-                            self::error('指派的部门目前没有负责人，请设置添加该部门的负责任后再指派。!');
-                        }
                         foreach (explode(',', $department['department_header']) as $userid) {
                             \Model\Notice::newNotice($userid, '4');
                         }
@@ -197,7 +208,7 @@ class Task extends \Core\Model\Model {
             }
         }
 
-        if(empty($list)){
+        if (empty($list)) {
             return false;
         }
 
@@ -212,7 +223,7 @@ class Task extends \Core\Model\Model {
                     $list['list'][$key]['data'][] = $array[$timeField][$date];
                 }
 
-                switch($timeField){
+                switch ($timeField) {
                     case 'task_submit_time':
                         $list['list'][$key]['color'] = '#dd514c';
                         $list['list'][$key]['name'] = '新任务';

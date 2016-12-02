@@ -4,7 +4,7 @@
         <div class="am-form-group">
             <label class="am-block">任务审核人</label>
 
-            <input type="hidden" name="checkuser" value="<?= $_SESSION['team']['user_id']; ?>"/>
+            <input type="hidden" name="checkuser" value="<?= implode(',', $actionUser['1']); ?>"/>
 
             <div class="am-block am-margin-bottom-xs check-user">
                 <?php if (ACTION == 'view'): ?>
@@ -37,8 +37,8 @@
         <div class="am-form-group">
             <label class="am-block">指派成员</label>
 
-            <input type="hidden" name="actionuser" value=""/>
-            <input type="hidden" name="actiondepartment" value=""/>
+            <input type="hidden" name="actionuser" value="<?= implode(',', $actionUser['2']); ?>"/>
+            <input type="hidden" name="actiondepartment" value="<?= implode(',', $actionUser['3']); ?>"/>
 
             <div class="am-block am-margin-bottom-xs action-user" data="">
                 &nbsp;

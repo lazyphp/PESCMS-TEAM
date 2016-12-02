@@ -207,17 +207,25 @@ class Task extends Content {
             'param' => $param
         ]);
 
-        //将与指派部门合并为一个数组输出
-        $this->assign('userAccessList', array_merge($userAccessList, \Model\Content::listContent([
+        $userAccessList = array_merge($userAccessList, \Model\Content::listContent([
             'table' => 'task_user AS t',
             'field' => 't.*, d.department_name',
             'join' => "{$this->prefix}department AS d ON d.department_id = t.user_id",
             'condition' => 't.task_id = :task_id AND t.task_user_type = 3',
             'param' => $param
-        ])));
+        ]));
+        //将与指派部门合并为一个数组输出
+        $this->assign('userAccessList', $userAccessList);
 
         //审核人显示编辑模式的必要信息
         if ($actionAuth['check'] == true) {
+
+            $actionUser = [];
+            foreach ($userAccessList as $key => $value) {
+                $actionUser[$value['task_user_type']][] = $value['user_id'];
+            }
+            $this->assign('actionUser', $actionUser);
+
             $this->formDate();
             parent::action(FALSE);
         }

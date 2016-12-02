@@ -17,7 +17,7 @@ class Task extends Content {
     /**
      * 更新任务内容
      */
-    public function action($jump = FALSE, $commit = TRUE) {
+    public function action($jump = FALSE, $commit = FALSE) {
         $taskid = $this->isP('id', '请提交您要编辑内容的任务');
         $checkTask = \Model\Content::findContent('task', $taskid, 'task_id');
         if (empty($checkTask)) {
@@ -29,12 +29,17 @@ class Task extends Content {
         }
 
         //预设值
-        $_POST['submit_time'] = (string) date('Y-m-d H:i:s', $checkTask['task_submit_time']);
+        $_POST['submit_time'] = (string)date('Y-m-d H:i:s', $checkTask['task_submit_time']);
         $_POST['multiplayer'] = (string)$checkTask['task_multiplayer'];
         $_POST['create_id'] = (string)$checkTask['task_create_id'];
         $_POST['content'] = empty($_POST['content']) ? '发布者非常懒！还没填写详细说明！' : $_POST['content'];
 
         parent::action($jump, $commit);
+
+        //更新执行人、审核人、部门指派
+        \Model\Task::insertTaskUser($taskid, FALSE);
+
+        $this->db()->commit();
 
         //生成系统通知
         \Model\Notice::accordingTaskUserToaddNotice($taskid, '2', '5');
