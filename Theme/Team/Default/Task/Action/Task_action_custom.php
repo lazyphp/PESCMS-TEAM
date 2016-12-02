@@ -4,7 +4,7 @@
         <div class="am-form-group">
             <label class="am-block">任务审核人</label>
 
-            <input type="hidden" name="checkuser" value="<?= implode(',', $actionUser['1']); ?>"/>
+            <input type="hidden" name="checkuser" value="<?= empty($actionUser['1']) ? $_SESSION['team']['user_id'] : implode(',', $actionUser['1']); ?>"/>
 
             <div class="am-block am-margin-bottom-xs check-user">
                 <?php if (ACTION == 'view'): ?>
