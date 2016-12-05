@@ -40,6 +40,23 @@ class Task extends Content {
             \Model\Task::$param['task_title'] = \Model\Task::$param['task_id'] = '%' . $this->g('k') . '%';
         }
 
+        //依据时间搜索
+        if (!empty($_GET['begin']) && !empty($_GET['end'])) {
+            if ((int)$_GET['time_type'] == '2') {
+                $timeField = 'task_start_time';
+            } elseif ((int)$_GET['time_type'] == '3') {
+                $timeField = 'task_end_time';
+            } elseif ((int)$_GET['time_type'] == '4') {
+                $timeField = 'task_complete_time';
+            } else {
+                $timeField = 'task_submit_time';
+            }
+
+            \Model\Task::$condtion .= " AND t.{$timeField} BETWEEN :search_begin AND :search_end ";
+            \Model\Task::$param['search_begin'] = strtotime($_GET['begin'] . '00:00:00');
+            \Model\Task::$param['search_end'] = strtotime($_GET['end'] . '23:59:59');
+        }
+
         $this->assign('sidebar', $this->sidebar);
 
         $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon']);

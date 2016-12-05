@@ -179,8 +179,14 @@ class Task extends \Core\Model\Model {
     public static function taskAgingGapFigureLineChart($day = '30') {
         $param = self::$param;
 
-        $param['start'] = time() - ($day * 86400);
-        $param['end'] = time();
+        if (!empty($_GET['begin']) && !empty($_GET['end'])) {
+            $param['start'] = strtotime($_GET['begin'] . '00:00:00');
+            $param['end'] = strtotime($_GET['end'] . '23:59:59');
+        } else {
+            $param['start'] = time() - ($day * 86400);
+            $param['end'] = time();
+        }
+
         $prefix = self::$modelPrefix;
 
         $field = ['task_submit_time', 'task_complete_time'];
