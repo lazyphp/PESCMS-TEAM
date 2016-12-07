@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-02-22 14:20:28
+-- Generation Time: 2016-12-07 02:45:17
 -- 服务器版本： 5.5.16
--- PHP Version: 5.4.39
+-- PHP Version: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -133,8 +133,8 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 (33, 10, 'header', '负责人', 'text', '', '', '', 0, 2, 1, 1, 1),
 (35, 9, 'priority', '优先级', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u6b63\\u5e38":1,"\\u6b21\\u8981":2,"\\u4e3b\\u8981":3,"\\u4e25\\u91cd":4,"\\u7d27\\u6025":5}', '', '', 1, 3, 0, 1, 1),
 (37, 9, 'project_id', '任务项目', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u4e0d\\u6307\\u5b9a\\u4efb\\u52a1":3,"PESCMS":1,"PESCMS Team":2}', '', '', 1, 1, 0, 1, 1),
-(38, 9, 'read_permission', '阅读权限', 'radio', '{&quot;\\u5173\\u95ed&quot;:&quot;0&quot;,&quot;\\u5f00\\u542f&quot;:&quot;1&quot;}', '', '', 1, 9, 0, 1, 1),
-(46, 9, 'mail', '是否发送邮件', 'radio', '{"\\u5426":"0","\\u662f":"1"}', '', '', 1, 96, 0, 1, 1),
+(38, 9, 'read_permission', '阅读权限', 'radio', '{&quot;\\u5173\\u95ed&quot;:&quot;0&quot;,&quot;\\u5f00\\u542f&quot;:&quot;1&quot;}', '', '0', 1, 9, 0, 1, 1),
+(46, 9, 'mail', '是否发送邮件', 'radio', '{"\\u5426":"0","\\u662f":"1"}', '', '0', 1, 96, 0, 1, 1),
 (57, 1, 'name', '模型名称', 'text', '', '', '', 1, 1, 1, 1, 1),
 (58, 1, 'title', '显示名称', 'text', '', '', '', 1, 2, 1, 1, 1),
 (59, 1, 'search', '允许搜索', 'radio', '{"\\u5173\\u95ed":"0","\\u5f00\\u542f":"1"}', '', '', 1, 3, 1, 1, 1),
@@ -230,6 +230,8 @@ CREATE TABLE IF NOT EXISTS `pes_findpassword` (
   UNIQUE KEY `findpassword_mark` (`findpassword_mark`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='查找密码' AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
 --
 -- 表的结构 `pes_menu`
 --
@@ -244,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_type` int(11) NOT NULL,
   PRIMARY KEY (`menu_id`),
   KEY `menu_pid` (`menu_pid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=66 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=67 ;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -258,11 +260,11 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_l
 (19, '高级设置', 0, 'am-icon-wrench', '', 5, 0),
 (20, '系统设置', 19, 'am-icon-server', 'Team-Setting-action', 9, 0),
 (38, '项目列表', 13, 'am-icon-cubes', 'Team-Project-index', 0, 0),
-(39, '任务列表', 41, 'am-icon-tasks', 'Team-Task-index', 3, 0),
+(39, '任务列表', 41, 'am-icon-tasks', 'Team-Task-index', 40, 0),
 (40, '部门列表', 55, 'am-icon-legal', 'Team-Department-index', 3, 0),
 (41, '个人中心', 0, 'am-icon-home', '', 2, 0),
-(42, '我的任务', 41, 'am-icon-tags', 'Team-Task-my', 1, 0),
-(46, '我的报表', 41, 'am-icon-pencil-square-o', 'Team-Report-my', 4, 0),
+(42, '我的任务', 41, 'am-icon-tags', 'Team-Task-my', 20, 0),
+(46, '我的报表', 41, 'am-icon-pencil-square-o', 'Team-Report-my', 50, 0),
 (48, '提取报表', 9, 'am-icon-newspaper-o', 'Team-Report-extract', 4, 0),
 (49, '权限节点', 55, 'am-icon-unlink', 'Team-Node-index', 4, 0),
 (50, '提取全体报表', 9, 'am-icon-newspaper-o', 'Team-Report-allExtract', 3, 0),
@@ -271,13 +273,14 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_l
 (55, '用户中心', 0, 'am-icon-street-view', '', 3, 0),
 (56, '附件管理', 19, 'am-icon-arrow-circle-down', 'Team-Attachment-index', 3, 0),
 (58, '任务状态', 9, 'am-icon-anchor', 'Team-Task_status-index', 1, 0),
-(59, '任务看板', 41, 'am-icon-book', 'Team-Task-myCard', 2, 0),
-(60, '审核列表', 41, 'am-icon-check-square', 'Team-Task-check', 5, 0),
-(61, '部门指派', 41, 'am-icon-deviantart', 'Team-Task-department', 6, 0),
+(59, '任务看板', 41, 'am-icon-book', 'Team-Task-myCard', 30, 0),
+(60, '审核列表', 41, 'am-icon-check-square', 'Team-Task-check', 60, 0),
+(61, '部门指派', 41, 'am-icon-deviantart', 'Team-Task-department', 70, 0),
 (62, '账号设置', 41, 'am-icon-drupal', 'Team-User-setting', 99, 0),
 (63, '公告栏', 9, 'am-icon-building', 'Team-Bulletin-index', 0, 0),
 (64, '退出登录', 41, 'am-icon-sign-out', 'Team-Index-logout', 127, 0),
-(65, '任务优先度', 9, 'am-icon-sort-alpha-asc', 'Team-Priority-index', 2, 0);
+(65, '任务优先度', 9, 'am-icon-sort-alpha-asc', 'Team-Priority-index', 2, 0),
+(66, '仪表盘', 41, 'am-icon-tachometer', 'Team-Index-index', 10, 0);
 
 -- --------------------------------------------------------
 
