@@ -27,7 +27,7 @@ class Log {
      * 验证日志目录是否存在
      */
     private function checkPath() {
-        $this->config = require PES_PATH . 'Config/config.php';
+        $this->config = is_file(PES_PATH . 'Config/config.php') ? require PES_PATH . 'Config/config.php' : [ 'LOG_PATH' => '/log' ];
 
         $this->logPath = substr(PES_PATH, 0, -1) . $this->config['LOG_PATH'];
 

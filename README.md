@@ -19,7 +19,7 @@ MYSQL 5.5或以上
 3.直接访问http://域名/，程序将自动检测您是否登录。  
   
 ##反馈和建议  
-邮箱：dev#pescms.com  
+邮箱：sale#pescms.com  
 官方网站:[http://www.pescms.com/](http://www.pescms.com/)  
 演示地址:[http://team.pescms.com](http://team.pescms.com)  
 开发文档：[http://www.pescms.com/d/index](http://www.pescms.com/d/index)  
@@ -30,7 +30,9 @@ MYSQL 5.5或以上
 感谢[http://ueditor.baidu.com/website/](http://ueditor.baidu.com/website/)提供优秀的富文本编辑器  
   
 ##界面预览  
-####PC端  
+####PC端
+仪表盘  
+ ![mahua](http://ww1.sinaimg.cn/large/d2d33fbfgw1fakifi8r1pj213y0l5q7d.jpg)    
 任务列表  
  ![mahua](http://ww1.sinaimg.cn/large/d2d33fbfgw1f1a74h32d0j212i0m2q7y.jpg)  
 任务详细页  

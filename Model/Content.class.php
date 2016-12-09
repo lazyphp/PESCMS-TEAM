@@ -115,8 +115,11 @@ class Content extends \Core\Model\Model {
                     self::error($value['field_display_name'] . '为必填选项');
                 }
             } else {
-                if (!$data[self::$fieldPrefix . $value['field_name']] = self::p($value['field_name'])) {
+                $field_name = self::p($value['field_name']);
+                if( empty($field_name) && !is_numeric($field_name) ){
                     $data[self::$fieldPrefix . $value['field_name']] = $value['field_default'];
+                }else{
+                    $data[self::$fieldPrefix . $value['field_name']] = $field_name;
                 }
             }
         }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-07 02:45:17
+-- Generation Time: 2016-12-09 08:15:01
 -- 服务器版本： 5.5.16
 -- PHP Version: 5.6.14
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `pes_attachment` (
   `attachment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `attachment_createtime` int(11) NOT NULL,
-  `attachment_name` varchar(255) NOT NULL,
-  `attachment_path` varchar(255) NOT NULL,
-  `attachment_type` int(11) NOT NULL,
-  `attachment_upload_name` varchar(255) NOT NULL,
+  `attachment_createtime` int(11) NOT NULL DEFAULT '0',
+  `attachment_name` varchar(255) NOT NULL DEFAULT '',
+  `attachment_path` varchar(255) NOT NULL DEFAULT '',
+  `attachment_type` int(11) NOT NULL DEFAULT '0',
+  `attachment_upload_name` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`attachment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `pes_attachment` (
 
 CREATE TABLE IF NOT EXISTS `pes_bulletin` (
   `bulletin_id` int(11) NOT NULL AUTO_INCREMENT,
-  `bulletin_listsort` int(11) NOT NULL,
-  `bulletin_createtime` int(11) NOT NULL,
-  `bulletin_title` varchar(255) NOT NULL,
+  `bulletin_listsort` int(11) NOT NULL DEFAULT '0',
+  `bulletin_createtime` int(11) NOT NULL DEFAULT '0',
+  `bulletin_title` varchar(255) NOT NULL DEFAULT '',
   `bulletin_content` text NOT NULL,
   PRIMARY KEY (`bulletin_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
@@ -106,12 +106,12 @@ CREATE TABLE IF NOT EXISTS `pes_field` (
   `field_display_name` varchar(128) NOT NULL DEFAULT '',
   `field_type` varchar(128) NOT NULL DEFAULT '',
   `field_option` text NOT NULL,
-  `field_explain` varchar(255) NOT NULL,
+  `field_explain` varchar(255) NOT NULL DEFAULT '',
   `field_default` varchar(128) NOT NULL DEFAULT '',
   `field_required` tinyint(4) NOT NULL DEFAULT '0',
   `field_listsort` int(11) NOT NULL DEFAULT '0',
-  `field_list` tinyint(1) NOT NULL,
-  `field_form` tinyint(1) NOT NULL,
+  `field_list` tinyint(1) NOT NULL DEFAULT '0',
+  `field_form` tinyint(1) NOT NULL DEFAULT '0',
   `field_status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`field_id`),
   UNIQUE KEY `modle_id` (`field_model_id`,`field_name`)
@@ -132,7 +132,7 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 (32, 10, 'name', '部门名称', 'text', '', '', '', 1, 1, 1, 1, 1),
 (33, 10, 'header', '负责人', 'text', '', '', '', 0, 2, 1, 1, 1),
 (35, 9, 'priority', '优先级', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u6b63\\u5e38":1,"\\u6b21\\u8981":2,"\\u4e3b\\u8981":3,"\\u4e25\\u91cd":4,"\\u7d27\\u6025":5}', '', '', 1, 3, 0, 1, 1),
-(37, 9, 'project_id', '任务项目', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u4e0d\\u6307\\u5b9a\\u4efb\\u52a1":3,"PESCMS":1,"PESCMS Team":2}', '', '', 1, 1, 0, 1, 1),
+(37, 9, 'project_id', '任务项目', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u4e0d\\u6307\\u5b9a\\u4efb\\u52a1":1}', '', '', 1, 1, 0, 1, 1),
 (38, 9, 'read_permission', '阅读权限', 'radio', '{&quot;\\u5173\\u95ed&quot;:&quot;0&quot;,&quot;\\u5f00\\u542f&quot;:&quot;1&quot;}', '', '0', 1, 9, 0, 1, 1),
 (46, 9, 'mail', '是否发送邮件', 'radio', '{"\\u5426":"0","\\u662f":"1"}', '', '0', 1, 96, 0, 1, 1),
 (57, 1, 'name', '模型名称', 'text', '', '', '', 1, 1, 1, 1, 1),
@@ -223,9 +223,9 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 
 CREATE TABLE IF NOT EXISTS `pes_findpassword` (
   `findpassword_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `findpassword_mark` varchar(255) NOT NULL COMMENT '标记',
-  `findpassword_createtime` int(11) NOT NULL COMMENT '创建时间',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `findpassword_mark` varchar(255) NOT NULL DEFAULT '' COMMENT '标记',
+  `findpassword_createtime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`findpassword_id`),
   UNIQUE KEY `findpassword_mark` (`findpassword_mark`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='查找密码' AUTO_INCREMENT=1 ;
@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_icon` varchar(128) NOT NULL DEFAULT '',
   `menu_link` varchar(255) NOT NULL DEFAULT '',
   `menu_listsort` tinyint(100) NOT NULL DEFAULT '0',
-  `menu_type` int(11) NOT NULL,
+  `menu_type` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`menu_id`),
   KEY `menu_pid` (`menu_pid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=67 ;
@@ -338,7 +338,7 @@ CREATE TABLE IF NOT EXISTS `pes_node` (
   `node_method_type` varchar(255) NOT NULL DEFAULT '',
   `node_value` varchar(255) NOT NULL DEFAULT '',
   `node_check_value` varchar(255) NOT NULL DEFAULT '',
-  `node_controller` int(11) NOT NULL,
+  `node_controller` int(11) NOT NULL DEFAULT '0',
   `node_listsort` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`node_id`),
   UNIQUE KEY `node_value` (`node_value`,`node_check_value`),
@@ -571,9 +571,9 @@ CREATE TABLE IF NOT EXISTS `pes_notice` (
   `notice_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '接收的用户ID',
   `notice_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1.新任务 2.新审核任务 3.新待审核任务 4.新待指派任务 5.任务内容修改/补充',
   `notice_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已读：0 未读 1 已读',
-  `notice_title` varchar(255) NOT NULL COMMENT '消息标题',
+  `notice_title` varchar(255) NOT NULL DEFAULT '' COMMENT '消息标题',
   `notice_content` text NOT NULL COMMENT '消息内容',
-  `notice_time` int(11) NOT NULL,
+  `notice_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统信息消息' AUTO_INCREMENT=1 ;
 
@@ -612,9 +612,9 @@ INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) 
 
 CREATE TABLE IF NOT EXISTS `pes_priority` (
   `priority_id` int(11) NOT NULL AUTO_INCREMENT,
-  `priority_listsort` int(11) NOT NULL,
-  `priority_name` varchar(255) NOT NULL,
-  `priority_color` varchar(8) NOT NULL,
+  `priority_listsort` int(11) NOT NULL DEFAULT '0',
+  `priority_name` varchar(255) NOT NULL DEFAULT '',
+  `priority_color` varchar(8) NOT NULL DEFAULT '',
   PRIMARY KEY (`priority_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
@@ -730,7 +730,7 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:正常 1:任务被删除。被删除是由于用户被删除了',
   `task_mail` tinyint(1) NOT NULL DEFAULT '0' COMMENT '本任务全程是否发送邮件 0:不 1:发',
   `task_submit_time` int(11) NOT NULL DEFAULT '0' COMMENT '任务提交时间',
-  `task_complete_time` int(11) NOT NULL COMMENT '完成时间',
+  `task_complete_time` int(11) NOT NULL DEFAULT '0' COMMENT '完成时间',
   `task_start_time` int(11) NOT NULL DEFAULT '0' COMMENT '任务计划开始时间',
   `task_end_time` int(11) NOT NULL DEFAULT '0' COMMENT '任务计划结束时间',
   PRIMARY KEY (`task_id`)
@@ -744,9 +744,9 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
 
 CREATE TABLE IF NOT EXISTS `pes_task_dynamic` (
   `task_dynamic_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_dynamic_createtime` int(11) NOT NULL,
-  `task_dynamic_task_id` varchar(255) NOT NULL,
-  `task_dynamic_user_id` varchar(255) NOT NULL,
+  `task_dynamic_createtime` int(11) NOT NULL DEFAULT '0',
+  `task_dynamic_task_id` varchar(255) NOT NULL DEFAULT '',
+  `task_dynamic_user_id` varchar(255) NOT NULL DEFAULT '',
   `task_dynamic_content` text NOT NULL,
   PRIMARY KEY (`task_dynamic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务动态' AUTO_INCREMENT=1 ;
@@ -774,10 +774,10 @@ CREATE TABLE IF NOT EXISTS `pes_task_list` (
 
 CREATE TABLE IF NOT EXISTS `pes_task_status` (
   `task_status_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_status_name` varchar(255) NOT NULL,
-  `task_status_icon` varchar(32) NOT NULL,
-  `task_status_color` varchar(8) NOT NULL,
-  `task_status_type` int(11) NOT NULL,
+  `task_status_name` varchar(255) NOT NULL DEFAULT '',
+  `task_status_icon` varchar(32) NOT NULL DEFAULT '',
+  `task_status_color` varchar(8) NOT NULL DEFAULT '',
+  `task_status_type` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`task_status_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
@@ -803,7 +803,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_supplement` (
   `task_supplement_task_id` int(11) NOT NULL DEFAULT '0' COMMENT '任务ID',
   `task_supplement_content` text NOT NULL COMMENT '补充说明',
   `task_supplement_createtime` int(11) NOT NULL DEFAULT '0' COMMENT '补充时间',
-  `task_supplement_user_id` int(11) NOT NULL,
+  `task_supplement_user_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`task_supplement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务补充说明' AUTO_INCREMENT=1 ;
 
@@ -817,7 +817,7 @@ CREATE TABLE IF NOT EXISTS `pes_task_user` (
   `task_user_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) NOT NULL DEFAULT '0' COMMENT '任务ID',
   `user_id` int(11) NOT NULL DEFAULT '0',
-  `task_user_type` tinyint(1) NOT NULL COMMENT '任务类型 1:审核者 2:执行者 3:部门',
+  `task_user_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '任务类型 1:审核者 2:执行者 3:部门',
   PRIMARY KEY (`task_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核人/执行人列表' AUTO_INCREMENT=1 ;
 
@@ -840,9 +840,9 @@ CREATE TABLE IF NOT EXISTS `pes_user` (
   `user_department_id` varchar(255) NOT NULL DEFAULT '',
   `user_head` text NOT NULL COMMENT '用户头像',
   `user_ey` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户的ey值',
-  `user_phone` varchar(255) NOT NULL,
-  `user_home` varchar(255) NOT NULL,
-  `user_openid` varchar(255) NOT NULL,
+  `user_phone` varchar(255) NOT NULL DEFAULT '',
+  `user_home` varchar(255) NOT NULL DEFAULT '',
+  `user_openid` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_account` (`user_account`),
   UNIQUE KEY `user_mail` (`user_mail`)

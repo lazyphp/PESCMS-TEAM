@@ -97,7 +97,7 @@ class Field extends \Core\Model\Model {
      */
     public static function addTableField($model, $fieldName, $fieldType) {
         $model = strtolower($model);
-        return self::db()->alter("ALTER TABLE `" . self::$modelPrefix . "{$model}` ADD `{$model}_{$fieldName}`  {$fieldType} NOT NULL ;");
+        return self::db()->alter("ALTER TABLE `" . self::$modelPrefix . "{$model}` ADD `{$model}_{$fieldName}`  {$fieldType['TYPE']} NOT NULL {$fieldType['DEFAULT']};");
     }
 
     /**
@@ -111,22 +111,22 @@ class Field extends \Core\Model\Model {
             case 'thumb':
             case 'theme':
             case 'author':
-                return ' VARCHAR( 255 ) ';
+                return ['TYPE' => ' VARCHAR( 255 ) ', 'DEFAULT' => " DEFAULT '' "];
             case 'color':
-                return ' VARCHAR( 8 ) ';
+                return ['TYPE' => ' VARCHAR( 8 ) ', 'DEFAULT' => " DEFAULT '' "];
             case 'icon':
-                return ' VARCHAR( 32 ) ';
+                return ['TYPE' => ' VARCHAR( 32 ) ', 'DEFAULT' => " DEFAULT '' "];
             case 'textarea':
             case 'editor':
             case 'img':
             case 'file':
-                return ' TEXT ';
+                return ['TYPE' => ' TEXT ', 'DEFAULT' => ""];
 
             case 'category':
             case 'select':
             case 'radio':
             default:
-                return ' INT(11) ';
+                return ['TYPE' => ' INT(11) ', 'DEFAULT' => " DEFAULT '0' "];
         }
     }
 
@@ -144,7 +144,7 @@ class Field extends \Core\Model\Model {
         if ($option === false) {
             self::error('拆分字段选项出错');
         }
-        $_POST['option'] = (string) $option;
+        $_POST['option'] = (string)$option;
     }
 
     /**

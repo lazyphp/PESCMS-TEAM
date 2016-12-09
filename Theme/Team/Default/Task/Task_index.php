@@ -22,30 +22,6 @@
     </div>
 </div>
 <!-- content end -->
-
-<!--bulletin-->
-<div id="bulletin" class="am-offcanvas" >
-    <div class="am-offcanvas-bar am-padding-0">
-        <div class="am-offcanvas-content bulletin-content am-padding-0">
-        </div>
-    </div>
-</div>
-<script>
-    $(function () {
-        $('.bulletin').on('click', function () {
-            var href = $(this).attr('href');
-            var progress = $.AMUI.progress;
-            progress.start();
-            $.get(href, function(data){
-                $('.bulletin-content').html(data)
-                $('#bulletin').offCanvas('open');
-                progress.done();
-            });
-            return false;
-        });
-    });
-</script>
-<!--bulletin-->
 </div>
 
 <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>

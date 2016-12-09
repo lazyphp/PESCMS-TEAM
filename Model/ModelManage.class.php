@@ -75,7 +75,7 @@ class ModelManage extends \Core\Model\Model {
         $model = strtolower($model);
         $table = self::$modelPrefix . $model;
 
-        $initResult = self::db()->alter("CREATE TABLE IF NOT EXISTS `{$table}` (`{$model}_id` int(11) NOT NULL AUTO_INCREMENT, `{$model}_listsort` int(11) NOT NULL,`{$model}_status` tinyint(4) NOT NULL, `{$model}_url` VARCHAR( 255 ) NOT NULL, `{$model}_createtime` int(11) NOT NULL, PRIMARY KEY (`{$model}_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+        $initResult = self::db()->alter("CREATE TABLE IF NOT EXISTS `{$table}` (`{$model}_id` int(11) NOT NULL AUTO_INCREMENT, `{$model}_listsort` int(11) NOT NULL DEFAULT '0',`{$model}_status` tinyint(4) NOT NULL DEFAULT '0', `{$model}_url` VARCHAR( 255 ) NOT NULL DEFAULT '', `{$model}_createtime` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`{$model}_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
         if ($initResult == false) {
             $log = new \Expand\Log();
             $failLog = "Create Model Table : {$table}" . date("Y-m-d H:i:s");

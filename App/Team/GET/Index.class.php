@@ -37,6 +37,9 @@ class Index extends \Core\Controller\Controller {
         \Model\Task::getUserTask($_SESSION['team']['user_id']);
         $this->assign('aging', \Model\Task::taskAgingGapFigureLineChart());
         $this->assign('statistics', $statistics);
+
+        //公告栏
+        $this->assign('bulletin', \Model\Content::listContent(['table' => 'bulletin', 'order' => 'bulletin_listsort ASC, bulletin_id DESC', 'limit' => '8']));
         $this->layout();
 
     }

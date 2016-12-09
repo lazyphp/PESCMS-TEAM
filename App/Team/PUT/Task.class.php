@@ -27,6 +27,9 @@ class Task extends Content {
         if ($auth['check'] === false) {
             $this->error('您没有权限操作本任务');
         }
+        if (empty($_POST['actionuser']) && empty($_POST['actiondepartment'])) {
+            $this->error('任务不能没有执行者，请选择');
+        }
 
         //预设值
         $_POST['submit_time'] = (string)date('Y-m-d H:i:s', $checkTask['task_submit_time']);

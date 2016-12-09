@@ -58,7 +58,7 @@
             <div class="am-form-group">
                 <label class="am-block">个人主页</label>
                 <select name="home">
-                    <?php foreach (['动态列表', 'Team-Task-index' => '任务列表', 'Team-Task-my' => '我的任务', 'Team-Task-myCard' => '任务看板'] as $key => $value): ?>
+                    <?php foreach (['Team-Index-index' => '仪表盘', 'Team-Task-index' => '任务列表', 'Team-Task-my' => '我的任务', 'Team-Task-myCard' => '任务看板'] as $key => $value): ?>
                         <option value="<?= $key; ?>" <?= $key == $_SESSION['team']['user_home'] ? 'selected="selected"' : ''; ?> ><?= $value; ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -84,17 +84,19 @@
             <div class="am-form-group">
                 <label class="am-block">更换头像</label>
                 <img class="am-img-thumbnail" alt="140*140" src="<?= $_SESSION['team']['user_head']; ?>" width="140" height="140">
+
                 <div class="am-form-group am-form-file">
                     <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                        <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
-                    <input id="inputFileToLoad" type="file" name="upfile"  onchange="encodeImageFileAsURL();" multiple />
+                        <i class="am-icon-cloud-upload"></i> 选择要上传的文件
+                    </button>
+                    <input id="inputFileToLoad" type="file" name="upfile" onchange="encodeImageFileAsURL();" multiple/>
                 </div>
                 <div id="file-list"></div>
                 <script>
-                    $(function() {
-                        $('#doc-form-file').on('change', function() {
+                    $(function () {
+                        $('#doc-form-file').on('change', function () {
                             var fileNames = '';
-                            $.each(this.files, function() {
+                            $.each(this.files, function () {
                                 fileNames += '<span class="am-badge">' + this.name + '</span> ';
                             });
                             $('#file-list').html(fileNames);
@@ -113,16 +115,15 @@
     </div>
 </form>
 <script type='text/javascript'>
-    function encodeImageFileAsURL(){
+    function encodeImageFileAsURL() {
 
         var filesSelected = document.getElementById("inputFileToLoad").files;
-        if (filesSelected.length > 0)
-        {
+        if (filesSelected.length > 0) {
             var fileToLoad = filesSelected[0];
 
             var fileReader = new FileReader();
 
-            fileReader.onload = function(fileLoadedEvent) {
+            fileReader.onload = function (fileLoadedEvent) {
                 var srcData = fileLoadedEvent.target.result; // <--- data: base64
                 var newImage = document.createElement('img');
                 newImage.src = srcData;

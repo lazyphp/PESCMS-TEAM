@@ -24,7 +24,10 @@
         </ul>
 
         <div class="am-g">
-            <div class="am-u-md-8">
+            <div class="am-u-md-4">
+                <?php include THEME_PATH . '/Task/Sidebar/Task_bulletin.php' ?>
+            </div>
+            <div class="am-u-md-4">
                 <?php include THEME_PATH . '/Task/Sidebar/Task_aging_gap_figure.php' ?>
             </div>
             <div class="am-u-md-4">

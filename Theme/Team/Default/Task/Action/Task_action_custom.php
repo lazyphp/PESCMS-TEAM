@@ -37,8 +37,8 @@
         <div class="am-form-group">
             <label class="am-block">指派成员</label>
 
-            <input type="hidden" name="actionuser" value="<?= implode(',', $actionUser['2']); ?>"/>
-            <input type="hidden" name="actiondepartment" value="<?= implode(',', $actionUser['3']); ?>"/>
+            <input type="hidden" name="actionuser" value="<?= empty($actionUser['2']) ? '' : implode(',', $actionUser['2']); ?>"/>
+            <input type="hidden" name="actiondepartment" value="<?= empty($actionUser['3']) ? '' : implode(',', $actionUser['3']); ?>"/>
 
             <div class="am-block am-margin-bottom-xs action-user" data="">
                 &nbsp;

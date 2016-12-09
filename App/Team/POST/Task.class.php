@@ -30,7 +30,9 @@ class Task extends Content {
 
         //多人指派的话，multiplayer值将会为1
         if (count($_POST['actionuser']) > 1 || count($_POST['actiondepartment']) > 1) {
-            $_POST['multiplayer'] = '1';
+            $_POST['multiplayer'] = 1;
+        }else{
+            $_POST['multiplayer'] = 0;
         }
 
         parent::action($jump, $commit);
