@@ -33,7 +33,7 @@ class Index extends \Core\Controller\Controller {
     public function config() {
         $phpVersion = explode('.', phpversion());
         $version = "{$phpVersion['0']}.{$phpVersion['1']}";
-        $check['version'] =  $version >= 5.4 ? true : false;
+        $check['version'] = $version >= 5.4 ? true : false;
 
         $check['pdo'] = in_array('pdo_mysql', get_loaded_extensions()) ? true : false;
 
@@ -119,7 +119,7 @@ class Index extends \Core\Controller\Controller {
     public function import() {
         $domain = $this->p('domain');
         $data['user_account'] = $this->isP('account', '请填写管理员帐号');
-        $data['user_password'] = \Core\Func\CoreFunc::generatePwd($data['user_account'].$this->isP('passwd', '请填写管理员密码'), 'PRIVATE_KEY');
+        $data['user_password'] = \Core\Func\CoreFunc::generatePwd($data['user_account'] . $this->isP('passwd', '请填写管理员密码'), 'PRIVATE_KEY');
         $data['user_name'] = $this->isP('name', '请填写管理员名称');
         $data['user_mail'] = $this->isP('mail', '请填写管理员邮箱');
         $data['user_group_id'] = $data['user_department_id'] = '1';
@@ -144,10 +144,21 @@ class Index extends \Core\Controller\Controller {
         } catch (\PDOException $e) {
             $this->error($e->getMessage());
         }
+
+        //检查是否开启MYSQL严格模式
+        $sql = "SELECT @@sql_mode AS mode";
+        foreach ($db->query($sql) as $row) {
+            if (strpos(strtoupper($row['mode']), 'STRICT_TRANS_TABLES') !== false) {
+                $transTable = fopen(PES_PATH . '/STRICT_TRANS_TABLES.txt', 'w+');
+                fwrite($transTable, $row['mode']);
+                fclose($transTable);
+            }
+        }
+
         //安装数据库文件
         $db->exec($sqlFile);
 
-        if(!empty($domain)){
+        if (!empty($domain)) {
             $this->db('option')->insert([
                 'option_name' => 'domain',
                 'name' => '网站域名',
@@ -176,13 +187,13 @@ class Index extends \Core\Controller\Controller {
 
         $urlModelArray['URLMODEL'] = array('index' => 0, 'suffix' => '1');
         foreach (array_merge($config, $urlModelArray) as $key => $value) {
-            if(is_array($value)){
+            if (is_array($value)) {
                 $str .= "'{$key}' => array(\n";
-                foreach($value as $ik => $iv){
-                    $str .= "'".strtoupper($ik)."' => '{$iv}',\n";
+                foreach ($value as $ik => $iv) {
+                    $str .= "'" . strtoupper($ik) . "' => '{$iv}',\n";
                 }
                 $str .= "),";
-            }else{
+            } else {
                 $str .= "'{$key}' => '{$value}',\n";
             }
         }
