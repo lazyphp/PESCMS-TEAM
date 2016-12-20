@@ -17,7 +17,7 @@
             <!--任务标题-->
             <div>
                 <?= $label->getStatusSelect($statusMark, $value); ?>
-                <a class="am-link-muted" href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"
+                <a class="am-link-muted fixed-hidden-margin-left" href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"
                    style=";<?= in_array($value['task_status'], ['3', '10']) ? 'text-decoration: line-through;' : '' ?>"> <?= $value['task_title'] ?>
                 </a>
                 [<a href="<?= $label->url('Team-Task-project', ['id' => $value['task_project_id']]); ?>"

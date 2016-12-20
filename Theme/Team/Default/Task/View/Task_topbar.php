@@ -5,7 +5,7 @@
     <?= $label->getStatusSelect($statusMark, ['task_id' => $task_id, 'task_status' => $task_status]); ?>
 
         <span class="<?= $task_end_time < time() && $task_status < 2 ? 'am-text-danger' : '' ?>"><i
-                class="am-icon-calendar"></i> <?= date('Y/m/d H:i', $task_start_time) ?>
+                class="am-icon-calendar fixed-hidden-margin-left"></i> <?= date('Y/m/d H:i', $task_start_time) ?>
             至 <?= date('Y/m/d H:i', $task_end_time); ?></span>
 
 <!--    <span class="am-badge" style="background-color:--><?//= $statusMark[$task_status]['task_status_color'] ?><!--"><i class="--><?//= $statusMark[$task_status]['task_status_icon'] ?><!--"></i> --><?//= $statusMark[$task_status]['task_status_name'] ?><!--</span>-->

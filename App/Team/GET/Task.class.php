@@ -161,6 +161,22 @@ class Task extends Content {
     }
 
     /**
+     * 重复任务管理
+     */
+    public function repeat() {
+        \Model\Task::$condtion = '';
+        \Model\Task::$join = " LEFT JOIN {$this->prefix}task_user AS tu ON tu.task_id = t.task_id";
+        \Model\Task::$condtion = 'WHERE t.task_status NOT IN (3, 10) AND tu.user_id = :user_id AND tu.task_user_type = 1 AND t.task_repeat > 0';
+        \Model\Task::$param = ['user_id' => $_SESSION['team']['user_id']];
+
+        $result = \Model\Task::getTaskList();
+        $this->assign('list', $result['list']);
+        $this->assign('page', $result['page']);
+        $this->assign('sidebar', ['bulletin']);
+        $this->layout();
+    }
+
+    /**
      * 部门指派列表
      */
     public function department() {

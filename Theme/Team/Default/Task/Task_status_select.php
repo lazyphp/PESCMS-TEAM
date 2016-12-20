@@ -1,4 +1,4 @@
-<div class="am-dropdown am-inline-block" data-am-dropdown>
+<div class="am-dropdown am-inline-block fixed-hidden-select" data-am-dropdown>
 
 
     <a href="javascript:;" class="am-dropdown-toggle" data-am-dropdown-toggle style="color: <?= $statusMark[$task['task_status']]['task_status_color'] ?>">

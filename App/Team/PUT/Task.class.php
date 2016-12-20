@@ -24,7 +24,7 @@ class Task extends Content {
             $this->error('任务不存在');
         }
         $auth = \Model\Task::actionAuth($taskid);
-        if ($auth['check'] === false) {
+        if ($auth['check'] === FALSE) {
             $this->error('您没有权限操作本任务');
         }
         if (empty($_POST['actionuser']) && empty($_POST['actiondepartment'])) {
@@ -63,7 +63,7 @@ class Task extends Content {
             ]
         ]);
 
-        if ($update === false) {
+        if ($update === FALSE) {
             $this->error('该条目标记失败！可能已经被标记或者已删除。');
         }
 
@@ -80,6 +80,7 @@ class Task extends Content {
         if ($data['task_status'] == '3') {
             $data['task_complete_time'] = time();
         }
+        $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
 
         //@todo PHP 5.5 empty() now supports expressions, rather than only variables.
         $statusMark = \Model\Task::getTaskStatusMark($data['task_status']);
@@ -95,11 +96,14 @@ class Task extends Content {
 
         if (in_array($data['task_status'], ['3', '10']) && $auth['check'] === FALSE) {
             $this->error('您没有设置任务完成或者关闭任务的权限');
+        } elseif (in_array($data['task_status'], ['3', '10']) && $auth['check'] === TRUE) {
+            //触发重复任务属性
+            $this->repeatTask($task);
         }
         //@todo end
 
         $update = $this->db('task')->where('task_id = :task_id')->update($data);
-        if ($update === false) {
+        if ($update === FALSE) {
             $this->error('更改任务状态失败!任务状态可能没有变更或者任务不存在');
         }
 
@@ -110,12 +114,48 @@ class Task extends Content {
 
         //自动生成报表
         if ($auth['action'] === TRUE) {
-            $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
             $url = $this->url('Team-Task-view', ['id' => $task['task_id']]);
             \Model\Report::addReport("{$_SESSION['team']['user_name']}将任务<a href=\"{$url}\">《{$task['task_title']}》</a>状态变更为：{$statusMark['task_status_name']}。");
         }
 
         $this->success('更改任务状态成功!');
+
+    }
+
+    /**
+     * 执行重复任务动作
+     * @description 重复的任务是不会重复生成任务条目和追加内容
+     * @param array $task
+     */
+    private function repeatTask(array $task) {
+        if ($task['task_repeat'] <= 0) {
+            RETURN TRUE;
+        }
+        $data = [];
+        foreach ($task as $key => $value) {
+            if (in_array($key, ['task_id', 'task_status', 'task_delete', 'task_complete_time'])) {
+                continue;
+            } elseif ($key == 'task_submit_time' || $key == 'task_start_time') {
+                $data[$key] = $task['task_end_time'] < time() ? time() : $task['task_end_time'];
+            } elseif ($key == 'task_end_time') {
+                $data[$key] = $task['task_end_time'] < time() ? time() + 86400 * $task['task_repeat'] : $task['task_end_time'] + 86400 * $task['task_repeat'];
+            } else {
+                $data[$key] = $value;
+            }
+        }
+        $newTaskid = $this->db('task')->insert($data);
+
+        $taskUser = $this->db('task_user')->where('task_id = :task_id')->select([
+            'task_id' => $task['task_id']
+        ]);
+
+        foreach ($taskUser as $value) {
+            $this->db('task_user')->insert([
+                'task_id' => $newTaskid,
+                'user_id' => $value['user_id'],
+                'task_user_type' => $value['task_user_type']
+            ]);
+        }
 
     }
 
@@ -128,7 +168,7 @@ class Task extends Content {
         $user = $this->isP('user', '请提交您要指派的部门成员');
 
         $auth = \Model\Task::actionAuth($taskid);
-        if ($auth['department'] === false) {
+        if ($auth['department'] === FALSE) {
             $this->error('您没有指派部门成员的权限');
         }
 
@@ -138,7 +178,7 @@ class Task extends Content {
         $this->db()->transaction();
 
         $removeDepart = $this->db('task_user')->where(' task_id = :taskid AND user_id = :department AND task_user_type = 3')->delete(['taskid' => $taskid, 'department' => $_SESSION['team']['user_department_id']]);
-        if ($removeDepart === false) {
+        if ($removeDepart === FALSE) {
             $this->db()->rollback();
             $this->error('移出部门指派权限出错');
         }

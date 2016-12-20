@@ -171,21 +171,24 @@
     top: 13px;
     position: absolute;
 }
+
 /*消息提示小红点*/
 
 /*消息提示背景以及优化*/
-.team-notice-background>li>a{
-    padding:2px 20px !important;
+.team-notice-background > li > a {
+    padding: 2px 20px !important;
 }
-.team-notice-background, .team-notice-background>li>a:hover{
+
+.team-notice-background, .team-notice-background > li > a:hover {
     background-color: #fff9c9 !important;
 
 }
-.team-notice-background:after{
-    border-bottom-color:#fff9c9 !important;
-}
-/*消息提示背景以及优化*/
 
+.team-notice-background:after {
+    border-bottom-color: #fff9c9 !important;
+}
+
+/*消息提示背景以及优化*/
 
 /*任务列表*/
 .task-hr {
@@ -374,9 +377,10 @@
 /*公告侧栏的宽度设置*/
 
 /*报表列表样式*/
-.report-list p{
+.report-list p {
     margin: 0;
 }
+
 .report-list a {
     padding: 0 !important;
     display: inline-block !important;
@@ -385,6 +389,7 @@
 .report-list a:hover {
     background: none !important;
 }
+
 /*报表列表样式*/
 
 /*页脚*/
@@ -394,4 +399,16 @@
     padding: 10px 0;
     text-align: center;
 }
+
 /*页脚*/
+
+/*修复下拉组件被隐藏得问题*/
+.fixed-hidden-select {
+    position: absolute
+}
+
+.fixed-hidden-margin-left {
+    margin-left: 45pt;
+}
+
+/*修复下拉组件被隐藏得问题*/
