@@ -128,8 +128,8 @@
         </div>
     </div>
 </form>
-<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/spectrum.js"></script>
-<link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css"/>
+<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/spectrum.js?v.2.1.0"></script>
+<link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css?v.2.1.0"/>
 <script>
     $(".custom").spectrum({
         preferredFormat: "hex",

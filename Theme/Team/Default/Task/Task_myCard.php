@@ -48,7 +48,7 @@
         </div>
     <?php endforeach; ?>
 </div>
-<script type="text/javascript" src="/Theme/assets/js/jquery.dragsort-0.5.2.min.js"></script>
+<script type="text/javascript" src="/Theme/assets/js/jquery.dragsort-0.5.2.min.js?v.2.1.0"></script>
 <script type="text/javascript">
     $(".move-task-card").dragsort({
         dragSelector: "div",

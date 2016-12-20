@@ -19,36 +19,36 @@
 
     <!-- Tile icon for Win8 (144x144 + tile color) -->
 
-    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/amazeui.min.css">
-    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/admin.css">
-    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/app.css">
-    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/ui-dialog.css">
-    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/amazeui.datetimepicker.css">
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/amazeui.min.css?v.2.1.0">
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/admin.css?v.2.1.0">
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/app.css?v.2.1.0">
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/ui-dialog.css?v.2.1.0">
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/amazeui.datetimepicker.css?v.2.1.0">
     <!--[if (gte IE 9)|!(IE)]><!-->
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/jquery.min.js"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/jquery.min.js?v.2.1.0"></script>
     <!--<![endif]-->
     <!--[if lte IE 8 ]>
-    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.ie8polyfill.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js?v.2.1.0"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js?v.2.1.0"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.ie8polyfill.min.js?v.2.1.0"></script>
     <![endif]-->
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.min.js"></script>
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/dialog-min.js"></script>
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/dialog-plus-min.js"></script>
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.datetimepicker.min.js"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.min.js?v.2.1.0"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/dialog-min.js?v.2.1.0"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/dialog-plus-min.js?v.2.1.0"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.datetimepicker.min.js?v.2.1.0"></script>
 
     <!--加载百度编辑器-->
     <script>var PESCMS_PATH = '<?= DOCUMENT_ROOT; ?>';</script>
-    <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/ueditor.config.js"></script>
-    <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/ueditor.all.js"></script>
-    <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/ueditor.config.js?v.2.1.0"></script>
+    <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/ueditor.all.js?v.2.1.0"></script>
+    <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/lang/zh-cn/zh-cn.js?v.2.1.0"></script>
     <!--加载百度编辑器-->
 
     <!--拾色器-->
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/spectrum.js"></script>
-    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css"/>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/spectrum.js?v.2.1.0"></script>
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css?v.2.1.0"/>
     <!--拾色器-->
 
-    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/app.js"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/app.js?v.2.1.0"></script>
 </head>
 <body>

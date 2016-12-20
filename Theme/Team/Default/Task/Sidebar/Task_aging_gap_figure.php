@@ -4,7 +4,7 @@
         <div id="container" style="margin: 0 auto"></div>
     </div>
 </div>
-<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/highcharts.js"></script>
+<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/highcharts.js?v.2.1.0"></script>
 <script type="text/javascript">
     $(function () {
         var data = eval("(" + '<?=json_encode($aging['list'])?>' + ")");

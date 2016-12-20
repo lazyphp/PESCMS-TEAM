@@ -117,4 +117,4 @@
     <!--任务条目-->
 <?php endif; ?>
 
-<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/team.js"></script>
+<script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/team.js?v.2.1.0"></script>
