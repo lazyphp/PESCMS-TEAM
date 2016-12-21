@@ -64,11 +64,19 @@
                 } else if (data['status'] != '200') {
                     $(".action").prepend("<p>" + data['msg'] + "</p>");
                 } else {
-                    $(".action").prepend("<p>安装遇到无法解析的错误!</p><p>"+data+"</p><p>请访问<a href=\"http://www.pescms.com/d/v/10/37\">本链接</a>获取解决方案</p><p>注意：请先检查程序根目录下是否存在STRICT_TRANS_TABLES.txt文件</p>");
+                    $(".action").prepend("<p>安装遇到无法解析的错误!</p>" +
+                        "<p>"+data+"</p>" +
+                        "<p>请访问<a href=\"http://www.pescms.com/d/v/10/37\">本链接</a>获取解决方案</p>" +
+                        "<p>注意：请先检查程序根目录下是否存在STRICT_TRANS_TABLES.txt文件</p>" +
+                        "<p>或者到<a href=\"http://forum.pescms.com\">官方社区</a>寻求解决方案</p>");
                 }
             },
             error:function(obj){
-                $(".action").prepend("<p>安装出错,未知原因!</p><p>"+obj.responseText+"</p><p>请访问<a href=\"http://www.pescms.com/d/v/10/37\">本链接</a>获取解决方案</p><p>注意：请先检查程序根目录下是否存在STRICT_TRANS_TABLES.txt文件</p>");
+                $(".action").prepend("<p>安装出错,未知原因!</p>" +
+                    "<p>"+obj.responseText+"</p>" +
+                    "<p>请访问<a href=\"http://www.pescms.com/d/v/10/37\">本链接</a>获取解决方案</p>" +
+                    "<p>注意：请先检查程序根目录下是否存在STRICT_TRANS_TABLES.txt文件</p>" +
+                    "<p>或者到<a href=\"http://forum.pescms.com\">官方社区</a>寻求解决方案</p>");
             }
         })
     })

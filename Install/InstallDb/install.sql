@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-09 08:15:01
+-- Generation Time: 2016-12-21 03:16:28
 -- 服务器版本： 5.5.16
 -- PHP Version: 5.6.14
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `pes_field` (
   `field_status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`field_id`),
   UNIQUE KEY `modle_id` (`field_model_id`,`field_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='字段列表' AUTO_INCREMENT=147 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='字段列表' AUTO_INCREMENT=148 ;
 
 --
 -- 转存表中的数据 `pes_field`
@@ -183,7 +183,7 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 (102, 13, 'controller', '父类节点', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u9876\\u5c42\\u8282\\u70b9":"0","\\u975e\\u6743\\u9650\\u8282\\u70b9":"-1","\\u66f4\\u65b0\\u7528\\u6237\\u7ec4\\u83dc\\u5355":76,"\\u8bbe\\u7f6e\\u7528\\u6237\\u7ec4\\u83dc\\u5355":75,"\\u66f4\\u65b0\\u7528\\u6237\\u7ec4\\u8282\\u70b9":74,"\\u8bbe\\u7f6e\\u7528\\u6237\\u7ec4\\u8282\\u70b9":73,"\\u5220\\u9664\\u4efb\\u52a1":72,"\\u66f4\\u6539\\u4efb\\u52a1\\u72b6\\u6001":71,"\\u63d0\\u4ea4\\u4efb\\u52a1\\u65e5\\u5fd7":70,"\\u6267\\u884c\\u4efb\\u52a1":69,"\\u4efb\\u52a1\\u6307\\u6d3e":68,"\\u6dfb\\u52a0\\u65b0\\u4efb\\u52a1":67,"\\u67e5\\u770b\\u4efb\\u52a1":66,"\\u5f85\\u5ba1\\u6838\\u4efb\\u52a1\\u5217\\u8868":65,"\\u6211\\u7684\\u4efb\\u52a1":64,"\\u53d1\\u8868\\u65b0\\u4efb\\u52a1":63,"\\u4efb\\u52a1\\u5217\\u8868":62,"\\u4efb\\u52a1\\u7ba1\\u7406":61,"\\u6dfb\\u52a0\\u62a5\\u8868":60,"\\u67e5\\u770b\\u62a5\\u8868":57,"\\u6211\\u7684\\u62a5\\u8868":56,"\\u63d0\\u53d6\\u62a5\\u8868":55,"\\u62a5\\u8868\\u7ba1\\u7406":54,"\\u5b89\\u88c5\\u6570\\u636e\\u5e93\\u66f4\\u65b0":53,"\\u5b89\\u88c5\\u66f4\\u65b0\\u6587\\u4ef6":52,"\\u4e0b\\u8f7d\\u66f4\\u65b0\\u6587\\u4ef6":51,"\\u66f4\\u65b0\\u7cfb\\u7edf\\u8bbe\\u7f6e":50,"\\u67e5\\u770b\\u66f4\\u65b0":49,"\\u67e5\\u770b\\u57fa\\u7840\\u8bbe\\u7f6e":48,"\\u7cfb\\u7edf\\u8bbe\\u7f6e":47,"\\u5220\\u9664\\u8282\\u70b9":46,"\\u66f4\\u65b0\\u8282\\u70b9":45,"\\u6dfb\\u52a0\\u8282\\u70b9":44,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u8282\\u70b9":43,"\\u8282\\u70b9\\u5217\\u8868":42,"\\u8282\\u70b9\\u7ba1\\u7406":41,"\\u5220\\u9664\\u6a21\\u578b\\u5b57\\u6bb5":40,"\\u5220\\u9664\\u6a21\\u578b":39,"\\u66f4\\u65b0\\u6a21\\u578b\\u5b57\\u6bb5":38,"\\u66f4\\u65b0\\u6a21\\u578b":37,"\\u6dfb\\u52a0\\u6a21\\u578b\\u5b57\\u6bb5":36,"\\u6dfb\\u52a0\\u6a21\\u578b":35,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u6a21\\u578b\\u5b57\\u6bb5":34,"\\u6a21\\u578b\\u5b57\\u6bb5\\u5217\\u8868":33,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u6a21\\u578b":32,"\\u6a21\\u578b\\u5217\\u8868":31,"\\u6a21\\u578b\\u7ba1\\u7406":30,"\\u5220\\u9664\\u9879\\u76ee":24,"\\u66f4\\u65b0\\u9879\\u76ee":23,"\\u6dfb\\u52a0\\u9879\\u76ee":22,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u9879\\u76ee":21,"\\u9879\\u76ee\\u5217\\u8868":20,"\\u5220\\u9664\\u7528\\u6237\\u7ec4":19,"\\u66f4\\u65b0\\u7528\\u6237\\u7ec4":18,"\\u6dfb\\u52a0\\u7528\\u6237\\u7ec4":17,"\\u90e8\\u95e8\\u5217\\u8868":16,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u7528\\u6237\\u7ec4":15,"\\u7528\\u6237\\u7ec4\\u5217\\u8868":14,"\\u9879\\u76ee\\u7ba1\\u7406":13,"\\u5220\\u9664\\u90e8\\u95e8":12,"\\u66f4\\u65b0\\u90e8\\u95e8":11,"\\u6dfb\\u52a0\\u90e8\\u95e8":10,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u90e8\\u95e8":9,"\\u90e8\\u95e8\\u7ba1\\u7406":8,"\\u7528\\u6237\\u7ec4\\u7ba1\\u7406":7,"\\u5220\\u9664\\u7528\\u6237":6,"\\u66f4\\u65b0\\u7528\\u6237":5,"\\u6dfb\\u52a0\\u7528\\u6237":4,"\\u65b0\\u589e\\/\\u7f16\\u8f91\\u7528\\u6237":3,"\\u7528\\u6237\\u5217\\u8868":2,"\\u7528\\u6237\\u7ba1\\u7406":1}', '', '', 1, 2, 1, 1, 1),
 (103, 13, 'listsort', '排序', 'text', '', '', '', 0, 99, 1, 1, 1),
 (104, 3, 'type', '链接类型', 'radio', '{&quot;\\u7ad9\\u5185\\u94fe\\u63a5&quot;:&quot;0&quot;,&quot;\\u7ad9\\u5916\\u8fde\\u63a5&quot;:&quot;1&quot;}', '', '', 1, 3, 1, 1, 1),
-(105, 7, 'department_id', '所属部门', 'select', '{"\\u8bf7\\u9009\\u62e9":"","IT\\u90e8":1,"\\u8d22\\u52a1\\u90e8":2}', '', '', 1, 1, 1, 1, 1),
+(105, 7, 'department_id', '所属部门', 'select', '{"\\u8bf7\\u9009\\u62e9":"","\\u9ed8\\u8ba4\\u90e8":1}', '', '', 1, 1, 1, 1, 1),
 (106, 9, 'start_time', '开始时间', 'date', '', '', '', 1, 4, 0, 0, 1),
 (107, 9, 'end_time', '结束时间', 'date', '', '', '', 1, 4, 0, 0, 1),
 (108, 9, 'submit_time', '任务提交时间', 'date', '', '', '', 0, 4, 0, 0, 1),
@@ -213,7 +213,8 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 (140, 20, 'content', '内容', 'editor', '', '', '', 0, 2, 0, 1, 1),
 (144, 21, 'listsort', '排序', 'text', '', '', '', 0, 99, 1, 1, 1),
 (145, 21, 'name', '优先度名称', 'text', '', '', '', 1, 1, 1, 1, 1),
-(146, 21, 'color', '标记颜色', 'color', '', '', '', 1, 2, 1, 1, 1);
+(146, 21, 'color', '标记颜色', 'color', '', '', '', 1, 2, 1, 1, 1),
+(147, 9, 'repeat', '任务重复天数', 'text', '', '1.重复天数大于0才会触发重复属性。\r\n2.任务重复将在任务状态为完成或关闭时触发。\r\n3.系统发布的重复任务结束时间将以任务生成时间+重复天数为截止。\r\n4.输入1即表示重复任务的完成周期在1天，如此类推。', '', 0, 7, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -246,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_type` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`menu_id`),
   KEY `menu_pid` (`menu_pid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=67 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=71 ;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -280,7 +281,11 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_l
 (63, '公告栏', 9, 'am-icon-building', 'Team-Bulletin-index', 0, 0),
 (64, '退出登录', 41, 'am-icon-sign-out', 'Team-Index-logout', 127, 0),
 (65, '任务优先度', 9, 'am-icon-sort-alpha-asc', 'Team-Priority-index', 2, 0),
-(66, '仪表盘', 41, 'am-icon-tachometer', 'Team-Index-index', 10, 0);
+(66, '仪表盘', 41, 'am-icon-tachometer', 'Team-Index-index', 10, 0),
+(67, '任务重复管理', 41, 'am-icon-repeat', 'Team-Task-repeat', 71, 0),
+(68, '软件协议', 19, 'am-icon-paste', '//www.pescms.com/Page/Authorization.html', 98, 1),
+(69, '帮助文档', 19, 'am-icon-header', '//www.pescms.com/d/index/20.html', 99, 1),
+(70, '官方社区', 19, 'am-icon-forumbee', '//forum.pescms.com/list/20.html', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -733,6 +738,7 @@ CREATE TABLE IF NOT EXISTS `pes_task` (
   `task_complete_time` int(11) NOT NULL DEFAULT '0' COMMENT '完成时间',
   `task_start_time` int(11) NOT NULL DEFAULT '0' COMMENT '任务计划开始时间',
   `task_end_time` int(11) NOT NULL DEFAULT '0' COMMENT '任务计划结束时间',
+  `task_repeat` varchar(8) NOT NULL DEFAULT '' COMMENT '任务重复天数',
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务列表' AUTO_INCREMENT=1 ;
 
@@ -868,9 +874,9 @@ CREATE TABLE IF NOT EXISTS `pes_user_group` (
 --
 
 INSERT INTO `pes_user_group` (`user_group_id`, `user_group_status`, `user_group_createtime`, `user_group_name`, `user_group_menu`) VALUES
-(1, 1, 1417273380, '管理员', '51,52,41,42,59,39,46,60,61,62,64,55,16,18,40,49,9,63,58,56,50,48,54,19,20,8,65\n'),
-(2, 1, 1417273440, '普通会员', '51,52,41,42,59,39,46,62,64'),
-(3, 1, 1417273440, '部门责任人', '51,52,41,42,59,39,46,60,61,62,64,9,48,65');
+(1, 1, 1417273380, '管理员', '51,41,66,42,59,39,46,60,61,67,62,64,55,16,18,40,49,9,63,58,65,50,48,19,56,8,54,20,68,69,70'),
+(2, 1, 1417273440, '普通会员', '51,41,66,42,59,39,46,67,62,64'),
+(3, 1, 1417273440, '部门责任人', '51,41,66,42,59,39,46,60,61,67,62,64,9,65,48');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

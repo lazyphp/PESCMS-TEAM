@@ -40,7 +40,7 @@ class Login extends \Core\Controller\Controller {
             if (!empty($bing['images'])) {
                 $img = [];
                 foreach ($bing['images'] as $key => $value) {
-                    $img = $value['url'];
+                    $img = \Model\Extra::checkInputValueType($value['url'], 2) === false? "https://www.bing.com{$value['url']}" : $value['url'];
                 }
             }
             $bingCache = $cache->creatCache('bing', json_encode($img));
