@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-21 03:44:19
+-- Generation Time: 2016-12-21 04:03:46
 -- 服务器版本： 5.5.16
 -- PHP Version: 5.6.14
 
@@ -595,7 +595,7 @@ CREATE TABLE IF NOT EXISTS `pes_option` (
   `value` text NOT NULL,
   `option_range` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统选项' AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统选项' AUTO_INCREMENT=23 ;
 
 --
 -- 转存表中的数据 `pes_option`
@@ -607,8 +607,7 @@ INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) 
 (15, 'upload_file', '文件格式', '[".zip",".rar",".7z",".doc",".docx",".pdf",".xls",".xlsx",".ppt",".pptx",".txt"]', 'upload'),
 (17, 'mail', '邮件服务信息', '{"account":"","passwd":"","address":"","port":""}', ''),
 (19, 'signup', '帐号注册', '1', ''),
-(22, 'notice_way', '消息推送方式', '2', ''),
-(23, 'domain', '网站域名', '', '');
+(22, 'notice_way', '消息推送方式', '2', '');
 
 -- --------------------------------------------------------
 
