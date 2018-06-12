@@ -1,6 +1,5 @@
-<div class="am-g">
-    <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-        <div class="action am-padding am-margin-bottom am-text-xs" style="height: 200px; overflow-y: auto;border: 1px solid #DDDDDD">
+<div class="action am-padding am-margin-bottom am-text-xs"
+     style="height: 200px; overflow-y: auto;border: 1px solid #DDDDDD">
 
         </div>
         <div class="am-g doc-am-g">
@@ -12,9 +11,8 @@
             </div>
         </div>
         <div class="am-center" style="width: 100px;">
-            <a href="<?=str_replace("/Install", "", DOCUMENT_ROOT)?>/" id="next" class="am-btn am-btn-success am-hide">查看系统</a>
-        </div>
-    </div>
+    <a href="<?= str_replace("/Install", "", DOCUMENT_ROOT) ?>/" id="next"
+       class="am-btn am-btn-success am-hide">查看系统</a>
 </div>
 <script>
     $(function () {
