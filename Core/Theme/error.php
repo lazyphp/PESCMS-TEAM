@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <meta name="renderer" content="webkit">
         <meta http-equiv="Cache-Control" content="no-siteapp" />
-        <title><?php echo $title; ?></title>
-        <link rel="stylesheet" href="//cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>
+        <title><?= $title ?></title>
+        <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/amazeui.min.css"/>
     </head>
     <body style="background: #fff;">
         <div class="footer"></div>
@@ -19,6 +19,7 @@
                         <p class="am-text-center">
                             <?php echo $errorMes; ?>
                             <?php echo $errorFile ?>
+
                         </p>
                         <pre class="page-404" style="width: 300px;margin: 0 auto;">
          ._                __.
