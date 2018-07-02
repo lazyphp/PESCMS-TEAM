@@ -56,7 +56,7 @@ class Task extends Content {
     public function taskListAction() {
         $taskListID = $this->isG('listid', '请选您要标记的任务条目');
         $update = $this->db('task_list')->where('task_list_id = :task_list_id')->update([
-            'task_user_id' => $_SESSION['team']['user_id'],
+            'task_user_id' => $this->session()->get('team')['user_id'],
             'task_list_time' => time(),
             'noset' => [
                 'task_list_id' => $taskListID
@@ -115,7 +115,7 @@ class Task extends Content {
         //自动生成报表
         if ($auth['action'] === TRUE) {
             $url = $this->url('Team-Task-view', ['id' => $task['task_id']]);
-            \Model\Report::addReport("{$_SESSION['team']['user_name']}将任务<a href=\"{$url}\">《{$task['task_title']}》</a>状态变更为：{$statusMark['task_status_name']}。");
+            \Model\Report::addReport("{$this->session()->get('team')['user_name']}将任务<a href=\"{$url}\">《{$task['task_title']}》</a>状态变更为：{$statusMark['task_status_name']}。");
         }
 
         $this->success('更改任务状态成功!');
@@ -173,11 +173,11 @@ class Task extends Content {
         }
 
         //获取部门负责人
-        $department = \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id');
+        $department = \Model\Content::findContent('department', $this->session()->get('team')['user_department_id'], 'department_id');
 
         $this->db()->transaction();
 
-        $removeDepart = $this->db('task_user')->where(' task_id = :taskid AND user_id = :department AND task_user_type = 3')->delete(['taskid' => $taskid, 'department' => $_SESSION['team']['user_department_id']]);
+        $removeDepart = $this->db('task_user')->where(' task_id = :taskid AND user_id = :department AND task_user_type = 3')->delete(['taskid' => $taskid, 'department' => $this->session()->get('team')['user_department_id']]);
         if ($removeDepart === FALSE) {
             $this->db()->rollback();
             $this->error('移出部门指派权限出错');

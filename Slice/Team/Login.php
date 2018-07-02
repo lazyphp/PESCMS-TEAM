@@ -21,7 +21,7 @@ namespace Slice\Team;
 class Login extends \Core\Slice\Slice{
 
     public function before() {
-        if(empty($_SESSION['team']['user_id'])){
+        if(empty($this->session()->get('team')['user_id'])){
             $url = empty($_SERVER['REQUEST_URI']) ? '' : base64_encode($_SERVER['REQUEST_URI']);
             $this->jump($this->url('Team-Login-index', ['back_url' => $url]));
         }

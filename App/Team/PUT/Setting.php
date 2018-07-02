@@ -59,7 +59,7 @@ class Setting extends \Core\Controller\Controller {
         }
 
         $this->assign('info', $info);
-        $this->assign('menu', \Model\Menu::menu($_SESSION['team']['user_group_id']));
+        $this->assign('menu', \Model\Menu::menu($this->session()->get('team')['user_group_id']));
         $this->layout('Setting_upgrade_info');
     }
 

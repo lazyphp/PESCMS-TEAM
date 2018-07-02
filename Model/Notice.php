@@ -54,7 +54,7 @@ class Notice extends \Core\Model\Model {
     private static function noticeText($type) {
         $task = \Model\Content::findContent('task', self::$taskid, 'task_id');
 
-        $title = '<a href="' . self::url('Team-User-view', ['id' => $_SESSION['team']['user_id']]) . '">' . $_SESSION['team']['user_name'] . '</a> 在任务 <a href="' . self::url('Team-Task-view', ['id' => self::$taskid]) . '">' . $task['task_title'] . '</a> 中';
+        $title = '<a href="' . self::url('Team-User-view', ['id' => self::session()->get('team')['user_id']]) . '">' . self::session()->get('team')['user_name'] . '</a> 在任务 <a href="' . self::url('Team-Task-view', ['id' => self::$taskid]) . '">' . $task['task_title'] . '</a> 中';
         $content = '<p>任务计划开始时间:' . date('Y-m-d H:i', $task['task_start_time']) . '</p><p>任务计划结束时间:' . date('Y-m-d H:i', $task['task_end_time']) . '</p>' . $task['task_content'];
 
         switch ($type) {

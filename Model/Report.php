@@ -24,18 +24,18 @@ class Report extends \Core\Model\Model {
     public static function addReport($content) {
         $today = strtotime(date('Y-m-d').'00:00:00');
 
-        $findReport = self::db('report')->where('report_date = :report_date AND user_id = :user_id')->find(array('report_date' => $today, 'user_id' => $_SESSION['team']['user_id']))['report_id'];
+        $findReport = self::db('report')->where('report_date = :report_date AND user_id = :user_id')->find(array('report_date' => $today, 'user_id' => self::session()->get('team')['user_id']))['report_id'];
 
         //为空时，先创建当天报表的基础内容
         if (empty($findReport)) {
-            $findReport = self::db('report')->insert(array('report_date' => $today, 'user_id' => $_SESSION['team']['user_id'], 'department_id' => $_SESSION['team']['user_department_id']));
+            $findReport = self::db('report')->insert(array('report_date' => $today, 'user_id' => self::session()->get('team')['user_id'], 'department_id' => self::session()->get('team')['user_department_id']));
         }
 
         $data['report_id'] = $findReport;
         $data['report_content'] = $content;
 
         //每插入一条报表，EY值将增加1点
-        \Model\User::setEy($_SESSION['team']['user_id'], '1');
+        \Model\User::setEy(self::session()->get('team')['user_id'], '1');
 
         return self::db('report_content')->insert($data);
     }

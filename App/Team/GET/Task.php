@@ -92,7 +92,7 @@ class Task extends Content {
      * 个人任务
      */
     public function my() {
-        \Model\Task::getUserTask($_SESSION['team']['user_id']);
+        \Model\Task::getUserTask($this->session()->get('team')['user_id']);
         $this->index();
     }
 
@@ -135,7 +135,7 @@ class Task extends Content {
             //@todo 排序需要进一步优化
             \Model\Task::$oder = 'ORDER BY task_submit_time DESC';
 
-            \Model\Task::getUserTask($_SESSION['team']['user_id']);
+            \Model\Task::getUserTask($this->session()->get('team')['user_id']);
             $list[$statusid] = $value;
             $list[$statusid]['task'] = \Model\Task::getTaskList()['list'];
         }
@@ -152,7 +152,7 @@ class Task extends Content {
         \Model\Task::$condtion = '';
         \Model\Task::$join = " LEFT JOIN {$this->prefix}task_user AS tu ON tu.task_id = t.task_id";
         \Model\Task::$condtion = 'WHERE t.task_status = 2 AND tu.user_id = :user_id AND tu.task_user_type = 1';
-        \Model\Task::$param = ['user_id' => $_SESSION['team']['user_id']];
+        \Model\Task::$param = ['user_id' => $this->session()->get('team')['user_id']];
 
         $result = \Model\Task::getTaskList();
         $this->assign('list', $result['list']);
@@ -167,7 +167,7 @@ class Task extends Content {
         \Model\Task::$condtion = '';
         \Model\Task::$join = " LEFT JOIN {$this->prefix}task_user AS tu ON tu.task_id = t.task_id";
         \Model\Task::$condtion = 'WHERE t.task_status NOT IN (3, 10) AND tu.user_id = :user_id AND tu.task_user_type = 1 AND t.task_repeat > 0';
-        \Model\Task::$param = ['user_id' => $_SESSION['team']['user_id']];
+        \Model\Task::$param = ['user_id' => $this->session()->get('team')['user_id']];
 
         $result = \Model\Task::getTaskList();
         $this->assign('list', $result['list']);
@@ -180,20 +180,20 @@ class Task extends Content {
      * 部门指派列表
      */
     public function department() {
-        $department = \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id');
+        $department = \Model\Content::findContent('department', $this->session()->get('team')['user_department_id'], 'department_id');
 
         if (empty($department['department_header'])) {
             $this->error('您的部门还没有指派负责人，联系管理员进行设置');
         }
 
-        if (!in_array($_SESSION['team']['user_id'], explode(',', $department['department_header']))) {
+        if (!in_array($this->session()->get('team')['user_id'], explode(',', $department['department_header']))) {
             $this->error('您不是本部门的负责人，无法访问本页面');
         }
 
         \Model\Task::$condtion = '';
         \Model\Task::$join = " LEFT JOIN {$this->prefix}task_user AS tu ON tu.task_id = t.task_id";
         \Model\Task::$condtion = 'WHERE tu.user_id = :department AND tu.task_user_type = 3';
-        \Model\Task::$param = ['department' => $_SESSION['team']['user_department_id']];
+        \Model\Task::$param = ['department' => $this->session()->get('team')['user_department_id']];
         $result = \Model\Task::getTaskList();
         $this->assign('list', $result['list']);
         $this->assign('page', $result['page']);
@@ -291,7 +291,7 @@ class Task extends Content {
         $user = [];
         foreach ($userList as $value) {
             $user['list'][$value['user_id']] = $value['user_name'];
-            if ($value['user_department_id'] == $_SESSION['team']['user_department_id']) {
+            if ($value['user_department_id'] == $this->session()->get('team')['user_department_id']) {
                 $user['department'][$value['user_id']] = $value['user_name'];
             }
         }

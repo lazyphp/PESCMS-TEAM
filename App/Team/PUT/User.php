@@ -22,14 +22,14 @@ class User extends Content {
         $data['user_phone'] = $this->p('phone');
         $data['user_home'] = $this->p('home');
         if (!empty($_POST['password'])) {
-            $data['user_password'] = \Core\Func\CoreFunc::generatePwd($_SESSION['team']['user_account'] . $this->p('password'));
+            $data['user_password'] = \Core\Func\CoreFunc::generatePwd($this->session()->get('team')['user_account'] . $this->p('password'));
         }
-        $data['noset']['user_id'] = $_SESSION['team']['user_id'];
+        $data['noset']['user_id'] = $this->session()->get('team')['user_id'];
 
 
         $result = $this->db('user')->where('user_id = :user_id')->update($data);
         if ($result !== false) {
-            $_SESSION['team'] = \Model\Content::findContent('user', $_SESSION['team']['user_id'], 'user_id');
+            $this->session()->set('team', \Model\Content::findContent('user', $_SESSION['team']['user_id'], 'user_id'));
         }
 
         $this->success('更新信息成功!');
@@ -48,10 +48,10 @@ class User extends Content {
             $this->db('user')->where('user_id = :user_id')->update([
                 'user_head' => $info['url'],
                 'noset' => [
-                    'user_id' => $_SESSION['team']['user_id']
+                    'user_id' => $this->session()->get('team')['user_id']
                 ]
             ]);
-            $_SESSION['team'] = \Model\Content::findContent('user', $_SESSION['team']['user_id'], 'user_id');
+            $this->session()->set('team', \Model\Content::findContent('user', $this->session()->get('team')['user_id'], 'user_id'));
             $this->jump($this->url('Team-User-setting'));
         }
     }

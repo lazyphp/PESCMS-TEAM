@@ -30,7 +30,7 @@ class Login extends \Core\Controller\Controller {
             $this->error('帐号或者密码错误，也可能您的账号被禁止登录鸟!');
         }
 
-        $_SESSION['team'] = $login;
+        $this->session()->set('team', $login);
 
         //若返回上一页为空，那么跳转到用户自定义的首页
         if (empty($_POST['back_url'])) {

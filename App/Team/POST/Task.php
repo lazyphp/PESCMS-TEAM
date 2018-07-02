@@ -20,7 +20,7 @@ class Task extends Content {
      */
     public function action($jump = FALSE, $commit = FALSE) {
 
-        $_POST['create_id'] = (string)$_SESSION['team']['user_id'];
+        $_POST['create_id'] = (string)$this->session()->get('team')['user_id'];
         $_POST['submit_time'] = (string)date('Y-m-d H:i');
 
         $this->isP('checkuser', '任务不能没有审核者，请选择');

@@ -24,7 +24,7 @@
                 <select name="user" data-am-selected>
                     <option value="0">全体用户</option>
                     <?php foreach ($user as $value): ?>
-                        <?php if($value['user_department_id'] != $_SESSION['team']['user_department_id'] && ACTION != 'allExtract'){continue;} ?>
+                        <?php if($value['user_department_id'] != $this->session()->get('team')['user_department_id'] && ACTION != 'allExtract'){continue;} ?>
                         <option
                             value="<?= $value['user_id'] ?>" <?= $_GET['user'] == $value['user_id'] ? 'selected="selected"' : '' ?> ><?= $value['user_name'] ?></option>
                     <?php endforeach; ?>

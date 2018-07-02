@@ -44,7 +44,7 @@ class User extends Content {
      * 个人设置
      */
     public function setting(){
-        $info = \Model\Content::findContent('user', $_SESSION['team']['user_id'], 'user_id');
+        $info = \Model\Content::findContent('user', $this->session()->get('team')['user_id'], 'user_id');
         $this->assign($info);
         $this->assign('title', '账号');
         $this->layout();

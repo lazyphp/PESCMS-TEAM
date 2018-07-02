@@ -28,13 +28,13 @@ class Index extends \Core\Controller\Controller {
                      'complete' => ' AND t.task_status = 3',
                  ] as $key => $condition) {
             $result = $this->db('task AS t')->field('count(t.task_id) AS statistics')->join("{$this->prefix}task_user AS tu ON tu.task_id = t.task_id")->where("tu.user_id = :user_id AND task_user_type = 2 {$condition}")->find([
-                'user_id' => $_SESSION['team']['user_id']
+                'user_id' => $this->session()->get('team')['user_id']
             ]);
             $statistics[$key] = $result['statistics'];
         }
 
         //添加时效图
-        \Model\Task::getUserTask($_SESSION['team']['user_id']);
+        \Model\Task::getUserTask($this->session()->get('team')['user_id']);
         $this->assign('aging', \Model\Task::taskAgingGapFigureLineChart());
         $this->assign('statistics', $statistics);
 

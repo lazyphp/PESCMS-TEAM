@@ -15,7 +15,7 @@
                 <div class="task-date am-text-center">
                     <span class="task-date-align ">
                         <?= $label->findContent('user', 'user_id', $supplementContent['task_supplement_user_id'])['user_name']; ?> 补充于 <?= date('Y/m/d H:i', $supplementContent['task_supplement_createtime']); ?>
-                        <?php if ($_SESSION['team']['user_id'] == $supplementContent['task_supplement_user_id'] && !in_array($task_status, ['3', '10']) ): ?>
+                        <?php if ($this->session()->get('team')['user_id'] == $supplementContent['task_supplement_user_id'] && !in_array($task_status, ['3', '10']) ): ?>
                             <a href="<?= $label->url('Team-Task_supplement-action', ['id' => $supplementContent['task_supplement_id'], 'task_id' => $task_id, 'method' => 'DELETE', 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>" class="ajax-click ajax-delete"><i class="am-icon-recycle"></i>移除</a>
                         <?php endif; ?>
                     </span>

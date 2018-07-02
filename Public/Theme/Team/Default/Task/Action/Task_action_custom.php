@@ -4,17 +4,17 @@
         <div class="am-form-group">
             <label class="am-block">任务审核人</label>
 
-            <input type="hidden" name="checkuser" value="<?= empty($actionUser['1']) ? $_SESSION['team']['user_id'] : implode(',', $actionUser['1']); ?>"/>
+            <input type="hidden" name="checkuser" value="<?= empty($actionUser['1']) ? $this->session()->get('team')['user_id'] : implode(',', $actionUser['1']); ?>"/>
 
             <div class="am-block am-margin-bottom-xs check-user">
                 <?php if (ACTION == 'view'): ?>
                     <?php foreach ($userAccessList as $value): ?>
                         <?php if ($value['task_user_type'] == 1): ?>
-                            <a href="javascript:;" <?= $value['user_id'] == $_SESSION['team']['user_id'] ? 'type="no"' : '' ?> data="<?= $value['user_id']; ?>" class="remove-check-user"><i class="am-icon-user"></i><span> <?= $value['user_name']; ?></span></a>
+                            <a href="javascript:;" <?= $value['user_id'] == $this->session()->get('team')['user_id'] ? 'type="no"' : '' ?> data="<?= $value['user_id']; ?>" class="remove-check-user"><i class="am-icon-user"></i><span> <?= $value['user_name']; ?></span></a>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <a href="javascript:;" type="no" data="<?= $_SESSION['team']['user_id']; ?>" class="remove-check-user"><i class="am-icon-user"></i><span> <?= $_SESSION['team']['user_name']; ?>(本人)</span></a>
+                    <a href="javascript:;" type="no" data="<?= $this->session()->get('team')['user_id']; ?>" class="remove-check-user"><i class="am-icon-user"></i><span> <?= $this->session()->get('team')['user_name']; ?>(本人)</span></a>
                 <?php endif; ?>
 
             </div>
@@ -22,7 +22,7 @@
             <select class="select-check-user">
                 <option selected value="">添加审核人</option>
                 <?php foreach ($user['list'] as $key => $value): ?>
-                    <option value="<?= $key; ?>" <?= $key == $_SESSION['team']['user_id'] ? 'disabled="disabled"' : '' ?>><?= $value; ?></option>
+                    <option value="<?= $key; ?>" <?= $key == $this->session()->get('team')['user_id'] ? 'disabled="disabled"' : '' ?>><?= $value; ?></option>
                 <?php endforeach; ?>
             </select>
 
@@ -58,7 +58,7 @@
                     <select class="department">
                         <option selected value="">选择部门</option>
                         <?php foreach ($department as $value): ?>
-                            <option value="<?= $value['department_id']; ?>" data="<?= $value['department_id'] == $_SESSION['team']['user_department_id'] ? '1' : '' ?>"><?= $value['department_name']; ?></option>
+                            <option value="<?= $value['department_id']; ?>" data="<?= $value['department_id'] == $this->session()->get('team')['user_department_id'] ? '1' : '' ?>"><?= $value['department_name']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

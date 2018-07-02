@@ -1,6 +1,6 @@
 <header class="am-topbar am-topbar-inverse admin-header">
     <h1 class="am-topbar-brand">
-        <a href="<?= $label->url(empty($_SESSION['team']['user_home']) ? 'Team-Index-index' : $_SESSION['team']['user_home']); ?>">PESCMS Team</a>
+        <a href="<?= $label->url(empty($this->session()->get('team')['user_home']) ? 'Team-Index-index' : $this->session()->get('team')['user_home']); ?>">PESCMS Team</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"

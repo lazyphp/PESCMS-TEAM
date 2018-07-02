@@ -30,7 +30,7 @@ class HandleTaskSupplement extends \Core\Slice\Slice {
         if($auth['check'] === false){
             $this->error('您没有权限操作本任务');
         }
-        $_POST['user_id'] = (string) $_SESSION['team']['user_id'];
+        $_POST['user_id'] = (string) $this->session()->get('team')['user_id'];
         $_POST['createtime'] = (string) date('Y-m-d H:i');
     }
 

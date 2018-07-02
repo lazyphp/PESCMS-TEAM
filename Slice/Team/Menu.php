@@ -22,7 +22,7 @@ class Menu extends \Core\Slice\Slice{
 
     public function before() {
         $this->assign('title',\Model\Menu::getTitleWithMenu()['menu_name']);
-        $this->assign('menu', \Model\Menu::menu($_SESSION['team']['user_group_id']));
+        $this->assign('menu', \Model\Menu::menu($this->session()->get('team')['user_group_id']));
     }
 
     public function after() {

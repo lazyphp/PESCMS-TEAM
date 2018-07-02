@@ -13,7 +13,7 @@
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">名字</label>
-                <input type="text" name="name" value="<?= $_SESSION['team']['user_name'] ?>" required/>
+                <input type="text" name="name" value="<?= $this->session()->get('team')['user_name'] ?>" required/>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">邮箱地址</label>
-                <input type="text" name="mail" value="<?= $_SESSION['team']['user_mail'] ?>" required/>
+                <input type="text" name="mail" value="<?= $this->session()->get('team')['user_mail'] ?>" required/>
 
                 <div class="am-alert am-alert-secondary am-text-xs " data-am-alert>
                     <i class="am-icon-lightbulb-o"></i> 填写正确的邮箱，可以实时接收系统通知。
@@ -35,7 +35,7 @@
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">电话号码</label>
-                <input type="text" name="phone" value="<?= $_SESSION['team']['user_phone'] ?>"/>
+                <input type="text" name="phone" value="<?= $this->session()->get('team')['user_phone'] ?>"/>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
                 <label class="am-block">个人主页</label>
                 <select name="home">
                     <?php foreach (['Team-Index-index' => '仪表盘', 'Team-Task-index' => '任务列表', 'Team-Task-my' => '我的任务', 'Team-Task-myCard' => '任务看板'] as $key => $value): ?>
-                        <option value="<?= $key; ?>" <?= $key == $_SESSION['team']['user_home'] ? 'selected="selected"' : ''; ?> ><?= $value; ?></option>
+                        <option value="<?= $key; ?>" <?= $key == $this->session()->get('team')['user_home'] ? 'selected="selected"' : ''; ?> ><?= $value; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -83,7 +83,7 @@
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">更换头像</label>
-                <img class="am-img-thumbnail" alt="140*140" src="<?= $_SESSION['team']['user_head']; ?>" width="140" height="140">
+                <img class="am-img-thumbnail" alt="140*140" src="<?= $this->session()->get('team')['user_head']; ?>" width="140" height="140">
 
                 <div class="am-form-group am-form-file">
                     <button type="button" class="am-btn am-btn-danger am-btn-sm">

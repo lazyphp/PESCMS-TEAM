@@ -17,7 +17,7 @@ class Report extends \Core\Controller\Controller {
             'count' => sprintf($sql, 'count(*)'),
             'normal' => sprintf($sql, '*'),
             'param' => [
-                'user_id' => $_SESSION['team']['user_id']
+                'user_id' => $this->session()->get('team')['user_id']
             ],
             'style' => ['total' => '', 'first' => '', 'last' => ''],
             'LANG' => ['pre' => '&laquo;', 'next' => '&raquo;']
@@ -35,7 +35,7 @@ class Report extends \Core\Controller\Controller {
     public function view() {
         $id = $this->isG('id', '请选择报表ID');
         $content = \Model\Content::findContent('report', $id, 'report_id');
-        if (empty($content) || $content['user_id'] != $_SESSION['team']['user_id']) {
+        if (empty($content) || $content['user_id'] != $this->session()->get('team')['user_id']) {
             $this->error('不存在的报表或者您无权查找别人的报表');
         }
         $list = \Model\Content::listContent([
@@ -56,8 +56,8 @@ class Report extends \Core\Controller\Controller {
      */
     public function extract() {
 
-        $head = explode(',', \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id')['department_header']);
-        if (!in_array($_SESSION['team']['user_id'], $head) && ACTION == 'extract') {
+        $head = explode(',', \Model\Content::findContent('department', $this->session()->get('team')['user_department_id'], 'department_id')['department_header']);
+        if (!in_array($this->session()->get('team')['user_id'], $head) && ACTION == 'extract') {
             $this->error('您不是部门负责人，无权访问');
         }
 
@@ -66,7 +66,7 @@ class Report extends \Core\Controller\Controller {
         //allExtract将移除此限制
         if (ACTION == 'extract') {
             $condition .= " AND r.department_id = :department_id";
-            $param['department_id'] = $_SESSION['team']['user_department_id'];
+            $param['department_id'] = $this->session()->get('team')['user_department_id'];
         }
 
         if (!empty($_GET['begin']) && !empty($_GET['end'])) {

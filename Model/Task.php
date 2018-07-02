@@ -103,16 +103,16 @@ class Task extends \Core\Model\Model {
             return $auth;
         }
 
-        $userid = $_SESSION['team']['user_id'];
+        $userid = self::session()->get('team')['user_id'];
         foreach ($authList as $value) {
             if ($value['task_user_type'] == '1' && $value['user_id'] == $userid) {
                 $auth['check'] = true;
             } elseif ($value['task_user_type'] == '2' && $value['user_id'] == $userid) {
                 $auth['action'] = true;
-            } elseif ($value['task_user_type'] == '3' && $value['user_id'] == $_SESSION['team']['user_department_id']) {
+            } elseif ($value['task_user_type'] == '3' && $value['user_id'] == self::session()->get('team')['user_department_id']) {
 
-                $department = \Model\Content::findContent('department', $_SESSION['team']['user_department_id'], 'department_id');
-                if (in_array($_SESSION['team']['user_id'], explode(',', $department['department_header']))) {
+                $department = \Model\Content::findContent('department', self::session()->get('team')['user_department_id'], 'department_id');
+                if (in_array(self::session()->get('team')['user_id'], explode(',', $department['department_header']))) {
                     $auth['department'] = true;
                 }
 

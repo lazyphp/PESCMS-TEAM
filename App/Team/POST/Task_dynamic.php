@@ -26,13 +26,13 @@ class Task_dynamic extends Content {
         if($auth['action'] === false){
             $this->error('您没有权限发表本任务动态');
         }
-        $_POST['user_id'] = (string) $_SESSION['team']['user_id'];
+        $_POST['user_id'] = (string) $this->session()->get('team')['user_id'];
         $_POST['createtime'] = (string) date('Y-m-d H:i');
         parent::action($jump, $commit);
 
         $content = $this->p('content');
         $url = $this->url('Team-Task-view', ['id' => $task['task_id']]);
-        \Model\Report::addReport("{$_SESSION['team']['user_name']}填写了任务<a href=\"{$url}\">《{$task['task_title']}》</a>的动态：{$content}");
+        \Model\Report::addReport("{$this->session()->get('team')['user_name']}填写了任务<a href=\"{$url}\">《{$task['task_title']}》</a>的动态：{$content}");
 
         $this->success('发表任务动态成功!');
 

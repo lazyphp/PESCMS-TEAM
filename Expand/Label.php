@@ -221,7 +221,7 @@ class Label {
     public function ey() {
         static $ey = array();
         if (empty($ey)) {
-            $userInfo = \Model\User::findUser($_SESSION['team']['user_id']);
+            $userInfo = \Model\User::findUser($this->session()->get('team')['user_id']);
             for ($i = 1; $i <= 100; $i++) {
                 $nextEy = $i * $i;
                 $preEy = ($i - 1) * ($i - 1);

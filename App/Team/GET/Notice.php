@@ -15,7 +15,7 @@ class Notice extends Content {
 
     public function index($display = true) {
         $condition = "";
-        $param = ['user_id' => $_SESSION['team']['user_id']];
+        $param = ['user_id' => $this->session()->get('team')['user_id']];
 
         if (!empty($_GET['type'])) {
             $condition .= " AND notice_type = :type";
