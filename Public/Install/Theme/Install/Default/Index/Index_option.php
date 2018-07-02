@@ -1,5 +1,6 @@
-        <form action="<?=DOCUMENT_ROOT?>/?m=Index&a=doinstall" class="am-form am-form-horizontal" method="POST" data-am-validator>
-            <input type="hidden" name="method" value="GET" />
+<form action="<?= DOCUMENT_ROOT ?>/?m=Index&a=doinstall" class="am-form am-form-horizontal" method="POST"
+      data-am-validator>
+    <input type="hidden" name="method" value="GET"/>
 
             <div class="am-form-group">
                 <label for="doc-ipt-3" class="am-u-sm-2 am-form-label">域名:</label>

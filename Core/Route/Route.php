@@ -100,11 +100,11 @@ class Route {
      * @return type 成功则返回true
      */
     public function custom($request) {
-        if (!is_file(PES_PATH . '/Config/Route.php')) {
+        if (!is_file(CONFIG_PATH . 'Route.php')) {
             return false;
         }
 
-        $routeArray = require PES_PATH . '/Config/Route.php';
+        $routeArray = require CONFIG_PATH . 'Route.php';
         if(empty($routeArray)){
             return false;
         }
@@ -212,12 +212,9 @@ class Route {
             $url = substr($url, '0', '-5');
         }
 
-        //(｀_´)ゞURL小妹妹过来，叔叔给你进行身体检查呀。
         $findPage = strpos($url, '/page');
         if ($findPage !== false) {
-            //(◎_◎;)，嘿嘿，小妹妹，快脱了衣服！叔叔要更进一步深入地给你身体检查哦！(○´3｀)ﾉ
             $pageParam = (int)str_replace('/page/', '', substr($url, $findPage));
-            //(>_<｡)啊~叔叔，那白色的液体是什么啊？啊啊~粘糊糊的~好恶心啊。
             if (!is_numeric($pageParam) || $pageParam <= 0 ) {
                 $_GET['page'] = 1;
             } else {

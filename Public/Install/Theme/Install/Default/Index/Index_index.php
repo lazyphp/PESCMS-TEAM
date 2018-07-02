@@ -11,14 +11,13 @@
 
 
         $.ajax({
-            url:'http://app.pescms.com/?m=Bulletin&a=index&id=1&type=1',
-            dataType:'JSONP',
-            jsonpCallback:'receive',
+            url:'https://www.pescms.com/UserProtocol',
+            dataType:'JSON',
             beforeSend:function(){
                 progress.start();
             },
             success:function(data){
-                $(".agree").html(data.replace(/\{program\}/g, "PESCMS TEAM"));
+                $(".agree").html(data.data.replace(/\{program\}/g, "PESCMS Ticket"));
                 progress.done();
             },
             complete:function(){
@@ -32,7 +31,7 @@
         var data = {
             id: 1,
             type: 1,
-            version : '2.1.1',
+            version : '2.2.0',
             sessionid : '<?= session_id(); ?>'
         };
         $.post('https://www.pescms.com/?g=Api&m=Statistics&a=action', data, function (data) {

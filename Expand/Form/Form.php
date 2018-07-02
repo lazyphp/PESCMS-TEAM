@@ -51,8 +51,7 @@ class Form {
                 require 'theme/editor.php';
                 break;
             case 'category':
-                \Model\Category::$where = 'm.model_name = "' . MODULE . '"';
-                $tree = \Model\Category::getSelectCate($field['value'] ? array($field['value']) : array(), true);
+                $category = \Model\Category::recursion(true);
                 require 'theme/category.php';
                 break;
             case $field['field_type']:

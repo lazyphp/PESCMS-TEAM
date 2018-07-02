@@ -9,12 +9,12 @@
  * the file LICENSE.md that was distributed with this source code.
  */
 
-namespace Install\App\Install\GET;
+namespace App\Install\GET;
 
 class Index extends \Core\Controller\Controller {
 
     public function __init() {
-        if (is_file(PES_PATH . '/Install/install.txt')) {
+        if (is_file(APP_PATH . 'install.txt')) {
             $this->error('不能再次执行安装程序！');
         }
     }
@@ -33,7 +33,7 @@ class Index extends \Core\Controller\Controller {
     public function config() {
         $phpVersion = explode('.', phpversion());
         $version = "{$phpVersion['0']}.{$phpVersion['1']}";
-        $check['version'] = $version >= 5.4 ? true : false;
+        $check['version'] =  $version >= 5.6 ? true : false;
 
         $check['pdo'] = in_array('pdo_mysql', get_loaded_extensions()) ? true : false;
 
@@ -60,8 +60,8 @@ class Index extends \Core\Controller\Controller {
         $data['USER_KEY'] = substr(md5(uniqid()), '10', '10');
 
         //写入安装配置信息
-        $installConfig = require PES_PATH . '/Install/Config/config_same.php';
-        $fopen = fopen(PES_PATH . '/Install/Config/config.php', 'w+');
+        $installConfig = require CONFIG_PATH . 'config_same.php';
+        $fopen = fopen(CONFIG_PATH . 'config.php', 'w+');
         if (!$fopen) {
             $this->error('文件无法打开，请检测程序安装目录是否设置足够的权限');
         }
@@ -75,8 +75,8 @@ class Index extends \Core\Controller\Controller {
         fclose($fopen);
 
         //创建临时运行配置文件
-        $config = require PES_PATH . '/Install/Config/config_array.php';
-        $fopen = fopen(PES_PATH . '/Install/Config/config_tmp.php', 'w+');
+        $config = require CONFIG_PATH . 'config_array.php';
+        $fopen = fopen(CONFIG_PATH . 'config_tmp.php', 'w+');
         if (!$fopen) {
             $this->error('文件无法打开，请检测程序目录是否设置足够的权限');
         }
@@ -127,7 +127,7 @@ class Index extends \Core\Controller\Controller {
         $data['user_createtime'] = time();
 
         //读取数据库文件
-        $sqlFile = file_get_contents(PES_PATH . '/Install/InstallDb/install.sql');
+        $sqlFile = file_get_contents(APP_PATH . 'InstallDb/install.sql');
         if (empty($sqlFile)) {
             $this->error('无法读取安装SQL文件');
         }
@@ -141,15 +141,16 @@ class Index extends \Core\Controller\Controller {
             $tmp->exec($createDb);
             //连接数据库
             $db = new \PDO("mysql:host={$config['DB_HOST']};port={$config['DB_PORT']};dbname={$config['DB_NAME']}", $config['DB_USER'], $config['DB_PWD']);
+
         } catch (\PDOException $e) {
-            $this->error($e->getMessage());
+            $this->error("数据库连接错误: ".$e->getMessage());
         }
 
         //检查是否开启MYSQL严格模式
         $sql = "SELECT @@sql_mode AS mode";
         foreach ($db->query($sql) as $row) {
             if (strpos(strtoupper($row['mode']), 'STRICT_TRANS_TABLES') !== false) {
-                $transTable = fopen(PES_PATH . '/STRICT_TRANS_TABLES.txt', 'w+');
+                $transTable = fopen(APP_PATH . '/STRICT_TRANS_TABLES.txt', 'w+');
                 fwrite($transTable, $row['mode']);
                 fclose($transTable);
             }
@@ -166,8 +167,8 @@ class Index extends \Core\Controller\Controller {
             ]);
         }
 
-        \Core\Func\CoreFunc::$defaultPath = false;
-        require PES_PATH . '/Expand/Identicon/autoload.php';
+
+        require dirname(PES_CORE) . '/Expand/Identicon/autoload.php';
         $identicon = new \Identicon\Identicon();
         $imageDataUri = $identicon->getImageDataUri($data['user_mail']);
         $data['user_head'] = $imageDataUri;
@@ -176,9 +177,10 @@ class Index extends \Core\Controller\Controller {
         //写入管理员帐号
         $this->db('user')->insert($data);
 
-        //更新运行的配置文件
-        $config = require PES_PATH . '/Install/Config/config_tmp.php';
-        $fopen = fopen(PES_PATH . '/Config/config.php', 'w+');
+        //读取临时配置文件
+        $config = require CONFIG_PATH . 'config_tmp.php';
+        //在项目根目录的配置目录创建配置文件
+        $fopen = fopen(PES_CORE . 'Config/config.php', 'w+');
         if (!$fopen) {
             $this->error('文件无法打开，请检测程序目录是否设置足够的权限');
         }
@@ -198,21 +200,21 @@ class Index extends \Core\Controller\Controller {
             }
         }
         $str .= ");\n";
-        $str .= file_get_contents(PES_PATH . '/Config/config_same.php');
+        $str .= file_get_contents(PES_CORE . 'Config/config_same.php');
 
         fwrite($fopen, $str);
         fclose($fopen);
         //更新根目录的index.php
-        $readWriteFile = file_get_contents(PES_PATH . '/Install/Write/index.php');
-        $fopen = fopen(PES_PATH . '/index.php', 'w+');
+        $readWriteFile = file_get_contents(APP_PATH . 'Write/index.php');
+        $fopen = fopen(PES_CORE . 'Public/index.php', 'w+');
         fwrite($fopen, $readWriteFile);
         fclose($fopen);
 
         //标记程序已安装和移除安装数据库文件
-        unlink(PES_PATH . '/Install/index.php');
-        unlink(PES_PATH . '/Install/InstallDb/install.sql');
-        fclose(fopen(PES_PATH . '/Install/install.txt', 'w+'));
-        fclose(fopen(PES_PATH . '/Install/index.html', 'w+'));
+        unlink(APP_PATH . '/index.php');
+        unlink(APP_PATH . '/InstallDb/install.sql');
+        fclose(fopen(APP_PATH . 'install.txt', 'w+'));
+        fclose(fopen(APP_PATH . 'index.html', 'w+'));
 
         $this->success('安装完成!');
     }

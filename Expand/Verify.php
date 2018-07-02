@@ -31,12 +31,21 @@ class Verify {
             default :
                 $str = array_merge(range(1, 9), range('a', 'z'), range('A', 'Z'));
         }
+
+        //移除一些容易混淆的字符
+        foreach (['o', 'O', 'l', 'I'] as $needle){
+            $key = array_search($needle, $str);
+            if(!empty($key)){
+                unset($str[$key]);
+            }
+        }
+
         //打乱数组
         shuffle($str);
         header('Content-Type: image/png');
 
         //设置验证码大小
-        $im = imagecreatetruecolor(120, 30);
+        $im = imagecreatetruecolor(200, 30);
         //设置背景颜色
         $background = imagecolorallocate($im, 130, 242, 75);
         imagefilledrectangle($im, 0, 0, 399, 29, $background);
@@ -44,13 +53,17 @@ class Verify {
         //验证码
         $verify = array_slice($str, 0, $length);
         $text = implode(' ', $verify);
-        $_SESSION['verify'] = md5(strtolower(implode('', $verify)));
+
+
+        \Core\Func\CoreFunc::session()->set('verify', md5(strtolower(implode('', $verify))));
         //加载字体
-        $font = PES_PATH.'/Expand/Font/Roboto-Regular.ttf';
+        $font = PES_CORE.'/Expand/Font/Roboto-Regular.ttf';
 
         //设置验证码颜色
-        imagettftext($im, 24, 0, 11, 24, imagecolorallocate($im, 0, 44, 173), $font, $text);
+        imagettftext($im, 24, 0, 11, 24, $this->randImagecolorallocate($im), $font, $text);
 
+        //设置验证码颜色
+        imagettftext($im, 24, 0, 11, 24, $this->randImagecolorallocate($im), $font, $text);
 
         //添加干扰
         $this->randLine($im);
@@ -65,7 +78,7 @@ class Verify {
      * 随机生成一个颜色
      */
     private function randImagecolorallocate($img) {
-        return imagecolorallocate($img, rand(0, 255), rand(0, 255), rand(0, 255));
+        return imagecolorallocate($img, rand(238, 255), rand(0, 40), rand(0, 255));
     }
 
     /**

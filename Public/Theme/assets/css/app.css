@@ -108,6 +108,22 @@
 
 /*扩展颜色*/
 
+a.am-btn-white:visited{
+    color: #444;
+}
+.am-btn-white {
+    color: #444;
+    background-color: #fff;
+    border-color: #e6e6e6;
+}
+.am-btn-white:hover{
+    background-color: #f2f2f2;
+}
+.am-btn-white.am-disabled, .am-btn-white[disabled]{
+    background-color: #fff;
+    border-color: #e6e6e6;
+}
+
 /*
 ===================
 图标 导航、版块管理
@@ -128,6 +144,7 @@
 .away_icon,
 .zero_icon,
 .plus_none_icon {
+    background: none !important;
     width: 20px;
     height: 20px;
     overflow: hidden;

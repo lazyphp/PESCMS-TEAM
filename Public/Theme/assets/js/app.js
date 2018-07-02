@@ -11,7 +11,7 @@ $(function () {
     $.fn.datetimepicker.dates['zh-CN'] = {
         days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
         daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-        daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
+        daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
         months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
         monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
         today: "今天",
@@ -37,7 +37,7 @@ $(function () {
     /**
      * 适用于GET请求的ajax方法
      * 需要注意的是，若需要明确restful的话，请在URL中声明method方法。
-     * 若监听的class中存在ajax-delete，在该标签中声明 msg="提示信息" ，将可以自定义提示信息
+     * 若监听的class中存在ajax-dialog，在该标签中声明 msg="提示信息" ，将可以自定义提示信息
      */
     $("body").on("click", ".ajax-click", function () {
         var url = $(this).attr("href");
@@ -48,8 +48,8 @@ $(function () {
         }
 
 
-        //弹出对话框 @todo 此处是否应该换成dialog?
-        if ($(this).hasClass('ajax-delete')) {
+        //弹出对话框
+        if ($(this).hasClass('ajax-dialog')) {
             var msg = $(this).attr("msg") ? $(this).attr("msg") : '确定删除吗？';
             if (!confirm(msg)) {
                 stop = true;
@@ -78,35 +78,57 @@ $(function () {
         $.extend(obj, param)
 
         var progress = $.AMUI.progress;
-        var d = dialog({title: '系统提示', zIndex: '9999999'});
+        var d = dialog({title: '系统提示', zIndex: '999'});
+        if(obj.dialog == true){
+            d.showModal()
+        }
         progress.start();
 
         $.post(obj.url, obj.data, function (data) {
 
             if (obj.dialog == true) {
-                if (data.status == '200') {
+                if (data.status == 200) {
+
+                    if(data.waitSecond == -1){
+                        window.location.href = data.url
+                        return false;
+                    }
+
                     setTimeout(function () {
                         data.url ? window.location.href = data.url : location.reload();
                     }, 2000);
                 }
-                if (data.status) {
-                    d.content(data.msg).showModal();
-                } else {
-                    d.content('系统响应出问题，请再次提交').showModal();
-                }
+                d.content(data.msg);
+
             }
             $.refreshToken(data.token);
             callback(data);
 
         }, 'JSON').fail(function (jqXHR, textStatus, error) {
-            $.refreshToken(jqXHR.responseJSON.token);
-            d.content('系统请求出错！请再次提交!').showModal();
-        });
-        setTimeout(function () {
-            d.close();
-        }, 3000);
+            var msg = '系统请求出错！请再次提交!';
+            try{
+                $.refreshToken(jqXHR.responseJSON.token);
+                switch (jqXHR.responseJSON.status){
+                    case 500:
+                        msg = jqXHR.responseJSON.msg;
+                        break;
+                    case 404:
+                        msg = jqXHR.responseJSON.msg;
+                        break;
+                }
 
-        progress.done();
+            }catch (e){
+
+            }
+            d.content(msg);
+        }).complete(function(){
+            var src = $('.refresh-verify').attr('src')
+            $('.refresh-verify').attr('src', src + '&time=' + Math.random());
+            setTimeout(function () {
+                d.close();
+            }, 3000);
+            progress.done();
+        });
     }
 
     /**
@@ -122,9 +144,9 @@ $(function () {
     /**
      * 预览输入的图标
      */
-    $("body").on("blur", ".icon-input", function () {
+    $("body").on("blur", ".icon-input", function(){
         var name = $(this).attr("name");
-        $('.' + name).attr("class", $(this).val() + ' ' + name);
+        $('.'+name).attr("class", $(this).val()+ ' '+ name);
     })
 
     /**
@@ -146,7 +168,6 @@ $(function () {
         startDate: new Date(),
         autoclose: true
     });
-
     /**
      * 刷新验证码
      */

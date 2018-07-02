@@ -46,6 +46,18 @@ class CoreFunc {
     public static $useRoute = false;
 
     /**
+     * 存储SESSION对象
+     * @var
+     */
+    public static $session;
+
+    /**
+     * 存放token值
+     * @var
+     */
+    public static $token;
+
+    /**
      * 获取系统配置信息
      * @param type $name
      * @return type
@@ -53,7 +65,7 @@ class CoreFunc {
     final public static function loadConfig($name = NULL) {
         static $config;
         if (empty($config)) {
-            $config = require CONFIG_PATH . 'Config/config.php';
+            $config = require CONFIG_PATH . 'config.php';
         }
         if (empty($config[$name])) {
             return $config;
@@ -84,7 +96,7 @@ class CoreFunc {
             return $controller.$suffix;
         }
 
-        $routeUrlPath = PES_PATH . '/Config/RouteUrl/' . md5(self::loadConfig('PRIVATE_KEY')) . '_route.php';
+        $routeUrlPath = CONFIG_PATH . 'RouteUrl/' . md5(self::loadConfig('PRIVATE_KEY')) . '_route.php';
 
         $routeUrl = [];
         if (is_file($routeUrlPath)) {
@@ -192,12 +204,13 @@ class CoreFunc {
 
     /**
      * 判断是否ajax提交
+     * @param str $data 信息
      * @param str $code 状态码
-     * @param str $msg 信息
      * @param str $jumpUrl 跳转的URL
+     * @param str $waitSecond 响应时间
      * @return boolean|json|xml|str 返回对应的数据类型
      */
-    public static function isAjax($code, $msg, $jumpUrl = ''){
+    public static function isAjax($data, $code, $jumpUrl = '', $waitSecond = 3){
         if (empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return FALSE;
         }
@@ -207,13 +220,20 @@ class CoreFunc {
             $jumpUrl = '';
         }
 
+        $data = array_merge([
+            'msg' => '',
+            'data' => ''
+        ], $data);
+
         $type = explode(',', $_SERVER['HTTP_ACCEPT']);
         $status['status'] = $code;
-        $status['msg'] = $msg;
+        $status['msg'] = $data['msg'];
+        $status['data'] = $data['data'];
         $status['url'] = $jumpUrl;
+        $status['waitSecond'] = $waitSecond;
 
         $token = md5(\Model\Extra::getOnlyNumber());
-        $_SESSION['token'] = $token;
+        self::session()->set('token', $token);
         $status['token'] = $token;
         switch ($type[0]) {
             case 'application/json':
@@ -231,6 +251,31 @@ class CoreFunc {
                 exit();
                 break;
         }
+    }
+
+    /**
+     * 调用session类库
+     * @return \duncan3dc\Sessions\SessionInstance
+     */
+    public final static function session($id = ''){
+        if(empty(self::$session)){
+            $sessionid = self::loadConfig('SESSION_ID');
+            self::$session = new \duncan3dc\Sessions\SessionInstance($sessionid, null, $id);
+        }
+        return self::$session;
+    }
+
+    /**
+     * 生成token
+     * @return string
+     */
+    public static function token(){
+        if(empty(self::$token)){
+            list($usec, $sec) = explode(" ", microtime());
+            self::$token = md5(substr($usec, 2) * rand(1, 100));
+            \Core\Func\CoreFunc::session()->set('token', self::$token);
+        }
+        return self::$token;
     }
 
 }

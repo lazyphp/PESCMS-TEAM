@@ -16,14 +16,14 @@ namespace Model;
  */
 class Menu extends \Core\Model\Model {
 
-    private static $menuTitle = '';
+    private static $menuTitle = [];
 
     /**
      * 生成后台菜单
      */
     public static function menu($groupId = '') {
         $condition = "";
-        if (!empty($groupId) && $_SESSION['team']['user_id'] > '1') {
+        if (!empty($groupId) && self::session()->get('team')['user_id'] > '1') {
             $group = \Model\Content::findContent('user_group', $groupId, 'user_group_id');
             $condition .= "m.menu_id in ({$group['user_group_menu']})";
         }

@@ -92,14 +92,10 @@ class Error {
                 echo '当前PHP环境有扩展加载失败';
                 exit;
             }
-
-            $db = \Core\Func\CoreFunc::db();
-            if (!empty($db->errorInfo)) {
-                self::recordLog(implode("\r", $db->errorInfo), false);
-            }
             //记录日志
             self::recordLog($error);
             if (DEBUG == true) {
+
                 $message = $error['message'];
                 $file = $error['file'];
                 $line = $error['line'];
@@ -114,34 +110,19 @@ class Error {
                     default :
                         $type = 'PHP error';
                 }
-
-                /**
-                 * 处理最后一次执行的 SQL
-                 */
-                if (!empty($db->getLastSql)) {
-                    foreach ($db->param as $key => $value) {
-                        $placeholder[] = ":{$key}";
-                        $paramValue[] = "'{$value['value']}'";
-                    }
-                    $sql = str_replace($placeholder, $paramValue, $db->getLastSql);
-                }
-                if (!empty($db->errorInfo)) {
-                    $errorSql = "<b>Sql Run Error</b>:{$db->errorInfo['message']}";
-                    $errorSqlString = "<b>Sql Error String</b>:<br/>" . implode("<br/>", explode("\n", $db->errorInfo['string']));
-                }
-                $errorMes = "<b>{$type}:</b>{$message}";
+                $errorMsg = "<b>{$type}:</b>{$message}";
                 $errorFile = "<b>File:</b>{$file}<b>Line:</b>{$line}";
             } else {
-                $errorMes = "There was an error. Please try again later.";
+                $errorMsg = "There was an error. Please try again later.";
                 $errorFile = "That's all we know.";
             }
             header("HTTP/1.1 500 Internal Server Error");
             $title = "500 Internal Server Error";
 
             if (!empty($db->errorInfo)) {
-                \Core\Func\CoreFunc::isAjax(500, $errorMes . '<br/>' . $errorSqlString);
+                CoreFunc::isAjax(['msg' => $errorMsg], 500);
             }
-            \Core\Func\CoreFunc::isAjax(500, $errorMes . '<br/>' . $errorFile);
+            CoreFunc::isAjax(['msg' => $errorMsg], 500);
 
             require self::promptPage();
             exit;
@@ -152,7 +133,8 @@ class Error {
      * SQL执行错误提示信息
      */
     public static function errorSql() {
-        $db = \Core\Func\CoreFunc::db();
+        $db = CoreFunc::db();
+        
         if (!empty($db->errorInfo)) {
             self::recordLog(implode("\r", $db->errorInfo), false);
         }
@@ -172,16 +154,16 @@ class Error {
                 }
             }
 
-            $errorMes = "<b>Sql Run Error</b>:{$db->errorInfo['message']}";
-            $errorFile = "<b>Sql Error String</b>:<br/>" . implode("<br/>", explode("\n", $db->errorInfo['string']));
+            $errorMsg = "<b>Sql Run Message</b>: {$db->errorInfo['message']}";
+            $errorFile = "<b>Sql Error Info</b>:<br/>" . implode("<br/>", explode("\n", $db->errorInfo['string']));
         } else {
-            $errorMes = "There was an error. Please try again later.";
+            $errorMsg = "There was an error. Please try again later.";
             $errorFile = "That's all we know.";
         }
         header("HTTP/1.1 500 Internal Server Error");
         $title = "500 Internal Server Error";
 
-        \Core\Func\CoreFunc::isAjax(500, $errorMes . '<br/>' . $errorFile);
+        CoreFunc::isAjax(['msg' => $errorMsg], 500);
         require self::promptPage();
         exit;
     }
@@ -218,7 +200,7 @@ class Error {
      * @return type 返回配置信息
      */
     private static function loadConfig($name = NULL) {
-        return \Core\Func\CoreFunc::loadConfig($name);
+        return CoreFunc::loadConfig($name);
     }
 
 }

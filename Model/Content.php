@@ -25,8 +25,8 @@ class Content extends \Core\Model\Model {
      * @param type $field 查找的字段
      * @return type
      */
-    public static function findContent($table, $value, $field) {
-        return self::db($table)->where("{$field} = :$field")->find(array($field => $value));
+    public static function findContent($table, $value, $field, $showField = '*') {
+        return self::db($table)->field($showField)->where("{$field} = :$field")->find(array($field => $value));
     }
 
     /**
@@ -42,8 +42,8 @@ class Content extends \Core\Model\Model {
         if(empty($param['table'])){
             self::error('Unkonw Table!');
         }
-        $value = array_merge(['field' => '*', 'join' => '', 'condition' => '', 'order' => '', 'group' => '', 'limit' => '', 'param' => array()], $param);
-        return self::db($value['table'])->field($value['field'])->join($value['join'])->where($value['condition'])->order($value['order'])->group($value['group'])->limit($value['limit'])->select($value['param']);
+        $value = array_merge(['field' => '*', 'db' => '', 'prefix' => '', 'join' => '', 'condition' => '', 'order' => '', 'group' => '', 'limit' => '', 'param' => array()], $param);
+        return self::db($value['table'], $value['db'], $value['prefix'])->field($value['field'])->join($value['join'])->where($value['condition'])->order($value['order'])->group($value['group'])->limit($value['limit'])->select($value['param']);
     }
 
     /**
@@ -116,7 +116,9 @@ class Content extends \Core\Model\Model {
                 }
             } else {
                 $field_name = self::p($value['field_name']);
-                if( empty($field_name) && !is_numeric($field_name) ){
+                if(!empty($field_name)){
+                    $data[self::$fieldPrefix . $value['field_name']] = $field_name;
+                }elseif( empty($field_name) && !is_numeric($field_name) && !empty($value['field_default']) ){
                     $data[self::$fieldPrefix . $value['field_name']] = $value['field_default'];
                 }else{
                     $data[self::$fieldPrefix . $value['field_name']] = $field_name;

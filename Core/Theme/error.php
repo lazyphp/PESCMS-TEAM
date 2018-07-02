@@ -17,7 +17,7 @@
                     <h2 class="am-text-center am-text-xxl am-margin-top-lg"><?= $title; ?></h2>
                     <?php if (DEBUG == false): ?>
                         <p class="am-text-center">
-                            <?php echo $errorMes; ?>
+                            <?php echo $errorMsg; ?>
                             <?php echo $errorFile ?>
 
                         </p>
@@ -52,7 +52,7 @@
                                 <?= $errorSql; ?>
                                 <?= $errorSqlString; ?>
                             <?php endif; ?>
-                            <span class="am-block"><?= $errorMes; ?></span>
+                            <span class="am-block"><?= $errorMsg; ?></span>
                             <span class="am-block"><?= $errorFile ?></span>
                         </pre>
                             <?php if (!empty($sql)): ?>
