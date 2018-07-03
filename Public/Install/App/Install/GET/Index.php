@@ -167,8 +167,8 @@ class Index extends \Core\Controller\Controller {
             ]);
         }
 
-
-        require dirname(PES_CORE) . '/Expand/Identicon/autoload.php';
+        \Core\Func\CoreFunc::$defaultPath = false;
+        require PES_CORE . '/Expand/Identicon/autoload.php';
         $identicon = new \Identicon\Identicon();
         $imageDataUri = $identicon->getImageDataUri($data['user_mail']);
         $data['user_head'] = $imageDataUri;

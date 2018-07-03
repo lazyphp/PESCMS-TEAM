@@ -17,7 +17,7 @@
                 progress.start();
             },
             success:function(data){
-                $(".agree").html(data.data.replace(/\{program\}/g, "PESCMS Ticket"));
+                $(".agree").html(data.data.replace(/\{program\}/g, "PESCMS Team"));
                 progress.done();
             },
             complete:function(){
