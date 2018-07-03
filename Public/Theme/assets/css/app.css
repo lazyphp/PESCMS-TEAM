@@ -421,7 +421,7 @@ a.am-btn-white:visited{
 
 /*修复下拉组件被隐藏得问题*/
 .fixed-hidden-select {
-    position: absolute
+    position: relative;
 }
 
 .fixed-hidden-margin-left {

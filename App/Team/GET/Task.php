@@ -142,7 +142,7 @@ class Task extends Content {
 
         $this->assign('list', $list);
 
-        $this->layout();
+        $this->display();
     }
 
     /**

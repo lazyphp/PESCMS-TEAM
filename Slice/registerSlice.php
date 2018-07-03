@@ -28,34 +28,93 @@
 |--------------------------------------------------------------------------
 |
 */
+
 use \Core\Slice\InitSlice as InitSlice;
 
-//注册后台登录验证
-InitSlice::any('Team', ['\Team\Login', '\Team\Auth'], ['Team-Login']);
-//注册自动更新路由规则和发送通知
-InitSlice::get(['Team-'], ['\Common\UpdateRoute', '\Common\SendNotice']);
-//注册理路由规则 添加/编辑 提交的表单内容
-InitSlice::any(['Team-Route-action'], ['\Team\HandleForm\HandleRoute', '\Common\UpdateRoute']);
-//注册后台登录验证
-InitSlice::any('Team', ['\Team\Login', '\Team\Auth'], ['Team-Login']);
-//注册后台菜单get请求的输出
-InitSlice::get('Team', ['\Team\Menu', '\Team\Notice'], ['Team-Login']);
+$SLICE_ARRYR = [
+    /*----------------全局设置部分----------------*/
 
-//注册自动更新用户组、部门、项目、字段的信息
-InitSlice::any(['Team-User', 'Team-User_group', 'Team-Department', 'Team-Project'], ['\Team\UpdateField\UpdateUserGroupField', '\Team\UpdateField\UpdateUserDepartmentField', '\Team\UpdateField\UpdateUserProjectField']);
-//注册自动更新用户组字段的信息
-InitSlice::any(['Team-Node'], ['\Team\UpdateField\UpdateNodeParentField']);
-//注册更新任务priority字段选项值的切片
-InitSlice::any(['Team-Priority'], ['\Team\UpdateField\UpdateTaskPriorityField']);
-//注册自动处理后台用户提交的用户密码表单
-InitSlice::any(['Team-User-action'], ['\Team\HandleForm\HandleUser']);
-//注册处理节点管理 添加/编辑 提交的表单内容
-InitSlice::any(['Team-Node-action'], ['\Team\HandleForm\HandleNode']);
+    //全局切片
+    'GLOBAL-SLICE' => [
+        'any',
+        'Team',
+        ['\Team\Login', '\Team\Auth', '\Team\Menu'],//注册后台登录验证、权限验证、后台菜单
+        ['Team-Login']
+    ],
 
-#----注册任务相关的----
-//注册任务状态的模板赋值
-InitSlice::get(['Team-Task-', 'Team-User'], ['\Team\TaskMark', '\Team\TaskSidebar']);
-//注册处理任务条目
-InitSlice::any(['Team-Task-taskListAction', 'Team-Task_list-action'], ['\Team\HandleForm\HandleTaskList']);
-//注册处理任务补充说明
-InitSlice::any(['Team-Task_supplement-action'], ['\Team\HandleForm\HandleTaskSupplement']);
+    /*----------------Team部分----------------*/
+
+    //注册理路由规则 添加/编辑 提交的表单内容
+    'Team-Route-Action' => [
+        'any',
+        ['Team-Route-action'],
+        ['\Team\HandleForm\HandleRoute', '\Common\UpdateRoute']
+    ],
+
+    //注册自动更新用户组、部门、项目、字段的信息
+    'Team-FieldUpdate' => [
+        'any',
+        ['Team-User', 'Team-User_group', 'Team-Department', 'Team-Project'],
+        [
+            '\Team\UpdateField\UpdateUserGroupField',
+            '\Team\UpdateField\UpdateUserDepartmentField',
+            '\Team\UpdateField\UpdateUserProjectField'
+        ]
+    ],
+
+    //注册自动更新用户组字段的信息
+    'Team-Node-FieldUpdate' => [
+        'any',
+        ['Team-Node'],
+        ['\Team\UpdateField\UpdateNodeParentField']
+    ],
+
+    //注册更新任务priority字段选项值的切片
+    'Team-Priority-FieldUpdate' => [
+        'any',
+        ['Team-Priority'],
+        ['\Team\UpdateField\UpdateTaskPriorityField']
+    ],
+
+    //注册自动处理后台用户提交的用户密码表单
+    'Team-User-Action' => [
+        'any',
+        ['Team-User-action'],
+        ['\Team\HandleForm\HandleUser']
+    ],
+
+    //注册处理节点管理 添加/编辑 提交的表单内容
+    'Team-Node-Action' => [
+        'any',
+        ['Team-Node-action'],
+        ['\Team\HandleForm\HandleNode']
+    ],
+
+    //注册任务状态的模板赋值
+    'TaskANDUser' => [
+        'get',
+        ['Team-Task-', 'Team-User'],
+        ['\Team\TaskMark', '\Team\TaskSidebar']
+    ],
+
+    //注册处理任务条目
+    'Task-List-Action' => [
+        'any',
+        ['Team-Task-taskListAction', 'Team-Task_list-action'],
+        ['\Team\HandleForm\HandleTaskList']
+    ],
+
+    //注册处理任务补充说明
+    'Task-Supplement-Action' =>[
+        'any',
+        ['Team-Task_supplement-action'],
+        ['\Team\HandleForm\HandleTaskSupplement']
+    ],
+];
+
+//执行切片注册
+foreach ($SLICE_ARRYR as $item) {
+    $method = $item['0'];
+    $exclude = empty($item['3']) ? [] : $item['3'];
+    InitSlice::$method($item[1], $item[2], $exclude);
+}
