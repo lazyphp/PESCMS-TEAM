@@ -30,6 +30,17 @@ class Setting extends \Core\Controller\Controller {
         $this->layout();
     }
 
+	/**
+	 * 邮件发送测试
+	 */
+	public function emailTest(){
+		$email = $this->isG('email', '请提交邮件地址');
+		if(\Model\Extra::checkInputValueType($email, 1) === false){
+			$this->error('请提交正确的邮件地址');
+		}
+		(new \Expand\Notice\Mail())->test($email);
+	}
+
     public function upgrade(){
         $this->assign('title', '检查更新');
         $this->layout();

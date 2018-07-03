@@ -26,7 +26,7 @@
                 ?>
                 <?php $disabled = (($status['task_status_type'] == $task['task_status']) || ($task['task_status'] == '0' && $status['task_status_type'] > 1 && $auth['check'] == FALSE)) ? 'am-disabled' : ''; ?>
                 <li class="<?= $disabled ?>" status="<?= $status['task_status_type']; ?>">
-                    <a class="ajax-click ajax-delete <?= $disabled ?>" msg="确定要更改任务的状态吗？" href="<?= $this->url('Team-Task-status', ['task_id' => $task['task_id'], 'status' => $status['task_status_type'], 'method' => 'PUT', 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"><i class="<?= $status['task_status_icon']; ?>"></i> <?= $status['task_status_name']; ?>
+                    <a class="ajax-click ajax-dialog <?= $disabled ?>" msg="确定要更改任务的状态吗？" href="<?= $this->url('Team-Task-status', ['task_id' => $task['task_id'], 'status' => $status['task_status_type'], 'method' => 'PUT', 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"><i class="<?= $status['task_status_icon']; ?>"></i> <?= $status['task_status_name']; ?>
                     </a>
                 </li>
 

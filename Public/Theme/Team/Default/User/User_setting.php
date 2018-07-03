@@ -76,33 +76,14 @@
 
 
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
-<form action="<?= $label->url('Team-User-head'); ?>" class="am-form am-margin-bottom" method="POST" enctype="multipart/form-data" data-am-validator>
+<form action="<?= $label->url('Team-User-head'); ?>" class="am-form am-margin-bottom ajax-submit" method="POST"  data-am-validator>
     <input type="hidden" name="method" value="PUT">
 
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">更换头像</label>
-                <img class="am-img-thumbnail" alt="140*140" src="<?= $this->session()->get('team')['user_head']; ?>" width="140" height="140">
-
-                <div class="am-form-group am-form-file">
-                    <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                        <i class="am-icon-cloud-upload"></i> 选择要上传的文件
-                    </button>
-                    <input id="inputFileToLoad" type="file" name="upfile" onchange="encodeImageFileAsURL();" multiple/>
-                </div>
-                <div id="file-list"></div>
-                <script>
-                    $(function () {
-                        $('#doc-form-file').on('change', function () {
-                            var fileNames = '';
-                            $.each(this.files, function () {
-                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
-                            });
-                            $('#file-list').html(fileNames);
-                        });
-                    });
-                </script>
+                <div data-am-webuploader-simple="{id:'head', name:'head', pick:{id:'#head'}, content:'<?= $this->session()->get('team')['user_head']; ?>'}"></div>
             </div>
         </div>
     </div>

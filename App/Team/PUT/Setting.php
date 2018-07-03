@@ -59,7 +59,6 @@ class Setting extends \Core\Controller\Controller {
         }
 
         $this->assign('info', $info);
-        $this->assign('menu', \Model\Menu::menu($this->session()->get('team')['user_group_id']));
         $this->layout('Setting_upgrade_info');
     }
 
@@ -68,19 +67,19 @@ class Setting extends \Core\Controller\Controller {
      * @return bool|string
      */
     private function actionsql(){
-        $version = \Model\Content::findContent('option', 'version', 'option_name')['value'];
+        $version = \Core\Func\CoreFunc::$param['system']['version'];
 
-        $ini = PES_PATH.'Upgrade/actionsql.ini';
-        if(!file_exists($ini)){
+        $ini = APP_PATH . 'Upgrade/actionsql.ini';
+        if (!file_exists($ini)) {
             return ['升级配置数据库文件不存在'];
         }
 
         $ini_array = parse_ini_file($ini, true);
 
-        foreach($ini_array as $iniversion => $value){
-            if($iniversion > $version){
-                if(!empty($value['sql'])){
-                    foreach($value['sql'] as $sql){
+        foreach ($ini_array as $iniversion => $value) {
+            if (str_replace('.', '', $iniversion) > str_replace('.', '', $version) ) {
+                if (!empty($value['sql'])) {
+                    foreach ($value['sql'] as $sql) {
                         $this->db()->query($sql);
                     }
                 }
@@ -94,7 +93,7 @@ class Setting extends \Core\Controller\Controller {
                 $version = $iniversion;
             }
         }
-        //移除升级的配置文件
+        //移除天网杀人的配置意识
         unlink($ini);
 
         return true;

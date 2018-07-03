@@ -39,7 +39,7 @@ class Login extends \Core\Controller\Controller {
             $url = base64_decode($_POST['back_url']);
         }
 
-        $this->success('登录成功!', $url);
+        $this->success('登录成功!', $url, -1);
     }
 
     /**

@@ -33,7 +33,7 @@
                     </label>
                     <?php if (($actionAuth['check'] == true || $actionAuth['action'] == true) && $task_status < 3): ?>
                         <a href="<?= $label->url('Team-Task_list-action', ['id' => $value['task_list_id'], 'task_id' => $task_id, 'method' => 'DELETE']); ?>"
-                           class="ajax-click ajax-delete" msg="确定删除吗？将无法恢复的！"><i
+                           class="ajax-click ajax-dialog" msg="确定删除吗？将无法恢复的！"><i
                                 class="am-icon-remove"></i></a>
                     <?php endif; ?>
                 </div>

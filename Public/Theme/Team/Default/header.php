@@ -44,6 +44,19 @@
     <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/lang/zh-cn/zh-cn.js?v.2.1.0"></script>
     <!--加载百度编辑器-->
 
+    <!--百度上传控件-->
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/webuploader.css"/>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/webuploader.js"></script>
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/AMUIwebuploader.js"></script>
+    <script>
+        $(function(){
+            $.webuploaderConfig({
+                server:'<?=$label->url(GROUP.'-Upload-ueditor', ['method' => 'POST', 'action' => 'uploadimage'])?>'
+            });
+        })
+    </script>
+    <!--百度上传控件-->
+
     <!--拾色器-->
     <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/spectrum.js?v.2.1.0"></script>
     <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css?v.2.1.0"/>

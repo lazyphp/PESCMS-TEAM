@@ -3,7 +3,7 @@
 <div class="am-text-sm" id="pjax-container">
     <?php include $file; ?>
 </div>
-<footer class="my-footer">
+<footer class="my-footer pescms-footer-<?= $system['notice_way'] ?>">
     <small>© Copyright 2015-<?= date('Y') ?>. Power by <a href="//www.pescms.com" target="_blank">PESCMS TEAM</a>
     </small>
     </p>

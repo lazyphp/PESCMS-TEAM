@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-21 04:03:46
--- 服务器版本： 5.5.16
--- PHP Version: 5.6.14
+-- Generation Time: 2018-07-03 06:50:11
+-- 服务器版本： 5.6.25-log
+-- PHP Version: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `pes_menu` (
   `menu_type` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`menu_id`),
   KEY `menu_pid` (`menu_pid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=71 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='菜单列表' AUTO_INCREMENT=72 ;
 
 --
 -- 转存表中的数据 `pes_menu`
@@ -283,9 +283,10 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_l
 (65, '任务优先度', 9, 'am-icon-sort-alpha-asc', 'Team-Priority-index', 2, 0),
 (66, '仪表盘', 41, 'am-icon-tachometer', 'Team-Index-index', 10, 0),
 (67, '任务重复管理', 41, 'am-icon-repeat', 'Team-Task-repeat', 71, 0),
-(68, '软件协议', 19, 'am-icon-paste', '//www.pescms.com/Page/Authorization.html', 98, 1),
-(69, '帮助文档', 19, 'am-icon-header', '//www.pescms.com/d/index/20.html', 99, 1),
-(70, '官方社区', 19, 'am-icon-forumbee', '//forum.pescms.com/list/20.html', 100, 1);
+(68, '软件协议', 19, 'am-icon-paste', 'https://www.pescms.com/Page/Authorization.html', 98, 1),
+(69, '帮助文档', 19, 'am-icon-header', 'https://www.pescms.com/d/index/20.html', 99, 1),
+(70, '官方社区', 19, 'am-icon-forumbee', 'https://forum.pescms.com/list/20.html', 100, 1),
+(71, '应用商店', 19, 'am-icon-cogs', 'Team-Application-index', 95, 0);
 
 -- --------------------------------------------------------
 
@@ -602,12 +603,12 @@ CREATE TABLE IF NOT EXISTS `pes_option` (
 --
 
 INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES
-(13, 'version', '系统版本', '2.1.0', ''),
+(13, 'version', '系统版本', '2.2.0', 'system'),
 (14, 'upload_img', '图片格式', '[".jpg",".jpge",".bmp",".gif",".png"]', 'upload'),
 (15, 'upload_file', '文件格式', '[".zip",".rar",".7z",".doc",".docx",".pdf",".xls",".xlsx",".ppt",".pptx",".txt"]', 'upload'),
 (17, 'mail', '邮件服务信息', '{"account":"","passwd":"","address":"","port":""}', ''),
-(19, 'signup', '帐号注册', '1', ''),
-(22, 'notice_way', '消息推送方式', '2', '');
+(19, 'signup', '帐号注册', '1', 'system'),
+(22, 'notice_way', '消息推送方式', '2', 'system');
 
 -- --------------------------------------------------------
 

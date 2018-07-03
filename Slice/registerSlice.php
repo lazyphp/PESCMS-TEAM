@@ -38,7 +38,7 @@ $SLICE_ARRYR = [
     'GLOBAL-SLICE' => [
         'any',
         'Team',
-        ['\Team\Login', '\Team\Auth', '\Team\Menu'],//注册后台登录验证、权限验证、后台菜单
+        ['\Team\Login', '\Team\Auth', '\Team\Menu', '\Common\Option'],//注册后台登录验证、权限验证、后台菜单
         ['Team-Login']
     ],
 

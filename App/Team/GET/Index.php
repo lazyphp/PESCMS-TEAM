@@ -52,4 +52,14 @@ class Index extends \Core\Controller\Controller {
         $this->jump($this->url('Team-Login-index'));
     }
 
+    /**
+     * 发送通知
+     */
+    public function notice(){
+        $system = \Core\Func\CoreFunc::$param['system'];
+        if (in_array($system['notice_way'], ['1', '3'])) {
+            \Model\Notice::actionNoticeSend();
+        }
+    }
+
 }

@@ -39,21 +39,19 @@ class User extends Content {
      * 更新头像
      */
     public function head() {
-        $_GET['action'] = 'uploadimage';
-        $result = (new \Expand\UEupload\UEController())->action();
-        $info = json_decode($result, true);
-        if ($info['state'] != 'SUCCESS') {
-            $this->error($info['state']);
-        } else {
-            $this->db('user')->where('user_id = :user_id')->update([
-                'user_head' => $info['url'],
-                'noset' => [
-                    'user_id' => $this->session()->get('team')['user_id']
-                ]
-            ]);
-            $this->session()->set('team', \Model\Content::findContent('user', $this->session()->get('team')['user_id'], 'user_id'));
-            $this->jump($this->url('Team-User-setting'));
-        }
+        $head = $this->isP('head', '请上传头像');
+        $this->db('user')->where('user_id = :user_id')->update([
+            'user_head' => $head,
+            'noset' => [
+                'user_id' => $this->session()->get('team')['user_id']
+            ]
+        ]);
+
+        $newInfo = \Model\Content::findContent('user', $this->session()->get('team')['user_id'], 'user_id');
+
+        $this->session()->set('team', $newInfo);
+
+        $this->success('更新头像成功', $this->url('Team-User-setting'));
     }
 
 }
