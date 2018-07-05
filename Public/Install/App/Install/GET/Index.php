@@ -13,10 +13,21 @@ namespace App\Install\GET;
 
 class Index extends \Core\Controller\Controller {
 
+    private $version;
+
     public function __init() {
         if (is_file(APP_PATH . 'install.txt')) {
             $this->error('不能再次执行安装程序！');
         }
+
+        if(is_file(APP_PATH.'version')){
+            $this->version = file(APP_PATH.'version')[0];
+        }else{
+            $this->version = 'Unknown Version';
+        }
+
+        $this->assign('version', $this->version);
+
     }
 
     /**
@@ -125,6 +136,7 @@ class Index extends \Core\Controller\Controller {
         $data['user_group_id'] = $data['user_department_id'] = '1';
         $data['user_status'] = '1';
         $data['user_createtime'] = time();
+        
 
         //读取数据库文件
         $sqlFile = file_get_contents(APP_PATH . 'InstallDb/install.sql');
@@ -158,6 +170,17 @@ class Index extends \Core\Controller\Controller {
 
         //安装数据库文件
         $db->exec($sqlFile);
+	
+	$option['version'] = $this->version;//设置系统版本
+	//更新配置信息
+        foreach($option as $optionkey => $optionvalue){
+            $this->db('option')->where('option_name = :option_name')->update([
+                'value' => $optionvalue,
+                'noset' => [
+                    'option_name' => $optionkey
+                ]
+            ]);
+        }
 
         if (!empty($domain)) {
             $this->db('option')->insert([

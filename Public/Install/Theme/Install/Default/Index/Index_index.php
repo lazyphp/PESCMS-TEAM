@@ -31,8 +31,8 @@
         var data = {
             id: 1,
             type: 1,
-            version : '2.2.0',
-            sessionid : '<?= session_id(); ?>'
+            version : '<?= $version ?>',
+            sessionid : '<?= $this->session()->getId() ?>'
         };
         $.post('https://www.pescms.com/?g=Api&m=Statistics&a=action', data, function (data) {
         }, 'JSON')

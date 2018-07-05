@@ -53,7 +53,7 @@
                     })
                 </script>
                 <div class="header">
-                    <h1 class="am-margin-top-0"><?= $title ?></h1>
+                    <h1 class="am-margin-top-0"><?= $title ?> <small class="am-text-xs">v<?= $version ?></small></h1>
                 <?php if (ACTION == 'index'): ?>
                     <p>一款开源的任务管理系统<br /></p>
                 <?php elseif (ACTION == 'config'): ?>
