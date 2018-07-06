@@ -6,7 +6,7 @@
 
 <script>
     $(function(){
-        $('.am-btn-group>a.am-btn-default').after('<a href="<?= $label->url(GROUP.'-User-analyze') ?>" class="am-btn am-btn-success"><span class="am-icon-bar-chart"></span> 数据分析</a>')
+        $('.am-btn-group>a.am-btn-default').after('<a href="<?= $label->url(GROUP.'-User-analyze', ['back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>" class="am-btn am-btn-success"><span class="am-icon-bar-chart"></span> 用户数据分析</a>')
     })
 </script>
 

@@ -20,4 +20,16 @@ class Department extends Content{
         parent::__init();
     }
 
+    /**
+     * 部门数据分析
+     */
+    public function analyze(){
+        $this->assign('title', '部门数据分析');
+        $this->assign('list', \Model\UserAndDepartment::analyze([
+            'field' => 'd.department_id AS id, d.department_name AS name, t.task_status, COUNT(t.task_status) AS total ',
+            'group' => 'd.department_id, t.task_status'
+        ]));
+        $this->layout('User/User_analyze');
+    }
+
 }

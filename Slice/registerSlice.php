@@ -93,7 +93,7 @@ $SLICE_ARRYR = [
     //注册任务状态的模板赋值
     'TaskANDUser' => [
         'get',
-        ['Team-Task-', 'Team-User'],
+        ['Team-Task-', 'Team-User', 'Team-Department'],
         ['\Team\TaskMark', '\Team\TaskSidebar']
     ],
 

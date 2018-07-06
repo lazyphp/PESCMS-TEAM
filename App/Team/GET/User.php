@@ -50,4 +50,17 @@ class User extends Content {
         $this->layout();
     }
 
+    /**
+     * 用户数据分析
+     */
+    public function analyze(){
+        $this->assign('title', '用户数据分析');
+
+        $this->assign('list', \Model\UserAndDepartment::analyze([
+            'field' => 'u.user_id AS id, concat( u.user_name, " - " , d.department_name) AS name, t.task_status, COUNT(t.task_status) AS total ',
+            'group' => 'u.user_id, t.task_status'
+        ]));
+        $this->layout();
+    }
+
 }

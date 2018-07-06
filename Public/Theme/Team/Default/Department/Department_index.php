@@ -63,4 +63,10 @@
     </form>
 <?php endif; ?>
 
+<script>
+    $(function(){
+        $('.am-btn-group>a.am-btn-default').after('<a href="<?= $label->url(GROUP.'-Department-analyze', ['back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>" class="am-btn am-btn-success"><span class="am-icon-bar-chart"></span> 部门数据分析</a>')
+    })
+</script>
+
 <?php include THEME_PATH . "/Content/Content_index_footer.php"; ?>
