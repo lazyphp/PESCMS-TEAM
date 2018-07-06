@@ -1,1 +1,1 @@
-<div data-am-webuploader-simple="{id:'<?= $field['field_name']; ?>', name:'<?= $field['field_name']; ?>',pick:{id:'#<?= $field['field_name']; ?>'}, accept:{title:'Images', extensions: '<?= $this->imgsuffix; ?>' }}"></div>
+<div data-am-webuploader-simple="{id:'<?= $field['field_name']; ?>', name:'<?= $field['field_name']; ?>',pick:{id:'#<?= $field['field_name']; ?>'}, accept:{title:'Images', extensions: '<?= $this->imgsuffix; ?>' }, content:'<?= $field['value']; ?>', type:'thumb'}"></div>

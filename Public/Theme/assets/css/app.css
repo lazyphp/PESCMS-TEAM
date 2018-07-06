@@ -425,7 +425,7 @@ a.am-btn-white:visited{
 }
 
 .fixed-hidden-margin-left {
-    margin-left: 45pt;
+    /*margin-left: 45pt;*/
 }
 
 /*修复下拉组件被隐藏得问题*/
