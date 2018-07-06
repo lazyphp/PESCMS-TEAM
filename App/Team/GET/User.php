@@ -56,10 +56,20 @@ class User extends Content {
     public function analyze(){
         $this->assign('title', '用户数据分析');
 
+        $list = [];
+        $user = \Model\Content::listContent([
+            'table' => 'user AS u',
+            'field' => 'u.user_id, u.user_name, d.department_name',
+            'join' => "{$this->prefix}department AS d ON d.department_id = u.user_department_id"
+        ]);
+        foreach ($user as $item){
+            $list[$item['user_id']]['name'] = "{$item['user_name']} - {$item['department_name']}";
+        }
+
         $this->assign('list', \Model\UserAndDepartment::analyze([
-            'field' => 'u.user_id AS id, concat( u.user_name, " - " , d.department_name) AS name, t.task_status, COUNT(t.task_status) AS total ',
+            'field' => 'u.user_id AS id, t.task_status, COUNT(t.task_status) AS total ',
             'group' => 'u.user_id, t.task_status'
-        ]));
+        ], $list));
         $this->layout();
     }
 

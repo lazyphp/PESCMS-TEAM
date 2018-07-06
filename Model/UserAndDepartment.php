@@ -16,7 +16,7 @@ namespace Model;
  */
 class UserAndDepartment extends \Core\Model\Model {
 
-    public static function analyze($array){
+    public static function analyze($array, $list){
         $param = [];
         if(empty($_GET['begin']) && empty($_GET['end']) ){
             $param['begin'] = time() - 86400 * 30;
@@ -35,14 +35,12 @@ class UserAndDepartment extends \Core\Model\Model {
             ->group($array['group'])
             ->select($param);
 
-        $list = [];
         if(!empty($result)){
             foreach ($result as $value){
                 if(empty($list[$value['id']]['total'])){
                     $list[$value['id']]['total'] = 0;
                 }
                 $list[$value['id']]['total'] += $value['total'];
-                $list[$value['id']]['name'] = $value['name'];
                 $list[$value['id']]['task_status'][$value['task_status']] = $value['total'];
             }
         }

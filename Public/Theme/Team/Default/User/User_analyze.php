@@ -19,7 +19,7 @@
 </div>
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 <?php if (!empty($list)): ?>
-    <table class="am-table am-table-bordered am-table-striped am-table-hover am-text-sm">
+    <table class="am-table am-table-bordered am-table-striped am-table-hover am-text-sm am-table-centered">
         <tr>
             <th>名称</th>
             <?php foreach ($statusMark as $key => $value): ?>
@@ -34,8 +34,8 @@
                 <?php foreach ($statusMark as $status): ?>
                     <td><?= empty($item['task_status'][$status['task_status_type']]) ? 0 : $item['task_status'][$status['task_status_type']] ?></td>
                 <?php endforeach; ?>
-                <td><?= $item['total'] ?></td>
-                <td><?= round(($item['task_status'][2]+$item['task_status'][3])/$item['total'] * 100 , 2) ?>%</td>
+                <td><?= empty($item['total']) ? 0 : $item['total'] ?></td>
+                <td><?= $item['total'] == 0 ? 0 : round(($item['task_status'][2]+$item['task_status'][3])/$item['total'] * 100 , 2) ?>%</td>
             </tr>
         <?php endforeach; ?>
     </table>

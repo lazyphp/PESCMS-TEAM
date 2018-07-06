@@ -25,10 +25,18 @@ class Department extends Content{
      */
     public function analyze(){
         $this->assign('title', '部门数据分析');
+
+        $list = [];
+        $department = \Model\Content::listContent(['table' => 'department', 'order' => 'department_listsort ASC, department_id DESC']);
+        foreach ($department as $item){
+            $list[$item['department_id']]['name'] = $item['department_name'];
+        }
+
+
         $this->assign('list', \Model\UserAndDepartment::analyze([
             'field' => 'd.department_id AS id, d.department_name AS name, t.task_status, COUNT(t.task_status) AS total ',
             'group' => 'd.department_id, t.task_status'
-        ]));
+        ], $list));
         $this->layout('User/User_analyze');
     }
 
