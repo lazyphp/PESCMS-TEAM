@@ -20,10 +20,11 @@ class Index extends \Core\Controller\Controller {
         $today = strtotime(date('Y-m-d') . ' 00:00:00');
         $statistics = [];
 
+        $yesterday = $today - 86400;
         foreach ([
                      'total' => ' AND t.task_status < 10',
-                     'today' => ' AND t.task_submit_time >= ' . $today,
-                     'yesterday' => ' AND t.task_submit_time BETWEEN ' . $today - 86400 . '  AND  ' . $today,
+                     'today' => " AND t.task_submit_time >= {$today}",
+                     'yesterday' => " AND t.task_submit_time BETWEEN {$yesterday}  AND {$today} ",
                      'overdue' => ' AND t.task_status < 2 AND t.task_end_time < ' . time(),
                      'complete' => ' AND t.task_status = 3',
                  ] as $key => $condition) {

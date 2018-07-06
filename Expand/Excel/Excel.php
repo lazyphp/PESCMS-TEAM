@@ -12,7 +12,7 @@
 namespace Expand\Excel;
 
 \Core\Func\CoreFunc::$defaultPath = false;
-require_once PES_PATH . '/Expand/Excel/Classes/PHPExcel.php';
+require_once APP_PATH . '/Expand/Excel/Classes/PHPExcel.php';
 
 /**
  * Excel文件导入和导出

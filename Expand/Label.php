@@ -319,7 +319,7 @@ class Label {
     public function getImg($path, $size = array()){
         $extension = pathinfo($path)['extension'];
         $add = empty($size) ? '' : '_'.implode('x', $size).".{$extension}";
-        if(is_file(PES_PATH.str_replace(DOCUMENT_ROOT, '',$path))){
+        if(is_file(HTTP_PATH.str_replace(DOCUMENT_ROOT, '',$path))){
             return $path.$add;
         }else{
             //确认是否base64位的
