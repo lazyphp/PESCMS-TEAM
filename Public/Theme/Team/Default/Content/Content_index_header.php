@@ -5,8 +5,10 @@
  */
 ?>
 <!-- content start -->
-<div class=" am-padding am-padding-top-0">
-    <div class="am-cf">
+<div class=" am-padding-xs am-padding-top-0">
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-bd">
+            <div class="am-cf">
         <div class="am-fl am-cf">
             <?php if (!empty($_GET['back_url'])): ?>
                 <a href="<?= base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i

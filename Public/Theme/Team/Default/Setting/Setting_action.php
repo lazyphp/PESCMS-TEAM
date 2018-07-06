@@ -1,5 +1,6 @@
-<div class="admin-content am-padding am-padding-top-0">
-
+<div class="am-padding-xs am-padding-top-0">
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-bd">
     <div class="am-cf">
         <div class="am-fl am-cf">
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
@@ -156,6 +157,9 @@
         </div>
     </div>
 </form>
+        </div>
+    </div>
+</div>
 <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/spectrum.js?v.2.1.0"></script>
 <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css?v.2.1.0"/>
 <script>

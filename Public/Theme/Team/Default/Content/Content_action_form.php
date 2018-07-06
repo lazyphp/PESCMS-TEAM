@@ -6,7 +6,7 @@
 ?>
 <?php foreach ($field as $key => $value) : ?>
     <?php if ($value['field_form']): ?>
-        <div class="am-g">
+        <div class="am-g am-g-collapse">
             <div class="am-u-sm-12 am-u-sm-centered">
                 <div class="am-form-group">
                     <label class="am-block"><?= $value['field_display_name'] ?><?= $value['field_required'] == '1' ? '<i class="am-text-danger">*</i>' : '' ?></label>

@@ -6,12 +6,15 @@
 ?>
 
 
-<div class="am-g am-margin-bottom">
+<div class="am-g am-g-collapse am-margin-bottom">
     <div class="am-u-sm-12 am-u-sm-centered">
         <button type="submit" class="am-btn am-btn-primary am-btn-xs" >提交保存</button>
     </div>
 </div>
 </form>
+</div>
+</div>
+</div>
 <script>
     $(function () {
         $('#btn-submit').click(function () {
