@@ -2,22 +2,19 @@
 
     <div class="am-cf">
         <div class="am-fl am-cf">
+            <?php if (!empty($_GET['back_url'])): ?>
+                <a href="<?= base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i
+                            class="am-icon-reply"></i>返回</a>
+            <?php endif; ?>
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
     </div>
     <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 
-    <div class="am-alert am-alert-secondary" data-am-alert>
-        没有可用更新
+    <div class="am-alert am-alert-secondary" id="patch" data-am-alert>
+        正在与PESCMS官网进行通讯，获取更新中……
     </div>
-    <!--
-    <form action="<?= $label->url('Team-Setting-atUpgrade') ?>" method="POST">
-        <input type="hidden" name="method" value="PUT">
-        <button type="submit" id="btn-submit" class="am-btn am-btn-primary am-btn-xs">
-            执行更新
-        </button>
-    </form>
-    -->
+    <article class="am-article am-hide"></article>
 
     <hr/>
     <form action="<?= $label->url('Team-Setting-mtUpgrade') ?>" method="POST" enctype="multipart/form-data" >
@@ -45,3 +42,20 @@
         </button>
     </form>
 </div>
+<script>
+    $(function(){
+        var PESCMS_URL = 'https://www.pescms.com';
+
+        $.getJSON(PESCMS_URL+'/patch/2/<?= $system['version'] ?>', function(data){
+            if(data.status == 200){
+                var update_patch_file = data.data.update_patch_file ? ' <a class="am-btn am-btn-primary am-radius am-btn-xs" href="'+PESCMS_URL+data.data.update_patch_file +'" >下载更新</a>' : '';
+                $('#patch').html('有新版本发布: '+data.data.new_version + update_patch_file);
+                $('.am-article').html('<h3>更新内容:</h3>'+data.data.update_content).removeClass('am-hide')
+            }else{
+                $('#patch').html(data.msg)
+            }
+        }).fail(function(){
+            $('#patch').html('与PESCMS官网无法取得链接，请检查您的网络是否正常。');
+        })
+    })
+</script>
