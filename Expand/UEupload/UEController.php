@@ -15,9 +15,9 @@ class UEController {
         $expandPath = PES_CORE . '/Expand/UEupload/';
         $configjson = file_get_contents("{$expandPath}config.json");
 
-        $imgsuffix = \Model\Content::findContent('option', 'upload_img', 'option_name')['value'];
-        $filesuffix = \Model\Content::findContent('option', 'upload_file', 'option_name')['value'];
-
+        $option = \Core\Func\CoreFunc::$param['system'];
+        $imgsuffix = $option['upload_img'];
+        $filesuffix = $option['upload_file'];
 
         $CONFIG = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", str_replace('{pesupload}', \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH'),
                 str_replace('{imgsuffix}', $imgsuffix,

@@ -194,20 +194,26 @@ class Uploader {
         $imgUrl = htmlspecialchars($this->fileField);
         $imgUrl = str_replace("&amp;", "&", $imgUrl);
 
+        //获取带有GET参数的真实图片url路径
+        $pathRes     = parse_url($imgUrl);
+        $queryString = isset($pathRes['query']) ? $pathRes['query'] : '';
+        $imgUrl      = str_replace('?' . $queryString, '', $imgUrl);
+
         //http开头验证
         if (strpos($imgUrl, "http") !== 0) {
             $this->stateInfo = $this->getStateInfo("ERROR_HTTP_LINK");
             return;
         }
+
         //获取请求头并检测死链
-        $heads = get_headers($imgUrl);
+        $heads = get_headers($imgUrl, 1);
         if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
             $this->stateInfo = $this->getStateInfo("ERROR_DEAD_LINK");
             return;
         }
         //格式验证(扩展名验证和Content-Type验证)
         $fileType = strtolower(strrchr($imgUrl, '.'));
-        if (!in_array($fileType, $this->config['allowFiles']) || stristr($heads['Content-Type'], "image")) {
+        if (!in_array($fileType, $this->config['allowFiles']) || !isset($heads['Content-Type']) || !stristr($heads['Content-Type'], "image")) {
             $this->stateInfo = $this->getStateInfo("ERROR_HTTP_CONTENTTYPE");
             return;
         }
@@ -219,7 +225,9 @@ class Uploader {
                 'follow_location' => false // don't follow redirects
             ))
         );
-        readfile($imgUrl, false, $context);
+
+
+        readfile($imgUrl . '?' . $queryString, false, $context);
         $img = ob_get_contents();
         ob_end_clean();
         preg_match("/[\/]([^\/]*)[\.]?[^\.\/]*$/", $imgUrl, $m);
@@ -231,6 +239,7 @@ class Uploader {
         $this->filePath = $this->getFilePath();
         $this->fileName = $this->getFileName();
         $dirname = dirname($this->filePath);
+
 
         //检查文件大小是否超出限制
         if (!$this->checkSize()) {
@@ -251,6 +260,14 @@ class Uploader {
         if (!(file_put_contents($this->filePath, $img) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateInfo("ERROR_WRITE_CONTENT");
         } else { //移动成功
+            //对已经上传成功的文件进行安全处理
+            $image = new \Expand\PHPImage($this->filePath);
+            $image->batchResize("{$this->filePath}_%dx%d.".pathinfo($this->filePath)['extension'], array(
+                array(50, 50, true, true),
+                array(150, 150, true, true),
+                array(300, 300, true, true),
+            ));
+            $image->save($this->filePath);
             $this->stateInfo = $this->stateMap[0];
         }
 
