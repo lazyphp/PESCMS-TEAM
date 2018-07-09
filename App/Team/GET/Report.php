@@ -90,10 +90,11 @@ class Report extends \Core\Controller\Controller {
             $excelTitle = array('日期/用户', '报表内容');
 
             foreach ($result as $key => $value) {
-                $list[$value['report_date']][$value['report_date']] = $value['report_date'];
+                $list[$value['report_date']][$value['report_date']] = date('Y-m-d', $value['report_date']);
                 $list[$value['report_date'] . $value['user_id']][$value['user_id']] = $label->findUser('user', 'user_id', $value['user_id'])['user_name'];
                 $list[$value['report_date'] . $value['user_id']][] = strip_tags(htmlspecialchars_decode($value['report_content']));
             }
+
 
             $excel = new \Expand\Excel\Excel();
             $excel->export(date('YmdHis').'提取报表', $excelTitle, $list);

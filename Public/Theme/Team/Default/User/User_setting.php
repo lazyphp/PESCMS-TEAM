@@ -58,7 +58,7 @@
             <div class="am-form-group">
                 <label class="am-block">个人主页</label>
                 <select name="home">
-                    <?php foreach (['Team-Index-index' => '仪表盘', 'Team-Task-index' => '任务列表', 'Team-Task-my' => '我的任务', 'Team-Task-myCard' => '任务看板'] as $key => $value): ?>
+                    <?php foreach (['Team-Index-index' => '仪表盘', 'Team-Task-my' => '我的任务', 'Team-Task-myCard' => '任务看板'] as $key => $value): ?>
                         <option value="<?= $key; ?>" <?= $key == $this->session()->get('team')['user_home'] ? 'selected="selected"' : ''; ?> ><?= $value; ?></option>
                     <?php endforeach; ?>
                 </select>
