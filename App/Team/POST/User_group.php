@@ -35,7 +35,7 @@ class User_group extends Content {
 
         $this->db()->commit();
 
-        $this->success('新增用户组完成!');
+        $this->success('新增用户组完成!', 'Team-'.MODULE.'-index');
 
     }
 }
