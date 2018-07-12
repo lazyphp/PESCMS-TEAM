@@ -8,7 +8,7 @@
         var user = <?= $user ?>;
         var head = '<?= $department_header ?>';
         var department_head = head.split(",");
-        var select = '<option value="">请选择</option>';
+        var select = '<option value="" disabled="disabled">请选择</option>';
 
         $.each(user, function(key, val){
             var selected = "";
@@ -23,7 +23,7 @@
 
             select += '<option value="'+val.user_id+'" '+selected+' >'+val.user_name+'</option>';
         })
-        $(".am-u-sm-9").eq(1).html('<select name="header[]" multiple style="background:none">'+select+'</select>');
+        $('input[name=header]').after('<select name="header[]" multiple style="background:none">'+select+'</select>').remove();
 
     })
 </script>
