@@ -49,7 +49,7 @@ class Index extends \Core\Controller\Controller {
      * 注销帐号
      */
     public function logout() {
-        session_destroy();
+        $this->session()->destroy();
         $this->jump($this->url('Team-Login-index'));
     }
 
