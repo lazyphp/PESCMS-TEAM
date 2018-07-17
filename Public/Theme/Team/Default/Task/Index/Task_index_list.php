@@ -15,9 +15,9 @@
 
         <div class="task-list">
             <!--任务标题-->
-            <div>
+            <div class="am-margin-bottom-sm">
                 <?= $label->getStatusSelect($statusMark, $value); ?>
-                <a class="am-link-muted fixed-hidden-margin-left" href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"
+                <a class="am-link-muted" href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"
                    style=";<?= in_array($value['task_status'], ['3', '10']) ? 'text-decoration: line-through;' : '' ?>"> <?= $value['task_title'] ?>
                 </a>
                 [<a href="<?= $label->url('Team-Task-project', ['id' => $value['task_project_id']]); ?>"
@@ -25,7 +25,7 @@
             </div>
             <!--任务标题-->
 
-            <div>#<?= $value['task_id'] ?>
+            <div class="am-margin-bottom-xs">#<?= $value['task_id'] ?>
                 <a href="<?= $label->url('Team-User-view', ['id' => $value['task_create_id']]) ?>">
                     <img src="<?= $label->getImg($label->findContent('user', 'user_id', $value['task_create_id'])['user_head'], ['50', '50']); ?>"
                          class="am-comment-avatar" style="width: 20px;height: 20px;"/>

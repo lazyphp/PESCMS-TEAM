@@ -68,9 +68,17 @@ ul {
 
 .admin-content {
   width: auto;
-  overflow: hidden;
   height: 100%;
   background: #fff;
+}
+@media only screen and (min-width: 1025px) {
+   .admin-sidebar+.admin-content{
+        margin-left: 259px;
+        border-left: 1px solid #cecece;
+    }
+    .admin-sidebar{
+        margin-right: -1px;
+    }
 }
 
 .admin-content-list {

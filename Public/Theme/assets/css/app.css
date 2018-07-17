@@ -17,7 +17,7 @@
         color: #fff !important;
         background: none !important;
     }
-    .am-active>.am-dropdown-content{
+    .am-topbar .am-active>.am-dropdown-content{
         display: none;
     }
     .am-topbar .am-dropdown-content{
@@ -218,6 +218,12 @@ a.am-btn-white:visited{
 .task-list .am-comment-avatar {
     float: none;
 }
+.task-index-status-active, .task-index-status-active:hover{
+    opacity: 0.88;
+    color: #fff !important;
+    background-color: #4aa6fc;
+}
+
 
 /*任务列表*/
 /*任务详细页*/
@@ -406,14 +412,3 @@ a.am-btn-white:visited{
 }
 
 /*页脚*/
-
-/*修复下拉组件被隐藏得问题*/
-.fixed-hidden-select {
-    position: relative;
-}
-
-.fixed-hidden-margin-left {
-    /*margin-left: 45pt;*/
-}
-
-/*修复下拉组件被隐藏得问题*/
