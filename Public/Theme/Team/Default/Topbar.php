@@ -26,22 +26,22 @@
             </li>
             <?php foreach ($menu as $topValue): ?>
                 <?php if (!empty($topValue['menu_child'])): ?>
-                    <li class="am-dropdown" data-am-dropdown>
-                        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <li class="am-dropdown <?= $topValue == end($menu) ? 'am-dropdown-flip' : '' ?>" data-am-dropdown>
+                        <a class="am-dropdown-toggle" href="javascript:;" title="<?= $topValue['menu_name'] ?>" data-am-dropdown-toggle>
                             <i class="<?= $topValue['menu_icon'] ?>"></i> <?= $topValue['menu_name'] ?>
                             <span class="am-icon-caret-down"></span>
                         </a>
                         <ul class="am-dropdown-content">
                             <?php foreach ($topValue['menu_child'] as $value): ?>
                                 <li>
-                                    <a href="<?= $value['menu_type'] == '0' ? $label->url($value['menu_link']) : $value['menu_link']; ?>"><i class="<?= $value['menu_icon'] ?>"></i> <?= $value['menu_name'] ?>
+                                    <a href="<?= $value['menu_type'] == '0' ? $label->url($value['menu_link']) : $value['menu_link']; ?>" title="<?= $value['menu_name'] ?>"><i class="<?= $value['menu_icon'] ?>"></i> <?= $value['menu_name'] ?>
                                     </a></li>
                             <?php endforeach; ?>
                         </ul>
                     </li>
                 <?php else: ?>
                     <li>
-                        <a href="<?= $topValue['menu_type'] == '0' ? $label->url($topValue['menu_link']) : $topValue['menu_link'] ?>">
+                        <a href="<?= $topValue['menu_type'] == '0' ? $label->url($topValue['menu_link']) : $topValue['menu_link'] ?>" title="<?= $topValue['menu_name'] ?>">
                             <i class="<?= $topValue['menu_icon'] ?>"></i> <?= $topValue['menu_name'] ?></a></li>
                 <?php endif; ?>
             <?php endforeach; ?>
