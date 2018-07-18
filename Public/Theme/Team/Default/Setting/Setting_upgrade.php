@@ -44,8 +44,6 @@
 </div>
 <script>
     $(function(){
-        var PESCMS_URL = 'https://www.pescms.com';
-
         $.getJSON(PESCMS_URL+'/patch/2/<?= $system['version'] ?>', function(data){
             if(data.status == 200){
                 var update_patch_file = data.data.update_patch_file ? ' <a class="am-btn am-btn-primary am-radius am-btn-xs" href="'+PESCMS_URL+data.data.update_patch_file +'" >下载更新</a>' : '';

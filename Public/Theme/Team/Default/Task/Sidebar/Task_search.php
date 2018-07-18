@@ -55,7 +55,7 @@
 
             var checkout = $('input[name=end]').datepicker({
                 onRender: function (date, viewMode) {
-                    console.dir(checkin.date.valueOf());
+//                    console.dir(checkin.date.valueOf());
                     var inTime = checkin.date;
                     var inDay = inTime.valueOf();
 

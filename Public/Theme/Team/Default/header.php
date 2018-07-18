@@ -18,6 +18,12 @@
     <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/app.css?v=<?= time()?>">
     <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/ui-dialog.css?v=<?=$system['version']?>">
     <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/amazeui.datetimepicker.css?v=<?=$system['version']?>">
+
+    <script>
+        var PESCMS_URL = 'https://www.pescms.com';
+        var PESCMS_PATH = '<?= DOCUMENT_ROOT; ?>';
+    </script>
+
     <!--[if (gte IE 9)|!(IE)]><!-->
     <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/jquery.min.js?v=<?=$system['version']?>"></script>
     <!--<![endif]-->
@@ -32,7 +38,6 @@
     <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/amazeui.datetimepicker.min.js?v=<?=$system['version']?>"></script>
 
     <!--加载百度编辑器-->
-    <script>var PESCMS_PATH = '<?= DOCUMENT_ROOT; ?>';</script>
     <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/ueditor.config.js?v=<?=$system['version']?>"></script>
     <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/ueditor.all.js?v=<?=$system['version']?>"></script>
     <script src="<?= DOCUMENT_ROOT ?>/Theme/assets/ueditor/lang/zh-cn/zh-cn.js?v=<?=$system['version']?>"></script>

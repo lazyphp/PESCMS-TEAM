@@ -21,7 +21,24 @@
         display: none;
     }
     .am-topbar .am-dropdown-content{
-        top: 82%;
+        padding: 0px;
+        font-size: 14px;
+        position: absolute;
+        z-index: 1000;
+        top: 99%;
+        display: none;
+        min-width: 160px;
+        margin: 1px 0 0;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 4px;
+        background-color: #fff;
+        background-clip: padding-box;
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+    .am-topbar .am-dropdown .am-dropdown-content:before, .am-topbar .am-dropdown .am-dropdown-content:after{
+        border: none;
     }
 }
 /*小屏幕菜单展示样式*/
