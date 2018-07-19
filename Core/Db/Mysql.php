@@ -22,14 +22,14 @@ use \PDO,
  */
 class Mysql {
 
-    public $dbh, $getLastSql, $getLastInsert, $prefix, $errorInfo = array(), $param = array();
-    private $defaultDb, $tableName, $field = '*', $where = '', $join = array(), $order = '',
-            $group = '', $limit = '', $transaction = false;
+    public $dbh, $getLastSql, $getLastInsert, $prefix, $errorInfo = array (), $param = array ();
+    private $defaultDb, $tableName, $field = '*', $where = '', $join = array (), $order = '',
+        $group = '', $limit = '', $transaction = false;
 
     public function __construct() {
         try {
             $config = CoreFunc::loadConfig();
-            $configParam = array('DB_TYPE', 'DB_HOST', 'DB_NAME', 'DB_PORT', 'DB_USER', 'DB_PWD', 'DB_PREFIX');
+            $configParam = array ('DB_TYPE', 'DB_HOST', 'DB_NAME', 'DB_PORT', 'DB_USER', 'DB_PWD', 'DB_PREFIX');
             foreach ($configParam as $value) {
                 $useConfig[$value] = !empty($config[GROUP][$value]) ? $config[GROUP][$value] : $config[$value];
             }
@@ -104,7 +104,7 @@ class Mysql {
      */
     public function join($condition) {
         if (empty($condition)) {
-            $this->join = array();
+            $this->join = array ();
         } else {
             $this->join[] = ' LEFT JOIN ' . $condition;
         }
@@ -164,7 +164,7 @@ class Mysql {
         $this->dealParam($param, $fieldType);
 
         $limit = ' LIMIT 1 ';
-        $this->join = empty($this->join) ? array('') : $this->join;
+        $this->join = empty($this->join) ? array ('') : $this->join;
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $limit;
         $sth = $this->PDOBindArray();
         $result = $sth->fetch();
@@ -180,7 +180,7 @@ class Mysql {
      */
     public function select($param = '', $fieldType = '') {
         $this->dealParam($param, $fieldType);
-        $this->join = empty($this->join) ? array('') : $this->join;
+        $this->join = empty($this->join) ? array ('') : $this->join;
         $this->getLastSql = 'SELECT ' . $this->field . ' FROM ' . $this->tableName . implode('', $this->join) . $this->where . $this->group . $this->order . $this->limit;
         $sth = $this->PDOBindArray();
         $result = $sth->fetchALL();
@@ -195,11 +195,14 @@ class Mysql {
      * @return str 返回最后插入的ID
      */
     public function insert($param = '', $fieldType = '') {
-        $this->dealParam($param, $fieldType);
+        $param = array_merge($this->tableFieldParam(), $param);
+
         foreach ($this->param as $key => $value) {
             $field[] = "`{$key}`";
             $namedPlaceholders[] = ':' . $key;
         }
+
+
         $this->getLastSql = 'INSERT INTO ' . $this->tableName . ' (' . implode(',', $field) . ' ) VALUES (' . implode(',', $namedPlaceholders) . ' )';
         $sth = $this->PDOBindArray();
         $this->emptyParam();
@@ -209,6 +212,103 @@ class Mysql {
             $this->getLastInsert = $this->dbh->lastInsertId();
             return $this->dbh->lastInsertId();
         }
+    }
+
+
+    /**
+     * 获取对应表的缺省字段，仅在严格模式下运行。
+     * @return array 返回处理好的字段默认值
+     */
+    private function tableFieldParam() {
+        if($this->checkSqlTransTable() == false){
+            return [];
+        }
+
+        $fields = $this->getAll("DESC {$this->tableName}");
+        $param = [];
+        foreach ($fields as $field) {
+            $param[$field['Field']] = $this->handleFiledType($field['Type'], $field['Default']);
+        }
+        return $param;
+    }
+
+    /**
+     * 处理字段类型
+     * @param $type 传递的字段类型
+     * @param $defualt 字段预设的默认值
+     * @return false|int|string 返回相应符合的数据格式
+     */
+    private function handleFiledType($type, $defualt) {
+        $type = trim(preg_replace('/[\(\),\d+]/', '', $type));
+        switch (strtolower($type)) {
+            case 'tinyint':
+            case 'smallint':
+            case 'mediumint':
+            case 'int':
+            case 'bigint':
+            case 'decimal':
+            case 'float':
+            case 'double':
+            case 'time':
+            case 'year':
+                $value = is_numeric($defualt) ? $defualt : 0;
+                break;
+            case 'tinytext':
+            case 'text':
+            case 'mediumtext':
+            case 'longtext':
+                $value = '';
+                break;
+            case 'date':
+            case 'datetime':
+            case 'timestamp':
+                $value = empty($defualt) ? date('Y-m-d H:i:s') : $defualt;
+                break;
+            case 'char':
+            case 'varchar':
+            default:
+                $value = empty($defualt) ? '' : $defualt;
+        }
+        return $value;
+
+    }
+
+    /**
+     * 检查当前环境MYSQL的数据SQL MODEL。
+     * @return bool 严格模式则返回TRUE 反之 FALSE
+     */
+    private function checkSqlTransTable(){
+        $sqlModel = CoreFunc::loadConfig()['SQL_MODEL'];
+        if(empty($sqlModel)){
+            $configFile = CONFIG_PATH.'config.php';
+
+            if(!is_file($configFile)){
+                $this->returnError([
+                    'msg' => '验证SQL MODEL时，获取程序配置文件失败',
+                    'string' => '验证SQL MODEL时，获取程序配置文件失败'
+                ]);
+            }else{
+                $sql = "SELECT @@sql_mode AS model";
+                $model = $this->fetch($sql);
+                if (strpos(strtoupper($model['model']), 'STRICT_TRANS_TABLES') !== false) {
+                    $sqlModel = 'STRICT_TRANS_TABLES';
+                }else{
+                    $sqlModel = 'EASY_TRANS_TABLES';
+                }
+
+                $config = file($configFile);
+                $f = fopen($configFile, 'w+');
+                foreach ($config as $line => $value){
+                    fwrite($f, $value);
+                    if($line == '8'){
+                        fwrite($f, "'SQL_MODEL' => '{$sqlModel}',\n");
+                    }
+                }
+                fclose($f);
+            }
+        }
+
+        return $sqlModel == 'STRICT_TRANS_TABLES' ? true : false;
     }
 
     /**
@@ -315,7 +415,7 @@ class Mysql {
         $sth = $this->PDOBindArray();
         $statistics = $sth->rowCount();
         $this->emptyParam();
-        $lastInsertId = $this->getLastInsert  = $this->dbh->lastInsertId();
+        $lastInsertId = $this->getLastInsert = $this->dbh->lastInsertId();
         if (!empty($lastInsertId)) {
             return $lastInsertId;
         } elseif ($statistics >= 0) {
@@ -421,7 +521,7 @@ class Mysql {
      * 返回错误信息
      * @param $data
      */
-    private function returnError($data){
+    private function returnError($data) {
         $this->errorInfo['message'] = $data['msg'];
         $this->errorInfo['string'] = $data['string'];
         \Core\Abnormal\Error::errorSql();
@@ -442,11 +542,11 @@ class Mysql {
         }
         $this->field = '*';
         $this->where = '';
-        $this->join = array();
+        $this->join = array ();
         $this->order = '';
         $this->group = '';
         $this->limit = '';
-        $this->param = array();
+        $this->param = array ();
     }
 
     /**
@@ -461,7 +561,7 @@ class Mysql {
      * 事务回滚
      */
     public function rollBack() {
-        if($this->transaction === true){
+        if ($this->transaction === true) {
             return $this->dbh->rollBack();
         }
     }
