@@ -197,6 +197,7 @@ class Mysql {
     public function insert($param = '', $fieldType = '') {
         $param = array_merge($this->tableFieldParam(), $param);
 
+        $this->dealParam($param, $fieldType);
         foreach ($this->param as $key => $value) {
             $field[] = "`{$key}`";
             $namedPlaceholders[] = ':' . $key;
@@ -278,7 +279,7 @@ class Mysql {
      * @return bool 严格模式则返回TRUE 反之 FALSE
      */
     private function checkSqlTransTable(){
-        $sqlModel = CoreFunc::loadConfig()['SQL_MODEL'];
+        $sqlModel = CoreFunc::loadConfig('SQL_MODEL', true);
         if(empty($sqlModel)){
             $configFile = CONFIG_PATH.'config.php';
 
@@ -287,29 +288,31 @@ class Mysql {
                     'msg' => '验证SQL MODEL时，获取程序配置文件失败',
                     'string' => '验证SQL MODEL时，获取程序配置文件失败'
                 ]);
-            }else{
-                $sql = "SELECT @@sql_mode AS model";
-                $model = $this->fetch($sql);
-                if (strpos(strtoupper($model['model']), 'STRICT_TRANS_TABLES') !== false) {
-                    $sqlModel = 'STRICT_TRANS_TABLES';
-                }else{
-                    $sqlModel = 'EASY_TRANS_TABLES';
-                }
-
-                $config = file($configFile);
-                $f = fopen($configFile, 'w+');
-                foreach ($config as $line => $value){
-                    fwrite($f, $value);
-                    if($line == '8'){
-                        fwrite($f, "'SQL_MODEL' => '{$sqlModel}',\n");
-                    }
-                }
-                fclose($f);
             }
+
+            $sql = "SELECT @@sql_mode AS model";
+            $model = $this->fetch($sql);
+            if (strpos(strtoupper($model['model']), 'STRICT_TRANS_TABLES') !== false) {
+                $sqlModel = 'STRICT_TRANS_TABLES';
+            }else{
+                $sqlModel = 'EASY_TRANS_TABLES';
+            }
+
+            $config = file($configFile);
+
+            $f = fopen($configFile, 'w+');
+            foreach ($config as $line => $value){
+                fwrite($f, $value);
+                if($line == '8'){
+                    fwrite($f, "'SQL_MODEL' => '{$sqlModel}',\n");
+                }
+            }
+            fclose($f);
         }
 
         return $sqlModel == 'STRICT_TRANS_TABLES' ? true : false;
     }
+
 
     /**
      * 数据保存
