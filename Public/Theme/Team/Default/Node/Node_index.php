@@ -3,7 +3,7 @@
     <div class="am-btn-toolbar">
         <div class="am-btn-group am-btn-group-xs">
             <a href="<?= $label->url(GROUP . '-' . MODULE . '-action', ['back_url' => base64_encode($_SERVER['REQUEST_URI'])]); ?>"
-               class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</a>
+               class="am-btn am-radius am-btn-default"><span class="am-icon-plus"></span> 新增</a>
         </div>
     </div>
 
@@ -67,6 +67,6 @@
                 <?php endforeach; ?>
             <?php endif; ?>
         </table>
-        <button type="submit" class="am-btn am-btn-primary am-btn-xs">排序</button>
+        <button type="submit" class="am-btn am-radius am-btn-primary am-btn-xs">排序</button>
     </form>
 <?php include THEME_PATH . "/Content/Content_index_footer.php"; ?>

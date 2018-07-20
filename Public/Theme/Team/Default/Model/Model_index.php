@@ -6,7 +6,7 @@
             <div class="am-btn-group am-btn-group-xs">
                 <?php ?>
                 <?php $addUrl = empty($addUrl) ? $label->url(GROUP . '-' . MODULE . '-action', array('back_url' => base64_encode($_SERVER['REQUEST_URI']))) : $addUrl ?>
-                <a href="<?= $addUrl ?>" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</a>
+                <a href="<?= $addUrl ?>" class="am-btn am-radius am-btn-default"><span class="am-icon-plus"></span> 新增</a>
                 <a href="<?= $label->url(GROUP . '-' . MODULE . '-import', array('back_url' => base64_encode($_SERVER['REQUEST_URI']))) ?>" class="am-btn am-btn-success"><span class="am-icon-cloud-download"></span> 导入模型</a>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <input type="hidden" name="a" value="<?= ACTION ?>"/>
                 <input type="text" name="keyword" value="<?= $_GET['keyword'] ?>" class="am-form-field">
                 <span class="am-input-group-btn">
-                        <input class="am-btn am-btn-default" type="submit" value="搜索"/>
+                        <input class="am-btn am-radius am-btn-default" type="submit" value="搜索"/>
                     </span>
             </div>
         </form>

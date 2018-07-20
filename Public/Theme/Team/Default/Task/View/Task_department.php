@@ -16,7 +16,7 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-            <button type="submit" class="am-btn am-btn-success am-btn-xs task-append-button" data="department-user">
+            <button type="submit" class="am-btn am-radius am-btn-success am-btn-xs task-append-button" data="department-user">
                 <i class="am-icon-plus"></i> 进行指派
             </button>
         </form>

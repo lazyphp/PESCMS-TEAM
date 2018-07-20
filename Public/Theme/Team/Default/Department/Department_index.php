@@ -57,7 +57,7 @@
         </ul>
         <?php if ($listsort): ?>
             <div class="am-margin">
-                <button type="submit" class="am-btn am-btn-primary am-btn-xs">排序</button>
+                <button type="submit" class="am-btn am-radius am-btn-primary am-btn-xs">排序</button>
             </div>
         <?php endif; ?>
     </form>

@@ -8,7 +8,7 @@
 
         <div class="am-article-bd">
             <script type="text/plain" id="task-edit" style="height:250px;"><?= htmlspecialchars_decode($task_content) ?></script>
-            <button type="submit" class="am-btn am-btn-danger am-btn-xs am-margin-top am-margin-bottom-xs">
+            <button type="submit" class="am-btn am-radius am-btn-danger am-btn-xs am-margin-top am-margin-bottom-xs">
                 <i class="am-icon-support"></i> 更新任务
             </button>
         </div>

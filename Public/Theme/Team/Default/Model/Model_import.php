@@ -22,7 +22,7 @@
     </div>
     <div class="am-g am-g-collapse">
         <div class="am-u-sm-12 am-u-sm-centered">
-            <button type="submit" class="am-btn am-btn-primary am-btn-xs" >导入</button>
+            <button type="submit" class="am-btn am-radius am-btn-primary am-btn-xs" >导入</button>
         </div>
     </div>
 </form>

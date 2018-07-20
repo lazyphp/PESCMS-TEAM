@@ -17,7 +17,7 @@
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">当前版本</label>
-                <a class="am-btn am-btn-sm am-btn-warning" href="<?= $label->url('Team-Setting-upgrade') ?>"><i class="am-icon-refresh"></i> <?= $version['value'] ?>
+                <a class="am-btn am-radius am-btn-sm am-btn-warning" href="<?= $label->url('Team-Setting-upgrade') ?>"><i class="am-icon-refresh"></i> <?= $version['value'] ?>
                 </a>
             </div>
         </div>
@@ -118,7 +118,7 @@
             <div class="am-form-group">
                 <label class="am-block">邮件发送测试</label>
                 <input type="email" class="test_email am-inline" style="width: 20%">
-                <a href="javascript:;" data="<?= $label->url(GROUP.'-Setting-emailTest') ?>" type="submit" class="am-inline am-btn am-btn-warning email-test" >发送测试邮件</a>
+                <a href="javascript:;" data="<?= $label->url(GROUP.'-Setting-emailTest') ?>" type="submit" class="am-inline am-btn am-radius am-btn-warning email-test" >发送测试邮件</a>
                 <div class="am-alert am-alert-secondary am-text-xs " data-am-alert>
                     <i class="am-icon-lightbulb-o"></i> 请先保存邮件smtp的设置，再进行邮件发送测试。
                 </div>
@@ -153,7 +153,7 @@
 
     <div class="am-g am-margin-bottom">
         <div class="am-u-sm-12 am-u-sm-centered">
-            <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+            <button type="submit" class="am-btn am-radius am-btn-primary am-btn-xs">提交保存</button>
         </div>
     </div>
 </form>

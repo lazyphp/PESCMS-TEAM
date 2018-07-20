@@ -1,7 +1,7 @@
 <div class="am-panel am-panel-default <?= MODULE == 'Index' ? '' : 'admin-sidebar-panel' ?>">
     <div class="am-panel-hd">时效图</div>
     <div class="am-panel-bd am-padding-0">
-        <div id="container" style="margin: 0 auto"></div>
+        <div id="container-line-char" style="margin: 0 auto"></div>
     </div>
 </div>
 <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/highcharts.js?v.2.1.0"></script>
@@ -9,7 +9,7 @@
     $(function () {
         var data = eval("(" + '<?=json_encode($aging['list'])?>' + ")");
         var xCategories = ['<?=implode("', '", $aging['date'])?>']
-        $('#container').highcharts({
+        $('#container-line-char').highcharts({
             chart: {
                 height: 300,
                 type: 'areaspline',

@@ -9,7 +9,7 @@
             <label class="am-block">追加说明</label>
             <script type="text/plain" id="supplement" style="height:250px;"></script>
         </div>
-        <button type="submit" class="am-btn am-btn-primary am-btn-xs task-append-button" data="task-append-supplement">
+        <button type="submit" class="am-btn am-radius am-btn-primary am-btn-xs task-append-button" data="task-append-supplement">
             <i class="am-icon-plus"></i> 追加说明
         </button>
     </form>

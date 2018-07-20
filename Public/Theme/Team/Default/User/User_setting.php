@@ -69,7 +69,7 @@
 
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
-            <button type="submit" class="am-btn am-btn-success">保存设置</button>
+            <button type="submit" class="am-btn am-radius am-btn-success">保存设置</button>
         </div>
     </div>
 </form>
@@ -91,7 +91,7 @@
 
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
-            <button type="submit" class="am-btn am-btn-primary">更新头像</button>
+            <button type="submit" class="am-btn am-radius am-btn-primary">更新头像</button>
         </div>
     </div>
 </form>

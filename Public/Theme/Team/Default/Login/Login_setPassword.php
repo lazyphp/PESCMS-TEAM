@@ -10,5 +10,5 @@
         <input type="text" name="verify" class="am-inblock am-input am-padding-xs" placeholder="验证码" required>
         <img src="<?= $label->url('Team-Login-verify'); ?>" class="refresh-verify">
     </div>
-    <button class="am-btn am-btn-primary am-btn-block">提交</button>
+    <button class="am-btn am-radius am-btn-primary am-btn-block">提交</button>
 </form>

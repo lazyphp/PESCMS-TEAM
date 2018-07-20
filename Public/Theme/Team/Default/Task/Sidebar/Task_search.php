@@ -17,7 +17,7 @@
         <input type="text" name="end" class="am-margin-bottom-xs" placeholder="匹配结束日期" readonly value="<?= $_GET['end']; ?>"/>
 
         <input type="text" name="k" class="am-margin-bottom-xs" placeholder="搜索任务内容" value="<?= htmlspecialchars($_GET['k']); ?>"/>
-        <button class="am-btn am-btn-primary am-btn-block" type="submit"><span class="am-icon-search">开始匹配任务</span>
+        <button class="am-btn am-radius am-btn-primary am-btn-block" type="submit"><span class="am-icon-search">开始匹配任务</span>
         </button>
 
     </form>

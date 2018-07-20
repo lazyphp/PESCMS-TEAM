@@ -31,8 +31,8 @@
                 </select>
             </div>
 
-            <button type="submit" class="am-btn am-btn-default">获取报表</button>
-            <button type="submit" name="excel" value="1" class="am-btn am-btn-success"><i class="am-icon-file-excel-o"></i> 导出表格</button>
+            <button type="submit" class="am-btn am-radius am-btn-default">获取报表</button>
+            <button type="submit" name="excel" value="1" class="am-btn am-radius am-btn-success"><i class="am-icon-file-excel-o"></i> 导出表格</button>
         </form>
     </div>
     <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>

@@ -32,7 +32,7 @@
                     <i class="am-icon-lightbulb-o"></i> 您发表的动态内容，将会成为当天的任务日志。
                 </div>
             </div>
-            <button type="submit" class="am-btn am-btn-warning am-btn-xs task-append-button" data="task-taskdynamic">
+            <button type="submit" class="am-btn am-radius am-btn-warning am-btn-xs task-append-button" data="task-taskdynamic">
                 <i class="am-icon-hand-pointer-o"></i> 添加动态
             </button>
         </form>

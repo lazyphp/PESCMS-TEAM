@@ -54,7 +54,7 @@
                     <i class="am-icon-lightbulb-o"></i> 一行一条条目填写。将任务条目明细化，有助于任务的完成和跟踪。指派给多人时，最好填写任务条目，方便对任务的进度把控。
                 </div>
             </div>
-            <button type="submit" class="am-btn am-btn-success am-btn-xs task-append-button" data="task-taskListAction">
+            <button type="submit" class="am-btn am-radius am-btn-success am-btn-xs task-append-button" data="task-taskListAction">
                 <i class="am-icon-plus"></i> 追加
             </button>
         </form>

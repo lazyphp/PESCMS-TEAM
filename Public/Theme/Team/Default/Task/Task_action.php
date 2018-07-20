@@ -11,7 +11,7 @@
     <?php include THEME_PATH . '/Task/Action/Task_action_form.php'; ?>
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
-            <button type="submit" class="am-btn am-btn-success">发布任务</button>
+            <button type="submit" class="am-btn am-radius am-btn-success">发布任务</button>
         </div>
     </div>
 </form>

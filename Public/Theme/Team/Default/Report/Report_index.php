@@ -13,7 +13,7 @@
                     ]]
                 });
             </script>
-            <button type="submit" class="am-btn am-btn-warning am-btn-xs">
+            <button type="submit" class="am-btn am-radius am-btn-warning am-btn-xs">
                 <i class="am-icon-hand-pointer-o"></i> 提交报表
             </button>
         </form>
