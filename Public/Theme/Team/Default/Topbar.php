@@ -1,4 +1,4 @@
-<header class="am-topbar am-topbar-inverse admin-header">
+<header class="am-topbar am-topbar-inverse">
     <h1 class="am-topbar-brand">
         <a href="<?= $label->url(empty($this->session()->get('team')['user_home']) ? 'Team-Index-index' : $this->session()->get('team')['user_home']); ?>">PESCMS Team</a>
     </h1>

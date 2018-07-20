@@ -1,4 +1,9 @@
 /*页眉菜单*/
+.am-topbar{
+    font-size: 1.4rem;
+    background-color: #1bacf5 !important;
+    margin-bottom: 0px;
+}
 .am-topbar .am-nav.am-nav>li>a:hover, .am-topbar .am-nav.am-nav>li>a:focus {
     background: none !important;
 }
