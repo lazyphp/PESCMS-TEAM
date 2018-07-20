@@ -59,68 +59,87 @@
 }
 /*小屏幕菜单展示样式*/
 @media only screen and (max-width: 640px){
+    /*UL层的背景色*/
     .am-topbar-collapse{
         background: #343131;
         padding: 0px 0px;
     }
 
-    .am-topbar .am-topbar-nav{
-        margin-bottom: 0;
-    }
-
-    .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content{
+    /*隐藏展示效果*/
+    .am-topbar .am-dropdown:hover>.am-dropdown-content, .am-topbar .am-dropdown:focus>.am-dropdown-content{
+        display: block !important;
+        position: relative;
+        float: none;
+        -webkit-animation-duration: .0s;
+        animation-duration: .0s;
+        padding: 0;
+        margin: 0;
         background: #e3e3e3;
     }
-    .am-topbar-collapse .am-dropdown.am-active{
-        background: #fcfcfc;
-    }
-    .am-topbar-collapse .am-dropdown.am-active .am-dropdown-toggle{
-        color: #404040 !important;
-    }
 
-    .am-topbar .am-dropdown .am-dropdown-content{
-        animation-duration:0s !important;
-        -webkit-animation-duration: 0s !important;
+    .am-topbar .am-active>.am-dropdown-content{
+        display: none;
     }
+    /*隐藏展示效果*/
 
-    .am-topbar .am-topbar-nav>li, .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content>li{
-        position: relative;
-        display: block;
+    /*第一层*/
+    .am-topbar .am-nav{
+        margin: 0;
+    }
+    .am-topbar .am-topbar-nav>li:first-child{
+        border-top: 2px solid #343131;
+    }
+    .am-topbar .am-topbar-nav>li, .am-topbar .am-dropdown-content>li{
         margin-bottom: -1px;
         border: 1px solid #dedede;
         border-width: 1px 0;
         margin-top: -1px !important;
     }
-
-    .am-topbar .am-topbar-nav>li:first-child{
-        border-top: none !important;
-    }
     .am-topbar .am-topbar-nav>li:last-child{
         border-bottom: none !important;
     }
+    .am-topbar .am-nav.am-nav>li>a{
+        color: #b3b3b3 !important;
+    }
+    /*第一层LI*/
 
-    .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content>li{
-        border-color: #cecece !important;
+    /*选中状态的背景*/
+    .am-topbar .am-dropdown:hover, .am-topbar .am-dropdown:focus{
+        background: #fcfcfc;
     }
+    .am-topbar .am-dropdown:hover>.am-dropdown-toggle, .am-topbar .am-dropdown:focus.am-dropdown-toggle{
+        color: #404040 !important;
+    }
+    .am-topbar .am-dropdown-toggle{
+        background: none !important;
+    }
+    /*选中状态的背景*/
 
-    .am-topbar-inverse .am-topbar-nav>li>a{
-        color: #b3b3b3;
-    }
-    .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content>li a{
-        padding-left: 36px;
-        color: gray;
-    }
-    .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content, .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content:before{
+    /*展开层样式*/
+    .am-topbar .am-dropdown-content:before{
+        display: none;
         padding: 0;
         border:none;
         margin-top: -1px !important;
     }
-    .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content:after{
+    .am-topbar .am-dropdown-content:after{
         display: none;
     }
+    .am-topbar .am-dropdown-content>li{
+        border-color: #cecece !important;
+    }
+    .am-topbar .am-dropdown-content>li a{
+        padding-left: 36px;
+        color: gray;
+    }
+    .am-topbar .am-dropdown-content>li a:hover, .am-topbar .am-dropdown-content>li a:focus{
+        text-decoration: none;
+        color: #262626 !important;
+        background-color: #f5f5f5;
+    }
+    /*展开层样式*/
+
 }
-
-
 .table-sort {
     width: 60px;
 }
