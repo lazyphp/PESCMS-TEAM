@@ -8,7 +8,7 @@
             <?php $date[date('Y-m-d', $value['task_submit_time'])] = $value['task_submit_time'] ?>
             <div class="task-date am-text-center">
                 <span
-                    class="task-date-align"><?= date('m-d', $value['task_submit_time']) . '/' . $label->getWeekName($value['task_submit_time']); ?></span>
+                    class="task-date-align"><?= str_replace(date('Y-'), '', date('Y-m-d', $value['task_submit_time'])) . '/' . $label->getWeekName($value['task_submit_time']); ?></span>
             </div>
         <?php endif; ?>
         <!--输出任务的日期分割线-->

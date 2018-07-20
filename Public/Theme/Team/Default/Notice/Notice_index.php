@@ -1,4 +1,4 @@
-<div class="admin-content am-padding am-padding-top-0">
+<div class="admin-content am-padding-xs am-padding-top-0">
     <ul class="am-list am-list-border">
         <?php if (empty($list)): ?>
             <li class="am-padding am-nbfc">

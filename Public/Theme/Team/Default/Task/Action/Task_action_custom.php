@@ -1,5 +1,5 @@
 <!--任务审核人和指派人开始-->
-<div class="am-g <?= ACTION == 'view' ? 'am-g-collapse' : ''; ?>">
+<div class="am-g am-g-collapse">
     <div class="am-u-sm-6">
         <div class="am-form-group">
             <label class="am-block">任务审核人</label>
@@ -83,7 +83,7 @@
 <!--任务审核人和指派人结束-->
 
 <!--任务计划时间-->
-<div class="am-g <?= ACTION == 'view' ? 'am-g-collapse' : ''; ?>">
+<div class="am-g am-g-collapse">
     <div class="am-u-sm-6">
         <div class="am-form-group">
             <label class="am-block">计划开始时间<i class="am-text-danger">*</i></label>
@@ -102,7 +102,7 @@
 
 <?php if (ACTION == 'action'): ?>
     <!--任务条目-->
-    <div class="am-g">
+    <div class="am-g am-g-collapse">
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">任务条目</label>

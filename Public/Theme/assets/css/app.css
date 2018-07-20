@@ -149,19 +149,8 @@
     width: 60px;
 }
 
-/*鼠标移动至li上的背景颜色*/
-.am-list-hover li:hover {
-    background: #f5f5f5;
+#container{
 }
-
-/*鼠标移动至li上的背景颜色*/
-
-/*扩展颜色*/
-.am-text-gray {
-    color: #999;
-}
-
-/*扩展颜色*/
 
 a.am-btn-white:visited{
     color: #444;

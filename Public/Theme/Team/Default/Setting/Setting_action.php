@@ -17,7 +17,7 @@
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
                 <label class="am-block">当前版本</label>
-                <a class="am-btn am-radius am-btn-sm am-btn-warning" href="<?= $label->url('Team-Setting-upgrade') ?>"><i class="am-icon-refresh"></i> <?= $version['value'] ?>
+                <a class="am-btn am-radius am-btn-sm am-btn-warning" href="<?= $label->url('Team-Setting-upgrade', ['back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>"><i class="am-icon-refresh"></i> <?= $version['value'] ?>
                 </a>
             </div>
         </div>
