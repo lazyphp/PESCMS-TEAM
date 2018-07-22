@@ -311,7 +311,12 @@ class Controller {
      * @return type 返回模板
      */
     private static function promptPage() {
-        return PES_CORE . 'Core/Theme/jump.php';
+	    if(is_file(THEME_PATH.'/jump.php')){
+		    return THEME_PATH . '/jump.php';
+	    }else{
+		    return PES_CORE . 'Core/Theme/jump.php';
+	    }
+
     }
 
     /**
