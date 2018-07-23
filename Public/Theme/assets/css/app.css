@@ -254,6 +254,12 @@ a.am-btn-white:visited{
 
 /*消息提示背景以及优化*/
 
+/*新任务*/
+.task-action-custom .am-u-sm-6:first-child{
+    padding-right: 1.5rem;
+}
+/*新任务*/
+
 /*任务列表*/
 .task-hr {
     border-top: 1px solid #d3d3d3 !important;
