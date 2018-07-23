@@ -115,7 +115,7 @@ class Notice extends \Core\Model\Model {
      * 执行通知发送
      */
     public static function actionNoticeSend(){
-        foreach (\Model\Content::listContent(['table' => 'send']) as $value) {
+        foreach (\Model\Content::listContent(['table' => 'send', 'condition' => 'send_time = 0']) as $value) {
             //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
             switch ($value['send_type']) {
                 case '1':
