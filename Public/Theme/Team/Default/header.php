@@ -61,6 +61,11 @@
     <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/spectrum.css?v=<?=$system['version']?>"/>
     <!--拾色器-->
 
+    <!--图片放大器-->
+    <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/jquery.fancybox.min.js?v=<?=$system['version']?>"></script>
+    <link rel="stylesheet" href="<?= DOCUMENT_ROOT; ?>/Theme/assets/css/jquery.fancybox.min.css?v=<?=$system['version']?>"/>
+    <!--图片放大器-->
+
     <script src="<?= DOCUMENT_ROOT; ?>/Theme/assets/js/app.js?v=<?=$system['version']?>"></script>
 </head>
 <body>

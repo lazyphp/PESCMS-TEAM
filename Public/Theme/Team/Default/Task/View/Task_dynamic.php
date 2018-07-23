@@ -6,17 +6,21 @@
         <p>任务执行者(们)很懒，即使到今天了也没发表过任何动态。</p>
     <?php else: ?>
         <?php foreach ($dynamice as $dynamiceDescription): ?>
-            <p>
-                <img
-                    src="<?= $label->findContent('user', 'user_id', $dynamiceDescription['task_dynamic_user_id'])['user_head']; ?>"
-                    class="am-comment-avatar" style="width: 20px;height: 20px;"/>
-                <?= $label->findContent('user', 'user_id', $dynamiceDescription['task_dynamic_user_id'])['user_name'] . ':'; ?>
-            </p>
-            <?= htmlspecialchars_decode($dynamiceDescription['task_dynamic_content']) ?>
-            <p class="am-margin-bottom-xs">
-                <i class="am-icon-calendar"></i> <?= date('Y/m/d H:i', $dynamiceDescription['task_dynamic_createtime']) ?>
-            </p>
-            <hr class="am-margin-0 am-divider am-divider-dashed">
+            <div class="am-margin-top am-margin-bottom">
+                <div class="am-fl am-margin-right">
+                    <img src="<?= $label->findContent('user', 'user_id', $dynamiceDescription['task_dynamic_user_id'])['user_head']; ?>" class="am-comment-avatar" style="width: 48px;height: 48px;"/>
+                </div>
+                <div class="am-nbfc am-margin-bottom">
+                    <div class="dynamic-tool">
+                        <?= $label->findContent('user', 'user_id', $dynamiceDescription['task_dynamic_user_id'])['user_name']; ?>
+                        <i class="am-icon-calendar"></i> <?= date('Y/m/d H:i', $dynamiceDescription['task_dynamic_createtime']) ?>
+                    </div>
+                    <article class="am-article am-margin-top-sm">
+                        <?= htmlspecialchars_decode($dynamiceDescription['task_dynamic_content']) ?>
+                    </article>
+                </div>
+                <hr class="am-margin-0 am-divider am-divider-dashed am-cf">
+            </div>
         <?php endforeach; ?>
     <?php endif; ?>
     <?php if ($actionAuth['action'] == true && ($task_status == 1)): ?>

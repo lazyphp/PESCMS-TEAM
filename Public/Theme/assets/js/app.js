@@ -175,4 +175,16 @@ $(function () {
         var src = $(this).attr('src')
         $(this).attr('src', src + '&time=' + Math.random());
     });
+
+    /**
+     * 处理特定区域的图片
+     */
+    $('.am-article img').each(function(index, key){
+        var imgsrc = $(this).attr('src');
+        $(this).after('' +
+            '<a href="'+imgsrc+'" data-fancybox>\n' +
+            '<img src="'+imgsrc+'" class="am-img-responsive" />\n' +
+            '</a>').remove()
+    })
+
 })
