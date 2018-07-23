@@ -115,13 +115,20 @@ class Notice extends \Core\Model\Model {
      * 执行通知发送
      */
     public static function actionNoticeSend(){
-        foreach (\Model\Content::listContent(['table' => 'send', 'condition' => 'send_time = 0']) as $value) {
-            //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
-            switch ($value['send_type']) {
-                case '1':
-                    (new \Expand\Notice\Mail())->send($value);
-                    break;
+        $sendList = \Model\Content::listContent(['table' => 'send', 'condition' => 'send_time = 0']);
+        if(!empty($sendList)){
+            foreach ($sendList as $value) {
+                //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
+                switch ($value['send_type']) {
+                    case '1':
+                        (new \Expand\Notice\Mail())->send($value);
+                        break;
+                }
             }
+            //发送成功，删除过去7天的待发送列表
+            \Core\Func\CoreFunc::db('send')->where('send_time > 0 AND send_time <= :send_time')->delete([
+                'send_time' => time() - 86400 * 7
+            ]);
         }
     }
 
