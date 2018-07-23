@@ -1,4 +1,3 @@
-<?php include THEME_PATH.'/header.php' ?>
     <form class="am-form setting-form ajax-submit" action="<?= $label->url(GROUP.'-'.MODULE.'-'.ACTION) ?>" method="POST">
         <input type="hidden" name="method" value="PUT"/>
         <input type="hidden" name="id" value="<?= $_GET['id'] ?>"/>
@@ -76,4 +75,3 @@
             })
         })
     </script>
-<?php include THEME_PATH . "/Content/Content_index_footer.php"; ?>

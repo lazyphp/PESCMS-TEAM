@@ -26,6 +26,9 @@
     .am-topbar .am-dropdown:hover>.am-dropdown-content a{
         color: #fff;
     }
+    .am-topbar .am-dropdown>.am-dropdown-content a:focus{
+        background: none;
+    }
     .am-topbar .am-dropdown:hover>.am-dropdown-content a:hover{
         background-color: rgba(52,59,78,.618);
     }
