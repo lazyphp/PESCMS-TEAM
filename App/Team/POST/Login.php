@@ -70,13 +70,8 @@ class Login extends \Core\Controller\Controller {
 
         //创建邮件
         $mailContent = "<p>您已提交找回密码的请求，请点击此链接完成操作：" . \Model\Content::findContent('option', 'domain', 'option_name')['value'] . $this->url(GROUP . '-Login-setPassword', ['mark' => $mark]);
-        $this->db('send')->insert([
-            'send_account' => $checkUser['user_mail'],
-            'sned_title' => '重置密码请求',
-            'send_content' => $mailContent,
-            'send_time' => time(),
-            'send_type' => '1',
-        ]);
+
+        \Model\Extra::insertSend($checkUser['user_mail'], '重置密码请求', $mailContent, 1);
 
         $this->success('系统已将找回密码的信息发至您的邮箱，请注意查收。');
 

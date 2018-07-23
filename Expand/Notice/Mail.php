@@ -59,9 +59,9 @@ class Mail {
         $this->PHPMailer->Body = $email['send_content'];
 
         if ($this->PHPMailer->send() !== false) {
-            //发送成功，移除成功记录
-            \Core\Func\CoreFunc::db('send')->where('send_id = :send_id')->delete([
-                'send_id' => $email['send_id']
+            //发送成功，删除过去7天的邮件
+            \Core\Func\CoreFunc::db('send')->where('send_time <= :send_time')->delete([
+                'send_time' => time() - 86400 * 7
             ]);
         }
         $this->PHPMailer->ClearAddresses();

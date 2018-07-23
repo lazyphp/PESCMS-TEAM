@@ -267,6 +267,7 @@ class Task extends Content {
 
         $this->assign('project', \Model\Content::listContent(['table' => 'project', 'order' => 'project_id DESC, project_listsort ASC']));
         $this->assign($task);
+        $this->assign('title', $task['task_title']);
         $this->layout();
     }
 
