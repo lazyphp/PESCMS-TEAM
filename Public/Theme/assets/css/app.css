@@ -468,6 +468,25 @@ a.am-btn-white:visited{
 
 /*报表列表样式*/
 
+/*下拉组件样式*/
+.pes-dropdown{
+
+}
+.pes-dropdown .am-dropdown-content:before, .pes-dropdown .am-dropdown-content:after{
+    display: none;
+}
+.pes-dropdown .am-dropdown-content{
+    padding: 0;
+    box-shadow: 0 0 20px 0 rgba(0,0,0,.2), 0 5px 5px 0 rgba(0,0,0,.24);
+}
+.pes-dropdown .am-dropdown-content a{
+    color: gray;
+}
+.pes-dropdown .am-dropdown-content a:hover{
+    color: #1cacf5;
+}
+/*下拉组件样式*/
+
 /*页脚*/
 .my-footer {
     background: #fff;

@@ -31,7 +31,7 @@
     background-color: #000;
     background-color: rgba(0,0,0,.618);
 }
-.ui-dialog .am-table-hover>tbody>tr:hover>td, .am-table-hover>tbody>tr:hover>th{
+.ui-dialog .am-table-hover>tbody>tr:hover>td, .ui-dialog .am-table-hover>tbody>tr:hover>th{
     background-color: rgba(52,59,78,.618);
 }
 
