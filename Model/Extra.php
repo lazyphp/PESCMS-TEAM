@@ -88,4 +88,14 @@ class Extra extends \Core\Model\Model {
         ]);
     }
 
+    /**
+     * 验证上传文件是否存在
+     * @param $file
+     */
+    public static function checkUploadFile($file){
+        if(!is_file(HTTP_PATH.$file)){
+            self::error('上传的图片或者文件不存在,请重新上传!');
+        }
+    }
+
 }

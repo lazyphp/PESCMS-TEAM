@@ -40,6 +40,7 @@ class User extends Content {
      */
     public function head() {
         $head = $this->isP('head', '请上传头像');
+        \Model\Extra::checkUploadFile($head);
         $this->db('user')->where('user_id = :user_id')->update([
             'user_head' => $head,
             'noset' => [
