@@ -51,7 +51,7 @@ class Project extends Content{
             }
         }
 
-        $this->assign('title', '部门数据分析');
+        $this->assign('title', '项目数据分析');
         $this->assign('list', $list);
         $this->layout('User/User_analyze');
     }
