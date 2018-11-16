@@ -4,7 +4,7 @@
         </div>
     </div>
 </div>
-<?php if($this->session()->get('team')['user_id'] == 1 ): ?>
+<?php if(\Core\Func\CoreFunc::session()->get('team')['user_id'] == 1 ): ?>
 <script>
     $(function(){
         var version  = '<?= $system['version'] ?>';

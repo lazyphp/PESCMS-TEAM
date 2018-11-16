@@ -166,10 +166,16 @@ class App {
             $errorFile = 'That’s all we know.';
         }
 
+        $label = new \Expand\Label();
+        if (!empty(\Core\Func\CoreFunc::$param)) {
+            extract(\Core\Func\CoreFunc::$param, EXTR_OVERWRITE);
+        }
 	    //非调试模式加载404页面。
         if (is_file(THEME_PATH. '/404.php') && DEBUG == false ) {
             require THEME_PATH. '/404.php';
-        } else {
+        } elseif(is_file(THEME_PATH.'/error.php')){
+            require THEME_PATH.'/error.php';
+        }else{
             require PES_CORE . 'Core/Theme/error.php';
         }
         exit;
