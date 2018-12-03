@@ -224,7 +224,7 @@ class Mysql {
      */
     private function tableFieldParam($param) {
         if($this->checkSqlTransTable() == false){
-            return [];
+            return $param;
         }
 
         $fields = $this->getAll("DESC {$this->tableName}");
@@ -245,7 +245,7 @@ class Mysql {
      */
     private function handleFiledType($type, $defualt) {
         
-        $type = str_replace(['unsigned zerofill', 'binary', 'unsigned', 'on update current_timestamp', 'UNSIGNED ZEROFILL', 'BINARY', 'UNSIGNED', 'ON UPDATE CURRENT_TIMESTAMP'],'', $type);
+        $type = str_replace(['unsigned zerofill', 'binary', 'unsigned', 'on update current_timestamp', 'UNSIGNED ZEROFILL', 'BINARY', 'UNSIGNED', 'ON UPDATE CURRENT_TIMESTAMP'], '', $type);
         
         $type = trim(preg_replace('/[\(\),\d+]/', '', $type));
         switch (strtolower($type)) {
