@@ -230,9 +230,8 @@ class Mysql {
         $fields = $this->getAll("DESC {$this->tableName}");
         $newParam = [];
         foreach ($fields as $field) {
-            $newParam[$field['Field']] = !empty($param[$field['Field']]) ? $param[$field['Field']] : $this->handleFiledType($field['Type'], $field['Default']);
+            $newParam[$field['Field']] = !empty($param[$field['Field']]) ? $param[$field['Field']] : $this->handleFiledType($field['Type'], $field['Default'], $field['Null']);
         }
-
 
         return $newParam;
     }
@@ -241,12 +240,17 @@ class Mysql {
      * 处理字段类型
      * @param $type 传递的字段类型
      * @param $defualt 字段预设的默认值
+     * @param $isNULL 判断是否设置为NULL,是则直接返回NULL
      * @return false|int|string 返回相应符合的数据格式
      */
-    private function handleFiledType($type, $defualt) {
-        
+    private function handleFiledType($type, $defualt, $isNULL) {
+
+        if(strtoupper($isNULL) == 'YES'){
+            return NULL;
+        }
+
         $type = str_replace(['unsigned zerofill', 'binary', 'unsigned', 'on update current_timestamp', 'UNSIGNED ZEROFILL', 'BINARY', 'UNSIGNED', 'ON UPDATE CURRENT_TIMESTAMP'], '', $type);
-        
+
         $type = trim(preg_replace('/[\(\),\d+]/', '', $type));
         switch (strtolower($type)) {
             case 'tinyint':
@@ -557,6 +561,15 @@ class Mysql {
         $this->group = '';
         $this->limit = '';
         $this->param = array();
+    }
+
+    /**
+     * 暴露PDO的exec执行方法 | 本方法不推荐使用。
+     * @param $sql 要执行的SQL语句
+     * @return int
+     */
+    public function exec($sql){
+        return $this->dbh->exec($sql);
     }
 
     /**

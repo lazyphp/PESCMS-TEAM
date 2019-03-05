@@ -49,7 +49,7 @@ class Setting extends \Core\Controller\Controller {
         }
 
         /**
-         * 解压出错
+         * @todo 解压安装程序，这里没有做更新文件匹配，日后会补充对应验证，防止非法提权。
          */
         (new \Expand\zip()) ->unzip($file['tmp_name']);
 
@@ -82,7 +82,7 @@ class Setting extends \Core\Controller\Controller {
                     foreach ($value['sql'] as $file) {
                         $sql = file_get_contents(APP_PATH.'/Upgrade/sql/'.$file);
                         if(!empty($sql)){
-                            $this->db()->query($sql);
+                            $this->db()->exec($sql);
                         }else{
                             //更新SQL文件失败，则记录起来
                             $this->info[] = "更新SQL文件出错: ".APP_PATH.'/Upgrade/sql/'.$file;
@@ -107,13 +107,9 @@ class Setting extends \Core\Controller\Controller {
                 ]);
             }
         }
-
-
         //移除天网杀人的配置意识
         unlink($ini);
-
         return true;
-
     }
 
 }
