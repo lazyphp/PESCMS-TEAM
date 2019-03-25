@@ -259,9 +259,11 @@ class Task extends Content {
             }
             $this->assign('actionUser', $actionUser);
 
-            $this->formDate();
             parent::action(FALSE);
         }
+
+        $this->formDate();
+
 
         $this->assign('actionAuth', $actionAuth);
 
