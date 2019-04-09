@@ -16,7 +16,6 @@ class Login extends \Core\Controller\Controller {
 
     public function __init() {
         parent::__init();
-        $this->bing();
     }
 
     /**
@@ -84,6 +83,9 @@ class Login extends \Core\Controller\Controller {
 
     public function verify() {
         $verify = new \Expand\Verify();
+        if(!empty($_GET['height'])){
+            $verify->height = intval($this->g('height'));
+        }
         $verify->createVerify('4');
     }
 
