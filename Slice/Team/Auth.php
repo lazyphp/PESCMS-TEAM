@@ -15,7 +15,6 @@ namespace Slice\Team;
 
 /**
  * 后台验证权限
- * @package Slice\Ticket
  */
 class Auth extends \Core\Slice\Slice{
 

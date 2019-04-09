@@ -15,7 +15,6 @@ namespace Slice\Common;
 
 /**
  * 更新路由规则
- * @package Slice\Ticket
  */
 class UpdateRoute extends \Core\Slice\Slice {
 

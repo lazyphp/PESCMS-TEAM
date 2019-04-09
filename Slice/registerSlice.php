@@ -9,7 +9,7 @@
 | 程序提供五个方法声明切片绑定的请求类型: any, get, post, put, delete
 | 参数一：绑定控制器路由规则。
           依次填写 组-控制器-方法。若为泛匹配，提供3个对应的占位符。
-           :g-:m-:a 。如：Ticket-:m-:a 泛匹配组Ticket下任意的控制器以及方法
+           :g-:m-:a 。如：Team-:m-:a 泛匹配组Team下任意的控制器以及方法
 |         参数可以为字符串或者数组
 | 参数二：
 |         切片的命名空间。相对于当前Slice目录。不需要填写空间名Slice,如：\Slice\Common\Auto，则填写\Common\Auto

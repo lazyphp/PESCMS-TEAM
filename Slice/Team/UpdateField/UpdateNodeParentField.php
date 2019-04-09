@@ -16,7 +16,6 @@ namespace Slice\Team\UpdateField;
 /**
  * 执行更新节点父类字段的动作
  * Class Login
- * @package Slice\Ticket
  */
 class UpdateNodeParentField extends \Core\Slice\Slice {
 

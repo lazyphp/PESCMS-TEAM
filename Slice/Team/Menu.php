@@ -16,7 +16,6 @@ namespace Slice\Team;
 /**
  * 后台全局菜单输出
  * Class Login
- * @package Slice\Ticket
  */
 class Menu extends \Core\Slice\Slice{
 
