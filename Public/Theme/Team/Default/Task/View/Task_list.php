@@ -28,7 +28,7 @@
                                 <?= $label->findContent('user', 'user_id', $value['task_user_id'])['user_name']; ?>
                             </s>
                         <?php endif; ?>
-                        <?= htmlspecialchars_decode(!empty($value['task_user_id']) ? "<s>{$value['task_list_content']}</s>" : $value['task_list_content']) ?>
+                        <?= $label->xss(htmlspecialchars_decode(!empty($value['task_user_id']) ? "<s>{$value['task_list_content']}</s>" : $value['task_list_content'])) ?>
                         <s><?= !empty($value['task_user_id']) ? date('m-d H:i', $value['task_list_time']) : '' ?></s>
                     </label>
                     <?php if (($actionAuth['check'] == true || $actionAuth['action'] == true) && $task_status < 3): ?>
