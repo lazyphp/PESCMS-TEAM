@@ -2,7 +2,8 @@
 ![mahua](https://img.shields.io/github/tag/lazyphp/PESCMS-TEAM.svg) ![mahua](https://img.shields.io/github/license/lazyphp/PESCMS-TEAM.svg)  
 PESCMS TEAM是一款以GPLv2协议进行开源的团队任务管理系统  
 The open source task management system  
-QQ群：451828934（注明:PESCMS 或者PESCMS TEAM） <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=70b9d382c5751b7b64117191a71d083fbab885f1fb7c009f0dc427851300be3a"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="PESCMS TEAM官方群" title="PESCMS TEAM官方群"></a>  
+PESCMS官方QQ 1群：451828934(已满) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=70b9d382c5751b7b64117191a71d083fbab885f1fb7c009f0dc427851300be3a"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="PESCMS官方1群" title="PESCMS官方1群"></a>  
+PESCMS官方QQ 2群：496804032 <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5HqmNLN"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="PESCMS官方2群" title="PESCMS官方2群"></a>  
 演示地址:[http://team.pescms.com](http://team.pescms.com)  
   
 ## 环境要求  
