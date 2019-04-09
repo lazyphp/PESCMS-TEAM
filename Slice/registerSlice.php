@@ -7,8 +7,9 @@
 |--------------------------------------------------------------------------
 | 切片注册
 | 程序提供五个方法声明切片绑定的请求类型: any, get, post, put, delete
-| 参数一：绑定控制器路由规则。为空则对全局控制器路由生效。
-|         不为空，则依次填写 组-模型-方法。 填写组，则绑定组路由下所有方法。如此类推
+| 参数一：绑定控制器路由规则。
+          依次填写 组-控制器-方法。若为泛匹配，提供3个对应的占位符。
+           :g-:m-:a 。如：Team-:m-:a 泛匹配组Team下任意的控制器以及方法
 |         参数可以为字符串或者数组
 | 参数二：
 |         切片的命名空间。相对于当前Slice目录。不需要填写空间名Slice,如：\Slice\Common\Auto，则填写\Common\Auto
@@ -29,6 +30,7 @@
 |
 */
 
+
 use \Core\Slice\InitSlice as InitSlice;
 
 $SLICE_ARRYR = [
@@ -37,9 +39,9 @@ $SLICE_ARRYR = [
     //全局切片
     'GLOBAL-SLICE' => [
         'any',
-        'Team',
-        ['\Team\Login', '\Team\Auth', '\Team\Menu', '\Common\Option'],//注册后台登录验证、权限验证、后台菜单
-        ['Team-Login']
+        'Team-:m-:a',
+        ['\Team\Login', '\Team\Menu', '\Team\Auth', '\Common\Option'],//注册后台登录验证、权限验证、后台菜单
+        ['Team-Login-:a']
     ],
 
     /*----------------Team部分----------------*/
@@ -54,7 +56,7 @@ $SLICE_ARRYR = [
     //注册自动更新用户组、部门、项目、字段的信息
     'Team-FieldUpdate' => [
         'any',
-        ['Team-User', 'Team-User_group', 'Team-Department', 'Team-Project'],
+        ['Team-User-:a', 'Team-User_group-:a', 'Team-Department-:a', 'Team-Project-:a'],
         [
             '\Team\UpdateField\UpdateUserGroupField',
             '\Team\UpdateField\UpdateUserDepartmentField',
@@ -65,14 +67,14 @@ $SLICE_ARRYR = [
     //注册自动更新用户组字段的信息
     'Team-Node-FieldUpdate' => [
         'any',
-        ['Team-Node'],
+        ['Team-Node-:a'],
         ['\Team\UpdateField\UpdateNodeParentField']
     ],
 
     //注册更新任务priority字段选项值的切片
     'Team-Priority-FieldUpdate' => [
         'any',
-        ['Team-Priority'],
+        ['Team-Priority-:a'],
         ['\Team\UpdateField\UpdateTaskPriorityField']
     ],
 
@@ -93,7 +95,7 @@ $SLICE_ARRYR = [
     //注册任务状态的模板赋值
     'TaskANDUser' => [
         'get',
-        ['Team-Task-', 'Team-User', 'Team-Department-analyze', 'Team-Project-analyze'],
+        ['Team-Task-:a', 'Team-User-:a', 'Team-Department-analyze', 'Team-Project-analyze'],
         ['\Team\TaskMark', '\Team\TaskSidebar']
     ],
 

@@ -3,8 +3,8 @@
         <input type="hidden" name="g" value="<?= GROUP; ?>"/>
         <input type="hidden" name="m" value="<?= MODULE; ?>"/>
         <input type="hidden" name="a" value="<?= ACTION; ?>"/>
-        <input type="hidden" name="status" value="<?= $_GET['status']; ?>"/>
-        <input type="hidden" name="id" value="<?= $_GET['id']; ?>"/>
+        <input type="hidden" name="status" value="<?= $label->xss($_GET['status']); ?>"/>
+        <input type="hidden" name="id" value="<?= $label->xss($_GET['id']); ?>"/>
 
         <select name="time_type" class="am-margin-bottom-xs">
             <option value="1">以任务创建时间匹配</option>
@@ -13,10 +13,10 @@
             <option value="4" <?= (int)$_GET['time_type'] == '4' ? 'selected' : '' ?>>以任务完成时间匹配</option>
         </select>
 
-        <input type="text" name="begin" class="am-margin-bottom-xs" placeholder="匹配开始日期" readonly value="<?= $_GET['begin']; ?>"/>
-        <input type="text" name="end" class="am-margin-bottom-xs" placeholder="匹配结束日期" readonly value="<?= $_GET['end']; ?>"/>
+        <input type="text" name="begin" class="am-margin-bottom-xs" placeholder="匹配开始日期" readonly value="<?= $label->xss($_GET['begin']); ?>"/>
+        <input type="text" name="end" class="am-margin-bottom-xs" placeholder="匹配结束日期" readonly value="<?= $label->xss($_GET['end']); ?>"/>
 
-        <input type="text" name="k" class="am-margin-bottom-xs" placeholder="搜索任务内容" value="<?= htmlspecialchars($_GET['k']); ?>"/>
+        <input type="text" name="k" class="am-margin-bottom-xs" placeholder="搜索任务内容" value="<?= $label->xss($_GET['k']); ?>"/>
         <button class="am-btn am-radius am-btn-primary am-btn-block" type="submit"><span class="am-icon-search">开始匹配任务</span>
         </button>
 

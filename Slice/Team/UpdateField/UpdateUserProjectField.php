@@ -15,8 +15,6 @@ namespace Slice\Team\UpdateField;
 
 /**
  * 执行更新用户组字段的动作
- * Class Login
- * @package Slice\Ticket
  */
 class UpdateUserProjectField extends \Core\Slice\Slice{
 

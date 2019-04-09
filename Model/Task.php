@@ -24,10 +24,9 @@ class Task extends \Core\Model\Model {
         if (empty($_POST['tasklist'])) {
             return true;
         }
-        foreach (explode("\r", str_replace("\n", "", $_POST['tasklist'])) as $value) {
-            //@todo 兼容php5.4，不然直接empty表达式
-            $list = trim($value);
-            if (empty($list)) {
+
+        foreach (explode("\n", $_POST['tasklist']) as $value) {
+            if (empty(trim($value))) {
                 continue;
             }
 

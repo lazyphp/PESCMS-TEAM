@@ -15,8 +15,6 @@ namespace Slice\Team\UpdateField;
 
 /**
  * 更新任务模型中任务优先度的字段选项值
- * Class Login
- * @package Slice\Ticket
  */
 class UpdateTaskPriorityField extends \Core\Slice\Slice{
 

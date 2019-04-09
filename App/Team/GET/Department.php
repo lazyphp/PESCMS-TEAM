@@ -12,10 +12,18 @@ namespace App\Team\GET;
 class Department extends Content{
 
     public function __init(){
+        $condition = '';
+        $param = [];
+        if(!empty($_GET['id'])){
+            $condition .= ' AND user_department_id = :user_department_id ';
+            $param['user_department_id'] = $this->g('id');
+        }
+
         $this->assign('user', json_encode(\Model\Content::listContent([
             'table' => 'user',
             'field' => 'user_id, user_name',
-            'condition' => 'user_status = 1'
+            'condition' => "user_status = 1 {$condition} ",
+            'param' => $param
         ])));
         parent::__init();
     }

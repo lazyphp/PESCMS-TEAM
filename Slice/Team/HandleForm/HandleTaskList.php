@@ -15,7 +15,6 @@ namespace Slice\Team\HandleForm;
 
 /**
  * 处理 任务条目的权限
- * @package Slice\Ticket
  */
 class HandleTaskList extends \Core\Slice\Slice {
 

@@ -16,13 +16,15 @@ class Login extends \Core\Controller\Controller {
 
     public function __init() {
         parent::__init();
-        $this->bing();
     }
 
     /**
      * 登录页
      */
     public function index() {
+        if(!empty($this->session()->get('team'))){
+            $this->jump($this->url('Team-Index-index'));
+        }
         $this->assign('title', '登录账号');
         $this->layout('', 'Login_layout');
     }
@@ -54,7 +56,7 @@ class Login extends \Core\Controller\Controller {
      */
     public function logout() {
         session_destroy();
-        $this->jump($this->url('Ticket-Login-index'));
+        $this->jump($this->url('Team-Login-index'));
     }
 
     /**
@@ -84,6 +86,9 @@ class Login extends \Core\Controller\Controller {
 
     public function verify() {
         $verify = new \Expand\Verify();
+        if(!empty($_GET['height'])){
+            $verify->height = intval($this->g('height'));
+        }
         $verify->createVerify('4');
     }
 

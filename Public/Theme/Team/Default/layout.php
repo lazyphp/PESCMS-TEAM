@@ -8,5 +8,6 @@
     <small>© Copyright 2015-<?= date('Y') ?>. Power by <a href="//www.pescms.com" target="_blank">PESCMS TEAM</a>
     </small>
 </footer>
-<?php include 'footer.php'; ?>
 <!--请勿删除页脚这部分代码，否则会导致程序异常-->
+<?php include 'footer.php'; ?>
+

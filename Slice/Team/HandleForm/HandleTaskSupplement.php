@@ -15,7 +15,6 @@ namespace Slice\Team\HandleForm;
 
 /**
  * 处理 任务补充说明
- * @package Slice\Ticket
  */
 class HandleTaskSupplement extends \Core\Slice\Slice {
 

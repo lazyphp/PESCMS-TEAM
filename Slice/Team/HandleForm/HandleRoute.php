@@ -15,7 +15,6 @@ namespace Slice\Team\HandleForm;
 
 /**
  * 处理路由规则 添加/编辑 提交的表单内容
- * @package Slice\Ticket
  */
 class HandleRoute extends \Core\Slice\Slice {
 
