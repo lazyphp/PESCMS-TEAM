@@ -290,10 +290,16 @@ class Task extends Content {
      * 表单数据
      */
     private function formDate() {
-        $userList = \Model\Content::listContent(['table' => 'user', 'field' => 'user_id,user_name,user_department_id', 'condition' => 'user_status = 1']);
+        $userList = \Model\Content::listContent([
+            'table' => 'user AS u',
+            'field' => 'u.user_id, u.user_name, u.user_department_id, d.department_name',
+            'join' => "{$this->prefix}department AS d ON d.department_id = u.user_department_id",
+            'condition' => 'u.user_status = 1',
+            'order' => 'd.department_listsort DESC, u.user_id ASC'
+        ]);
         $user = [];
         foreach ($userList as $value) {
-            $user['list'][$value['user_id']] = $value['user_name'];
+            $user['list'][$value['user_id']] = "{$value['department_name']} - {$value['user_name']}";
             if ($value['user_department_id'] == $this->session()->get('team')['user_department_id']) {
                 $user['department'][$value['user_id']] = $value['user_name'];
             }
