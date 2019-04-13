@@ -349,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `pes_node` (
   PRIMARY KEY (`node_id`),
   UNIQUE KEY `node_value` (`node_value`,`node_check_value`),
   KEY `node_check_value` (`node_check_value`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='权限节点' AUTO_INCREMENT=107 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='权限节点' AUTO_INCREMENT=108 ;
 
 --
 -- 转存表中的数据 `pes_node`
@@ -455,7 +455,8 @@ INSERT INTO `pes_node` (`node_id`, `node_name`, `node_parent`, `node_verify`, `n
 (103, '新增/编辑任务优先度', 4, 1, '', 'GET', 'action', 'TeamGETPriorityaction', 101, 24),
 (104, '新增任务优先度', 4, 1, '', 'POST', 'action', 'TeamPOSTPriorityaction', 101, 25),
 (105, '更新任务优先度', 4, 1, '', 'PUT', 'action', 'TeamPUTPriorityaction', 101, 26),
-(106, '删除任务优先度', 4, 1, '', 'DELETE', 'action', 'TeamDELETEPriorityaction', 101, 27);
+(106, '删除任务优先度', 4, 1, '', 'DELETE', 'action', 'TeamDELETEPriorityaction', 101, 27),
+(107, '复制用户组', 3, 1, '', 'POST', 'copy', 'TeamPOSTUser_groupcopy', 9, 9);
 
 -- --------------------------------------------------------
 
