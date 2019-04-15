@@ -53,6 +53,10 @@
                     title="计划完成时间：<?= date('m-d H:i', $value['task_end_time']) ?>"><i
                         class="am-icon-calendar"></i> <?= date('m.d', $value['task_end_time']) ?></span>
                 <!--任务计划完成事件-->
+
+                <?php if($label->checkAuth('TeamDELETETaskaction') === true): ?>
+                <a class="am-text-danger ajax-click ajax-dialog"  msg="确定删除吗？将无法恢复的！" href="<?= $label->url(GROUP . '-' . MODULE . '-action', array('id' => $value["task_id"], 'method' => 'DELETE', 'back_url' => base64_encode($_SERVER['REQUEST_URI']))); ?>"><span class="am-icon-trash-o"></span></a>
+                <?php endif; ?>
             </div>
 
         </div>
