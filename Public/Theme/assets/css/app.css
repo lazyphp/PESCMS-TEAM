@@ -17,6 +17,9 @@
 }
 /*大屏幕时菜单展示样式*/
 @media only screen and (min-width: 1025px) {
+    .am-topbar-nav>li>a:hover:after{
+        display: none;
+    }
     .am-topbar .am-dropdown:hover>.am-dropdown-content{
         background-color: rgba(0,0,0,.618);
         display: block !important;
@@ -243,18 +246,7 @@ a.am-btn-white:visited{
 /*消息提示小红点*/
 
 /*消息提示背景以及优化*/
-.team-notice-background > li > a {
-    padding: 2px 20px !important;
-}
 
-.team-notice-background, .team-notice-background > li > a:hover {
-    background-color: #fff9c9 !important;
-
-}
-
-.team-notice-background:after {
-    border-bottom-color: #fff9c9 !important;
-}
 
 /*消息提示背景以及优化*/
 
@@ -471,6 +463,17 @@ a.am-btn-white:visited{
 }
 
 /*报表列表样式*/
+
+/*解决警告框常见问题*/
+.am-alert img{
+    max-width: 100%;
+    height: auto;
+}
+
+.am-alert-secondary a{
+    color: #0e90d2;
+}
+/*解决警告框超链接颜色问题*/
 
 /*下拉组件样式*/
 .pes-dropdown{

@@ -9,7 +9,7 @@
 
     <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right">
-            <li class="<?= !empty($notice) ? 'am-active' : ''; ?>" data-am-dropdown>
+            <li class="<?= !empty($notice) ? 'am-dropdown' : ''; ?>" data-am-dropdown>
                 <a href="<?= $label->url('Team-Notice-index') ?>">
                     <i class="am-icon-envelope-o am-icon-sm"></i>
                     <?php if (!empty($notice)): ?>
