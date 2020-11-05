@@ -49,7 +49,7 @@ class Verify {
         //设置验证码大小
         $im = imagecreatetruecolor($length * 32, $this->height);
         //设置背景颜色
-        $background = imagecolorallocate($im, 128, 212, 246);
+        $background = imagecolorallocate($im, 238, 238, 238);
         imagefilledrectangle($im, 0, 0, $length * 32, $this->height, $background);
 
         //验证码
@@ -59,7 +59,7 @@ class Verify {
 
         \Core\Func\CoreFunc::session()->set('verify', md5(strtolower(implode('', $verify))));
         //加载字体
-        $font = PES_CORE.'/Expand/Font/Roboto-Regular.ttf';
+        $font = PES_CORE.'/Expand/Font/RobotoSlab-Regular.ttf';
 
         //设置验证码颜色
         imagettftext($im, 24, 0, 11, $this->height - 6, $this->randImagecolorallocate($im), $font, $text);
@@ -89,7 +89,7 @@ class Verify {
      * @return type
      */
     private function randLine($img) {
-        $timer = rand(0, 35);
+        $timer = rand(0, 3);
         for ($i = 0; $i < $timer; $i++) {
             imageline($img, rand(0, 120), rand(0, 2), rand(0, 30), rand(0, 400), $this->randImagecolorallocate($img));
         }

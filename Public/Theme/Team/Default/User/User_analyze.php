@@ -7,11 +7,11 @@
             <input type="hidden" name="m" value="<?= MODULE ?>"/>
             <input type="hidden" name="a" value="<?= ACTION ?>"/>
             <div class="am-form-group">
-                <input type="text" name="begin" value="<?= $label->xss($_GET['begin']) ?>" class="am-form-field" placeholder="开始日期" data-am-datepicker readonly>
+                <input type="text" name="begin" value="<?= $label->xss($_GET['begin'], false) ?>" class="am-form-field" placeholder="开始日期" data-am-datepicker readonly>
             </div>
 
             <div class="am-form-group">
-                <input type="text" name="end" value="<?= $label->xss($_GET['end']) ?>" class="am-form-field" placeholder="结束日期" data-am-datepicker readonly>
+                <input type="text" name="end" value="<?= $label->xss($_GET['end'], false) ?>" class="am-form-field" placeholder="结束日期" data-am-datepicker readonly>
             </div>
             <button type="submit" class="am-btn am-btn-warning am-radius">分析</button>
         </form>

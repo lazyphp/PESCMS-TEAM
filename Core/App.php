@@ -68,7 +68,7 @@ class App {
 
 
         if ($runningNormally === false) {
-            $title = "404 Page Not Found";
+            $title = "404 页面不存在";
             $errorMes = "<b>Debug route info:</b><br />Group:" . GROUP . ", Model:" . MODULE . ", Method:" . METHOD . ", Action:" . ACTION;
             $errorFile = "<b>File loaded:</b><br />" . APP_PATH . substr($this->unixPath, 1).".php";
 
@@ -161,23 +161,17 @@ class App {
     private function promptPage($title, $errorMsg, $errorFile) {
         header('HTTP/1.1 404');
         if (DEBUG === false) {
-            $title = '404';
-            $errorMsg = 'The requested URL was not found on this server.';
-            $errorFile = 'That’s all we know.';
+            $title = '404 页面不存在';
+            $errorMsg = '当前请求服务器无法匹配，请检查请求的地址是否正确。';
+            $errorFile = '我们已经记录此错误信息';
         }
 
         $label = new \Expand\Label();
         if (!empty(\Core\Func\CoreFunc::$param)) {
             extract(\Core\Func\CoreFunc::$param, EXTR_OVERWRITE);
         }
-	    //非调试模式加载404页面。
-        if (is_file(THEME_PATH. '/404.php') && DEBUG == false ) {
-            require THEME_PATH. '/404.php';
-        } elseif(is_file(THEME_PATH.'/error.php')){
-            require THEME_PATH.'/error.php';
-        }else{
-            require PES_CORE . 'Core/Theme/error.php';
-        }
+	    //加载文件丢失，加载全局404页面。
+        require PES_CORE . 'Core/Theme/404.php';
         exit;
     }
 

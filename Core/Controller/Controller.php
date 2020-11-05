@@ -29,17 +29,18 @@ class Controller {
      */
     public static $modelPrefix;
 
+    public static $config = [];
+
     /**
      * 当前启用的主题
      */
     protected $theme;
 
     public final function __construct() {
-        static $config;
-        if (empty($config)) {
-            $config = \Core\Func\CoreFunc::loadConfig();
+        if (empty(self::$config)) {
+            self::$config = \Core\Func\CoreFunc::loadConfig();
         }
-        $this->prefix = self::$modelPrefix = empty($config[GROUP]) ? $config['DB_PREFIX'] : $config[GROUP]['DB_PREFIX'];
+        $this->prefix = self::$modelPrefix = empty(self::$config[GROUP]) ? self::$config['DB_PREFIX'] : self::$config[GROUP]['DB_PREFIX'];
         $this->chooseTheme();
         $this->__init();
     }
@@ -98,7 +99,7 @@ class Controller {
             $antiXss = new \voku\helper\AntiXSS();
             //允许内联样式
             $antiXss->removeEvilAttributes(array('style'));
-            $name = htmlspecialchars($antiXss-> xss_clean($data));
+            $name = htmlspecialchars($antiXss-> xss_clean(trim($data)));
         } else {
             $name = trim($data);
         }
@@ -208,7 +209,7 @@ class Controller {
     /**
      * 404专用提示
      */
-    protected function _404($layout = false, $title = '页面被怪兽吃掉了'){
+    protected function _404($layout = false, $title = '404 - 页面被怪兽吃掉了'){
         header("HTTP/1.1 404 Page not found");
         $this->assign('title', $title);
         if($layout == true){
@@ -237,6 +238,7 @@ class Controller {
         \Core\Func\CoreFunc::token();
         $this->beforeInitView();
         if (empty($themeFile)) {
+            $themeFile = MODULE . '_' . ACTION . '.php';
             $file = THEME . '/' . GROUP . '/' . $this->theme . "/" . MODULE . '/' . MODULE . '_' . ACTION . '.php';
         } else {
             $file = THEME . '/' . GROUP . '/' . $this->theme . "/" . MODULE . '/' . $themeFile . '.php';
@@ -341,11 +343,11 @@ class Controller {
      */
     protected static function checkToken() {
         if (empty($_REQUEST['token'])) {
-            self::error('Lose Token');
+            self::error('令牌不存在，无法校验数据一致性。');
         }
 
         if ($_REQUEST['token'] != self::session()->get('token')) {
-            self::error('Token Incorrect');
+            self::error('提交数据超时，请再次提交。');
         }
 
         self::session()->delete('token');

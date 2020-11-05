@@ -348,15 +348,20 @@ class Label {
 
     /**
      * xss过滤
-     * @param $str
+     * @param $str 需要过滤的字符
+     * @param $saveHtml 是否保留HTML一些特殊字符，默认是保留
      * @return mixed
      */
-    public function xss($str){
+    public function xss($str, $saveHtml = true){
         if(empty($this->xss)){
             $this->xss = new \voku\helper\AntiXSS();
         }
 
-        return $this->xss->xss_clean($str);
+        if($saveHtml){
+            return $this->xss->xss_clean($str);
+        }else{
+            return htmlspecialchars($this->xss->xss_clean($str));
+        }
     }
 
     /**

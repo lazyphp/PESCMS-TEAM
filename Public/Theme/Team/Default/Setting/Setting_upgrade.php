@@ -56,7 +56,7 @@
 
         $.getJSON(PESCMS_URL+'/patch/2/<?= $system['version'] ?>', function(data){
             if(data.status == 200){
-                var update_patch_file = data.data.update_patch_file ? ' <a class="am-btn am-radius am-btn-primary am-radius am-btn-xs" href="' + PESCMS_URL + data.data.update_patch_file + '" >下载更新</a>' : '';
+                var update_patch_file = data.data.update_patch_file ? ' <a class="am-btn am-radius am-btn-primary am-radius am-btn-xs" href="' + PESCMS_URL + data.data.update_patch_file + '" style="color:#fff" >下载更新</a>' : '';
                 $('#patch').html('有新版本发布: '+data.data.new_version + update_patch_file);
                 $('.am-article').html('<h3>更新内容:</h3>'+data.data.update_content).removeClass('am-hide')
             }else{
