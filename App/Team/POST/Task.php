@@ -28,8 +28,12 @@ class Task extends Content {
             $this->error('任务不能没有执行者，请选择');
         }
 
+
         //多人指派的话，multiplayer值将会为1
-        if (count($_POST['actionuser']) > 1 || count($_POST['actiondepartment']) > 1) {
+        if (
+            (is_array($_POST['actionuser']) && count($_POST['actionuser']) > 1) ||
+            (is_array($_POST['actiondepartment']) && count($_POST['actiondepartment']) > 1 )
+        ) {
             $_POST['multiplayer'] = 1;
         }else{
             $_POST['multiplayer'] = 0;

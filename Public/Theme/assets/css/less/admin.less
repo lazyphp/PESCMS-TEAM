@@ -1,0 +1,163 @@
+.admin-main {
+
+}
+/*手机版侧栏菜单按钮*/
+.admin-menu {
+  position: fixed;
+  z-index: 10;
+  bottom: 30px;
+  right: 20px;
+}
+/*手机版侧栏菜单按钮*/
+
+.admin-sidebar {
+  width: 260px;
+  min-height: 100%;
+  float: left;
+  border-right: 1px solid #cecece;
+}
+
+.admin-sidebar-list {
+  margin-bottom: 0;
+  li{
+    &:first-child{
+      border-top: none;
+    }
+    a{
+      color: #5c5c5c;
+      padding-left: 24px;
+    }
+  }
+}
+
+.admin-sidebar-sub {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 16px 8px -15px #e2e2e2 inset;
+  background: #ececec;
+  padding-left: 24px;
+  li{
+    &:first-child{
+      border-top: 1px solid #dedede;
+    }
+  }
+}
+
+.admin-sidebar-panel {
+  margin: 10px;
+}
+
+.admin-content {
+  width: auto;
+  height: 100%;
+  background: #fff;
+}
+@media only screen and (min-width: 1025px) {
+  .admin-sidebar+.admin-content{
+    margin-left: 259px;
+    border-left: 1px solid #cecece;
+  }
+  .admin-sidebar{
+    margin-right: -1px;
+  }
+}
+
+.admin-content-list {
+  border: 1px solid #e9ecf1;
+  margin-top: 0;
+  li{
+    border-right: 1px solid #e9ecf1;
+    &:last-child{
+      border-right: none;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+
+    //.admin-content-list {
+    //
+    //  li {
+    //    padding: 10px;
+    //    border-width: 1px 0;
+    //    margin-top: -1px;
+    //
+    //    &:first-child {
+    //      border-top: none;
+    //    }
+    //
+    //    &:last-child {
+    //      border-bottom: none;
+    //    }
+    //  }
+    //}
+  }
+
+}
+
+
+
+@media only screen and (min-width: 641px) {
+  .admin-sidebar {
+    display: block;
+    position: static;
+    background: none;
+  }
+
+  .admin-offcanvas-bar {
+    position: static;
+    width: auto;
+    background: none;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    &:after{
+      content: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 640px) {
+
+  .admin-sidebar {
+    width: inherit;
+  }
+
+  .admin-offcanvas-bar {
+    background: #f3f3f3;
+    &:after{
+      background: #BABABA;
+    }
+  }
+
+  .admin-sidebar-list{
+    a{
+      &:hover, &:active{
+        -webkit-transition: background-color .3s ease;
+        -moz-transition: background-color .3s ease;
+        -ms-transition: background-color .3s ease;
+        -o-transition: background-color .3s ease;
+        transition: background-color .3s ease;
+        background: #E4E4E4;
+      }
+    }
+  }
+  .admin-form-text {
+    text-align: left !important;
+  }
+
+}
+
+/*
+* table.html css
+*/
+
+.table-main {
+  font-size: 1.4rem;
+  padding: .5rem;
+  button{
+    background: #fff;
+  }
+}
+.table-id {
+  width: 50px;
+}

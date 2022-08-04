@@ -1,29 +1,30 @@
 <?php
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2021 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
+
 namespace Expand\UEupload;
 
 class UEController {
 
-    public function action(){
+    public function action() {
         $expandPath = PES_CORE . '/Expand/UEupload/';
         $configjson = file_get_contents("{$expandPath}config.json");
 
-        $option = \Core\Func\CoreFunc::$param['system'];
-        $imgsuffix = $option['upload_img'];
-        $filesuffix = $option['upload_file'];
+        $upload = $this->uploadSetting();
+
+        $search = ['{imgsuffix}', '{filesuffix}', '{uploadMaxSize}'];
+        $replace = [$upload['upload_img'], $upload['upload_file'], $upload['max_upload_size'] * 1048576];
 
         $CONFIG = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", str_replace('{pesupload}', \Core\Func\CoreFunc::loadConfig('UPLOAD_PATH'),
-                str_replace('{imgsuffix}', $imgsuffix,
-                    str_replace('{filesuffix}', $filesuffix, $configjson))
+                str_replace($search, $replace, $configjson)
             )
         ), true);
+
 
         $action = $_GET['action'];
 
@@ -57,9 +58,9 @@ class UEController {
                 break;
 
             default:
-                $result = json_encode(array(
-                    'state' => '请求地址出错'
-                ));
+                $result = json_encode([
+                    'state' => '请求地址出错',
+                ]);
                 break;
         }
 
@@ -68,26 +69,54 @@ class UEController {
             if (preg_match("/^[\w_]+$/", $_GET["callback"])) {
                 return htmlspecialchars($_GET["callback"]) . '(' . $result . ')';
             } else {
-                return json_encode(array(
-                    'state' => 'callback参数不合法'
-                ));
+                return json_encode([
+                    'state' => 'callback参数不合法',
+                ]);
             }
         } else {
             $info = json_decode($result, true);
-            if(!in_array($action, ['listimage', 'listfile'])){
+            if (!in_array($action, ['listimage', 'listfile'])) {
                 //上传成功，顺便将文件信息记录数据库
-                if($info['state'] == 'SUCCESS'){
+                if (isset($info['state']) && $info['state'] == 'SUCCESS') {
+
+                    switch ($action) {
+                        case 'uploadimage':
+                            $type = 1;
+                            break;
+                        case 'uploadfile':
+                            $type = 2;
+                            break;
+                    }
+
                     \Model\Content::insert('attachment', [
-                        'attachment_name' => $info['original'],
-                        'attachment_upload_name' => $info['title'],
-                        'attachment_path' => $info['url'],
-                        'attachment_type' => in_array($info['type'], json_decode($imgsuffix, true)) ? '1' : '2',
+                        'attachment_status'     => 1,
+                        'attachment_path'       => $info['url'],
+                        'attachment_path_type'  => 0,
                         'attachment_createtime' => time(),
+                        'attachment_name'       => (new \voku\helper\AntiXSS())->xss_clean(trim($info['original'])),
+                        'attachment_type'       => $type,
                     ]);
+
                 }
             }
             return $result;
         }
+    }
+
+    /**
+     * 上传设置信息
+     * @return mixed
+     */
+    private function uploadSetting() {
+        $uploadSetting = \Model\Content::listContent([
+            'table'     => 'option',
+            'condition' => 'option_range = :option_range',
+            'param'     => ['option_range' => 'upload'],
+        ]);
+        foreach ($uploadSetting as $item) {
+            $upload[$item['option_name']] = $item['value'];
+        }
+        return $upload;
     }
 
 }

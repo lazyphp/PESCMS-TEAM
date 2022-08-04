@@ -10,6 +10,7 @@
 namespace Expand;
 
 class Uploader {
+    private $action;//请求方法
     private $fileField; //文件域名
     private $file; //文件上传对象
     private $base64; //文件上传对象
@@ -45,12 +46,15 @@ class Uploader {
     );
 
     /**
-     * 构造函数
+     * Uploader constructor.
+     * @param $action 请求方法
      * @param string $fileField 表单名称
      * @param array $config 配置项
-     * @param bool $base64 是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
+     * @param bool $type | $base64 是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
+     * @param string $imgsuffix
      */
-    public function __construct($fileField, $config, $type = "upload", $imgsuffix = "") {
+    public function __construct($action, $fileField, $config, $type = "upload", $imgsuffix = "") {
+        $this->action = $action;
         $this->fileField = $fileField;
         $this->config = $config;
         $this->type = $type;
@@ -62,8 +66,6 @@ class Uploader {
         } else {
             $this->upFile();
         }
-
-        $this->stateMap['ERROR_TYPE_NOT_ALLOWED'] = iconv('unicode', 'utf-8', $this->stateMap['ERROR_TYPE_NOT_ALLOWED']);
     }
 
     /**
@@ -117,14 +119,9 @@ class Uploader {
         }
 
         //图片则利用GD库进行处理，过滤掉图片木马。同时生成对应的三种图片
-        if (in_array($this->getFileExt(), json_decode($this->imgsuffix, true))) {
-            $image = new \Expand\PHPImage($file["tmp_name"]);
-            $image->batchResize("{$this->filePath}_%dx%d.".pathinfo($file['name'])['extension'], array(
-                array(50, 50, true, true),
-                array(150, 150, true, true),
-                array(300, 300, true, true),
-            ));
-            $image->save($this->filePath);
+        if (!empty($this->imgsuffix) && in_array($this->getFileExt(), json_decode($this->imgsuffix, true))) {
+            //对已经上传成功的文件进行安全处理
+            $this->grafikaImg($file["tmp_name"], $this->filePath);
             $this->stateInfo = $this->stateMap[0];
         } else {
             //移动文件
@@ -174,13 +171,8 @@ class Uploader {
             $this->stateInfo = $this->getStateInfo("ERROR_WRITE_CONTENT");
         } else { //移动成功
             //对已经上传成功的文件进行安全处理
-            $image = new \Expand\PHPImage($this->filePath);
-            $image->batchResize("{$this->filePath}_%dx%d.".pathinfo($this->filePath)['extension'], array(
-                array(50, 50, true, true),
-                array(150, 150, true, true),
-                array(300, 300, true, true),
-            ));
-            $image->save($this->filePath);
+            $this->grafikaImg($this->filePath, $this->filePath);
+
             $this->stateInfo = $this->stateMap[0];
         }
 
@@ -194,42 +186,26 @@ class Uploader {
         $imgUrl = htmlspecialchars($this->fileField);
         $imgUrl = str_replace("&amp;", "&", $imgUrl);
 
-        //获取带有GET参数的真实图片url路径
-        $pathRes     = parse_url($imgUrl);
-        $queryString = isset($pathRes['query']) ? $pathRes['query'] : '';
-        $imgUrl      = str_replace('?' . $queryString, '', $imgUrl);
-
         //http开头验证
         if (strpos($imgUrl, "http") !== 0) {
             $this->stateInfo = $this->getStateInfo("ERROR_HTTP_LINK");
             return;
         }
 
-        //获取请求头并检测死链
-        $heads = get_headers($imgUrl, 1);
-        if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
-            $this->stateInfo = $this->getStateInfo("ERROR_DEAD_LINK");
-            return;
-        }
-        //格式验证(扩展名验证和Content-Type验证)
-        $fileType = strtolower(strrchr($imgUrl, '.'));
-        if (!in_array($fileType, $this->config['allowFiles']) || !isset($heads['Content-Type']) || !stristr($heads['Content-Type'], "image")) {
-            $this->stateInfo = $this->getStateInfo("ERROR_HTTP_CONTENTTYPE");
+        //检查是否不允许的文件格式
+        $ext = explode('?', strtolower(strrchr($imgUrl, '.')));
+        if (!$this->checkType($ext[0])) {
+            $this->stateInfo = $this->getStateInfo("ERROR_TYPE_NOT_ALLOWED");
             return;
         }
 
         //打开输出缓冲区并获取远程图片
-        ob_start();
-        $context = stream_context_create(
-            array('http' => array(
-                'follow_location' => false // don't follow redirects
-            ))
-        );
-
-
-        readfile($imgUrl . '?' . $queryString, false, $context);
-        $img = ob_get_contents();
-        ob_end_clean();
+        $img = $this->RequestGet($imgUrl);
+        if(empty($img))
+        {
+            $this->stateInfo = $this->getStateInfo("ERROR_DEAD_LINK");
+            return;
+        }
         preg_match("/[\/]([^\/]*)[\.]?[^\.\/]*$/", $imgUrl, $m);
 
         $this->oriName = $m ? $m[1] : "";
@@ -239,7 +215,6 @@ class Uploader {
         $this->filePath = $this->getFilePath();
         $this->fileName = $this->getFileName();
         $dirname = dirname($this->filePath);
-
 
         //检查文件大小是否超出限制
         if (!$this->checkSize()) {
@@ -261,16 +236,63 @@ class Uploader {
             $this->stateInfo = $this->getStateInfo("ERROR_WRITE_CONTENT");
         } else { //移动成功
             //对已经上传成功的文件进行安全处理
-            $image = new \Expand\PHPImage($this->filePath);
-            $image->batchResize("{$this->filePath}_%dx%d.".pathinfo($this->filePath)['extension'], array(
-                array(50, 50, true, true),
-                array(150, 150, true, true),
-                array(300, 300, true, true),
-            ));
-            $image->save($this->filePath);
+            $this->grafikaImg($this->filePath, $this->filePath);
             $this->stateInfo = $this->stateMap[0];
         }
 
+    }
+
+    /**
+     * 请求get，支持本地文件
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-07
+     * @desc    description
+     * @param   [string]          $value        [本地文件路径或者远程url地址]
+     * @param   [int]             $timeout      [超时时间（默认10秒）]
+     */
+    private function RequestGet($value, $timeout = 10)
+    {
+        // 远程
+        if(substr($value, 0, 4) == 'http')
+        {
+            // 是否有curl模块
+            if(function_exists('curl_init'))
+            {
+                return $this->CurlGet($value, $timeout);
+            }
+            return file_get_contents($value);
+        }
+
+        // 本地文件
+        return file_exists($value) ? file_get_contents($value) : '';
+    }
+
+    /**
+     * curl模拟get请求
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-01-03T19:21:38+0800
+     * @param    [string]           $url        [url地址]
+     * @param    [int]              $timeout    [超时时间（默认10秒）]
+     * @return   [array]                        [返回数据]
+     */
+    private function CurlGet($url, $timeout = 10)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 
     /**
@@ -350,8 +372,12 @@ class Uploader {
      * 文件类型检测
      * @return bool
      */
-    private function checkType() {
-        return in_array($this->getFileExt(), $this->config["allowFiles"]);
+    private function checkType($ext = null) {
+        $ext = empty($ext) ? $this->getFileExt() : $ext;
+        if(in_array(trim($ext), ['.php', '.html'])){
+            return false;
+        }
+        return in_array($ext, $this->config["allowFiles"]);
     }
 
     /**
@@ -368,6 +394,7 @@ class Uploader {
      */
     public function getFileInfo() {
         return array(
+            "action" => $this->action,
             "state" => $this->stateInfo,
             "url" => DOCUMENT_ROOT . $this->fullName,
             "title" => $this->fileName,
@@ -375,6 +402,29 @@ class Uploader {
             "type" => $this->fileType,
             "size" => $this->fileSize
         );
+    }
+
+    /**
+     * 图片压缩
+     * @param $img 要压缩的图片
+     * @param $outName 图片保存的完整路径
+     */
+    private function grafikaImg($img, $outName){
+
+        $editor = \Grafika\Grafika::createEditor();
+        $editor->open( $image, $img);
+        $width  = $image->getWidth();
+        $height = $image->getHeight();
+        $ratio  = $width / $height;
+
+        $resizeWidth  = 150 * $ratio;
+        $resizeHeight = 150;
+        $editor->save( $image, $outName );
+
+        $editor->resizeFit( $image, $resizeWidth, $resizeHeight );
+
+        $editor->save( $image, "{$outName}_150x150.".pathinfo($outName)['extension'] );
+
     }
 
 }

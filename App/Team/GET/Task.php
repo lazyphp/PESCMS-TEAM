@@ -1,13 +1,10 @@
 <?php
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
- * @core version 2.6
- * @version 2.0
+ * the file LICENSE that was distributed with this source code.
  */
 namespace App\Team\GET;
 
@@ -28,6 +25,10 @@ class Task extends Content {
         if (in_array($_GET['status'], array_keys($this->statusMark))) {
             \Model\Task::$condtion .= ' AND t.task_status = :task_status ';
             \Model\Task::$param['task_status'] = $_GET['status'];
+            if($_GET['status'] == 3){
+                \Model\Task::$order = 'ORDER BY task_complete_time DESC';
+            }
+
         }
         //状态为666的，表示任务逾期的
         if ($_GET['status'] == '666') {
@@ -59,7 +60,7 @@ class Task extends Content {
 
         $this->assign('sidebar', $this->sidebar);
 
-        $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon']);
+        $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon'] ?? null);
 
     }
 
@@ -93,6 +94,16 @@ class Task extends Content {
      */
     public function my() {
         \Model\Task::getUserTask($this->session()->get('team')['user_id']);
+        $this->index();
+    }
+
+    /**
+     * 我创建的项目
+     * @return void
+     */
+    public function create(){
+        \Model\Task::$condtion .= ' AND t.task_create_id = :task_create_id ';
+        \Model\Task::$param['task_create_id'] = $this->session()->get('team')['user_id'];
         $this->index();
     }
 
@@ -133,7 +144,7 @@ class Task extends Content {
             }
 
             //@todo 排序需要进一步优化
-            \Model\Task::$oder = 'ORDER BY task_submit_time DESC';
+            \Model\Task::$order = 'ORDER BY task_submit_time DESC';
 
             \Model\Task::getUserTask($this->session()->get('team')['user_id']);
             $list[$statusid] = $value;
@@ -240,6 +251,7 @@ class Task extends Content {
             'param' => $param
         ]);
 
+
         $userAccessList = array_merge($userAccessList, \Model\Content::listContent([
             'table' => 'task_user AS t',
             'field' => 't.*, d.department_name',
@@ -264,6 +276,16 @@ class Task extends Content {
 
         $this->formDate();
 
+
+
+        //更新已读状态
+        \Model\Notice::readNotice('AND notice_task_id = :notice_task_id', [
+            'notice_read' => '1',
+            'noset' => [
+                'notice_task_id' => $taskid,
+                'notice_user_id' => $this->session()->get('team')['user_id']
+            ]
+        ]);
 
         $this->assign('actionAuth', $actionAuth);
 

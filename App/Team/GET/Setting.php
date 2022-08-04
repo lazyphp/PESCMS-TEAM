@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace App\Team\GET;
@@ -17,16 +16,61 @@ class Setting extends \Core\Controller\Controller {
      * 系统设置
      */
     public function action(){
+        $list = $this->db('option')->select();
         $option = [];
-        foreach(\Model\Content::listContent(['table' => 'option']) as $key => $value){
-            if(is_array(json_decode($value['value'], true)) || $value['option_name'] == 'crossdomain' ){
-                $option[$value['option_name']] = json_decode($value['value'], true);
-            }else{
-                $option[$value['option_name']] = $value;
+        $sort = [];
+        foreach ($list as $item){
+            if($item['option_id'] == '-1'){
+                $sort = json_decode($item['value'], true);
+                continue;
+            }elseif($item['option_id'] < '0'){
+                continue;
             }
+            
+
+            switch ($item['option_type']){
+                case 'setting_option':
+                    $value = json_decode($item['value'], true);
+                    break;
+                case 'json':
+                    $value = implode(',', json_decode($item['value'], true));
+                    break;
+                default:
+                    $value = $item['value'];
+            }
+
+            $option[$item['option_node']][$item['option_name']] = [
+                'field_name' => $item['option_name'],
+                'field_display_name' => $item['name'],
+                'field_type' => $item['option_form'],
+                'field_option' => $item['option_form_option'],
+                'field_required' => $item['option_required'],
+                'field_explain' => $item['option_explain'],
+                'value' => $value,
+                'listsort' => $item['option_listsort'],
+            ];
+
+
+            //配置信息排序
+            uasort($option[$item['option_node']], function ($a, $b){
+                if($a['listsort'] == $b['listsort']){
+                    return 0;
+                }
+                return ($a['listsort'] < $b['listsort']) ? -1 : 1;
+            });
+
         }
-        $this->assign($option);
-        $this->assign('title', '系统设置');
+
+        asort($sort);
+
+
+        array_multisort($sort, SORT_ASC, $option);
+
+
+
+        $this->assign('option', $option);
+        $this->assign('form', new \Expand\Form\Form());
+        $this->assign('title', '基础设置');
         $this->layout();
     }
 

@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace Expand;
@@ -41,6 +40,13 @@ class Label {
             case 'findgroup':
             case 'finddepartment':
                 return $this->findContent($arguments['0'], $arguments['1'], $arguments['2']);
+                break;
+            case 'toolEvent':
+            case 'opEvent':
+            case 'loginEvent':
+            case 'footerEvent':
+                return (new \Core\Plugin\Plugin())->event($name, $arguments);
+                break;
             default :
                 return '不存在此方法';
         }
@@ -250,13 +256,8 @@ class Label {
             $this->fieldOption[$fieldId] = \Model\Content::findContent('field', $fieldId, 'field_id');
         }
 
-        $option = json_decode(htmlspecialchars_decode($this->fieldOption[$fieldId]['field_option']), true);
-        $search = array_search($value, $option);
-        if (empty($search)) {
-            return '未知值';
-        } else {
-            return $search;
-        }
+        $optionName = \Model\Field::getFieldOptionToMatch($value, $this->fieldOption[$fieldId]['field_option']);
+        return $optionName ?? '-';
     }
 
 

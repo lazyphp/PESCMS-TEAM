@@ -39,9 +39,24 @@ $SLICE_ARRYR = [
     //全局切片
     'GLOBAL-SLICE' => [
         'any',
+        ['Team-:m-:a'],
+        //注册系统设置
+        ['\Common\Option']
+    ],
+
+
+    'GLOBAL-ACCESS' => [
+        'any',
         'Team-:m-:a',
-        ['\Team\Login', '\Team\Menu', '\Team\Auth', '\Team\Notice', '\Common\Option'],//注册后台登录验证、权限验证、后台菜单
+        ['\Team\Login', '\Team\Menu', '\Team\Auth', '\Team\Notice'],//注册后台登录验证、权限验证、后台菜单
         ['Team-Login-:a']
+    ],
+
+    //部分操作需要超级管理员才可以进行。
+    'ADMIN-LIMIT' => [
+        'any',
+        ['Team-Model-:a', 'Team-Field-:a', 'Team-Setting-:a', 'Team-Log-:a'],
+        ['\Team\AdminLimit'],
     ],
 
     /*----------------Team部分----------------*/
@@ -95,7 +110,7 @@ $SLICE_ARRYR = [
     //注册任务状态的模板赋值
     'TaskANDUser' => [
         'get',
-        ['Team-Task-:a', 'Team-User-:a', 'Team-Department-analyze', 'Team-Project-analyze'],
+        ['Team-Task-:a', 'Team-User-:a', 'Team-Department-analyze', 'Team-Project-analyze', 'Team-Index-index'],
         ['\Team\TaskMark', '\Team\TaskSidebar']
     ],
 
@@ -112,6 +127,21 @@ $SLICE_ARRYR = [
         ['Team-Task_supplement-action'],
         ['\Team\HandleForm\HandleTaskSupplement']
     ],
+
+    //注册插件初始化入口
+    'TEAM-APPLICATION-Init' => [
+        'any',
+        ['Team-Application-Init'],
+        ['\Team\ApplicationInit']
+    ],
+
+    //插件全局事件
+    'APPLICATION-GLOBAL-EVENT' => [
+        'any',
+        ['Team-:m-:a'],
+        ['\Common\ApplicationGlobalEvent'],
+    ],
+
 ];
 
 //执行切片注册

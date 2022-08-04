@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * 版权所有 2021 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE that was distributed with this source code.
+ */
 namespace App\Team\GET;
 
 /**
@@ -7,7 +13,7 @@ namespace App\Team\GET;
  */
 class Content extends \Core\Controller\Controller {
 
-    protected $model, $table, $fieldPrefix, $field = [], $modelThemePrefixPath, $condition = '1 = 1', $param = [], $page;
+    protected $model, $table, $fieldPrefix, $field = [], $modelThemePrefixPath, $condition = '1 = 1', $param = [], $page, $sortBy;
 
     public function __init() {
         parent::__init();
@@ -31,7 +37,7 @@ class Content extends \Core\Controller\Controller {
 
         //获取模型的字段列表
         $fieldShowType = ACTION == 'index' ? 'field_list' : 'field_form';
-        $this->field = \Model\Field::fieldList($this->model['model_id'], ['field_status' => '1', $fieldShowType => '1']);
+        $this->field = \Model\Field::fieldList($this->model['model_id'], "AND field_status = 1 AND `{$fieldShowType}` IN (1, 2)");
     }
 
     /**
@@ -59,8 +65,14 @@ class Content extends \Core\Controller\Controller {
             $this->condition .= ' AND ('.implode(' OR ', $conditionArray).')';
         }
 
+        //若定义了自定义排序，则覆写默认的排序方式
+        if(!empty($this->sortBy)){
+            $orderBy = $this->sortBy;
+        }
+
 
         $total = count($this->db($this->table)->where($this->condition)->select($this->param));
+        $this->page->listRows = $this->model['model_page'];
         $count = $this->page->total($total);
         $this->page->handle();
         $list = $this->db($this->table)->where($this->condition)->order($orderBy)->limit("{$this->page->firstRow}, {$this->page->listRows}")->select($this->param);
@@ -70,6 +82,10 @@ class Content extends \Core\Controller\Controller {
         $this->assign('title', $this->model['model_title']);
         $this->assign('field', $this->field);
 
+        //加载列表自定义的工具栏
+        $this->assign('tool_column', is_file("{$this->modelThemePrefixPath}_index_tool.php") ? "{$this->modelThemePrefixPath}_index_tool.php" : THEME_PATH . "/Content/Content_index_tool.php");
+
+        //加载列表操作按钮
         $this->assign('operate', is_file("{$this->modelThemePrefixPath}_index_operate.php") ? '/' . MODULE . '/' . MODULE . "_index_operate.php" : '');
 
 
@@ -102,6 +118,11 @@ class Content extends \Core\Controller\Controller {
                 $this->field[$key]['field_option'] = $value['field_option'];
                 $this->field[$key]['value'] = $content["{$this->fieldPrefix}{$value['field_name']}"];
             }
+        }
+
+        if(!empty($_GET['copy'])){
+            $this->assign('title', "复制 - {$this->model['model_title']}");
+            $this->assign('method', 'POST');
         }
 
         $this->assign('field', $this->field);

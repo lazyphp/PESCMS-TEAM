@@ -8,7 +8,7 @@
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 <form action="<?= $label->url('Team-User-setting'); ?>" class="am-form ajax-submit am-margin-bottom" method="POST" data-am-validator>
     <input type="hidden" name="method" value="PUT">
-
+    <?= $label->token(); ?>
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">
@@ -78,7 +78,7 @@
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 <form action="<?= $label->url('Team-User-head'); ?>" class="am-form am-margin-bottom ajax-submit" method="POST"  data-am-validator>
     <input type="hidden" name="method" value="PUT">
-
+    <?= $label->token(); ?>
     <div class="am-g">
         <div class="am-u-sm-12 am-u-sm-centered">
             <div class="am-form-group">

@@ -1,19 +1,17 @@
 <?php
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
- * @core version 2.6
- * @version 2.0
+ * the file LICENSE that was distributed with this source code.
  */
+
 namespace Model;
 
 class Task extends \Core\Model\Model {
 
-    public static $condtion = 'WHERE 1 = 1', $join = '', $param = [], $group = '', $oder = 'ORDER BY t.task_submit_time DESC', $page = '10';
+    public static $condtion = 'WHERE 1 = 1', $join = '', $param = [], $group = '', $order = 'ORDER BY t.task_submit_time DESC', $page = '10';
 
     /**
      * 转换条目
@@ -43,7 +41,7 @@ class Task extends \Core\Model\Model {
     public static function insertTaskUser($taskid, $sendNotice = TRUE) {
         //预清除任务审核人/执行人列表
         self::db('task_user')->where('task_id = :task_id')->delete([
-            'task_id' => $taskid
+            'task_id' => $taskid,
         ]);
 
         foreach (['1' => 'checkuser', '2' => 'actionuser', '3' => 'actiondepartment'] as $type => $name) {
@@ -74,14 +72,14 @@ class Task extends \Core\Model\Model {
                 \Model\Notice::$taskid = $taskid;
                 switch ($type) {
                     case '1':
-                        \Model\Notice::newNotice($value, '2');
+                        \Model\Notice::newNotice($value, $taskid, '2');
                         break;
                     case '2':
-                        \Model\Notice::newNotice($value, '1');
+                        \Model\Notice::newNotice($value, $taskid, '1');
                         break;
                     case '3':
                         foreach (explode(',', $department['department_header']) as $userid) {
-                            \Model\Notice::newNotice($userid, '4');
+                            \Model\Notice::newNotice($userid, $taskid, '4');
                         }
                         break;
                 }
@@ -149,7 +147,7 @@ class Task extends \Core\Model\Model {
      */
     public static function getTaskList() {
         //@todo 任务排序日后再修复
-        $sqlVariable = ['prefix' => self::$modelPrefix, 'join' => self::$join, 'condtion' => self::$condtion, 'group' => self::$group, 'order' => self::$oder];
+        $sqlVariable = ['prefix' => self::$modelPrefix, 'join' => self::$join, 'condtion' => self::$condtion, 'group' => self::$group, 'order' => self::$order];
         $sql = "SELECT %s
                 FROM {$sqlVariable['prefix']}task AS t
                 {$sqlVariable['join']}

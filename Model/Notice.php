@@ -21,10 +21,11 @@ class Notice extends \Core\Model\Model {
     /**
      * 生成系统通知
      * @param $userid 接收通知的用户ID
+     * @param $taskID 任务ID
      * @param $type 通知类型
      * @return mixed
      */
-    public static function newNotice($userid, $type) {
+    public static function newNotice($userid, $taskID, $type) {
         $text = self::noticeText($type);
 
         //如果等于1，则执行邮件发送
@@ -38,6 +39,7 @@ class Notice extends \Core\Model\Model {
         }
 
         return self::db('notice')->insert([
+            'notice_task_id' => $taskID,
             'notice_user_id' => $userid,
             'notice_type' => $type,
             'notice_title' => $text['title'],
@@ -97,7 +99,7 @@ class Notice extends \Core\Model\Model {
             ]
         ]);
         foreach ($userList as $value) {
-            self::newNotice($value['user_id'], $noticeType);
+            self::newNotice($value['user_id'], $taskid, $noticeType);
         }
     }
 
@@ -115,7 +117,13 @@ class Notice extends \Core\Model\Model {
      * 执行通知发送
      */
     public static function actionNoticeSend(){
-        $sendList = \Model\Content::listContent(['table' => 'send', 'condition' => 'send_time = 0']);
+        $sendList = \Model\Content::listContent([
+            'table' => 'send',
+            'condition' => "send_time <= :time AND send_status < 2 AND send_sequence < 5 ",
+            'param' => [
+                'time' => time()
+            ]
+        ]);
         if(!empty($sendList)){
             foreach ($sendList as $value) {
                 //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
@@ -130,6 +138,15 @@ class Notice extends \Core\Model\Model {
                 'send_time' => time() - 86400 * 7
             ]);
         }
+    }
+
+    /**
+     * 阅读通知消息
+     * @param $userid
+     * @return void
+     */
+    public static function readNotice($condition, $param){
+        self::db('notice')->where("notice_user_id = :notice_user_id {$condition}")->update($param);
     }
 
 }

@@ -17,6 +17,7 @@ class User extends Content {
      * 更新个人设置
      */
     public function setting() {
+        $this->checkToken();
         $data['user_name'] = $this->isP('name', '请填写名称');
         $data['user_mail'] = $this->isP('mail', '请填写邮箱地址');
         $data['user_phone'] = $this->p('phone');
@@ -39,6 +40,7 @@ class User extends Content {
      * 更新头像
      */
     public function head() {
+        $this->checkToken();
         $head = $this->isP('head', '请上传头像');
         \Model\Extra::checkUploadFile($head);
         $this->db('user')->where('user_id = :user_id')->update([
