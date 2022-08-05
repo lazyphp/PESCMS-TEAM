@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * 版权所有 2021 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE that was distributed with this source code.
+ */
 namespace App\Team\POST;
 
 /**
@@ -19,7 +25,7 @@ class Content extends \Core\Controller\Controller {
         $addResult = \Model\Content::addContent();
         if ($addResult === false) {
             $this->db()->rollBack();
-            $this->error($addResult['mes']);
+            $this->error('添加内容失败');
         }
 
         if (!empty($_POST['back_url'])) {

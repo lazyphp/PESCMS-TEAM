@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * 版权所有 2021 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE that was distributed with this source code.
+ */
 namespace App\Team\PUT;
 
 /**
@@ -13,7 +19,7 @@ class Content extends \Core\Controller\Controller {
      * @param type $commit 是否提交事务.默认提交.若想继承者继续在本事务中操作,请提交false
      */
     public function action($jump = TRUE, $commit = TRUE) {
-
+        $this->checkToken();
         $this->db()->transaction();
         $updateResult = \Model\Content::updateContent();
 
@@ -36,6 +42,7 @@ class Content extends \Core\Controller\Controller {
      * 内容排序
      */
     public function listsort() {
+        $this->checkToken();
         foreach ($_POST['id'] as $key => $value) {
             \Model\ModelManage::updateSortFromModel(MODULE, $key, $value);
         }

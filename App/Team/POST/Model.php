@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2021 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace App\Team\POST;
@@ -39,6 +38,8 @@ class Model extends Content {
          */
         \Model\ModelManage::setInitField($modelId);
 
+        \Model\ModelManage::createNode($modelId, $modelName);
+
         $this->db()->commit();
 
         $initResult = \Model\ModelManage::initModelTable(strtolower($modelName));
@@ -50,6 +51,10 @@ class Model extends Content {
      * 导入模型
      */
     public function import(){
+
+        $this->error('本功能暂时下架，若需要使用请自行修改代码解除限制。');
+        exit;
+
         $model = json_decode($this->isP('model', '请提交您要导入的模型代码', false), true);
         if(empty($model)){
             $this->error('解析提交的模型代码失败，请检查JSON格式是否异常');
