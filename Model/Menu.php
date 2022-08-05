@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace Model;
@@ -22,9 +21,15 @@ class Menu extends \Core\Model\Model {
      * 生成后台菜单
      */
     public static function menu($groupId = '') {
+        if(empty(self::session()->get('team'))){
+            return false;
+        }
         $condition = "";
         if (!empty($groupId) && self::session()->get('team')['user_id'] > '1') {
             $group = \Model\Content::findContent('user_group', $groupId, 'user_group_id');
+            if(empty($group['user_group_menu'])){
+                self::error('当前账号分组没有设置系统菜单，请联系管理人添加。', '/', '60');
+            }
             $condition .= "m.menu_id in ({$group['user_group_menu']})";
         }
 

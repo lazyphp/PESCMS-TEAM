@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace Expand\Form;
@@ -17,7 +16,29 @@ namespace Expand\Form;
 class Form {
 
     private $imgsuffix, $filesuffix, $label;
+    private static $accept = [];
 
+    public function __construct() {
+
+        if (empty(self::$accept)) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            //微信浏览器内核加上文件后缀判断，会显示没有应用可执行此操作，因此作特殊处理
+            if (strripos($userAgent, 'wechat') && strripos($userAgent, 'micromessenger') && strripos($userAgent, 'android')) {
+                self::$accept = [
+                    'upload_img'  => 'image/*',
+                    'upload_file' => '',
+                ];
+            } else {
+                foreach (['upload_img', 'upload_file'] as $value) {
+                    if (empty(self::$accept[$value])) {
+                        self::$accept[$value] = implode(',', json_decode(\Model\Content::findContent('option', $value, 'option_name')['value'], true));
+                    }
+                }
+            }
+        }
+
+
+    }
     /**
      * 生成对应的HTML表单内容
      * @param type $field 提交过来的字段

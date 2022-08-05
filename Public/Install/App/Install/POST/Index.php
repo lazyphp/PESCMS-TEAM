@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.6+
- *
- * Copyright (c) 2019 PESCMS (https://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace App\Install\POST;
@@ -48,7 +47,7 @@ class Index extends \App\Install\Common {
         $data['DB_TYPE'] = 'mysql';
         $data['DB_HOST'] = $this->isP('db_host', '请填写数据库地址!');
         $data['DB_NAME'] = $this->isP('db_name', '请填写数据库名称!');
-        $data['DB_USER'] = $this->isP('db_account', '请填写数据库帐号!');
+        $data['DB_USER'] = $this->isP('db_account', '请填写数据库账号!');
         $data['DB_PWD'] = empty($_POST['db_passwd']) ? '' : $this->p('db_passwd');
         $data['DB_PORT'] = $this->isP('db_port', '请填写数据库端口!');
         $data['DB_PREFIX'] = 'pes_';
@@ -128,13 +127,16 @@ class Index extends \App\Install\Common {
     private function setSiteInfo(){
         $option['domain'] = $this->isP('domain', '请填写域名');
 
-        $data['user_account'] = $this->isP('account', '请填写管理员帐号');
+        $data['user_account'] = $this->isP('account', '请填写管理员账号');
         $data['user_password'] = \Core\Func\CoreFunc::generatePwd($data['user_account'].$this->isP('passwd', '请填写管理员密码'));
         $data['user_name'] = $this->isP('name', '请填写管理员名称');
         $data['user_mail'] = $this->isP('mail', '请填写管理员邮箱');
         $data['user_group_id'] = $data['user_department_id'] = '1';
         $data['user_status'] = '1';
         $data['user_createtime'] = time();
+        if($this->p('passwd') !== $this->p('repasswd')){
+            $this->error('两次输入的密码不一致');
+        }
 
         $this->installDB();
 
@@ -155,7 +157,7 @@ class Index extends \App\Install\Common {
         $imageDataUri = $identicon->getImageDataUri($data['user_mail']);
         $data['user_head'] = $imageDataUri;
 
-        //写入管理员帐号
+        //写入管理员账号
         $this->db('user')->insert($data);
     }
 

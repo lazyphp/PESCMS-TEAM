@@ -1,11 +1,11 @@
 <?php
 
 /**
- * PSE核心引入文件
- * @author LuoBoss
- * @copyright ©2013-2015 PESCMS
- * https://www.pescms.com
- * @version 2.5
+ * 版权所有 2021 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
+ *
+ * For the full copyright and license information, please view
+ * the file LICENSE that was distributed with this source code.
  */
 define('PES_RUN_TIME', microtime(true));
 //PES已经自定义错误功能，因此禁用系统的错误信息
