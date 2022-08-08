@@ -82,7 +82,6 @@ class Task extends Content {
         }
         $task = \Model\Content::findContent('task', $data['noset']['task_id'], 'task_id');
 
-        //@todo PHP 5.5 empty() now supports expressions, rather than only variables.
         $statusMark = \Model\Task::getTaskStatusMark($data['task_status']);
         if (empty($statusMark)) {
             $this->error('不存在的状态');
@@ -101,8 +100,11 @@ class Task extends Content {
             $this->repeatTask($task);
         }
         //@todo end
+        
 
         $update = $this->db('task')->where('task_id = :task_id')->update($data);
+
+
         if ($update === FALSE) {
             $this->error('更改任务状态失败!任务状态可能没有变更或者任务不存在');
         }

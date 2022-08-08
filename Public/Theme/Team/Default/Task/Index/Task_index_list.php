@@ -4,11 +4,12 @@
 <?php else: ?>
     <?php foreach ($list as $key => $value): ?>
         <!--输出任务的日期分割线-->
-        <?php if (empty($date[date('Y-m-d', $value['task_submit_time'])])): ?>
-            <?php $date[date('Y-m-d', $value['task_submit_time'])] = $value['task_submit_time'] ?>
+        <?php $timeLineField = $value['task_status'] == 3 ? 'task_complete_time' : 'task_submit_time' ?>
+        <?php if (empty($date[date('Y-m-d', $value[$timeLineField])])): ?>
+            <?php $date[date('Y-m-d', $value[$timeLineField])] = $value[$timeLineField] ?>
             <div class="task-date am-text-center">
                 <span
-                    class="task-date-align"><?= str_replace(date('Y-'), '', date('Y-m-d', $value['task_submit_time'])) . '/' . $label->getWeekName($value['task_submit_time']); ?></span>
+                    class="task-date-align"><?= str_replace(date('Y-'), '', date('Y-m-d', $value[$timeLineField])) . '/' . $label->getWeekName($value[$timeLineField]); ?></span>
             </div>
         <?php endif; ?>
         <!--输出任务的日期分割线-->
@@ -50,9 +51,19 @@
                 <!--任务计划完成时间-->
                 <span
                     class="am-badge am-round <?= $value['task_end_time'] < time() && $value['task_status'] < 2 ? 'am-badge-warning' : '' ?>"
-                    title="计划完成时间：<?= date('m-d H:i', $value['task_end_time']) ?>"><i
-                        class="am-icon-calendar"></i> <?= date('m.d', $value['task_end_time']) ?></span>
+                    title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']) ?>"><i
+                        class="am-icon-calendar"></i> <?= date('Y.m.d', $value['task_end_time']) ?>
+                </span>
                 <!--任务计划完成事件-->
+
+                <!--任务完成时间-->
+                <?php if(!empty($value['task_complete_time'])): ?>
+                    <span
+                        class="am-badge am-badge-success am-round"
+                        title="完成时间：<?= date('Y-m-d H:i', $value['task_complete_time']) ?>"><i class="am-icon-check"></i> <?= date('Y-m-d', $value['task_complete_time']) ?>
+                    </span>
+                <?php endif; ?>
+                <!--任务完成事件-->
 
                 <?php if($label->checkAuth('TeamDELETETaskaction') === true): ?>
                 <a class="am-text-danger ajax-click ajax-dialog"  msg="确定删除吗？将无法恢复的！" href="<?= $label->url(GROUP . '-' . MODULE . '-action', array('id' => $value["task_id"], 'method' => 'DELETE', 'back_url' => base64_encode($_SERVER['REQUEST_URI']))); ?>"><span class="am-icon-trash-o"></span></a>

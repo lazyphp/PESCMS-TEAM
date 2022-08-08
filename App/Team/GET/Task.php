@@ -28,6 +28,10 @@ class Task extends Content {
         if (in_array($_GET['status'], array_keys($this->statusMark))) {
             \Model\Task::$condtion .= ' AND t.task_status = :task_status ';
             \Model\Task::$param['task_status'] = $_GET['status'];
+            if($_GET['status'] == 3){
+                \Model\Task::$oder = 'ORDER BY task_complete_time DESC';
+            }
+
         }
         //状态为666的，表示任务逾期的
         if ($_GET['status'] == '666') {

@@ -163,9 +163,7 @@ $(function () {
     $('.datetimepicker').datetimepicker({
         language: 'zh-CN',
         format: 'yyyy-mm-dd hh:00',
-        maxView: '2',
         minView: '1',
-        startDate: new Date(),
         autoclose: true
     });
     /**
