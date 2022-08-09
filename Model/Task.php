@@ -9,6 +9,7 @@
  * @core version 2.6
  * @version 2.0
  */
+
 namespace Model;
 
 class Task extends \Core\Model\Model {
@@ -43,7 +44,7 @@ class Task extends \Core\Model\Model {
     public static function insertTaskUser($taskid, $sendNotice = TRUE) {
         //预清除任务审核人/执行人列表
         self::db('task_user')->where('task_id = :task_id')->delete([
-            'task_id' => $taskid
+            'task_id' => $taskid,
         ]);
 
         foreach (['1' => 'checkuser', '2' => 'actionuser', '3' => 'actiondepartment'] as $type => $name) {
@@ -74,14 +75,14 @@ class Task extends \Core\Model\Model {
                 \Model\Notice::$taskid = $taskid;
                 switch ($type) {
                     case '1':
-                        \Model\Notice::newNotice($value, '2');
+                        \Model\Notice::newNotice($value, $taskid, '2');
                         break;
                     case '2':
-                        \Model\Notice::newNotice($value, '1');
+                        \Model\Notice::newNotice($value, $taskid, '1');
                         break;
                     case '3':
                         foreach (explode(',', $department['department_header']) as $userid) {
-                            \Model\Notice::newNotice($userid, '4');
+                            \Model\Notice::newNotice($userid, $taskid, '4');
                         }
                         break;
                 }

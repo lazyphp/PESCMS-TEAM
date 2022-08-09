@@ -12,9 +12,11 @@
         <?php else: ?>
             <form class="am-form ajax-submit" action="<?= $label->url(GROUP . '-' . MODULE . '-listsort'); ?>" method="POST">
                 <input type="hidden" name="method" value="PUT"/>
+                <?= $label->token() ?>
                 <table class="am-table am-table-bordered am-table-striped am-table-hover am-text-sm">
                     <tr>
-                        <?php if ($listsort): ?>
+                        <th><input type="checkbox" class="checkbox-all"></th>
+                        <?php if (isset($listsort)): ?>
                             <th class="table-sort">排序</th>
                         <?php endif; ?>
                         <th class="table-set">ID</th>
@@ -30,7 +32,10 @@
                     </tr>
                     <?php foreach ($list as $key => $value) : ?>
                         <tr>
-                            <?php if ($listsort): ?>
+                            <td class="am-text-middle">
+                                <input type="checkbox" class="checkbox-all-children" name="id[<?= $value["{$fieldPrefix}id"]; ?>]" value="<?= $value["{$fieldPrefix}id"]; ?>" >
+                            </td>
+                            <?php if (isset($listsort)): ?>
                                 <td class="am-text-middle">
                                     <input type="text" class="am-input-sm" name="id[<?= $value["{$fieldPrefix}id"]; ?>]"
                                            value="<?= $value["{$fieldPrefix}listsort"]; ?>">
@@ -52,13 +57,22 @@
                         </tr>
                     <?php endforeach; ?>
                 </table>
-                <ul class="am-pagination am-pagination-right am-text-sm">
-                    <?= $page; ?>
-                </ul>
-                <?php if ($listsort): ?>
-                    <div class="am-margin-top">
-                        <button type="submit" class="am-btn am-radius am-btn-primary am-btn-xs">排序</button>
+
+                <div class="am-g am-g-collapse">
+                    <div class="am-u-sm-12 am-u-lg-6">
+                        <?php if (isset($listsort) && $label->checkAuth(GROUP.'-PUT-'.MODULE.'-listsort') === true ): ?>
+                        <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius">排序</button>
+                        <?php endif; ?>
+
+                        <?php if ($label->checkAuth(GROUP.'-DELETE-'.MODULE.'-action') === true): ?>
+                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius delete-batch" data="<?= $label->url(GROUP . '-' . MODULE . '-action', ['method' => 'DELETE']) ?>">删除</button>
+                        <?php endif; ?>
                     </div>
-                <?php endif; ?>
+                    <div class="am-u-sm-12 am-u-lg-6">
+                        <ul class="am-pagination am-pagination-right am-text-sm am-margin-0">
+                            <?= $page ?? ''; ?>
+                        </ul>
+                    </div>
+                </div>
             </form>
         <?php endif; ?>

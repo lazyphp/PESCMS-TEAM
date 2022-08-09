@@ -15,7 +15,7 @@ class Notice extends Content {
 
     public function index($display = true) {
         $condition = "";
-        $param = ['user_id' => $this->session()->get('team')['user_id']];
+        $param = ['notice_user_id' => $this->session()->get('team')['user_id']];
 
         if (!empty($_GET['type'])) {
             $condition .= " AND notice_type = :type";
@@ -28,7 +28,7 @@ class Notice extends Content {
 
         $sql = "SELECT %s
                 FROM {$this->prefix}notice
-                WHERE notice_user_id = :user_id {$condition}
+                WHERE notice_user_id = :notice_user_id {$condition}
                 ORDER BY notice_time DESC, notice_id DESC
                 ";
         $result = \Model\Content::quickListContent([
@@ -40,7 +40,7 @@ class Notice extends Content {
         $this->assign('list', $result['list']);
         $this->assign('page', $result['page']);
 
-        $this->db('notice')->where("notice_user_id = :user_id {$condition}")->update([
+        \Model\Notice::readNotice($condition, [
             'notice_read' => '1',
             'noset' => $param
         ]);

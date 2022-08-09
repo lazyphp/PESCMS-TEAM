@@ -56,11 +56,11 @@ class Task extends Content {
     public function taskListAction() {
         $taskListID = $this->isG('listid', '请选您要标记的任务条目');
         $update = $this->db('task_list')->where('task_list_id = :task_list_id')->update([
-            'task_user_id' => $this->session()->get('team')['user_id'],
+            'task_user_id'   => $this->session()->get('team')['user_id'],
             'task_list_time' => time(),
-            'noset' => [
-                'task_list_id' => $taskListID
-            ]
+            'noset'          => [
+                'task_list_id' => $taskListID,
+            ],
         ]);
 
         if ($update === FALSE) {
@@ -100,7 +100,7 @@ class Task extends Content {
             $this->repeatTask($task);
         }
         //@todo end
-        
+
 
         $update = $this->db('task')->where('task_id = :task_id')->update($data);
 
@@ -131,7 +131,7 @@ class Task extends Content {
      */
     private function repeatTask(array $task) {
         if ($task['task_repeat'] <= 0) {
-            RETURN TRUE;
+            return TRUE;
         }
         $data = [];
         foreach ($task as $key => $value) {
@@ -148,14 +148,14 @@ class Task extends Content {
         $newTaskid = $this->db('task')->insert($data);
 
         $taskUser = $this->db('task_user')->where('task_id = :task_id')->select([
-            'task_id' => $task['task_id']
+            'task_id' => $task['task_id'],
         ]);
 
         foreach ($taskUser as $value) {
             $this->db('task_user')->insert([
-                'task_id' => $newTaskid,
-                'user_id' => $value['user_id'],
-                'task_user_type' => $value['task_user_type']
+                'task_id'        => $newTaskid,
+                'user_id'        => $value['user_id'],
+                'task_user_type' => $value['task_user_type'],
             ]);
         }
 
@@ -190,21 +190,21 @@ class Task extends Content {
         foreach (explode(',', $department['department_header']) as $value) {
             $department_header = trim($value);
             $this->db('task_user')->insert([
-                'task_id' => $taskid,
-                'user_id' => $department_header,
-                'task_user_type' => '1'
+                'task_id'        => $taskid,
+                'user_id'        => $department_header,
+                'task_user_type' => '1',
             ]);
-            \Model\Notice::newNotice($value, '2');
+            \Model\Notice::newNotice($value, $taskid, '2');
         }
 
         //被指派的人员成为本任务的执行者。
         foreach ($user as $value) {
             $this->db('task_user')->insert([
-                'task_id' => $taskid,
-                'user_id' => $value,
-                'task_user_type' => '2'
+                'task_id'        => $taskid,
+                'user_id'        => $value,
+                'task_user_type' => '2',
             ]);
-            \Model\Notice::newNotice($value, '1');
+            \Model\Notice::newNotice($value, $taskid, '1');
         }
 
         $this->db()->commit();

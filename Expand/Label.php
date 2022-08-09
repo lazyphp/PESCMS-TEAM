@@ -256,13 +256,8 @@ class Label {
             $this->fieldOption[$fieldId] = \Model\Content::findContent('field', $fieldId, 'field_id');
         }
 
-        $option = json_decode(htmlspecialchars_decode($this->fieldOption[$fieldId]['field_option']), true);
-        $search = array_search($value, $option);
-        if (empty($search)) {
-            return '未知值';
-        } else {
-            return $search;
-        }
+        $optionName = \Model\Field::getFieldOptionToMatch($value, $this->fieldOption[$fieldId]['field_option']);
+        return $optionName ?? '-';
     }
 
 

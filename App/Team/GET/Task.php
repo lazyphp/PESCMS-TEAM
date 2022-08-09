@@ -244,6 +244,7 @@ class Task extends Content {
             'param' => $param
         ]);
 
+
         $userAccessList = array_merge($userAccessList, \Model\Content::listContent([
             'table' => 'task_user AS t',
             'field' => 't.*, d.department_name',
@@ -268,6 +269,16 @@ class Task extends Content {
 
         $this->formDate();
 
+
+
+        //更新已读状态
+        \Model\Notice::readNotice('AND notice_task_id = :notice_task_id', [
+            'notice_read' => '1',
+            'noset' => [
+                'notice_task_id' => $taskid,
+                'notice_user_id' => $this->session()->get('team')['user_id']
+            ]
+        ]);
 
         $this->assign('actionAuth', $actionAuth);
 

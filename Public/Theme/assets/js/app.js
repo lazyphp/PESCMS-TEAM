@@ -59,8 +59,11 @@ $(function () {
             return false;
         }
 
+        var token = $('input[name="token"]').val();
+
         $.ajaxsubmit({
-            url: url
+            url: url,
+            data:{token:token}
         }, function () {
         });
         return false;
@@ -78,17 +81,16 @@ $(function () {
         $.extend(obj, param)
 
         var progress = $.AMUI.progress;
-        var d = dialog({title: '系统提示', zIndex: '9999', fixed:true});
-        if(obj.dialog == true){
-            d.showModal()
-        }
+        var dialogOption = {id:'submit-tips', zIndex: '9999', fixed:true, skin:'submit-warning'};
+
         progress.start();
 
         $.post(obj.url, obj.data, function (data) {
 
             if (obj.dialog == true) {
                 if (data.status == 200) {
-
+                    dialogOption.content = '<i class="am-icon-check-circle"></i>  ';
+                    dialogOption.skin = 'submit-success';
                     if(data.waitSecond == -1){
                         window.location.href = data.url
                         return false;
@@ -97,39 +99,62 @@ $(function () {
                     setTimeout(function () {
                         data.url ? window.location.href = data.url : location.reload();
                     }, 2000);
+                }else{
+                    dialogOption.content = '<i class="am-icon-exclamation-circle"></i>  ';
                 }
-                d.content(data.msg);
+                dialogOption.content += data.msg;
 
             }
             $.refreshToken(data.token);
             callback(data);
 
-        }, 'JSON').fail(function (jqXHR, textStatus, error) {
+        }, 'JSON').fail(function (res, textStatus, error) {
             var msg = '系统请求出错！请再次提交!';
             try{
-                $.refreshToken(jqXHR.responseJSON.token);
-                switch (jqXHR.responseJSON.status){
+                $.refreshToken(res.responseJSON.token);
+                switch (res.status){
                     case 500:
-                        msg = jqXHR.responseJSON.msg;
+                        msg = res.responseJSON.msg;
                         break;
                     case 404:
-                        msg = jqXHR.responseJSON.msg;
+                        msg = res.responseJSON.msg;
                         break;
+                    case 302:
+                        obj.dialog = false;
+                        var redirectDialog = dialog({
+                            title: '重定向提示',
+                            content: '<i class="am-icon-refresh am-icon-spin"></i> '+res.responseJSON.msg,
+                            skin:'submit-success',
+                            id:'redirectDialog',
+                            fixed: true,
+                            okValue: '新窗口打开',
+                            ok: function () {
+                                window.open(res.responseJSON.url)
+                                return false;
+                            },
+                        });
+                        redirectDialog.showModal();
                 }
 
             }catch (e){
 
             }
-            d.content(msg);
+            dialogOption.skin = 'submit-error';
+            dialogOption.content = '<i class="am-icon-times-circle"></i> '+msg;
         }).complete(function(){
-            var src = $('.refresh-verify').attr('src')
-            $('.refresh-verify').attr('src', src + '&time=' + Math.random());
-            setTimeout(function () {
-                d.close();
-            }, 3000);
+            if (obj.dialog == true) {
+                var d = dialog(dialogOption).showModal();
+
+                var src = $('.refresh-verify').attr('src')
+                $('.refresh-verify').attr('src', src + '&time=' + Math.random());
+                setTimeout(function () {
+                    d.close().remove();
+                }, 3000);
+            }
             progress.done();
         });
     }
+
 
     /**
      * 更新token
@@ -175,6 +200,40 @@ $(function () {
     });
 
     /**
+     * 批量删除全选按钮
+     */
+    $('.checkbox-all').on('click, change', function () {
+        if($(this).prop('checked') == true){
+            $('.checkbox-all-children').prop('checked', 'checked')
+        }else{
+            $('.checkbox-all-children').removeAttr('checked');
+        }
+    })
+
+    /**
+     * 批量删除
+     */
+    $('.delete-batch').on('click', function () {
+        var url = $(this).attr('data');
+        var children = $('.checkbox-all-children').serialize()
+        if(!children){
+            alert('您没有勾选要删除的数据.')
+            return false;
+        }
+
+        if(confirm('确认进行批量删除所勾选数据吗？')){
+            var token = $('input[name="token"]').val();
+            $.ajaxsubmit({url:url, data:children+'&token='+token}, function () {
+
+            })
+
+            return false;
+        }
+
+        return false;
+    })
+
+    /**
      * 处理特定区域的图片
      */
     $('.am-article img').each(function(index, key){
@@ -184,5 +243,17 @@ $(function () {
             '<img src="'+imgsrc+'" class="am-img-responsive" />\n' +
             '</a>').remove()
     })
+
+    $(document).fancybox({
+        buttons: [
+            "zoom",
+            "fullScreen",
+            "download",
+            "thumbs",
+            "rotate",
+            "close"
+        ],
+        selector: '[data-fancybox^="gallery"]'
+    });
 
 })
