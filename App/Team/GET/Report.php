@@ -85,19 +85,29 @@ class Report extends \Core\Controller\Controller {
 
         $result = $this->db('report AS r ')->join("{$this->prefix}report_content AS rc ON rc.report_id = r.report_id")->where($condition)->order('report_date DESC')->select($param);
         //是否导出excel
-        if (!empty($_GET['excel'])) {
-            $label = new \Expand\Label();
-            $excelTitle = array('日期/用户', '报表内容');
+        $list = [];
+        
+        $users = \Model\User::getUserWithID(null, 'user_id, user_name');
 
+
+
+        if (!empty($_GET['excel'])) {
+            
+            
+            
             foreach ($result as $key => $value) {
-                $list[$value['report_date']][$value['report_date']] = date('Y-m-d', $value['report_date']);
-                $list[$value['report_date'] . $value['user_id']][$value['user_id']] = $label->findUser('user', 'user_id', $value['user_id'])['user_name'];
-                $list[$value['report_date'] . $value['user_id']][] = strip_tags(htmlspecialchars_decode($value['report_content']));
+
+                $reportDate = date('Y-m-d', $value['report_date']);
+
+                $list[$reportDate][$value['user_id']]['name'] = $users[$value['user_id']]['user_name'];
+                $list[$reportDate][$value['user_id']]['report'][] = strip_tags(htmlspecialchars_decode($value['report_content']));
             }
 
-
-            $excel = new \Expand\Excel\Excel();
-            $excel->export(date('YmdHis').'提取报表', $excelTitle, $list);
+            header('Content-type: text/xml');
+            header('Content-Disposition: attachment; filename="text.xls"');
+            require_once THEME_PATH.'/Report/Report_export.php';
+            exit;
+            
         } else {
             foreach ($result as $key => $value) {
                 $list[$value['report_date']][$value['user_id']][] = $value;
@@ -107,15 +117,7 @@ class Report extends \Core\Controller\Controller {
 
         $this->assign('list', $list);
 
-        $userList = \Model\Content::listContent([
-            'table' => 'user'
-        ]);
-
-        foreach($userList as $value){
-            $user[$value['user_id']] = $value;
-        }
-
-        $this->assign('user', $user);
+        $this->assign('users', $users);
         $this->assign('begin', $param['begin']);
         $this->assign('end', $param['end']);
         $this->assign('title', \Model\Menu::getTitleWithMenu()['menu_name']);

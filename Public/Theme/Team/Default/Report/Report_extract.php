@@ -23,7 +23,7 @@
             <div class="am-form-group">
                 <select name="user" data-am-selected>
                     <option value="0">全体用户</option>
-                    <?php foreach ($user as $value): ?>
+                    <?php foreach ($users as $value): ?>
                         <?php if($value['user_department_id'] != $this->session()->get('team')['user_department_id'] && ACTION != 'allExtract'){continue;} ?>
                         <option
                             value="<?= $value['user_id'] ?>" <?= $_GET['user'] == $value['user_id'] ? 'selected="selected"' : '' ?> ><?= $value['user_name'] ?></option>
@@ -53,7 +53,7 @@
                     <div id="<?= $date ?>" class="am-panel-collapse am-collapse">
                         <div class="am-panel-bd">
                             <?php foreach ($item as $userid => $content): ?>
-                                <h4><?= $user[$userid]['user_name'] ?>的工作报告:</h4>
+                                <h4><?= $users[$userid]['user_name'] ?>的工作报告:</h4>
                                 <ul class="am-list am-list-static am-list-border report-list">
                                     <?php foreach ($content as $num => $value): ?>
                                         <li><?= htmlspecialchars_decode($value['report_content']) ?></li>
