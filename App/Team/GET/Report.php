@@ -104,7 +104,7 @@ class Report extends \Core\Controller\Controller {
             }
 
             header('Content-type: text/xml');
-            header('Content-Disposition: attachment; filename="text.xls"');
+            header('Content-Disposition: attachment; filename="导出表报'.date('Y-m-d - ', $param['begin']).date('Y-m-d', $param['end']).'.xls"');
             require_once THEME_PATH.'/Report/Report_export.php';
             exit;
             
