@@ -28,7 +28,7 @@
 
             <div class="am-margin-bottom-xs">#<?= $value['task_id'] ?>
                 <a href="<?= $label->url('Team-User-view', ['id' => $value['task_create_id']]) ?>">
-                    <img src="<?= $label->getImg($label->findContent('user', 'user_id', $value['task_create_id'])['user_head'], ['50', '50']); ?>"
+                    <img src="<?= $label->getImg($label->findContent('user', 'user_id', $value['task_create_id'])['user_head'], ['150', '150']); ?>"
                          class="am-comment-avatar" style="width: 20px;height: 20px;"/>
                     <?= $label->findContent('user', 'user_id', $value['task_create_id'])['user_name']; ?>
                 </a>
@@ -36,7 +36,7 @@
 
                 <?php if ($label->getActionUser($value['task_id'])['type'] == '2'): ?>
                     <a href="<?= $label->url('Team-User-view', ['id' => $label->getActionUser($value['task_id'])['user_id']]) ?>">
-                        <img src="<?= $label->getImg($label->getActionUser($value['task_id'])['user_head'], ['50', '50']); ?>"
+                        <img src="<?= $label->getImg($label->getActionUser($value['task_id'])['user_head'], ['150', '150']); ?>"
                              class="am-comment-avatar" style="width: 20px;height: 20px;"/><?= $label->getActionUser($value['task_id'])['name']; ?>
                     </a>
                 <?php else: ?>
@@ -49,11 +49,13 @@
                 <!--任务优先度-->
                 
                 <!--任务计划完成时间-->
-                <span
-                    class="am-badge am-round <?= $value['task_end_time'] < time() && $value['task_status'] < 2 ? 'am-badge-warning' : '' ?>"
-                    title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']) ?>"><i
+                <span class="am-badge am-round <?= $value['task_end_time'] < time() && $value['task_status'] < 2 ? 'am-badge-warning' : '' ?>" title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']) ?>"><i
                         class="am-icon-calendar"></i> <?= date('Y.m.d', $value['task_end_time']) ?>
                 </span>
+                
+                <?php if($value['task_end_time'] < time() && $value['task_status'] < 2): ?>
+                    <span class="am-badge am-round am-badge-danger"><i class="am-icon-exclamation"></i> 已逾期 <?= floor((time() - $value['task_end_time'])/ 86400) ?>天</span>
+                <?php endif; ?>
                 <!--任务计划完成事件-->
 
                 <!--任务完成时间-->

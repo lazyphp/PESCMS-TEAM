@@ -39,6 +39,11 @@
                                                 <span class="am-badge am-round " title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']); ?>"><i
                                                         class="am-icon-calendar"></i> <?= date('m.d', $value['task_end_time']); ?></span>
                                                 <!--任务时间-->
+
+                                                <?php if($value['task_end_time'] < time() && $value['task_status'] < 2): ?>
+                                                    <span class="am-badge am-round am-badge-secondary"><i class="am-icon-exclamation"></i> 已逾期 <?= floor((time() - $value['task_end_time'])/ 86400) ?>天</span>
+                                                <?php endif; ?>
+
                                             </div>
                                         </div>
                                     </div>

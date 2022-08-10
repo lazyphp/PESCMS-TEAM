@@ -8,7 +8,7 @@
         <?php foreach ($dynamice as $dynamiceDescription): ?>
             <div class="am-margin-top am-margin-bottom">
                 <div class="am-fl am-margin-right">
-                    <img src="<?= $label->getImg($label->findContent('user', 'user_id', $dynamiceDescription['task_dynamic_user_id'])['user_head'], ['50', '50']); ?>" class="am-comment-avatar" style="width: 48px;height: 48px;"/>
+                    <img src="<?= $label->getImg($label->findContent('user', 'user_id', $dynamiceDescription['task_dynamic_user_id'])['user_head'], ['150', '150']); ?>" class="am-comment-avatar" style="width: 48px;height: 48px;"/>
                 </div>
                 <div class="am-nbfc am-margin-bottom">
                     <div class="dynamic-tool">

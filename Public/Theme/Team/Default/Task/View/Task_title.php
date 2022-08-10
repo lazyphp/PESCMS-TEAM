@@ -2,7 +2,11 @@
 <div class="task-list am-padding-xs">
     <!--任务标题-->
     <div>
-        <h2 class="am-margin-top-sm am-margin-bottom-sm task-edit-display"><?= $task_title ?></h2>
+        <h2 class="am-margin-top-sm am-margin-bottom-sm task-edit-display"><?= $task_title ?>
+            <?php if($task_end_time < time() && $task_status < 2): ?>
+                <span class="am-badge am-round am-badge-danger"><i class="am-icon-exclamation"></i> 已逾期 <?= floor((time() - $task_end_time)/ 86400) ?>天</span>
+            <?php endif; ?>
+        </h2>
     </div>
     <!--任务标题-->
 
@@ -20,7 +24,7 @@
 
         <a href="<?= $label->url('Team-User-view', ['id' => $task_create_id]); ?>">
 
-            <img src="<?= $label->getImg($label->findContent('user', 'user_id', $task_create_id)['user_head'], ['50', '50']); ?>"
+            <img src="<?= $label->getImg($label->findContent('user', 'user_id', $task_create_id)['user_head'], ['150', '150']); ?>"
                  class="am-comment-avatar" style="width: 20px;height: 20px;"/>
             <?= $label->findContent('user', 'user_id', $task_create_id)['user_name']; ?>
         </a>
@@ -28,7 +32,7 @@
         <?php foreach ($userAccessList as $value): ?>
                 <?php if ($value['task_user_type'] == '2'): ?>
                     <a href="<?= $label->url('Team-User-view', ['id' => $value['user_id']]); ?>">
-                        <img src="<?= $label->getImg($value['user_head'], ['50', '50']); ?>"
+                        <img src="<?= $label->getImg($value['user_head'], ['150', '150']); ?>"
                              class="am-comment-avatar" style="width: 20px;height: 20px;"/>
                         <?= $value['user_name']; ?></a>
                 <?php elseif ($value['task_user_type'] == '3'): ?>
