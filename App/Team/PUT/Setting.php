@@ -35,7 +35,11 @@ class Setting extends \Core\Controller\Controller {
      * 自动更新
      */
     public function atUpgrade() {
-        $getPatch = json_decode((new \Expand\cURL())->init('https://www.pescms.com/patch/2/'.\Core\Func\CoreFunc::$param['system']['version'], [], [
+        if (empty($this->session()->get('oldVersion'))) {
+            $this->session()->set('oldVersion', \Core\Func\CoreFunc::$param['system']['version']);
+        }
+
+        $getPatch = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/5/' . \Core\Func\CoreFunc::$param['system']['version'], [], [
             CURLOPT_HTTPHEADER => [
                 'X-Requested-With: XMLHttpRequest',
                 'Content-Type: application/json; charset=utf-8',
@@ -50,7 +54,7 @@ class Setting extends \Core\Controller\Controller {
         if($getPatch['status'] == 200){
             $patchSave = APP_PATH.'Upgrade/'.pathinfo($getPatch['data']['update_patch_file'])['basename'];
 
-            $getFile = (new \Expand\cURL())->init("https://www.pescms.com{$getPatch['data']['update_patch_file']}");
+            $getFile = (new \Expand\cURL())->init(PESCMS_URL . "{$getPatch['data']['update_patch_file']}");
 
             $download = fopen($patchSave, 'w');
             fwrite($download, $getFile);
@@ -76,6 +80,18 @@ class Setting extends \Core\Controller\Controller {
                 $this->assign('info', [$getPatch['msg']]);
             }
             $this->upgradeStatistics(\Core\Func\CoreFunc::$param['system']['version']);
+
+            //获取从旧版到最新版的升级说明
+            $detail = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/detail', ['method' => 'GET','version' => $this->session()->get('oldVersion'),'project' => 5,],
+                [
+                    CURLOPT_HTTPHEADER => [
+                        'X-Requested-With: XMLHttpRequest',
+                        'Accept: application/json',
+                    ]
+                ]), true);
+
+            $this->assign('detail', $detail['data']);
+
             $this->layout('Setting_upgrade_info');
         }else{
             $this->error('解析接口出错');
@@ -87,12 +103,12 @@ class Setting extends \Core\Controller\Controller {
      */
     public function mtUpgrade() {
         $file = $_FILES['zip'];
-        if (pathinfo($file['name'])['extension'] != 'zip') {
+        if (isset(pathinfo($file['name'])['extension']) && pathinfo($file['name'])['extension'] != 'zip') {
             $this->error('请导入zip的更新补丁');
         }
 
         //获取文件hash值
-        $getPatch = json_decode((new \Expand\cURL())->init('https://www.pescms.com/patch/2/'.\Core\Func\CoreFunc::$param['system']['version'], [], [
+        $getPatch = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/5/' . \Core\Func\CoreFunc::$param['system']['version'], [], [
             CURLOPT_HTTPHEADER => [
                 'X-Requested-With: XMLHttpRequest',
                 'Content-Type: application/json; charset=utf-8',
@@ -135,7 +151,8 @@ class Setting extends \Core\Controller\Controller {
 
 
         foreach ($ini_array as $iniversion => $value) {
-            if (str_replace('.', '', $iniversion) > str_replace('.', '', $version) ) {
+
+            if (version_compare($version, $iniversion) < 0) {
 
                 //更新SQL信息
                 if (!empty($value['sql'])) {
@@ -167,7 +184,6 @@ class Setting extends \Core\Controller\Controller {
                 ]);
             }
         }
-        //移除天网杀人的配置意识
         unlink($ini);
         return true;
     }
@@ -178,7 +194,7 @@ class Setting extends \Core\Controller\Controller {
      * @param $version
      */
     private function upgradeStatistics($version){
-        (new \Expand\cURL())->init('https://www.pescms.com/?g=Api&m=Statistics&a=action', [
+        (new \Expand\cURL())->init(PESCMS_URL . '/?g=Api&m=Statistics&a=action', [
             'id' => 1,
             'type' => 2,
             'version' => $version

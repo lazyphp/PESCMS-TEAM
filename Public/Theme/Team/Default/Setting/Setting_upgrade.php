@@ -5,10 +5,13 @@
     <div class="am-cf">
         <div class="am-fl am-cf">
             <?php if (!empty($_GET['back_url'])): ?>
-                <a href="<?= base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i lass="am-icon-reply"></i>返回</a>
+                <a href="<?= base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i class="am-icon-reply"></i>返回</a>
             <?php endif; ?>
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
+    </div>
+    <div class="am-alert am-alert-error am-margin-bottom"  >
+        <i class="am-icon-warning"></i> 每次执行升级前，请务必备份数据库！
     </div>
     <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 
@@ -30,7 +33,7 @@
                     <button type="button" class="am-btn am-radius am-btn-danger am-btn-xs">
                         <i class="am-icon-cloud-upload"></i> 导入zip升级包
                     </button>
-                    <input id="doc-form-file" type="file" name="zip" multiple>
+                    <input id="doc-form-file" type="file" name="zip" accept="application/zip">
                 </div>
                 <div id="file-list"></div>
                 <script>
@@ -44,7 +47,7 @@
                         });
                     });
                 </script>
-                <button type="submit" id="btn-submit" class="am-btn am-radius am-btn-default am-btn-xs">
+                <button type="submit" id="btn-submit" class="am-btn am-radius am-btn-default am-btn-xs am-margin-top-sm">
                     手动安装更新
                 </button>
             </form>

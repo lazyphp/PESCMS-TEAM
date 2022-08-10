@@ -20,5 +20,23 @@
                 <?php endif; ?>
             </div>
         </div>
+
+        <hr/>
+
+
+        <?php if (!empty($detail)): ?>
+            <div class="am-padding-sm">
+                <?php foreach ($detail as $key => $item): ?>
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-hd"><strong><?= $key ?>更新说明</strong></div>
+                        <div class="am-panel-bd">
+                            <?= htmlspecialchars_decode($item['content']) ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+
     </div>
 </div>
