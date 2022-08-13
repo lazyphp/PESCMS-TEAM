@@ -19,7 +19,7 @@ ALTER TABLE `pes_notice` ADD `notice_task_id` INT NOT NULL COMMENT '任务ID' AF
 
 
 UPDATE `pes_option` SET `option_range` = 'upload' WHERE `option_name` = 'upload_img';
-UPDATE `pes_option` SET `option_range` = 'upload_file' WHERE `option_name` = 'upload_img';
+UPDATE `pes_option` SET `option_range` = 'upload' WHERE `option_name` = 'upload_file';
 
 INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES (NULL, 'max_upload_size', '上传大小(M)', '10', 'upload');
 

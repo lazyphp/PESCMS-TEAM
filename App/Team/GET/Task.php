@@ -1,13 +1,10 @@
 <?php
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
- * @core version 2.6
- * @version 2.0
+ * the file LICENSE that was distributed with this source code.
  */
 namespace App\Team\GET;
 
@@ -29,7 +26,7 @@ class Task extends Content {
             \Model\Task::$condtion .= ' AND t.task_status = :task_status ';
             \Model\Task::$param['task_status'] = $_GET['status'];
             if($_GET['status'] == 3){
-                \Model\Task::$oder = 'ORDER BY task_complete_time DESC';
+                \Model\Task::$order = 'ORDER BY task_complete_time DESC';
             }
 
         }
@@ -137,7 +134,7 @@ class Task extends Content {
             }
 
             //@todo 排序需要进一步优化
-            \Model\Task::$oder = 'ORDER BY task_submit_time DESC';
+            \Model\Task::$order = 'ORDER BY task_submit_time DESC';
 
             \Model\Task::getUserTask($this->session()->get('team')['user_id']);
             $list[$statusid] = $value;
