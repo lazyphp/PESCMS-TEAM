@@ -98,6 +98,16 @@ class Task extends Content {
     }
 
     /**
+     * 我创建的项目
+     * @return void
+     */
+    public function create(){
+        \Model\Task::$condtion .= ' AND t.task_create_id = :task_create_id ';
+        \Model\Task::$param['task_create_id'] = $this->session()->get('team')['user_id'];
+        $this->index();
+    }
+
+    /**
      * 查看指定项目的任务列表
      */
     public function project() {

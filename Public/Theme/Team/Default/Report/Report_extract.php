@@ -12,12 +12,12 @@
             <input type="hidden" name="a" value="<?= ACTION ?>"/>
 
             <div class="am-form-group">
-                <input type="text" name="begin" class="am-form-field" value="<?= $_GET['begin'] ?>" data-am-datepicker placeholder="报表查询起始日期"
+                <input type="text" name="begin" class="am-form-field" value="<?= $label->xss($_GET['begin']) ?>" data-am-datepicker placeholder="报表查询起始日期"
                        readonly required>
             </div>
 
             <div class="am-form-group">
-                <input type="text" name="end" class="am-form-field" value="<?= $_GET['end'] ?>" data-am-datepicker placeholder="结束日期"
+                <input type="text" name="end" class="am-form-field" value="<?= $label->xss($_GET['end']) ?>" data-am-datepicker placeholder="结束日期"
                        readonly required>
             </div>
             <div class="am-form-group">

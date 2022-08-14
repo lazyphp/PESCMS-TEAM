@@ -34,3 +34,9 @@ INSERT INTO `pes_field` (`field_id`, `field_model_id`, `field_name`, `field_disp
 ALTER TABLE `pes_attachment` ADD `attachment_path_type` INT NOT NULL, ADD `attachment_status` INT NOT NULL;
 
 UPDATE `pes_attachment` SET `attachment_status` = '1';
+
+INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_link`, `menu_listsort`, `menu_type`) VALUES
+(NULL, '我创建的任务', 41, 'am-icon-user-md', 'Team-Task-create', 8, 0);
+
+INSERT INTO `pes_node` (`node_id`, `node_name`, `node_parent`, `node_verify`, `node_msg`, `node_method_type`, `node_value`, `node_check_value`, `node_controller`, `node_listsort`) VALUES
+(NULL, '我创建的任务', 2, 1, '', 'GET', 'Team-Task-create', 'TeamGETTaskTeam-Task-create', 7, 7);

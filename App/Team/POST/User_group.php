@@ -43,6 +43,7 @@ class User_group extends Content {
      * 复制用户组
      */
     public function copy(){
+        $this->checkToken();
         $id = $this->isP('id', '请提交您要复制的用户组');
         $name = $this->isP('name', '请输入用户组名称');
         $status = $this->isP('status', '请选择用户组的状态');

@@ -16,6 +16,7 @@ class Setting extends \Core\Controller\Controller {
     private $info = [];
 
     public function action() {
+        $this->checkToken();
         foreach (['upload_img', 'upload_file'] as $value) {
             $data[$value] = json_encode(explode(',', str_replace(["\r\n", "\r", " "], '', $_POST[$value])));
         }
