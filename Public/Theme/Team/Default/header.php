@@ -6,7 +6,7 @@
     <meta name="description" content="PESCMS,PESCMS TEAM,开源的任务管理软件,团队任务管理,团队执行情况,协同办公软件,GPL任务管理软件">
     <meta name="keywords" content="PESCMS TEAM是一款以GPLv2协议进行开源的团队任务管理系统">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title><?= !empty($title) ? "{$title} - " : '' ?>PESCMS Team</title>
+    <title><?= !empty($title) ? "{$title} - " : '' ?><?= $system['siteTitle'] ?? 'PESCMS Team' ?></title>
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
     <!-- No Baidu Siteapp-->

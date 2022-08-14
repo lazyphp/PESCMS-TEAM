@@ -17,12 +17,6 @@ ALTER TABLE `pes_model` ADD `model_page` INT NOT NULL DEFAULT '10' COMMENT '模�
 
 ALTER TABLE `pes_notice` ADD `notice_task_id` INT NOT NULL COMMENT '任务ID' AFTER `notice_id`, ADD INDEX (`notice_task_id`);
 
-
-UPDATE `pes_option` SET `option_range` = 'upload' WHERE `option_name` = 'upload_img';
-UPDATE `pes_option` SET `option_range` = 'upload' WHERE `option_name` = 'upload_file';
-
-INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`) VALUES (NULL, 'max_upload_size', '上传大小(M)', '10', 'upload');
-
 DELETE FROM `pes_field` WHERE field_model_id = 14 AND field_name = 'upload_name';
 UPDATE `pes_field` SET `field_list` = '1' WHERE field_model_id = 14 AND field_name = 'path';
 UPDATE `pes_field` SET `field_list` = '1' WHERE field_model_id = 14 AND field_name = 'createtime';
@@ -40,3 +34,24 @@ INSERT INTO `pes_menu` (`menu_id`, `menu_name`, `menu_pid`, `menu_icon`, `menu_l
 
 INSERT INTO `pes_node` (`node_id`, `node_name`, `node_parent`, `node_verify`, `node_msg`, `node_method_type`, `node_value`, `node_check_value`, `node_controller`, `node_listsort`) VALUES
 (NULL, '我创建的任务', 2, 1, '', 'GET', 'Team-Task-create', 'TeamGETTaskTeam-Task-create', 7, 7);
+
+ALTER TABLE `pes_option` CHANGE `id` `option_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `pes_option` ADD `option_node` VARCHAR(32) NOT NULL COMMENT '所属节点' AFTER `option_range`, ADD `option_type` VARCHAR(32) NOT NULL COMMENT '选项格式' AFTER `option_node`, ADD `option_form` VARCHAR(16) NOT NULL COMMENT '表单类型' AFTER `option_type`, ADD `option_form_option` VARCHAR(255) NOT NULL COMMENT '表单选项' AFTER `option_form`, ADD `option_required` INT(11) NOT NULL COMMENT '是否必填' AFTER `option_form_option`, ADD `option_explain` VARCHAR(255) NOT NULL COMMENT '选项说明' AFTER `option_required`, ADD `option_listsort` INT(11) NOT NULL COMMENT '排序值' AFTER `option_explain`;
+
+INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES (NULL, 'setting_sort', '设置排序', '{"上传设置":2,"网站信息":1,"账号设置":3,"通知设置":"4"}', 'sort', '设置排序', 'array', 'text', '', '0', '', '0');
+
+UPDATE `pes_option` SET `option_range` = 'upload', option_node = '上传设置', option_type = 'json', option_form = 'text', option_required = 1 WHERE `option_name` = 'upload_img';
+UPDATE `pes_option` SET `option_range` = 'upload', option_node = '上传设置', option_type = 'json', option_form = 'text', option_required = 1 WHERE `option_name` = 'upload_file';
+UPDATE `pes_option` SET `name` ="电子邮箱账号设置", option_node = '通知设置', option_type = 'json', option_form = 'text', option_required = 0, option_listsort = '1' WHERE `option_name` = 'mail';
+UPDATE `pes_option` SET option_node = '通知设置', option_type = 'string', option_form = 'radio', option_form_option = '{"被动触发":"0","定时触发":"2","两者兼有":"3"}', option_required = 1 WHERE `option_name` = 'notice_way';
+UPDATE `pes_option` SET option_node = '网站信息', option_type = 'setting_version', option_form = 'setting_version' WHERE `option_name` = 'version';
+UPDATE `pes_option` SET option_node = '网站信息', option_type = 'string', option_form = 'text', option_required = 1, option_listsort = 2 WHERE `option_name` = 'domain';
+UPDATE `pes_option` SET option_node = '账号设置', option_type = 'string', option_form = 'radio', option_form_option = '{"关闭":"0","开启":"1"}', option_required = 1 WHERE `option_name` = 'signup';
+
+INSERT INTO `pes_option` (`id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES
+(NULL, 'max_upload_size', '上传大小(M)', '10', 'upload', '上传设置', 'string', 'text', '', 1, '', 0);
+
+INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES (NULL, 'mail', '邮件发送测试', '', 'email', '通知设置', 'send_test', 'send_test', '', '0', '', '2');
+
+INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES (NULL, 'siteTitle', '网站标题', 'PESCMS Team', 'system', '网站信息', 'string', 'text', '', '1', '', '1');
