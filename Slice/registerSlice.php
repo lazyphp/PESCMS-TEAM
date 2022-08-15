@@ -44,6 +44,13 @@ $SLICE_ARRYR = [
         ['Team-Login-:a']
     ],
 
+    //部分操作需要超级管理员才可以进行。
+    'ADMIN-LIMIT' => [
+        'any',
+        ['Team-Model-:a', 'Team-Field-:a', 'Team-Setting-:a', 'Team-Log-:a'],
+        ['\Team\AdminLimit'],
+    ],
+
     /*----------------Team部分----------------*/
 
     //注册理路由规则 添加/编辑 提交的表单内容
@@ -112,6 +119,21 @@ $SLICE_ARRYR = [
         ['Team-Task_supplement-action'],
         ['\Team\HandleForm\HandleTaskSupplement']
     ],
+
+    //注册插件初始化入口
+    'TEAM-APPLICATION-Init' => [
+        'any',
+        ['Team-Application-Init'],
+        ['\Team\ApplicationInit']
+    ],
+
+    //插件全局事件
+    'APPLICATION-GLOBAL-EVENT' => [
+        'any',
+        ['Team-:m-:a'],
+        ['\Common\ApplicationGlobalEvent'],
+    ],
+
 ];
 
 //执行切片注册

@@ -51,22 +51,27 @@ class Extra extends \Core\Model\Model {
             case 1:
                 return filter_var($value, FILTER_VALIDATE_EMAIL);
             case 2:
-                return filter_var($value, FILTER_VALIDATE_URL);
+                $preg = "/^1[3456789]\d{9}$/";
+                if (!preg_match($preg, $value)) {
+                    return false;
+                }
+                break;
             case 3:
                 if (!is_numeric($value)) {
                     return false;
                 }
                 break;
             case 4:
-                if(!preg_match("/^[a-z\d]$/i",$value)){
+                if(!preg_match("/^[a-z]*$/i",$value)){
                     return false;
                 }
                 break;
             case 5:
-                if(strlen($value) != 11 && substr($value, 0) != '1'){
+                return filter_var($value, FILTER_VALIDATE_URL);
+            case 6:
+                if(!preg_match("/^[a-z\d]*$/i",$value)){
                     return false;
                 }
-                break;
         }
         return true;
     }
@@ -95,6 +100,46 @@ class Extra extends \Core\Model\Model {
     public static function checkUploadFile($file){
         if(!is_file(HTTP_PATH.$file)){
             self::error('上传的图片或者文件不存在,请重新上传!');
+        }
+    }
+
+    /**
+     * 移除指定目录下所有文件
+     * @param string $dirName 要移除的目录
+     * @param string $stopDir 停止移除的目录
+     * @return array
+     */
+    public static function clearDirAllFile($dirName = PES_CORE.'Temp', $stopDir = PES_CORE.'Temp') {
+        if ($handle = opendir("$dirName")) {
+            while (false !== ($item = readdir($handle))) {
+                if ($item != "." && $item != "..") {
+                    if (is_dir("$dirName/$item")) {
+                        self::clearDirAllFile("$dirName/$item");
+                    } else {
+                        if (!unlink("$dirName/$item")) {
+                            return [
+                                'status' => 0,
+                                'msg' => "移除文件失败： $dirName/$item"
+                            ];
+                        }
+                    }
+                }
+            }
+            closedir($handle);
+            if ($dirName == $stopDir) {
+                return [
+                    'status' => 200,
+                    'msg' => "{$dirName}目录已清空"
+                ];
+            }
+
+            if (!rmdir($dirName)) {
+                return [
+                    'status' => 0,
+                    'msg' => "移除{$dirName}目录失败"
+                ];
+            }
+
         }
     }
 

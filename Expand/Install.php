@@ -75,7 +75,7 @@ class Install{
         $system = \Core\Func\CoreFunc::$param['system'];
 
         $param = [
-            'project' => 5,
+            'project' => 2,
             'depend' => $system['version'],
             'name' => $plugin,
             'check_version' => $version,
