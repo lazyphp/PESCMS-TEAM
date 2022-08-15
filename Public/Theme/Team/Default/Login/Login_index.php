@@ -1,8 +1,6 @@
 <form action="" class="ajax-submit" method="POST" data-am-validator>
     <input type="hidden" name="back_url" value="<?= $_GET['back_url']; ?>"/>
     <?= $label->token() ?>
-    <h1 class="am-text-center" style="color: #fff">PESCMS Team</h1>
-
     <div class="am-input-group am-margin-bottom">
         <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
         <input name="account" class="am-form-field" type="text" placeholder="账号" autofocus required>

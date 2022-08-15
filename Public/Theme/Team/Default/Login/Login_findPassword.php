@@ -2,8 +2,6 @@
     <input type="hidden" name="back_url" value="<?= $_GET['back_url']; ?>"/>
     <?= $label->token() ?>
 
-    <h1 class="am-text-center" style="color: #fff"><?= $title; ?></h1>
-
     <div class="am-input-group am-margin-bottom">
         <span class="am-input-group-label"><i class="am-icon-envelope am-icon-fw"></i></span>
         <input type="email" name="mail" class="am-form-field" placeholder="邮箱地址" required="required">

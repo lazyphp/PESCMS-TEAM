@@ -39,8 +39,16 @@ $SLICE_ARRYR = [
     //全局切片
     'GLOBAL-SLICE' => [
         'any',
+        ['Team-:m-:a'],
+        //注册系统设置
+        ['\Common\Option']
+    ],
+
+
+    'GLOBAL-ACCESS' => [
+        'any',
         'Team-:m-:a',
-        ['\Team\Login', '\Team\Menu', '\Team\Auth', '\Team\Notice', '\Common\Option'],//注册后台登录验证、权限验证、后台菜单
+        ['\Team\Login', '\Team\Menu', '\Team\Auth', '\Team\Notice'],//注册后台登录验证、权限验证、后台菜单
         ['Team-Login-:a']
     ],
 
