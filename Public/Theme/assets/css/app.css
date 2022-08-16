@@ -10,6 +10,12 @@
 .am-topbar .am-nav.am-nav > li > a:focus {
   background: none !important;
 }
+.am-topbar .am-topbar-nav a {
+  color: #fff !important;
+}
+.am-topbar .am-topbar-nav a:hover {
+  color: #eee !important;
+}
 @media only screen and (min-width: 1025px) {
   .am-topbar .am-topbar-nav > li > a:hover:after {
     display: none;
@@ -350,6 +356,10 @@ a.am-btn-white:visited {
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: none;
+}
+.task-car-list-box-fit::-webkit-scrollbar {
+  width: 0px;
 }
 .task-card-list {
   position: relative;
@@ -506,6 +516,7 @@ a.am-btn-white:visited {
   font-size: xx-large;
 }
 .login-body .login-panel {
+  color: #cfcfcf;
   position: relative;
   z-index: 10;
   width: 30%;

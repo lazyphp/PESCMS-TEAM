@@ -47,7 +47,7 @@ var myDate = new Date();
 console.log('开始时间: '+ myDate.getHours() + ':'+myDate.getMinutes()+':'+myDate.getSeconds());
 
 //开始压缩JS资源
-var js = ['spectrum', 'webuploader', 'AMUIwebuploader', 'app', 'ticket', 'pt-base', 'jquery.fancybox'];
+var js = ['webuploader', 'AMUIwebuploader', 'app', 'spectrum', 'team'];
 for(var i in js){
     if(cli.cheese != '' && js[i] != cli.cheese){
         continue;
@@ -57,7 +57,7 @@ for(var i in js){
 }
 
 //百度编辑器
-var ueditor = ['ueditor.config', 'ueditor_ticket.config', 'ueditor.all', 'lang/zh-cn/zh-cn'];
+var ueditor = ['ueditor.config', 'ueditor.all', 'lang/zh-cn/zh-cn'];
 for(var i in ueditor){
     if(cli.cheese !='' && ueditor[i] != cli.cheese){
         continue;
@@ -68,7 +68,7 @@ for(var i in ueditor){
 
 
 //开始压缩CSS资源
-var css = ['app', 'index', 'ui-dialog', 'webuploader', 'ticket', 'spectrum'];
+var css = ['app', 'admin', 'ui-dialog', 'webuploader', 'spectrum'];
 for(var i in css){
     if(cli.cheese !='' && css[i] != cli.cheese){
         continue;

@@ -47,7 +47,6 @@ UPDATE `pes_option` SET `name` ="电子邮箱账号设置", option_node = '通�
 UPDATE `pes_option` SET option_node = '通知设置', option_type = 'string', option_form = 'radio', option_form_option = '{"被动触发":"0","定时触发":"2","两者兼有":"3"}', option_required = 1 WHERE `option_name` = 'notice_way';
 UPDATE `pes_option` SET option_node = '网站信息', option_type = 'setting_version', option_form = 'setting_version' WHERE `option_name` = 'version';
 UPDATE `pes_option` SET option_node = '网站信息', option_type = 'string', option_form = 'text', option_required = 1, option_listsort = 2 WHERE `option_name` = 'domain';
-UPDATE `pes_option` SET option_node = '账号设置', option_type = 'string', option_form = 'radio', option_form_option = '{"关闭":"0","开启":"1"}', option_required = 1 WHERE `option_name` = 'signup';
 
 INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES
 (NULL, 'max_upload_size', '上传大小(M)', '10', 'upload', '上传设置', 'string', 'text', '', 1, '', 0);

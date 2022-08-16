@@ -28,28 +28,34 @@
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd"><?= $name ?></div>
                 <table class="am-table am-table-striped am-table-hover">
-                    <?php foreach($list as $key => $value): ?>
-                        <tr>
-                            <td class="">
-                                <div class="admin-task-meta">
-                                    [<?= $label->getStatusSelect($statusMark, $value); ?>]
-                                    <span class="am-badge am-radius" style="background-color: <?= $taskPriority[$value['task_priority']]['priority_color'] ?>"><?= $taskPriority[$value['task_priority']]['priority_name'] ?></span>
-                                    <a href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>">#<?= $value['task_id'] ?> <?= $value['task_title'] ?></a> [<?= $label->findContent('project', 'project_id', $value['task_project_id'])['project_title']; ?>]
+                    <?php if(!empty($list)): ?>
+                        <?php foreach($list as $key => $value): ?>
+                            <tr>
+                                <td class="">
+                                    <div class="admin-task-meta">
+                                        [<?= $label->getStatusSelect($statusMark, $value); ?>]
+                                        <span class="am-badge am-radius" style="background-color: <?= $taskPriority[$value['task_priority']]['priority_color'] ?>"><?= $taskPriority[$value['task_priority']]['priority_name'] ?></span>
+                                        <a href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>">#<?= $value['task_id'] ?> <?= $value['task_title'] ?></a> [<?= $label->findContent('project', 'project_id', $value['task_project_id'])['project_title']; ?>]
 
-                                    <span class="am-badge am-round <?= $value['task_end_time'] < time() && $value['task_status'] < 2 ? 'am-badge-warning' : '' ?>" title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']) ?>"><i class="am-icon-calendar"></i> <?= date('Y.m.d', $value['task_end_time']) ?>
-                                    </span>
+                                        <span class="am-badge am-round <?= $value['task_end_time'] < time() && $value['task_status'] < 2 ? 'am-badge-warning' : '' ?>" title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']) ?>"><i class="am-icon-calendar"></i> <?= date('Y.m.d', $value['task_end_time']) ?>
+                                        </span>
 
-                                    <?php if($value['task_end_time'] < time() && $value['task_status'] < 2): ?>
-                                        <span class="am-badge am-round am-badge-danger"><i class="am-icon-exclamation"></i> 已逾期 <?= floor((time() - $value['task_end_time'])/ 86400) ?>天</span>
-                                    <?php endif; ?>
+                                        <?php if($value['task_end_time'] < time() && $value['task_status'] < 2): ?>
+                                            <span class="am-badge am-round am-badge-danger"><i class="am-icon-exclamation"></i> 已逾期 <?= floor((time() - $value['task_end_time'])/ 86400) ?>天</span>
+                                        <?php endif; ?>
 
-                                </div>
-                                <div class="admin-task-bd">
+                                    </div>
+                                    <div class="admin-task-bd">
 
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                    <tr>
+                        <td>暂时没有任务需要处理。</td>
+                    </tr>
+                    <?php endif; ?>
                 </table>
             </div>
         <?php endforeach; ?>
