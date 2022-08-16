@@ -514,11 +514,67 @@ a.am-btn-white:visited {
   background: linear-gradient(65deg, rgba(118, 62, 137, 0.9) 0, rgba(208, 88, 87, 0.9) 100%);
 }
 .login-body .login-panel form {
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
+}
+.login-body .login-panel form .login-input {
+  padding: 15px 0 10px;
+  position: relative;
+  color: #fff;
+}
+.login-body .login-panel form .login-input span {
+  top: 0;
+  left: 2px;
+  font-size: 12px;
+  position: absolute;
+  display: none;
+}
+.login-body .login-panel form .login-input .refresh-verify {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.login-body .login-panel form .login-input input {
+  outline: none;
+  background: none;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #fff;
+  box-shadow: none !important;
+}
+.login-body .login-panel form .login-input input:focus,
+.login-body .login-panel form .login-input input:active,
+.login-body .login-panel form .login-input input.am-field-error {
+  box-shadow: none !important;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #fff;
+}
+.login-body .login-panel form .login-input input:focus::placeholder,
+.login-body .login-panel form .login-input input:active::placeholder,
+.login-body .login-panel form .login-input input.am-field-error::placeholder {
+  color: transparent;
+}
+.login-body .login-panel form .login-input input:focus + span,
+.login-body .login-panel form .login-input input:active + span,
+.login-body .login-panel form .login-input input.am-field-error + span {
+  color: #dd514c;
+  display: block;
+}
+.login-body .login-panel form .login-input input.am-field-valid + span {
+  display: block;
+  color: #5eb95e;
+}
+.login-body .login-panel form .login-input input::placeholder {
+  color: #fff;
+}
+.login-body .login-panel a {
+  color: #cfcfcf;
 }
 .login-body .login-site-title {
   color: #fff;
   text-align: center;
+  font-weight: 600;
   width: 25%;
   height: 50px;
   border-radius: 0px 0px 20px 20px;

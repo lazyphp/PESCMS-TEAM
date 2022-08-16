@@ -12,12 +12,4 @@
         </div>
     </div>
 </div>
-<style>
-    /*body{*/
-    /*    background-size: cover;*/
-    /*    background-image: url('/Theme/assets/i/nasa/42374725534_a653d1b7cb_k.jpg');*/
-    /*    background-position: center center;*/
-    /*    background-repeat: no-repeat;*/
-    /*}*/
-</style>
 <?php include THEME_PATH.'/footer.php' ?>

@@ -590,13 +590,13 @@ a.am-btn-white:visited {
   background-repeat: no-repeat;
   z-index: 0;
 
-  &:before{
+  &:before {
     content: '';
     width: 100%;
     height: 100%;
     position: absolute;
-    filter:blur(10px);
-    z-index:-1;
+    filter: blur(10px);
+    z-index: -1;
 
     background-size: cover;
     background-image: url('/Theme/assets/i/nasa/42374725534_a653d1b7cb_k.jpg');
@@ -604,7 +604,7 @@ a.am-btn-white:visited {
     background-repeat: no-repeat;
   }
 
-  h1{
+  h1 {
     color: #fff;
     font-size: xx-large;
   }
@@ -617,15 +617,77 @@ a.am-btn-white:visited {
     box-shadow: 0 2px 30px rgb(255 53 53 / 22%), 0 2px 5px rgb(126 58 58 / 10%) !important;
     background: linear-gradient(65deg, rgb(118 62 137 / 90%) 0, rgba(208, 88, 87, 0.9) 100%);
 
-    form{
-       padding: 1.5rem;
+    form {
+      padding: 1rem 1.5rem;
+
+      .login-input {
+        padding: 15px 0 10px;
+        position: relative;
+        color: #fff;
+
+        span {
+          top: 0;
+          left: 2px;
+          font-size: 12px;
+          position: absolute;
+          display: none;
+        }
+
+        .refresh-verify{
+          position: absolute;
+          right: 0;
+          top: 0;
+          cursor: pointer;
+        }
+
+
+
+        input {
+          outline: none;
+          background: none;
+          width: 100%;
+          border: none;
+          border-bottom: 1px solid #fff;
+          box-shadow: none !important;
+
+          &:focus, &:active, &.am-field-error {
+            //box-shadow: none;
+            box-shadow: none !important;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #fff;
+
+            &::placeholder {
+              color: transparent;
+            }
+            +span{
+              color: #dd514c;
+              display: block;
+            }
+          }
+
+          &.am-field-valid + span{
+            display: block;
+            color: #5eb95e;
+          }
+
+          &::placeholder {
+            color: #fff;
+          }
+        }
+      }
     }
+
+    a{
+      color: #cfcfcf;
+    }
+
   }
 
-  .login-site-title{
+  .login-site-title {
     color: #fff;
     text-align: center;
-
+    font-weight: 600;
     width: 25%;
     height: 50px;
     border-radius: 0px 0px 20px 20px;

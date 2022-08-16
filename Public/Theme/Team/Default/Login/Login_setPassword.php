@@ -2,21 +2,21 @@
     <input type="hidden" name="back_url" value="<?= $_GET['back_url']; ?>"/>
     <?= $label->token() ?>
 
-    <div class="am-input-group am-margin-bottom">
-        <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
-        <input type="password" name="passwd" class="am-form-field" placeholder="登录用的密码" required="required">
+    <div class="login-input">
+        <input name="passwd" class="" type="password" placeholder="新密码" required>
+        <span>新密码</span>
     </div>
 
-    <div class="am-input-group am-margin-bottom">
-        <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
-        <input type="password" name="repasswd" class="am-form-field" placeholder="确认密码" required="required">
+    <div class="login-input">
+        <input name="repasswd" class="" type="password" placeholder="确认密码" required>
+        <span>确认密码</span>
     </div>
 
-    <div class="am-input-group am-margin-bottom">
-        <span class="am-input-group-label"><i class="am-icon-shield am-icon-fw"></i></span>
-        <input type="text" class="am-form-field login-verify" name="verify" placeholder="验证码" maxlength="7" required style="width: 53%;margin-right: 1rem">
+    <div class="login-input">
+        <input name="verify" maxlength="4" class="" type="text" placeholder="验证码"  required>
+        <span>验证码</span>
         <img src="<?= $label->url('Team-Login-verify', ['height' => 38]); ?>" class="refresh-verify" >
     </div>
 
-    <button class="am-btn am-radius am-btn-primary am-btn-block">提交</button>
+    <button class="am-btn am-radius am-btn-primary am-btn-block am-btn-xs am-margin-bottom-xs">确认重置</button>
 </form>
