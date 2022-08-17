@@ -592,6 +592,22 @@ a.am-btn-white:visited {
   box-shadow: 0 2px 30px rgba(255, 53, 53, 0.22), 0 2px 5px rgba(126, 58, 58, 0.1) !important;
   background: linear-gradient(159deg, rgba(133, 68, 155, 0.9) 0, rgba(229, 102, 101, 0.9) 100%);
 }
+@media only screen and (max-width: 640px) {
+  .login-body .login-panel {
+    width: 80%;
+  }
+  .login-body .login-site-title {
+    width: 60%;
+  }
+}
+@media only screen and (max-width: 1023px) {
+  .login-body .login-panel {
+    width: 60%;
+  }
+  .login-body .login-site-title {
+    width: 40%;
+  }
+}
 /*登录界面*/
 /*页脚*/
 .my-footer {

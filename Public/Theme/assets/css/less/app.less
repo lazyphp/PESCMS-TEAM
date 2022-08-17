@@ -696,7 +696,6 @@ a.am-btn-white:visited {
     a{
       color: #cfcfcf;
     }
-
   }
 
   .login-site-title {
@@ -708,6 +707,26 @@ a.am-btn-white:visited {
     border-radius: 0px 0px 20px 20px;
     box-shadow: 0 2px 30px rgb(255 53 53 / 22%), 0 2px 5px rgb(126 58 58 / 10%) !important;
     background: linear-gradient(159deg, rgb(133 68 155 / 90%) 0, rgb(229 102 101 / 90%) 100%);
+
+  }
+
+  @media only screen and (max-width: 640px) {
+    .login-panel{
+      width: 80%;
+    }
+    .login-site-title{
+      width: 60%;
+    }
+
+  }
+
+  @media only screen and (max-width: 1023px) {
+    .login-panel{
+      width: 60%;
+    }
+    .login-site-title{
+      width: 40%;
+    }
 
   }
 
