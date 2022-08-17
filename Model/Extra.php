@@ -1,12 +1,11 @@
 <?php
 
 /**
- * PESCMS for PHP 5.4+
- *
- * Copyright (c) 2014 PESCMS (http://www.pescms.com)
+ * 版权所有 2022 PESCMS (https://www.pescms.com)
+ * 完整版权和软件许可协议请阅读源码根目录下的LICENSE文件。
  *
  * For the full copyright and license information, please view
- * the file LICENSE.md that was distributed with this source code.
+ * the file LICENSE that was distributed with this source code.
  */
 
 namespace Model;
@@ -83,7 +82,7 @@ class Extra extends \Core\Model\Model {
      * @param $type 通知类型
      * @return mixed
      */
-    public static function insertSend($account, $title = '', $content, $type){
+    public static function insertSend($account, $title, $content, $type){
         return self::db('send')->insert([
             'send_account' => $account,
             'send_title' => $title,
@@ -101,6 +100,22 @@ class Extra extends \Core\Model\Model {
         if(!is_file(HTTP_PATH.$file)){
             self::error('上传的图片或者文件不存在,请重新上传!');
         }
+    }
+
+    /**
+     * 更新发送状态
+     * @param array $param 参数有 id, msg, status, second
+     */
+    public static function updateSendStatus(array $param){
+        \Core\Func\CoreFunc::db('send')->where('send_id = :send_id')->update([
+            'noset' => [
+                'send_id' => $param['id']
+            ],
+            'send_result' => $param['msg'],
+            'send_status' => $param['status'],
+            'send_time' => time() + $param['second'], //发送失败，则增加600秒时间，再重发
+            'send_sequence' => $param['sequence'] + 1,
+        ]);
     }
 
     /**

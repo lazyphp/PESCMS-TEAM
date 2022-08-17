@@ -117,7 +117,13 @@ class Notice extends \Core\Model\Model {
      * 执行通知发送
      */
     public static function actionNoticeSend(){
-        $sendList = \Model\Content::listContent(['table' => 'send', 'condition' => 'send_time = 0']);
+        $sendList = \Model\Content::listContent([
+            'table' => 'send',
+            'condition' => "send_time <= :time AND send_status < 2 AND send_sequence < 5 ",
+            'param' => [
+                'time' => time()
+            ]
+        ]);
         if(!empty($sendList)){
             foreach ($sendList as $value) {
                 //@todo 目前仅有邮件发送，日后再慢慢完善其他通知方式
