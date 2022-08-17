@@ -12,21 +12,21 @@
             <input type="hidden" name="a" value="<?= ACTION ?>"/>
 
             <div class="am-form-group">
-                <input type="text" name="begin" class="am-form-field" value="<?= $label->xss($_GET['begin']) ?>" data-am-datepicker placeholder="报表查询起始日期"
+                <input type="text" name="begin" class="am-form-field" value="<?= $label->xss($_GET['begin'] ?? null) ?>" data-am-datepicker placeholder="报表查询起始日期"
                        readonly required>
             </div>
 
             <div class="am-form-group">
-                <input type="text" name="end" class="am-form-field" value="<?= $label->xss($_GET['end']) ?>" data-am-datepicker placeholder="结束日期"
+                <input type="text" name="end" class="am-form-field" value="<?= $label->xss($_GET['end'] ?? null) ?>" data-am-datepicker placeholder="结束日期"
                        readonly required>
             </div>
             <div class="am-form-group">
                 <select name="user" data-am-selected>
                     <option value="0">全体用户</option>
                     <?php foreach ($users as $value): ?>
-                        <?php if($value['user_department_id'] != $this->session()->get('team')['user_department_id'] && ACTION != 'allExtract'){continue;} ?>
+                        <?php if( ( $value['user_department_id'] ?? null ) != $this->session()->get('team')['user_department_id'] && ACTION != 'allExtract'){continue;} ?>
                         <option
-                            value="<?= $value['user_id'] ?>" <?= $_GET['user'] == $value['user_id'] ? 'selected="selected"' : '' ?> ><?= $value['user_name'] ?></option>
+                            value="<?= $value['user_id'] ?>" <?= isset($_GET['user']) && $_GET['user'] == $value['user_id'] ? 'selected="selected"' : '' ?> ><?= $value['user_name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

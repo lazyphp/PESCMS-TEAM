@@ -3,20 +3,20 @@
         <input type="hidden" name="g" value="<?= GROUP; ?>"/>
         <input type="hidden" name="m" value="<?= MODULE; ?>"/>
         <input type="hidden" name="a" value="<?= ACTION; ?>"/>
-        <input type="hidden" name="status" value="<?= $label->xss($_GET['status'], false); ?>"/>
-        <input type="hidden" name="id" value="<?= $label->xss((int) $_GET['id'], false); ?>"/>
+        <input type="hidden" name="status" value="<?= $label->xss($_GET['status'] ?? null, false); ?>"/>
+        <input type="hidden" name="id" value="<?= $label->xss((int) ($_GET['id'] ?? null), false); ?>"/>
 
         <select name="time_type" class="am-margin-bottom-xs">
             <option value="1">以任务创建时间匹配</option>
-            <option value="2" <?= (int)$_GET['time_type'] == '2' ? 'selected' : '' ?>>以任务计划开始时间匹配</option>
-            <option value="3" <?= (int)$_GET['time_type'] == '3' ? 'selected' : '' ?>>以任务计划结束时间匹配</option>
-            <option value="4" <?= (int)$_GET['time_type'] == '4' ? 'selected' : '' ?>>以任务完成时间匹配</option>
+            <option value="2" <?= isset($_GET['time_type']) && (int)$_GET['time_type'] == '2' ? 'selected' : '' ?>>以任务计划开始时间匹配</option>
+            <option value="3" <?= isset($_GET['time_type']) && (int)$_GET['time_type'] == '3' ? 'selected' : '' ?>>以任务计划结束时间匹配</option>
+            <option value="4" <?= isset($_GET['time_type']) && (int)$_GET['time_type'] == '4' ? 'selected' : '' ?>>以任务完成时间匹配</option>
         </select>
 
-        <input type="text" name="begin" class="am-margin-bottom-xs" placeholder="匹配开始日期" readonly value="<?= $label->xss($_GET['begin'], false); ?>"/>
-        <input type="text" name="end" class="am-margin-bottom-xs" placeholder="匹配结束日期" readonly value="<?= $label->xss($_GET['end'], false); ?>"/>
+        <input type="text" name="begin" class="am-margin-bottom-xs" placeholder="匹配开始日期" readonly value="<?= $label->xss($_GET['begin'] ?? null, false); ?>"/>
+        <input type="text" name="end" class="am-margin-bottom-xs" placeholder="匹配结束日期" readonly value="<?= $label->xss($_GET['end'] ?? null, false); ?>"/>
 
-        <input type="text" name="k" class="am-margin-bottom-xs" placeholder="搜索任务内容" value="<?= $label->xss($_GET['k'], false); ?>"/>
+        <input type="text" name="k" class="am-margin-bottom-xs" placeholder="搜索任务内容" value="<?= $label->xss($_GET['k'] ?? null, false); ?>"/>
         <button class="am-btn am-radius am-btn-primary am-btn-block" type="submit"><span class="am-icon-search">开始匹配任务</span>
         </button>
 

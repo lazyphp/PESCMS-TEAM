@@ -60,7 +60,7 @@ class Task extends Content {
 
         $this->assign('sidebar', $this->sidebar);
 
-        $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon']);
+        $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon'] ?? null);
 
     }
 

@@ -63,6 +63,7 @@ class Setting extends \Core\Controller\Controller {
 
         asort($sort);
 
+
         array_multisort($sort, SORT_ASC, $option);
 
 
