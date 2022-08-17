@@ -404,19 +404,15 @@ a.am-btn-white:visited {
 /*公告侧栏的宽度设置*/
 #bulletin .am-offcanvas-bar {
   background-color: #fff;
-}
-#bulletin .am-offcanvas-bar:after {
-  border-right: 1px solid #fff;
+  width: 50%;
 }
 @media only screen and (max-width: 640px) {
-  #bulletin .am-offcanvas-bar .am-offcanvas-bar {
+  #bulletin .am-offcanvas-bar {
     width: 70%;
   }
 }
-@media only screen and (min-width: 641px) {
-  #bulletin .am-offcanvas-bar .am-offcanvas-bar {
-    width: 50%;
-  }
+#bulletin .am-offcanvas-bar:after {
+  border-right: 1px solid #fff;
 }
 #bulletin .am-offcanvas-bar .bulletin-content {
   color: #666;
