@@ -80,12 +80,12 @@ INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_r
 --
 -- 发送设置相关
 --
-INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES (NULL, 'mail', '邮件发送测试', '', 'mail_test', '通知设置', 'send_test', 'send_test', '/?g=Team&m=Setting&a=emailTest', '0', '', '2');
 
 UPDATE `pes_option` SET `name` ="电子邮箱账号设置", `value`='{"account":"","passwd":"","address":"","port":""}', `option_range` = 'email', option_node = '通知设置', option_type = 'setting_option', option_form = 'setting_option', option_form_option = '{"account":"邮箱账户","passwd":"邮箱密码","address":"SMTP地址","port":"邮箱端口"}', option_required = 0, option_listsort = '1' WHERE `option_name` = 'mail';
 
+INSERT INTO `pes_option` (`option_id`, `option_name`, `name`, `value`, `option_range`, `option_node`, `option_type`, `option_form`, `option_form_option`, `option_required`, `option_explain`, `option_listsort`) VALUES (NULL, 'mail_test', '邮件发送测试', '', 'mail_test', '通知设置', 'send_test', 'send_test', '/?g=Team&m=Setting&a=emailTest', '0', '', '2');
 
-UPDATE `pes_option` SET option_node = '通知设置', option_type = 'string', option_form = 'radio', option_form_option = '{"被动触发":"0","定时触发":"2","两者兼有":"3"}', option_required = 1 WHERE `option_name` = 'notice_way';
+UPDATE `pes_option` SET option_node = '通知设置', option_type = 'string', option_form = 'radio', option_form_option = '{"被动触发":"1","定时触发":"2","两者兼有":"3"}', option_required = 1 WHERE `option_name` = 'notice_way';
 --
 -- 发送设置
 --
