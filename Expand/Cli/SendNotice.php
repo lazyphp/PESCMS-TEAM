@@ -1,7 +1,7 @@
 <?php
 /**
- * °æÈ¨ËùÓÐ 2021 PESCMS (https://www.pescms.com)
- * ÍêÕû°æÈ¨ºÍÈí¼þÐí¿ÉÐ­ÒéÇëÔÄ¶ÁÔ´Âë¸ùÄ¿Â¼ÏÂµÄLICENSEÎÄ¼þ¡£
+ * ç‰ˆæƒæ‰€æœ‰ 2022 PESCMS (https://www.pescms.com)
+ * å®Œæ•´ç‰ˆæƒå’Œè½¯ä»¶è®¸å¯åè®®è¯·é˜…è¯»æºç æ ¹ç›®å½•ä¸‹çš„LICENSEæ–‡ä»¶ã€‚
  *
  * For the full copyright and license information, please view
  * the file LICENSE that was distributed with this source code.

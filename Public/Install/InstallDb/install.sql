@@ -357,7 +357,7 @@ CREATE TABLE `pes_option` (
   `option_explain` varchar(255) NOT NULL COMMENT '选项说明',
   `option_listsort` int(11) NOT NULL COMMENT '排序值',
   PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='系统选项';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='系统选项';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,7 +366,7 @@ CREATE TABLE `pes_option` (
 
 LOCK TABLES `pes_option` WRITE;
 /*!40000 ALTER TABLE `pes_option` DISABLE KEYS */;
-INSERT INTO `pes_option` VALUES (-1,'setting_sort','设置排序','{\"上传设置\":2,\"网站信息\":1,\"通知设置\":\"4\"}','sort','设置排序','array','text','',0,'',0),(13,'version','系统版本','','system','网站信息','setting_version','setting_version','',0,'',0),(14,'upload_img','图片格式','[\".jpg\",\".jpge\",\".bmp\",\".gif\",\".png\"]','upload','上传设置','json','text','',1,'',0),(15,'upload_file','文件格式','[\".zip\",\".rar\",\".7z\",\".doc\",\".docx\",\".pdf\",\".xls\",\".xlsx\",\".ppt\",\".pptx\",\".txt\"]','upload','上传设置','json','text','',1,'',0),(17,'mail','电子邮箱账号设置','{\"account\":\"\",\"passwd\":\"\",\"address\":\"\",\"port\":\"\"}','','通知设置','json','text','',0,'',1),(22,'notice_way','消息推送方式','2','system','通知设置','string','radio','{\"被动触发\":\"0\",\"定时触发\":\"2\",\"两者兼有\":\"3\"}',1,'',0),(23,'max_upload_size','上传大小(M)','10','upload','上传设置','string','text','',1,'',0),(24,'mail','邮件发送测试','','email','通知设置','send_test','send_test','',0,'',2),(25,'siteTitle','网站标题','PESCMS Team','system','网站信息','string','text','',1,'',1);
+INSERT INTO `pes_option` VALUES (-1,'setting_sort','设置排序','{\"上传设置\":2,\"网站信息\":1,\"通知设置\":\"4\"}','sort','设置排序','array','text','',0,'',0),(13,'version','系统版本','','system','网站信息','setting_version','setting_version','',0,'',0),(14,'upload_img','图片格式','[\".jpg\",\".jpge\",\".bmp\",\".gif\",\".png\"]','upload','上传设置','json','text','',1,'',0),(15,'upload_file','文件格式','[\".zip\",\".rar\",\".7z\",\".doc\",\".docx\",\".pdf\",\".xls\",\".xlsx\",\".ppt\",\".pptx\",\".txt\"]','upload','上传设置','json','text','',1,'',0),(17,'mail','电子邮箱账号设置','{\"account\":\"\",\"passwd\":\"\",\"address\":\"\",\"port\":\"\"}','','通知设置','json','text','',0,'',1),(22,'notice_way','消息推送方式','2','system','通知设置','string','radio','{\"被动触发\":\"0\",\"定时触发\":\"2\",\"两者兼有\":\"3\"}',1,'',0),(23,'max_upload_size','上传大小(M)','10','upload','上传设置','string','text','',1,'',0),(24,'mail','邮件发送测试','','email','通知设置','send_test','send_test','',0,'',2),(25,'siteTitle','网站标题','PESCMS Team','system','网站信息','string','text','',1,'',2),(26,'domain','网站域名','','system','网站信息','string','text','',1,'',1);
 /*!40000 ALTER TABLE `pes_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -768,4 +768,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-16 19:14:01
+-- Dump completed on 2022-08-16 20:57:58
