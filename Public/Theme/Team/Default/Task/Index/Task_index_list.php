@@ -2,6 +2,7 @@
 <?php if (empty($list)): ?>
     <div class="am-margin-top-sm"><i class="am-icon-coffee"></i> 暂时没有找到符合条件的任务~</div>
 <?php else: ?>
+    <?= $label->token(); ?>
     <?php foreach ($list as $key => $value): ?>
         <!--输出任务的日期分割线-->
         <?php $timeLineField = $value['task_status'] == 3 ? 'task_complete_time' : 'task_submit_time' ?>

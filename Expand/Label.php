@@ -320,8 +320,9 @@ class Label {
      * @param array $size 获取的尺寸，为空则获取原图 。数组 两个参数 (长, 宽)
      */
     public function getImg($path, $size = array()){
-        $extension = pathinfo($path)['extension'];
-        $add = empty($size) ? '' : '_'.implode('x', $size).".{$extension}";
+
+        $extension = pathinfo($path)['extension'] ?? null;
+        $add = empty($extension) ? '' : ( empty($size) ? '' : '_'.implode('x', $size).".{$extension}" );
         if(is_file(HTTP_PATH.str_replace(DOCUMENT_ROOT, '',$path))){
             return $path.$add;
         }else{

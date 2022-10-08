@@ -59,7 +59,7 @@ class Setting extends \Core\Controller\Controller {
             $this->session()->set('oldVersion', \Core\Func\CoreFunc::$param['system']['version']);
         }
 
-        $getPatch = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/5/' . \Core\Func\CoreFunc::$param['system']['version'], [], [
+        $getPatch = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/2/' . \Core\Func\CoreFunc::$param['system']['version'], [], [
             CURLOPT_HTTPHEADER => [
                 'X-Requested-With: XMLHttpRequest',
                 'Content-Type: application/json; charset=utf-8',
@@ -102,7 +102,7 @@ class Setting extends \Core\Controller\Controller {
             $this->upgradeStatistics(\Core\Func\CoreFunc::$param['system']['version']);
 
             //获取从旧版到最新版的升级说明
-            $detail = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/detail', ['method' => 'GET', 'version' => $this->session()->get('oldVersion'), 'project' => 5,],
+            $detail = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/detail', ['method' => 'GET', 'version' => $this->session()->get('oldVersion'), 'project' => 2,],
                 [
                     CURLOPT_HTTPHEADER => [
                         'X-Requested-With: XMLHttpRequest',
@@ -128,7 +128,7 @@ class Setting extends \Core\Controller\Controller {
         }
 
         //获取文件hash值
-        $getPatch = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/5/' . \Core\Func\CoreFunc::$param['system']['version'], [], [
+        $getPatch = json_decode((new \Expand\cURL())->init(PESCMS_URL . '/patch/2/' . \Core\Func\CoreFunc::$param['system']['version'], [], [
             CURLOPT_HTTPHEADER => [
                 'X-Requested-With: XMLHttpRequest',
                 'Content-Type: application/json; charset=utf-8',
