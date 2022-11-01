@@ -59,25 +59,36 @@ class Index extends \Core\Controller\Controller {
         $initParam = \Model\Task::$param;
 
         $condition = [
-            '逾期任务' => function () use($initCondition, $initParam) {
-                \Model\Task::$condtion = $initCondition;
-                \Model\Task::$param = $initParam;
+            '逾期任务' => [
+                'url' => $this->url('Team-Task-my', ['status' => 666, 'id' => 0]),
+                'list' => function () use($initCondition, $initParam) {
+                    \Model\Task::$condtion = $initCondition;
+                    \Model\Task::$param = $initParam;
 
-                \Model\Task::$condtion .= ' AND t.task_end_time < :time AND t.task_status < 2';
-                \Model\Task::$param['time'] = time();
+                    \Model\Task::$condtion .= ' AND t.task_end_time < :time AND t.task_status < 2';
+                    \Model\Task::$param['time'] = time();
 
-            },
-            '我的任务'  => function () use($initCondition, $initParam) {
-                \Model\Task::$condtion = $initCondition;
-                \Model\Task::$param = $initParam;
-                \Model\Task::$condtion .= ' AND t.task_status < 2';
+                }
+            ],
+            '我的任务'  => [
+                'url' => $this->url('Team-Task-my'),
+                'list' => function () use($initCondition, $initParam) {
+                    \Model\Task::$condtion = $initCondition;
+                    \Model\Task::$param = $initParam;
+                    \Model\Task::$condtion .= ' AND t.task_status < 2';
 
-            }
+                }
+            ]
         ];
+
+
         foreach ($condition as $name => $func){
-            $func();
-            $tasks[$name] = \Model\Task::getTaskList()['list'] ?? [];
+            $func['list']();
+            $tasks[$name]['list'] = \Model\Task::getTaskList()['list'] ?? [];
+            $tasks[$name]['url'] = $func['url'];
         }
+
+
 
         $this->assign('tasks', $tasks);
 

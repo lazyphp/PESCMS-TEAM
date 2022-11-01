@@ -24,12 +24,15 @@
 <div class="am-g am-margin-bottom-xl">
 
     <div class="am-u-md-9">
-        <?php foreach($tasks as $name => $list): ?>
+        <?php foreach($tasks as $name => $item): ?>
             <div class="am-panel am-panel-default">
-                <div class="am-panel-hd"><?= $name ?></div>
+                <div class="am-panel-hd am-cf">
+                    <span class="am-fl"><?= $name ?></span>
+                    <a href="<?= $item['url'] ?>" class="am-fr">更多>></a>
+                </div>
                 <table class="am-table am-table-striped am-table-hover">
-                    <?php if(!empty($list)): ?>
-                        <?php foreach($list as $key => $value): ?>
+                    <?php if(!empty($item['list'])): ?>
+                        <?php foreach($item['list'] as $key => $value): ?>
                             <tr>
                                 <td class="">
                                     <div class="admin-task-meta">
@@ -43,9 +46,6 @@
                                         <?php if($value['task_end_time'] < time() && $value['task_status'] < 2): ?>
                                             <span class="am-badge am-round am-badge-danger"><i class="am-icon-exclamation"></i> 已逾期 <?= floor((time() - $value['task_end_time'])/ 86400) ?>天</span>
                                         <?php endif; ?>
-
-                                    </div>
-                                    <div class="admin-task-bd">
 
                                     </div>
                                 </td>
