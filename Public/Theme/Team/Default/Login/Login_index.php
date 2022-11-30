@@ -2,7 +2,7 @@
     <input type="hidden" name="back_url" value="<?= $_GET['back_url']; ?>"/>
     <?= $label->token() ?>
     <div class="login-input">
-        <input name="account" class="" type="text" placeholder="账号"  required>
+        <input name="account" class="" type="text" placeholder="账号" autofocus  required>
         <span>账户</span>
     </div>
 

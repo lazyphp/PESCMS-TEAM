@@ -1,0 +1,1 @@
+UPDATE `pes_option` SET `option_form_option` = '/?g=Team&m=Setting&a=emailTest' WHERE `option_name` = 'mail_test';
