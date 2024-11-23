@@ -13,6 +13,15 @@
             <option value="4" <?= isset($_GET['time_type']) && (int)$_GET['time_type'] == '4' ? 'selected' : '' ?>>以任务完成时间匹配</option>
         </select>
 
+        <?php if(ACTION != 'project'): ?>
+        <select name="project" class="am-margin-bottom-xs">
+            <option value="">筛选所有项目</option>
+            <?php foreach($projectList as $key => $value): ?>
+                <option value="<?= $value['project_id'] ?>" <?= $value['project_id'] == ($_GET['project'] ?? null ) ? 'selected' :'' ?>><?= $value['project_title'] ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php endif; ?>
+
         <input type="text" name="begin" class="am-margin-bottom-xs" placeholder="匹配开始日期" readonly value="<?= $label->xss($_GET['begin'] ?? null, false); ?>"/>
         <input type="text" name="end" class="am-margin-bottom-xs" placeholder="匹配结束日期" readonly value="<?= $label->xss($_GET['end'] ?? null, false); ?>"/>
 

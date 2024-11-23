@@ -38,7 +38,11 @@
                                     <div class="admin-task-meta">
                                         [<?= $label->getStatusSelect($statusMark, $value); ?>]
                                         <span class="am-badge am-radius" style="background-color: <?= $taskPriority[$value['task_priority']]['priority_color'] ?>"><?= $taskPriority[$value['task_priority']]['priority_name'] ?></span>
-                                        <a href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>">#<?= $value['task_id'] ?> <?= $value['task_title'] ?></a> [<?= $label->findContent('project', 'project_id', $value['task_project_id'])['project_title']; ?>]
+                                        <a href="<?= $label->url('Team-Task-view', ['id' => $value['task_id'], 'back_url' => base64_encode($_SERVER['REQUEST_URI'])]) ?>">#<?= $value['task_id'] ?> <?= $value['task_title'] ?></a>
+
+                                        <a href="<?= $label->url('Team-Task-project', ['id' => $value['task_project_id']]) ?>" class="am-link-muted">
+                                            [<?= $label->findContent('project', 'project_id', $value['task_project_id'])['project_title']; ?>]
+                                        </a>
 
                                         <span class="am-badge am-round <?= $value['task_end_time'] < time() && $value['task_status'] < 2 ? 'am-badge-warning' : '' ?>" title="计划完成时间：<?= date('Y-m-d H:i', $value['task_end_time']) ?>"><i class="am-icon-calendar"></i> <?= date('Y.m.d', $value['task_end_time']) ?>
                                         </span>

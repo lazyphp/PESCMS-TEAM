@@ -49,5 +49,35 @@
     })
 </script>
 <?php endif; ?>
+
+<script>
+    $(function (){
+        /**
+         * PESCMS软件存活统计
+         * 本请求只记录软件使用者存活情况，不会将您的服务器信息发给PESCMS，请放心使用。
+         * 本请求只会在每个月的第一次访问时记录，且仅记录当前使用者的浏览器信息发给PESCMS服务器。
+         */
+
+        var survivalDate = localStorage.getItem('survivalDate');
+
+        var recordSurvival = function (){
+            //这是基于前端ajax跨域请求，因此并不会将软件部署的服务器信息发给PESCMS。
+            $.post(PESCMS_URL + '/?g=Api&m=Statistics&a=survival&method=POST', {id: '2'}, function () {
+            }, 'JSON')
+        }
+
+        var month = new Date().getMonth() + 1;
+        if(survivalDate == null) {
+            localStorage.setItem('survivalDate', month);
+        } else {
+            if(survivalDate != month){
+                localStorage.setItem('survivalDate', month);
+                recordSurvival();
+            }
+        }
+    })
+</script>
+
+<?php $label->footerEvent() ?>
 </body>
 </html>

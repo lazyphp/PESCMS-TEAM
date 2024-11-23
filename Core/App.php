@@ -168,8 +168,10 @@ class App {
         if (!empty(\Core\Func\CoreFunc::$param)) {
             extract(\Core\Func\CoreFunc::$param, EXTR_OVERWRITE);
         }
+        $customedTemplate = THEME_PATH . '/404.php';
+        $_404Template = is_file($customedTemplate) ? $customedTemplate : PES_CORE . 'Core/Theme/404.php';
 	    //加载文件丢失，加载全局404页面。
-        require PES_CORE . 'Core/Theme/404.php';
+        require $_404Template;
         exit;
     }
 

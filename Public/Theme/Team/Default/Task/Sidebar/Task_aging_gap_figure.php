@@ -1,3 +1,4 @@
+<?php if(!empty($aging)): ?>
 <div class="am-panel am-panel-default <?= MODULE == 'Index' ? '' : 'admin-sidebar-panel' ?>">
     <div class="am-panel-hd">时效图</div>
     <div class="am-panel-bd am-padding-0">
@@ -44,3 +45,5 @@
         });
     });
 </script>
+
+<?php endif; ?>

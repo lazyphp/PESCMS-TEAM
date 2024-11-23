@@ -87,13 +87,30 @@ class Label {
 
         return $url;
     }
+    
+    /**
+     * 插件URL快速生成
+     * @param array $param
+     * @param null $group
+     * @param bool $filterHtmlSuffix
+     * @return type
+     */
+    public function pluginUrl(array $param, $group = NULL, $filterHtmlSuffix = false) {
+        $group = empty($group) ? GROUP : $group;
+        return $this->url("{$group}-Application-Plugin", $param, $filterHtmlSuffix);
+    }
 
     /**
      * 生成令牌
      */
     public function token() {
-	return '<input type="hidden" name="token" value="'.\Core\Func\CoreFunc::$token.'" >';
+        //当token为空时，重新生成
+        if(empty(\Core\Func\CoreFunc::$token)){
+            \Core\Func\CoreFunc::token();
+        }
+        return '<input type="hidden" name="token" value="' . \Core\Func\CoreFunc::$token . '" >';
     }
+
 
 
     /**
@@ -141,7 +158,7 @@ class Label {
      * @param type $suffix 截断后显示的内容
      * @return string 返回一个截断后的字符串
      */
-    function strCut($sourcestr, $cutlength, $suffix = '...') {
+    public function strCut($sourcestr, $cutlength, $suffix = '...') {
         $str_length = strlen($sourcestr);
         if ($str_length <= $cutlength) {
             return $sourcestr;

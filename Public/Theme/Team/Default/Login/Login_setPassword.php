@@ -1,5 +1,5 @@
 <form action="" class="ajax-submit" method="POST" data-am-validator>
-    <input type="hidden" name="back_url" value="<?= $_GET['back_url']; ?>"/>
+    <input type="hidden" name="back_url" value="<?= $label->xss($_GET['back_url'] ?? null); ?>"/>
     <?= $label->token() ?>
 
     <div class="login-input">

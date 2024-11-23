@@ -5,11 +5,16 @@
     <div class="am-cf">
         <div class="am-fl am-cf">
             <?php if (!empty($_GET['back_url'])): ?>
-                <a href="<?= base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i class="am-icon-reply"></i>返回</a>
+                <a href="<?= base64_decode($label->xss($_GET['back_url'])) ?>" class="am-margin-right-xs am-text-danger"><i class="am-icon-reply"></i>返回</a>
             <?php endif; ?>
             <strong class="am-text-primary am-text-lg"><?= $title; ?></strong>
         </div>
     </div>
+            <?php if ($zip == false): ?>
+                <div class="am-alert am-alert-warning">
+                    <i class="am-icon-warning"></i> 当前运行环境没有开启zip扩展，软件升级程序可能会出错，请参考PHP官网zip按照教程：<a href="https://www.php.net/manual/zh/zip.installation.php" target="_blank">https://www.php.net/manual/zh/zip.installation.php</a>
+                </div>
+            <?php endif; ?>
     <div class="am-alert am-alert-error am-margin-bottom"  >
         <i class="am-icon-warning"></i> 每次执行升级前，请务必备份数据库！
     </div>

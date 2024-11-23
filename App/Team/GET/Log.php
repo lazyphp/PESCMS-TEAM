@@ -37,14 +37,14 @@ class Log extends \Core\Controller\Controller {
                             continue;
                         }
 
-                        $path[$item][$logFile] = $item."/{$logFile}";
+                        $path[$item][$logFile] = $item."/".substr($logFile, 0, -4);
 
                     }
                 }
 
             }
         }
-        
+
         krsort($path);
 
         $this->assign('title', '日志快查');
@@ -53,10 +53,10 @@ class Log extends \Core\Controller\Controller {
     }
 
     public function view(){
-        $file = $this->isG('file', '请提交您还要查询的日志文件');
+        $file = str_replace(['/', '.', 'error_'], ['', '', '/error_'], $this->isG('file', '请提交您还要查询的日志文件'));
 
-        $logFile = PES_CORE.self::$config['LOG_PATH'].'/'.$file;
-        
+        $logFile = PES_CORE.self::$config['LOG_PATH'].'/'.$file.'.txt';
+
         if(!is_file($logFile)){
             $this->error('您要查询的日志文件不存在，请检查后再试。');
         }

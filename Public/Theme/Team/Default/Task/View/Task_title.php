@@ -19,7 +19,7 @@
 
         <!--任务所属项目-->
         [<a href="<?= $label->url('Team-Task-project', ['id' => $task_project_id]); ?>"
-            class="am-link-muted "><i><?= $label->findContent('project', 'project_id', $task_project_id)['project_title']; ?></i></a>]
+            class="am-link-muted "><i><?= $projectList[$task_project_id]['project_title']?></i></a>]
         <!--任务所属项目-->
 
         <a href="<?= $label->url('Team-User-view', ['id' => $task_create_id]); ?>">

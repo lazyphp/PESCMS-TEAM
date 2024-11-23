@@ -3,7 +3,7 @@
         <div class="am-panel-bd">
             <div class="am-cf">
                 <div class="am-fl am-cf">
-                    <a href="<?= empty($_GET['back_url']) ?  $label->url(GROUP.'-'.MODULE.'-index') : base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i
+                    <a href="<?= empty($_GET['back_url']) ?  $label->url(GROUP.'-'.MODULE.'-index') : base64_decode($label->xss($_GET['back_url'] ?? null)) ?>" class="am-margin-right-xs am-text-danger"><i
                                 class="am-icon-reply"></i>返回</a>
                     <strong class="am-text-primary am-text-lg">导出 <?= $model['model_name'] ?> 模型</strong>
                 </div>

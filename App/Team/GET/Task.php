@@ -41,6 +41,11 @@ class Task extends Content {
             \Model\Task::$param['task_title'] = \Model\Task::$param['task_id'] = '%' . $this->g('k') . '%';
         }
 
+        if(!empty($_GET['project'])){
+            \Model\Task::$condtion .= ' AND task_project_id = :task_project_id';
+            \Model\Task::$param['task_project_id'] = (int) $_GET['project'];
+        }
+
         //依据时间搜索
         if (!empty($_GET['begin']) && !empty($_GET['end'])) {
             if ((int)$_GET['time_type'] == '2') {
@@ -61,6 +66,8 @@ class Task extends Content {
         $this->assign('sidebar', $this->sidebar);
 
         $this->assign('title_icon', \Model\Menu::getTitleWithMenu()['menu_icon'] ?? null);
+
+        $this->assign('projectList', \Model\Content::listContent(['table' => 'project', 'order' => 'project_id DESC, project_listsort ASC'], 'project_id'));
 
     }
 
@@ -289,7 +296,6 @@ class Task extends Content {
 
         $this->assign('actionAuth', $actionAuth);
 
-        $this->assign('project', \Model\Content::listContent(['table' => 'project', 'order' => 'project_id DESC, project_listsort ASC']));
         $this->assign($task);
         $this->assign('title', $task['task_title']);
         $this->layout();

@@ -23,7 +23,7 @@ class Content extends \Core\Model\Model {
     private static $contentResult = null;
 
     /**
-     * 查找指定内容（动态条件）
+     * 查找指定内容 [单一查询条件]（动态条件）
      * @param type $param 设置参数，字符串形式则为表名 | array 数组情况下，key 0 的为表名, key 1的为连贯操作
      * @param type $value 内容值
      * @param type $field 查找的字段
@@ -37,7 +37,7 @@ class Content extends \Core\Model\Model {
         }
 
         $result = self::db($table)->field($showField)->where("{$field} = :$field")->find([$field => $value]);
-        self::$contentResult = empty($result) ? null : $result;
+        self::$contentResult = empty($result) ? null :  $result;
 
         return $param['1'] === true ? new static() : self::$contentResult;
     }
@@ -55,19 +55,51 @@ class Content extends \Core\Model\Model {
 
     /**
      * 列出内容（动态条件）
-     * @param type $table 内容表名
-     * @param array $param 绑定参数
-     * @param type $where 查找条件
-     * @param type $order 排序
-     * @param type $limit 限制输出
-     * @return type
+     * @param $param 动态查询条件
+     * @param $setKey 是否设置返回指定键值的内容
+     * @return array
      */
-    public static function listContent($param) {
+    public static function listContent($param, $setKey = null) {
         if (empty($param['table'])) {
             self::error('Unkonw Table!');
         }
-        $value = array_merge(['field' => '*', 'db' => '', 'prefix' => '', 'join' => '', 'condition' => '', 'order' => '', 'group' => '', 'limit' => '', 'lock' => '', 'param' => []], $param);
-        return self::db($value['table'], $value['db'], $value['prefix'])->field($value['field'])->join($value['join'])->where($value['condition'])->order($value['order'])->group($value['group'])->limit($value['limit'])->lock($value['lock'])->select($value['param']);
+        $value = array_merge([
+            'field'     => '*',
+            'db'        => '',
+            'prefix'    => '',
+            'join'      => '',
+            'condition' => '',
+            'order'     => '',
+            'group'     => '',
+            'limit'     => '',
+            'lock'      => '',
+            'param'     => [],
+        ], $param);
+
+        $result = self::db($value['table'], $value['db'], $value['prefix'])
+            ->field($value['field'])
+            ->join($value['join'])
+            ->where($value['condition'])
+            ->order($value['order'])
+            ->group($value['group'])
+            ->limit($value['limit'])
+            ->lock($value['lock'])
+            ->select($value['param']);
+
+        if (!empty($setKey)) {
+            $list = [];
+            foreach ($result as $item) {
+                //如果setkey不存在，则结束循环
+                if (empty($item[$setKey])) {
+                    $list = $result;
+                    break;
+                }
+                $list[$item[$setKey]] = $item;
+            }
+            return $list;
+        } else {
+            return $result;
+        }
     }
 
     /**
@@ -111,7 +143,7 @@ class Content extends \Core\Model\Model {
         self::$model = \Model\ModelManage::findModel(self::$table, 'model_name');
         $field = \Model\Field::fieldList(self::$model['model_id'], 'AND field_status = 1');
 
-        if (self::p('method') == 'PUT') {
+        if (self::r('method') == 'PUT') {
             $data['noset'][self::$fieldPrefix . 'id'] = self::isP('id', '丢失模型ID');
             if (!self::findContent(self::$table, $data['noset'][self::$fieldPrefix . 'id'], self::$fieldPrefix . 'id')) {
                 self::error('不存在的模型');
@@ -123,7 +155,7 @@ class Content extends \Core\Model\Model {
             /**
              * 判断提交的字段是否为数组
              */
-            if (is_array($_POST[$value['field_name']])) {
+            if (isset($_POST[$value['field_name']]) && is_array($_POST[$value['field_name']])) {
                 $_POST[$value['field_name']] = (string)implode(',', $_POST[$value['field_name']]);
             }
 
@@ -132,10 +164,10 @@ class Content extends \Core\Model\Model {
              * @todo 此地方可能存在一个问题，值为空时，需要填写的为0还是最新的时间？
              */
             if ($value['field_type'] == 'date') {
-                $_POST[$value['field_name']] = empty($_POST[$value['field_name']]) ? 0 : (string)strtotime($_POST[$value['field_name']]);
+                $_POST[$value['field_name']] = empty($_POST[$value['field_name']]) ? null : (string)strtotime($_POST[$value['field_name']]);
             }
 
-            if (!in_array(METHOD, explode(',', $value['field_action']))) {
+            if(!in_array(METHOD, explode(',', $value['field_action']))){
                 continue;
             }
 
@@ -167,24 +199,24 @@ class Content extends \Core\Model\Model {
      * @param $field 字段信息
      * @param $value 处理过的数据
      */
-    private static function checkOnly($field, $value) {
-        if ($field['field_only'] == 1 && !empty($value)) {
+    private static function checkOnly($field, $value){
+        if($field['field_only'] == 1 && !empty($value) ){
             $checkField = self::$fieldPrefix . $field['field_name'];
-            $primaryKeyID = self::$fieldPrefix . 'id';
+            $primaryKeyID = self::$fieldPrefix.'id';
 
             $checkCondition = '1 = 1';
             $param = [
                 "{$checkField}" => $value,
             ];
 
-            if (METHOD == 'PUT') {
+            if(METHOD == 'PUT'){
                 $checkCondition .= " AND {$primaryKeyID} != :$primaryKeyID ";
                 $param[$primaryKeyID] = self::p('id');
             }
 
             $checkCondition .= " AND {$checkField} = :$checkField  ";
             $checkOnly = self::db(self::$table)->where($checkCondition)->find($param);
-            if (!empty($checkOnly)) {
+            if(!empty($checkOnly)){
                 self::error("{$field['field_display_name']} 提交的 `{$value}` 已存在，请更改后再提交。");
             }
         }
@@ -260,35 +292,48 @@ class Content extends \Core\Model\Model {
      * @param $template 加载的模板
      * @param $space 空字符
      */
-    public static function recursion($table, $condition, $param, $template, $space, $order) {
+    public static function recursion($table, $condition, $param, $template, $space, $order){
         static $label;
-        if (empty($label)) {
+        if(empty($label)){
             $label = new \Expand\Label();
         }
         $result = self::db($table)->where($condition)->order($order)->select($param);
-        if (!empty($result)) {
+        if(!empty($result)){
             require $template;
         }
     }
 
     /**
-     * 检查重复
+     * 检查重复[单一筛选条件]
      * @param $table 查询的表
      * @param $field 查询的字段
      * @param $value 匹配的内容
      * @return bool 存在重复返回true 。反之false
      */
-    public static function checkRepeat($table, $field, $value){
+    public static function checkRepeat($table, $field, $value) {
         $checkRepeat = self::db($table)->where("$field = :$field")->find([
-            $field => $value
+            $field => $value,
         ]);
-
-        if(!empty($checkRepeat)){
+        if (!empty($checkRepeat)) {
             return true;
-        }else{
+        } else {
             return false;
         }
-
     }
-
+    /**
+     * 通过多个等于匹配的条件查找指定表一条内容
+     * @param string $table 要查找的表
+     * @param array $params 查找内容的字段和筛选值
+     * @return array|void 返回查询结果
+     */
+    public static function getContentWithConditions(string $table, array $params) {
+        $field = '1 = 1 ';
+        if (empty($params)) {
+            die('请不要提交空白参数');
+        }
+        foreach (array_keys($params) as $item) {
+            $field .= " AND {$item} = :{$item}";
+        }
+        return self::db($table)->where($field)->find($params);
+    }
 }

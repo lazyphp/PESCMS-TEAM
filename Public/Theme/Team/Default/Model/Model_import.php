@@ -3,14 +3,14 @@
         <div class="am-panel-bd">
 <div class="am-cf">
     <div class="am-fl am-cf">
-        <a href="<?= empty($_GET['back_url']) ?  $label->url(GROUP.'-'.MODULE.'-index') : base64_decode($_GET['back_url']) ?>" class="am-margin-right-xs am-text-danger"><i
+        <a href="<?= empty($_GET['back_url']) ?  $label->url(GROUP.'-'.MODULE.'-index') : base64_decode($label->xss($_GET['back_url'])) ?>" class="am-margin-right-xs am-text-danger"><i
                     class="am-icon-reply"></i>返回</a>
         <strong class="am-text-primary am-text-lg">导入模型</strong>
     </div>
 </div>
 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed"/>
 <form class="am-form am-form-horizontal ajax-submit" action="" method="post" data-am-validator>
-    <input type="hidden" name="back_url" value="<?= $_GET['back_url'] ?>"/>
+    <input type="hidden" name="back_url" value="<?= $label->xss($_GET['back_url'] ?? null) ?>"/>
     <?= $label->token() ?>
     <div class="am-g am-g-collapse">
         <div class="am-u-sm-12 am-u-sm-centered">

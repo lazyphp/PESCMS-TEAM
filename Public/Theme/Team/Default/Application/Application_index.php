@@ -31,7 +31,7 @@
 <div class="pes-installed am-hide"><?= empty($installed) ? json_encode([]) : $installed ?></div>
 
 <?php if (!empty($_GET['open'])): ?>
-    <a class="app-detail open-app" href="<?= $label->xss(base64_decode($_GET['open'])) ?>" style="display: none"></a>
+    <a class="app-detail open-app" href="<?= base64_decode($label->xss($_GET['open']))  ?>" style="display: none"></a>
 <?php endif; ?>
 
 <script src="<?= PESCMS_URL ?>/Theme/Api/App/1.1/pescms_app.min.js?mt=<?= time() ?>"></script>
